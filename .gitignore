@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Sim-Attrib .gitignore
+#
+# research/  is the local hyperresearch vault. It holds full text extracted
+#            from third-party papers, including paywalled and copyrighted
+#            material. It stays LOCAL. It is never committed and never
+#            redistributed. Bibliographic facts derived from it belong in
+#            audit/LEDGER_CITATIONS.md; the source text itself does not.
+#
+# .hyperresearch/ is the vault's local configuration and index state. It is
+#            machine-specific and contains no project content worth versioning.
+#
+# .remember/ is a local plugin working directory. It is scratch state
+#            belonging to the operator's tooling, not to this project.
+# ---------------------------------------------------------------------------
+
+.DS_Store
+.remember/
+research/
+.hyperresearch/
+__pycache__/
+*.pyc
+.venv/
+*.pdf.raw
+
+# Additional local-only working state
+research_state/
+*.egg-info/
+.ipynb_checkpoints/
