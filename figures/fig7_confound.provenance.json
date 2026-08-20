@@ -1,0 +1,190 @@
+{
+  "figure": "fig7_confound",
+  "generated_by": {
+    "script": "src/viz/fig7_confound.py",
+    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-21T00:59:37+05:30",
+    "finished": "2026-08-21T00:59:41+05:30"
+  },
+  "caption": "The two near-null directions of the six-column summary Jacobian for $S_B$, the object that is inseparable at $\\kappa = 629$. (a, b) Right singular vectors $v_5$ and $v_6$, one bar per distortion column, coloured by the mechanism the column deforms and hatched where the column comes from the adversarial family set. Dashed lines mark the pre-registered equivalence-class threshold $|v_k| = 0.3$ from docs/THRESHOLDS.md \\S2.1. (c) The same two directions as mechanism energy: the share of squared loading falling on each mechanism. Both directions are cross-mechanism and both name the same pair -- progression together with observation -- with transmission carrying under 5\\% of the energy in either. Read as modelling rather than as linear algebra: a drifting removal hazard is nearly indistinguishable from a constant hazard change combined with a drifting reporting rate. The confound requires the progression component to carry two distortion parameters at once, which is why it cannot arise in any three-column model the declared families permit, and why the scope restriction of DECISIONS.md D-14 is stated as one parameter per component rather than as a bound on $\\kappa$. Every loading is stable to three decimal places across the h-plateau.",
+  "sources": [
+    {
+      "path": "results/robustness/k6_spectrum.yaml",
+      "sha256_at_load": "df4c300e688d8bfcc4f18401e0946037f41d9428390827ee35747446fab3114f",
+      "bytes": 1329233,
+      "emitted_by": {
+        "script": "src/diagnostics/k6_spectrum.py",
+        "commit": "2efb4ae9232c0abd7d60305e4980ebd111b0430b",
+        "dirty": false,
+        "seed": 20260820,
+        "command": "python -m src.diagnostics.k6_spectrum --seed 20260820 --replicates 128 --norm-replicates 2000 --workers 4"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check": "source_unchanged_during_generation",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "passes": true,
+      "sha256_at_load": "df4c300e688d8bfcc4f18401e0946037f41d9428390827ee35747446fab3114f",
+      "sha256_now": "df4c300e688d8bfcc4f18401e0946037f41d9428390827ee35747446fab3114f"
+    },
+    {
+      "check": "data_matches_source",
+      "label": "registered vk_min",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "thresholds_pre_registered.vk_min",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "v_5 loadings",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_directions[0].right_singular_vector_at_representative_h",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 6,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "sigma_5",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_directions[0].singular_value",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "sigma_5/sigma_1",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_directions[0].sigma_ratio_to_sigma1",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "v_6 loadings",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_directions[1].right_singular_vector_at_representative_h",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 6,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "sigma_6",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_directions[1].singular_value",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "sigma_6/sigma_1",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_directions[1].sigma_ratio_to_sigma1",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "mechanism energy, direction 1",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_classification[0].mechanism_energy",
+      "transform": "energy of transmission, progression, observation in that order",
+      "tolerance": 0.0,
+      "n_values": 3,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "mechanism energy, direction 2",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.near_null_classification[1].mechanism_energy",
+      "transform": "energy of transmission, progression, observation in that order",
+      "tolerance": 0.0,
+      "n_values": 3,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    }
+  ],
+  "all_checks_pass": true,
+  "what_would_make_data_matches_source_read_false": "a number in the figure that is not at the declared path in the declared results file: a hand-typed value, a stale value carried from an earlier run, a transform applied but not declared, a source file rewritten by a concurrent run between load and write, or a results-schema change that moved the path. It does NOT check un-declared annotations, and it cannot say whether the declared path is the right quantity to plot.",
+  "style": {
+    "template": {
+      "source": "paper/neurips_2026_template/neurips_2026.sty",
+      "textwidth_in": 5.5,
+      "textheight_in": 9.0,
+      "rmdefault": "ptm"
+    },
+    "resolved_serif_face": "Times New Roman.ttf",
+    "matplotlib_version": "3.10.8",
+    "palette": "Okabe-Ito (Okabe & Ito 2002), colour-vision-deficiency safe",
+    "type_sizes_pt": {
+      "label": 8.0,
+      "tick": 7.0,
+      "floor": 6.0
+    },
+    "figure_widths_in": {
+      "full": 5.5,
+      "two_thirds": 3.6666666666666665,
+      "half": 2.68
+    }
+  },
+  "outputs": {
+    "written": [
+      "figures/fig7_confound.pdf",
+      "figures/fig7_confound.preview.png"
+    ],
+    "pdf_metadata": {
+      "Title": "fig7_confound",
+      "Author": "",
+      "Subject": "Sim-Attrib",
+      "Keywords": "",
+      "Creator": "src/viz/fig7_confound.py",
+      "Producer": "src/viz/fig7_confound.py"
+    },
+    "preview_png_is_not_a_submission_asset": true
+  },
+  "output_hashes": {
+    "figures/fig7_confound.pdf": "f2394070b5f296260ad94c843fb934be8e1f546cc7ab3672227d0d7edd3c9a2a",
+    "figures/fig7_confound.preview.png": "1eb790591362d7c6f82df28448f1e3a9b7615d719cd203bebebc1197f8cce894"
+  },
+  "notes": [
+    "The column labels on panel (a) are abbreviated for width; the recorded labels are ['base:transmission', 'base:progression', 'base:observation', 'adversarial:transmission', 'adversarial:progression', 'adversarial:observation'] in that order, and the bars are in that order.",
+    "The 'cross-mechanism' text beside each bar in panel (c) is the recorded `kind` field, not a reading made here: the classification is computed in src/diagnostics/k6_spectrum.py from the equivalence-class members, and its meaning is recorded alongside it in the results file.",
+    "Panel (c) sums to 1 by construction, since the mechanism energies are shares of a unit-norm singular vector's squared loading. That is not a check -- it cannot fail -- and it is stated here so a reader does not read it as one."
+  ]
+}

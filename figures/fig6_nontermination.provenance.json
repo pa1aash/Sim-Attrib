@@ -1,0 +1,234 @@
+{
+  "figure": "fig6_nontermination",
+  "generated_by": {
+    "script": "src/viz/fig6_nontermination.py",
+    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-21T00:59:33+05:30",
+    "finished": "2026-08-21T00:59:37+05:30"
+  },
+  "caption": "Acceptance probability of the composition's rejection sampler as a function of nuisance-parameter distortion magnitude. The plotted quantity is $p_{\\min}(w)$, the minimum over a 42-point design on a relative box of half-width $w$ about $\\theta_0$ and over the $K$ selection cells -- the quantity the specification's own cost model is governed by. Error bars are 95\\% Wilson intervals; downward triangles are widths at which no draw in 100{,}000 entered the observed cell, plotted at the interval's upper limit because they are bounds and not measurements. The shaded band is the pre-registered cost gate of $10^8$ simulator draws, which is a band rather than a line because the specification declares $M$ and $N$ as ranges: above it every declared $(M,N)$ corner passes, below it every corner fails, and inside it the gate is undecided by the specification's own numbers. At a known $\\theta$ the worst cell holds 23\\% of null draws and one test costs $4.2\\times10^5$ to $4.3\\times10^7$ draws -- a comfortable pass. The gate still passes at every corner only out to a $\\pm 0.5\\%$ box, and at $\\pm 5\\%$ the acceptance probability is zero to a 95\\% upper bound of $3.84\\times10^{-5}$: the sampler does not terminate, and the cost is unbounded rather than large. The top axis gives the measured ratio of nuisance shift to observation noise at each width; the gate stops passing where it crosses one, which is the transportable form of the finding.",
+  "sources": [
+    {
+      "path": "results/boundary_sweep.yaml",
+      "sha256_at_load": "32746ef546765ed4a4a1604051cc7d50947a2980108f33ea2ce64805678911f1",
+      "bytes": 817521,
+      "emitted_by": {
+        "script": "src/diagnostics/boundary_sweep.py",
+        "commit": "792b7dc3630a83a480978c30f34ec7ba84f44a39",
+        "dirty": false,
+        "seed": 20260821,
+        "command": "python -m src.diagnostics.boundary_sweep --seed 20260821 --workers 4 --theta0-draws 100000 --screen-draws 10000 --refine-draws 100000 --out results/boundary_sweep.yaml"
+      }
+    },
+    {
+      "path": "results/cost_gate.yaml",
+      "sha256_at_load": "c26f46fc574293146db0cf1e6f56e285068fbfeb43a64064815f06d131c59049",
+      "bytes": 42867,
+      "emitted_by": {
+        "script": "src/diagnostics/cost_gate.py",
+        "commit": "5ba06237f1894f69ce78b090078616a9594ec3b6",
+        "dirty": false,
+        "seed": 20260820,
+        "command": "python -m src.diagnostics.cost_gate"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check": "source_unchanged_during_generation",
+      "source": "results/boundary_sweep.yaml",
+      "passes": true,
+      "sha256_at_load": "32746ef546765ed4a4a1604051cc7d50947a2980108f33ea2ce64805678911f1",
+      "sha256_now": "32746ef546765ed4a4a1604051cc7d50947a2980108f33ea2ce64805678911f1"
+    },
+    {
+      "check": "source_unchanged_during_generation",
+      "source": "results/cost_gate.yaml",
+      "passes": true,
+      "sha256_at_load": "c26f46fc574293146db0cf1e6f56e285068fbfeb43a64064815f06d131c59049",
+      "sha256_now": "c26f46fc574293146db0cf1e6f56e285068fbfeb43a64064815f06d131c59049"
+    },
+    {
+      "check": "data_matches_source",
+      "label": "swept half-widths",
+      "source": "results/boundary_sweep.yaml",
+      "path": "per_width",
+      "transform": "width of each swept row",
+      "tolerance": 0.0,
+      "n_values": 10,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "measured shift-to-noise ratio",
+      "source": "results/boundary_sweep.yaml",
+      "path": "per_width",
+      "transform": "median ||E[z]|| / sqrt(d) of each swept row",
+      "tolerance": 0.0,
+      "n_values": 10,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "gate corner flip points",
+      "source": "results/cost_gate.yaml",
+      "path": "cost_floor_theta_known.AAA|studentised.corners",
+      "transform": "p_sel_at_which_this_corner_flips of each declared (M,N) corner",
+      "tolerance": 0.0,
+      "n_values": 4,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "AAA|studentised p at theta_0",
+      "source": "results/boundary_sweep.yaml",
+      "path": "anchor_theta0.AAA|studentised.reported_min.p_sel",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "AAA|studentised p_min per width",
+      "source": "results/boundary_sweep.yaml",
+      "path": "per_width",
+      "transform": "reported_min.p_sel for AAA|studentised of each swept row",
+      "tolerance": 0.0,
+      "n_values": 10,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "BBB|studentised p at theta_0",
+      "source": "results/boundary_sweep.yaml",
+      "path": "anchor_theta0.BBB|studentised.reported_min.p_sel",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "BBB|studentised p_min per width",
+      "source": "results/boundary_sweep.yaml",
+      "path": "per_width",
+      "transform": "reported_min.p_sel for BBB|studentised of each swept row",
+      "tolerance": 0.0,
+      "n_values": 10,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "AAA|plain p at theta_0",
+      "source": "results/boundary_sweep.yaml",
+      "path": "anchor_theta0.AAA|plain.reported_min.p_sel",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "AAA|plain p_min per width",
+      "source": "results/boundary_sweep.yaml",
+      "path": "per_width",
+      "transform": "reported_min.p_sel for AAA|plain of each swept row",
+      "tolerance": 0.0,
+      "n_values": 10,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "BBB|plain p at theta_0",
+      "source": "results/boundary_sweep.yaml",
+      "path": "anchor_theta0.BBB|plain.reported_min.p_sel",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "BBB|plain p_min per width",
+      "source": "results/boundary_sweep.yaml",
+      "path": "per_width",
+      "transform": "reported_min.p_sel for BBB|plain of each swept row",
+      "tolerance": 0.0,
+      "n_values": 10,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    }
+  ],
+  "all_checks_pass": true,
+  "what_would_make_data_matches_source_read_false": "a number in the figure that is not at the declared path in the declared results file: a hand-typed value, a stale value carried from an earlier run, a transform applied but not declared, a source file rewritten by a concurrent run between load and write, or a results-schema change that moved the path. It does NOT check un-declared annotations, and it cannot say whether the declared path is the right quantity to plot.",
+  "style": {
+    "template": {
+      "source": "paper/neurips_2026_template/neurips_2026.sty",
+      "textwidth_in": 5.5,
+      "textheight_in": 9.0,
+      "rmdefault": "ptm"
+    },
+    "resolved_serif_face": "Times New Roman.ttf",
+    "matplotlib_version": "3.10.8",
+    "palette": "Okabe-Ito (Okabe & Ito 2002), colour-vision-deficiency safe",
+    "type_sizes_pt": {
+      "label": 8.0,
+      "tick": 7.0,
+      "floor": 6.0
+    },
+    "figure_widths_in": {
+      "full": 5.5,
+      "two_thirds": 3.6666666666666665,
+      "half": 2.68
+    }
+  },
+  "outputs": {
+    "written": [
+      "figures/fig6_nontermination.pdf",
+      "figures/fig6_nontermination.preview.png"
+    ],
+    "pdf_metadata": {
+      "Title": "fig6_nontermination",
+      "Author": "",
+      "Subject": "Sim-Attrib",
+      "Keywords": "",
+      "Creator": "src/viz/fig6_nontermination.py",
+      "Producer": "src/viz/fig6_nontermination.py"
+    },
+    "preview_png_is_not_a_submission_asset": true
+  },
+  "output_hashes": {
+    "figures/fig6_nontermination.pdf": "9ac2c8b8612598028a98bec68c3ab9f63467013f019c84094a2e535a5b48c1ed",
+    "figures/fig6_nontermination.preview.png": "7f04c653b417e038a9977e5c6a8148c60156b77eecca439343ec026d3e15e4c4"
+  },
+  "notes": [
+    "The top axis is NOT a rescaling of the bottom one. Its tick positions are the swept widths and its labels are the shift-to-noise ratios measured at those widths, read from the results file. The relation is close to linear but not exactly so (about 153 per unit width at the bottom of the range and 168 at the top), and a linear secondary axis would have been wrong at the top end.",
+    "Widths at which the acceptance probability is exactly zero are drawn as downward triangles at the 95% Wilson upper limit and are joined to nothing. They are bounds. Joining them into the curve would draw a cost where the finding is non-termination.",
+    "The gate band's edges are the p_sel at which the cheapest and dearest declared (M,N) corners flip, 0.00099 and 0.0999, read from results/cost_gate.yaml rather than recomputed here.",
+    "docs/DECISIONS.md D-16 dropped the composition before the sweep behind this figure was designed. Nothing on this page re-prices that decision, and the widths at which the gate would have passed are drawn because they make the negative result specific, not because they reopen it."
+  ]
+}

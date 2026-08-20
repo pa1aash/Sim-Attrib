@@ -1,0 +1,184 @@
+{
+  "figure": "fig5_threshold",
+  "generated_by": {
+    "script": "src/viz/fig5_threshold.py",
+    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-21T00:59:27+05:30",
+    "finished": "2026-08-21T00:59:32+05:30"
+  },
+  "caption": "Separability verdict for summary set $S_B$ as a function of the rank tolerance $\\tau$, with $\\kappa_{\\max}$ held at $1/\\tau$ as docs/THRESHOLDS.md derives it. Filled circles are the nine tolerances actually run through the production analysis; the vertical tick on each lane is the exact flip point $\\tau^* = \\sigma_K/\\sigma_1 = 1/\\kappa$, which is closed-form rather than sampled. The vertical dashed line is the registered $\\tau = 10^{-2}$ and the shaded band is the halve-and-double grid the project itself proposed for testing it. Under the base families the verdict survives $\\tau$ moving by a factor of 9.88; under the adversarial families the margin is only 1.547, so the flip point falls inside the project's own coarse grid and doubling $\\tau$ turns the verdict over. The six-column union is inseparable across $\\tau$ from 0.005 to 1.0 and becomes separable only at $\\tau \\le 10^{-3}$, a tenfold loosening at which $\\kappa_{\\max}$ rises to 1000 while the measured $\\kappa$ is 629 -- so there is no tolerance at which the six-column object is both separable and cheap. The lower end of each lane is censored by the sweep's own grid: at $\\tau = 10^{-4}$ every three-column verdict is still separable, so the sweep stopped rather than the stability doing so.",
+  "sources": [
+    {
+      "path": "results/robustness/k6_spectrum.yaml",
+      "sha256_at_load": "df4c300e688d8bfcc4f18401e0946037f41d9428390827ee35747446fab3114f",
+      "bytes": 1329233,
+      "emitted_by": {
+        "script": "src/diagnostics/k6_spectrum.py",
+        "commit": "2efb4ae9232c0abd7d60305e4980ebd111b0430b",
+        "dirty": false,
+        "seed": 20260820,
+        "command": "python -m src.diagnostics.k6_spectrum --seed 20260820 --replicates 128 --norm-replicates 2000 --workers 4"
+      }
+    },
+    {
+      "path": "results/robustness/threshold_sensitivity.yaml",
+      "sha256_at_load": "17af8d3240ded5778fe0b1b03d4aab60d4a31a4b0fa44f42a7f62b8b2ec6569d",
+      "bytes": 7572,
+      "emitted_by": {
+        "script": "src/diagnostics/threshold_sensitivity.py",
+        "commit": "06be55c01b1b0063719d0bd0f932644a455b1ef1",
+        "dirty": false,
+        "seed": 0,
+        "command": "python -m src.diagnostics.threshold_sensitivity"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check": "source_unchanged_during_generation",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "passes": true,
+      "sha256_at_load": "df4c300e688d8bfcc4f18401e0946037f41d9428390827ee35747446fab3114f",
+      "sha256_now": "df4c300e688d8bfcc4f18401e0946037f41d9428390827ee35747446fab3114f"
+    },
+    {
+      "check": "source_unchanged_during_generation",
+      "source": "results/robustness/threshold_sensitivity.yaml",
+      "passes": true,
+      "sha256_at_load": "17af8d3240ded5778fe0b1b03d4aab60d4a31a4b0fa44f42a7f62b8b2ec6569d",
+      "sha256_now": "17af8d3240ded5778fe0b1b03d4aab60d4a31a4b0fa44f42a7f62b8b2ec6569d"
+    },
+    {
+      "check": "data_matches_source",
+      "label": "registered tau",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "thresholds_pre_registered.tau",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "S_B base exact flip tau*",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.base.tau_sensitivity.exact_flip_point.tau_star_sigma_K_over_sigma_1",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "S_B base swept tau",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.base.tau_sensitivity.coupled_kappa_max_equals_one_over_tau",
+      "transform": "tau of each swept row",
+      "tolerance": 0.0,
+      "n_values": 9,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "S_B adversarial exact flip tau*",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.adversarial.tau_sensitivity.exact_flip_point.tau_star_sigma_K_over_sigma_1",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "S_B adversarial swept tau",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.adversarial.tau_sensitivity.coupled_kappa_max_equals_one_over_tau",
+      "transform": "tau of each swept row",
+      "tolerance": 0.0,
+      "n_values": 9,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "S_B six_columns exact flip tau*",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.tau_sensitivity.exact_flip_point.tau_star_sigma_K_over_sigma_1",
+      "transform": "identity",
+      "tolerance": 0.0,
+      "n_values": 1,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    },
+    {
+      "check": "data_matches_source",
+      "label": "S_B six_columns swept tau",
+      "source": "results/robustness/k6_spectrum.yaml",
+      "path": "summary_sets.S_B.six_columns.tau_sensitivity.coupled_kappa_max_equals_one_over_tau",
+      "transform": "tau of each swept row",
+      "tolerance": 0.0,
+      "n_values": 9,
+      "shapes_agree": true,
+      "max_abs_difference": 0.0,
+      "passes": true
+    }
+  ],
+  "all_checks_pass": true,
+  "what_would_make_data_matches_source_read_false": "a number in the figure that is not at the declared path in the declared results file: a hand-typed value, a stale value carried from an earlier run, a transform applied but not declared, a source file rewritten by a concurrent run between load and write, or a results-schema change that moved the path. It does NOT check un-declared annotations, and it cannot say whether the declared path is the right quantity to plot.",
+  "style": {
+    "template": {
+      "source": "paper/neurips_2026_template/neurips_2026.sty",
+      "textwidth_in": 5.5,
+      "textheight_in": 9.0,
+      "rmdefault": "ptm"
+    },
+    "resolved_serif_face": "Times New Roman.ttf",
+    "matplotlib_version": "3.10.8",
+    "palette": "Okabe-Ito (Okabe & Ito 2002), colour-vision-deficiency safe",
+    "type_sizes_pt": {
+      "label": 8.0,
+      "tick": 7.0,
+      "floor": 6.0
+    },
+    "figure_widths_in": {
+      "full": 5.5,
+      "two_thirds": 3.6666666666666665,
+      "half": 2.68
+    }
+  },
+  "outputs": {
+    "written": [
+      "figures/fig5_threshold.pdf",
+      "figures/fig5_threshold.preview.png"
+    ],
+    "pdf_metadata": {
+      "Title": "fig5_threshold",
+      "Author": "",
+      "Subject": "Sim-Attrib",
+      "Keywords": "",
+      "Creator": "src/viz/fig5_threshold.py",
+      "Producer": "src/viz/fig5_threshold.py"
+    },
+    "preview_png_is_not_a_submission_asset": true
+  },
+  "output_hashes": {
+    "figures/fig5_threshold.pdf": "ebf477cc7a4013b0c8998617eaea05df19227f81d1fb7f31972bc91bfb640db7",
+    "figures/fig5_threshold.preview.png": "ad744f74a9a1431b8d82719f95da5c507107286718c8fa779eb5c1c782459551"
+  },
+  "notes": [
+    "Cross-check between two sessions' recorded sweeps PASSED: G4's results/robustness/threshold_sensitivity.yaml and G5's results/robustness/k6_spectrum.yaml agree on S_B base's exact flip point to within 1e-12 and on the verdict at all 5 shared tolerances. The figure raises rather than draws if they disagree, because a disagreement between two files recording the same quantity is transcription drift and it must not be averaged over.",
+    "The saturated half of each lane is the tolerance range at which the case is separable and the faded half where it is INSEPARABLE. The boundary between them is the exact flip point, not an interpolation between swept points: the rule is sigma_K >= tau*sigma_1, so the flip is at sigma_K/sigma_1 exactly."
+  ]
+}

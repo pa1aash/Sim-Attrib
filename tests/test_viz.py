@@ -319,3 +319,49 @@ def test_plotted_refuses_a_source_whose_hash_was_never_taken(tmp_path):
 def test_dig_walks_indices_and_pipe_keys():
     doc = {"per_width": [{"by_key": {"AAA|studentised": {"p": 0.25}}}]}
     assert vp.dig(doc, "per_width[0].by_key.AAA|studentised.p") == 0.25
+
+
+# --------------------------------------------------------------------------------------
+# the committed figures themselves (standing constraint S1, extended to figure metadata)
+# --------------------------------------------------------------------------------------
+
+FIGDIR = REPO / "figures"
+
+
+def _figure_files():
+    if not FIGDIR.exists():
+        return []
+    return sorted(list(FIGDIR.glob("*.pdf")) + list(FIGDIR.glob("*.svg"))
+                  + list(FIGDIR.glob("*.png")))
+
+
+@pytest.mark.skipif(not _figure_files(), reason="no figures generated yet")
+def test_no_committed_figure_carries_tool_identity_or_a_timestamp():
+    """The pre-push checklist greps tracked file CONTENTS, and a PDF is binary: a token in
+    an embedded metadata string would not necessarily surface there. This is that gap closed
+    inside the test suite, and it runs against whatever is actually in figures/."""
+    forbidden = [bytes(w, "ascii") for w in
+                 ("matplotlib", "Matplotlib", "CreationDate", "ModDate")]
+    offenders = []
+    for f in _figure_files():
+        raw = f.read_bytes()
+        for token in forbidden:
+            if token in raw:
+                offenders.append((f.name, token.decode()))
+    assert not offenders, f"tool identity or a timestamp leaked into: {offenders}"
+
+
+@pytest.mark.skipif(not _figure_files(), reason="no figures generated yet")
+def test_every_committed_figure_has_a_passing_sidecar_from_a_clean_tree():
+    """PROVENANCE.md makes `dirty: true` disqualifying for anything reaching the manuscript.
+    A figure generated from a modified tree records a commit that does not describe the code
+    that drew it, and the sidecar is the only place that is visible."""
+    sidecars = sorted(FIGDIR.glob("*.provenance.json"))
+    pdfs = sorted(FIGDIR.glob("*.pdf"))
+    assert len(sidecars) == len(pdfs), "every figure must carry a sidecar"
+    for s in sidecars:
+        d = json.loads(s.read_text())
+        assert d["all_checks_pass"] is True, f"{s.name}: {d['checks']}"
+        assert d["generated_by"]["dirty"] is False, f"{s.name} was drawn from a dirty tree"
+        assert d["caption"].strip(), f"{s.name} has no drafted caption"
+        assert len(d["caption"]) > 200, f"{s.name}'s caption is a stub"

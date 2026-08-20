@@ -1,0 +1,63 @@
+{
+  "figure": "fig2_simulator",
+  "generated_by": {
+    "script": "src/viz/fig2_simulator.py",
+    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-21T00:59:13+05:30",
+    "finished": "2026-08-21T00:59:15+05:30"
+  },
+  "caption": "Structure of the three-component compartmental simulator, and the point at which each distortion family acts. The deterministic core integrates $(S, I, C)$ by fixed-step RK4 at 24 substeps per day over a 120-day window; $C$ is cumulative infections, and daily true incidence is its first difference. There is no explicit removed compartment because nothing downstream observes one. The observation chain convolves true incidence with a gamma reporting-delay kernel (mean 3 days, shape 3, support 21 days), scales by the reporting fraction $\\rho$, and applies multiplicative lognormal noise at $\\sigma = 0.15$; the noise must be continuous and multiplicative rather than count-valued, or the common-random-numbers finite difference the diagnostic depends on does not exist. Each of the three components carries one one-parameter distortion family $\\delta_k(\\cdot\\,;\\eta_k)$ with $\\delta_k(\\cdot\\,;0)$ bit-identical to the base simulator, and two family sets are declared: a base set of three qualitatively different deformations, and an adversarial set designed so that all three columns perturb the same feature of an epidemic curve, its observed exponential growth rate. Under the observation family only the reporting fraction moves -- the delay kernel and the noise scale are held at base values, which is a stated limitation of the design and not an omission from this diagram.",
+  "sources": [],
+  "checks": [],
+  "all_checks_pass": true,
+  "what_would_make_data_matches_source_read_false": "a number in the figure that is not at the declared path in the declared results file: a hand-typed value, a stale value carried from an earlier run, a transform applied but not declared, a source file rewritten by a concurrent run between load and write, or a results-schema change that moved the path. It does NOT check un-declared annotations, and it cannot say whether the declared path is the right quantity to plot.",
+  "style": {
+    "template": {
+      "source": "paper/neurips_2026_template/neurips_2026.sty",
+      "textwidth_in": 5.5,
+      "textheight_in": 9.0,
+      "rmdefault": "ptm"
+    },
+    "resolved_serif_face": "Times New Roman.ttf",
+    "matplotlib_version": "3.10.8",
+    "palette": "Okabe-Ito (Okabe & Ito 2002), colour-vision-deficiency safe",
+    "type_sizes_pt": {
+      "label": 8.0,
+      "tick": 7.0,
+      "floor": 6.0
+    },
+    "figure_widths_in": {
+      "full": 5.5,
+      "two_thirds": 3.6666666666666665,
+      "half": 2.68
+    }
+  },
+  "outputs": {
+    "written": [
+      "figures/fig2_simulator.pdf",
+      "figures/fig2_simulator.svg",
+      "figures/fig2_simulator.preview.png"
+    ],
+    "pdf_metadata": {
+      "Title": "fig2_simulator",
+      "Author": "",
+      "Subject": "Sim-Attrib",
+      "Keywords": "",
+      "Creator": "src/viz/fig2_simulator.py",
+      "Producer": "src/viz/fig2_simulator.py"
+    },
+    "preview_png_is_not_a_submission_asset": true
+  },
+  "output_hashes": {
+    "figures/fig2_simulator.pdf": "2cf7aca4ea6f418539edbbd341a9e02dfac945b3f2ed78f934adc1ee895d1d0c",
+    "figures/fig2_simulator.svg": "038a478742f05d5fc413c37f587e9971cdd0b257fb2f2a98e3819f9dd14f5b24",
+    "figures/fig2_simulator.preview.png": "fb8190aa44976b11d67ee0b447148a263ef566fcaf2794512abdb115b3c2a4f3"
+  },
+  "notes": [
+    "This figure reads no results file and plots no measured number, so the data_matches_source check has nothing to check. Its correctness condition is different and is stated here: every expression is transcribed from src/simulators/sir3.py and src/simulators/summaries.py at the commit recorded above, and a change to either file invalidates the diagram without invalidating any number. A future session editing those modules must regenerate this figure.",
+    "Transcribed from: src/simulators/sir3.py (SIR3Params defaults, _rhs, _integrate, _delay_kernel, simulate, ETA_SCALE) and src/simulators/summaries.py (s_a, s_b, s_c, N_BINS).",
+    "An editable .svg is written beside the .pdf so a later session can move a box without re-deriving the drawing. The .py stays canonical; a divergence between them is a defect in the .svg."
+  ]
+}
