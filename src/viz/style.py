@@ -73,7 +73,9 @@ OUTPUT
 ------
 **PDF is the deliverable**; a low-resolution PNG is written beside it as
 ``<stem>.preview.png`` for quick visual review and is named that way so it cannot be mistaken
-for a submission asset. Fonts are embedded as TrueType (``pdf.fonttype = 42``) rather than
+for a submission asset. The two schematics additionally emit an editable ``.svg`` source, so
+that a later session can move a box without re-deriving the drawing; the figure script stays
+canonical and a divergence between the two is a defect in the SVG. Fonts are embedded as TrueType (``pdf.fonttype = 42``) rather than
 Type 3, which is what NeurIPS's own instructions ask for and what makes text in the figure
 selectable and searchable.
 
@@ -378,7 +380,8 @@ def assert_no_text_below_floor(fig: Figure, floor: float = SIZE_SMALL) -> None:
             f"anything smaller is unreadable in print.")
 
 
-def save(fig: Figure, path: str | Path, *, script: str, preview: bool = True) -> dict[str, Any]:
+def save(fig: Figure, path: str | Path, *, script: str, preview: bool = True,
+         svg: bool = False) -> dict[str, Any]:
     """Write the figure as PDF, plus a low-resolution PNG preview beside it.
 
     **The only sanctioned way to write a figure in this project.** No script may call
@@ -407,6 +410,13 @@ def save(fig: Figure, path: str | Path, *, script: str, preview: bool = True) ->
     }
     fig.savefig(path.with_suffix(".pdf"), format="pdf", metadata=pdf_meta)
     written = [path.with_suffix(".pdf")]
+    if svg:
+        # An editable vector source, for the two schematics: a later session can nudge a box
+        # in an SVG editor without re-deriving the drawing. The .py remains canonical -- the
+        # SVG is a convenience, and a divergence between them is a defect in the SVG.
+        fig.savefig(path.with_suffix(".svg"), format="svg",
+                    metadata={"Creator": script, "Date": None})
+        written.append(path.with_suffix(".svg"))
     if preview:
         png = path.with_suffix("").with_suffix(".preview.png")
         fig.savefig(png, format="png", dpi=110, metadata={"Software": script})

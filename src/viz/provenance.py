@@ -201,8 +201,15 @@ class FigureProvenance:
                 "passes": bool(now == rec["sha256_at_load"]),
                 "sha256_at_load": rec["sha256_at_load"], "sha256_now": now,
             })
+        # Re-read each source ONCE, from disk, at write time. Re-reading is the point -- it
+        # is what detects a file rewritten under the figure -- but re-reading per claim
+        # re-parses a 40,000-line YAML nine times for one figure, which is minutes.
+        reread: dict[str, Any] = {}
         for claim in self._claims:
-            doc = yaml.safe_load((REPO / claim["source"]).read_text(encoding="utf-8"))
+            if claim["source"] not in reread:
+                reread[claim["source"]] = yaml.safe_load(
+                    (REPO / claim["source"]).read_text(encoding="utf-8"))
+            doc = reread[claim["source"]]
             recorded = dig(doc, claim["path"])
             expected = claim["_fn"](recorded) if claim["_fn"] else recorded
             got = claim["_values"]
