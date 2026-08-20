@@ -371,6 +371,102 @@ tolerance.
 
 ---
 
+### 4.1 The estimate above is superseded by measurement. *(added session G7; `OUTSTANDING.md` O-28)*
+
+**The table in §4 is left exactly as session G3 wrote it, and is wrong.** It priced `1/p_sel`
+at Freidling et al.'s measured ≈150 and the product at 10⁷–10⁹ draws. Session G6 measured
+`p_sel` directly — 3,780,038 null draws, `results/p_sel.yaml`, `results/cost_gate.yaml` — and
+the estimate misses in both directions at once:
+
+- **At the base parameter point the composition is CHEAPER than §4 guessed.** The worst
+  selection cell holds **0.2346** of null draws under `S_B` with the primary `AAA` assignment
+  and the studentised rule, so `1/p_sel ≈ 4.3` rather than 150, and one test costs
+  **4.2×10⁵ – 4.3×10⁷** draws against a gate of 10⁸. That is a **PASS**.
+- **Over the nuisance set it is not expensive, it is unbounded.** §4 point 1's own rule takes
+  the minimum over `θ ∈ Ω₀`, and at a relative half-width of 0.05 that minimum is **zero
+  acceptances in 100,000 draws**, 95% upper bound 3.84×10⁻⁵ — at least **2.6×10⁹** draws at
+  the cheapest declared `(M, N)` and 2.6×10¹¹ at the dearest. **FAIL at all four corners,
+  under both selection-rule variants, for both family assignments, with the confidence
+  interval deciding it.**
+
+**Why the estimate missed, in one sentence.** ≈150 is a number from a setting where the
+conditioning event stays reachable at every nuisance value the maximiser visits. **Nobody
+checked whether it stays reachable here**, and §3.4 had already named the case where it does
+not. The generated numbers are in `results/COST_GATE_TABLE.md`.
+
+---
+
+### 4.2 Where the boundary is, and what shape the collapse has. *(added session G7; `OUTSTANDING.md` O-30)*
+
+G6 measured half-widths of 0.05, 0.10, 0.20 and 0.50 and found the collapse **already
+complete at the narrowest**, so the boundary lay below everything measured and its location
+was unknown. Session G7 located it: **ten half-widths from 0.001 to 0.05, 7.6 million null
+draws, the same 42-point design, on seeds disjoint from G6's.**
+`results/boundary_sweep.yaml`; the table is `results/BOUNDARY_TABLE.md`, generated, and every
+number below comes from it.
+
+**This sweep did not and could not reopen anything.** `docs/DECISIONS.md` **D-16** was decided
+by the operator before the script was written. What follows is the negative result acquiring a
+shape.
+
+#### The collapse is a slide, not a cliff — and that is the more useful finding
+
+The pre-registered criterion (`src/diagnostics/boundary_sweep.py`, committed before the run)
+classifies the primary case **`AAA` studentised** as **GRADUAL**: the largest local log-slope
+is 2.26× the median one, against a declared threshold of 3. A log-linear fit gives
+**−141 decades of acceptance probability per unit relative half-width** with `R² = 0.94`, so
+over this range
+
+> **the acceptance probability falls by about an order of magnitude for every 0.7% of relative
+> nuisance error.**
+
+`BBB` studentised is also GRADUAL, at −231 decades per unit and `R² = 0.97`. **The two `plain`
+variants classify as ABRUPT**, and that split is reported rather than averaged away: the shape
+is a property of the selection rule as much as of the simulator, which is the same
+conditionality `DEVIATIONS.md` **D-14** attaches to every number in this thread.
+
+#### The gate's own answer, as a function of how tightly `Ω₀` is bounded
+
+| what is bounded | primary case `AAA` studentised |
+|---|---|
+| the pre-registered gate PASSES at every declared `(M, N)` corner | out to a **±0.5%** relative box |
+| the gate is SPLIT — undecided by the specification's own declared ranges | **±0.75% to ±2%** |
+| the gate FAILS at every corner | from **±3%** |
+| every design point still has all three cells reachable | out to **±2%** |
+| half the design points have a cell no draw ever enters | at **±5%** (21 of 42) |
+
+**So Q-16's option (a) now has a number instead of a hypothesis.** Bounding `Ω₀` restores
+termination — at **±0.5% on every one of `β`, `γ`, `ρ`, `I₀` and `σ_obs` simultaneously**.
+Q-16 guessed the requirement would land near ±0.4% and called it a bound *"no epidemiologist
+will accept"*. The measurement puts it at ±0.5%, and the judgement stands: a transmission rate
+known to half a percent is not a nuisance parameter, it is a known constant. **Option (a) buys
+termination at a price that is now stated in the units a domain reader argues in**, on top of
+the CSEMMC downgrade from finite-sample to asymptotic validity that §4 point 2 already priced.
+
+#### The mechanism, confirmed against a prediction made before the run
+
+The script's docstring predicted, from G6's recorded shift of 26.5 standard deviations at
+`w = 0.05` and a single-draw noise magnitude of `√d = √10 ≈ 3.16`, that the nuisance shift
+would overtake the noise near **`w ≈ 0.006`**, and placed the grid to resolve that region.
+Measured: the median `‖E[z]‖` is **2.44** at `w = 0.005` and **3.63** at `w = 0.0075`, so the
+crossing is at **`w ≈ 0.0065`** — and that is exactly where the gate stops passing. **The
+composition remains affordable for as long as the nuisance perturbation is smaller than the
+observation noise, and stops when it is not.** That is a one-line diagnostic anybody holding a
+different simulator can run before attempting this composition on it, and it is the single
+most transportable thing in this document.
+
+#### Two things this sweep reproduced that it did not have to
+
+Both on draws G6 never took. Neither was arranged: the checks were written into the script
+before the run and report either way.
+
+- **`θ₀` reproduces.** Twelve `(assignment, variant, cell)` comparisons against
+  `results/p_sel.yaml`, maximum two-proportion `|z| = 1.96` against a threshold of 3.
+- **The ±5% collapse reproduces exactly.** Zero acceptances again in 100,000 independent
+  draws, and **21 of 42 design points with a dead cell — the same 21 of 42 G6 recorded.**
+
+---
+
 ## 5. WHAT WOULD NEED TO BE TRUE OF PHASE 2'S RESULTS
 
 The composition is only worth building where component attribution is **well posed**. If no

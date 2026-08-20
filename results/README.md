@@ -23,3 +23,15 @@ and the corresponding floor alongside the accuracy.
 `SUMMARY_TABLE.md` is **generated** by `src/diagnostics/report_tables.py` and must not be
 edited by hand; it exists so the reports in `audit/` can quote results without any number
 being typed into a markdown file.
+
+**Added session G7 (2026-08-21).** `boundary_sweep.yaml` and the generated
+`BOUNDARY_TABLE.md`, from `src/diagnostics/boundary_sweep.py` and
+`src/diagnostics/report_boundary.py`. They locate the nuisance half-width at which the MMC
+composition's selection cells stop being reachable — `OUTSTANDING.md` O-30, closed. The sweep
+is **characterisation of a decision already taken** (`docs/DECISIONS.md` D-16) and the results
+file says so in every gate row a reader might land on, because a number that could be read as
+re-pricing a closed question has to carry its own context.
+
+`boundary_sweep.yaml` was written twice. The second run corrected a defective check and
+reproduces the first bit-for-bit in every measured field; `DEVIATIONS.md` **D-16** and
+**D-17** record what changed and why the overwrite loses nothing.

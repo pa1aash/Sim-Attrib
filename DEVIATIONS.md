@@ -488,3 +488,75 @@ generation later: *a flag that reads FALSE for a reason other than the one it na
 written this session, by the session that had just re-read D-8, D-10 and D-13. **Three prior
 entries in this file record the same class of defect and it still happened.** The only thing
 that caught it was reading the output rather than the flag.
+
+---
+
+## D-16 — A results file was rewritten by a second run, and the substance is bit-identical
+
+**Session G7, 2026-08-21.** `results/boundary_sweep.yaml` was produced twice. Recorded here
+because `PROVENANCE.md` says *"A figure regenerated from changed results gets a new results
+file, not an edit to the old one"*, and the same instinct applies to a results file that is
+overwritten: a reader should be told when a file in `results/` is not the first one written to
+that path.
+
+**What happened.** The first run's `theta0_reproduces_recorded_p_sel` flag was wrong — see
+**D-17** below, which is the substantive entry. Correcting the check meant re-running.
+
+**Why the overwrite is not a loss of information.** The run is a deterministic function of its
+seeds, and the second run used exactly the same ones. **`per_width`, `design_points` and
+`shape_of_the_collapse` are bit-identical between the two runs** — verified by comparing the
+loaded documents, not by inspection — so no measurement changed, only the check applied to it.
+The discarded file therefore contains nothing the current one lacks except a flag that was
+wrong, and keeping it would be exactly the "stale number indistinguishable from a current one"
+that `PROVENANCE.md` exists to prevent. It is the same judgement session G3 made when it
+discarded a `dirty: true` run and re-ran from a clean tree.
+
+**What a reader can check.** The current file's provenance header records commit `792b7dc`,
+which is the commit that contains the corrected check. The superseded run was made at
+`c2f3641`, the commit immediately before it. Both are in `git log`.
+
+---
+
+## D-17 — A flag written this session read FALSE for a reason other than the one it named. Third occurrence.
+
+**Session G7, 2026-08-21.** Caught by disbelieving the output, again. This is `DEVIATIONS.md`
+**D-8**'s failure mode for the third time in this project — D-8 (G3), D-15 (G6), and now this
+— in a session that read both of those entries before writing a line of code.
+
+**The flag as first written.** `src/diagnostics/boundary_sweep.py` recorded
+`theta0_reproduces_recorded_p_sel`: does this run's independent measurement of `p_sel` at
+`θ₀` reproduce the one `results/p_sel.yaml` records? It was implemented as *"is this run's
+estimate inside the recorded estimate's 95% Wilson interval?"*
+
+**It read FALSE, and the reading was wrong.** The two measurements agree. The comparison uses
+only **one** of the two measurements' sampling errors: both are 100,000-draw estimates, so the
+difference has standard error `√2` times either one's, and the criterion rejects a pair of
+perfectly consistent estimates about **17% of the time per cell** — across twelve
+`(assignment, variant, cell)` comparisons, roughly **87% of the time overall**. It was
+therefore very nearly guaranteed to read FALSE whatever the data did, which is a *vacuous flag
+in the opposite direction*: not one that can never fail, but one that can hardly ever pass.
+
+**What was done.** Replaced by a pooled two-proportion `z` on the difference, with
+`THETA0_Z_MAX = 3.0` and a stated family-wise false-alarm rate near 3%. The measured maximum
+is **`|z| = 1.96`**, and it is reported in the results file as a **number** next to the flag,
+so a reader can apply 2.0 or 4.0 without re-running anything. The superseded comparison is
+kept as `theta0_inside_recorded_ci95_alone` with a field saying, in the file, what it actually
+tests and why a FALSE there is not a non-reproduction. `tests/test_boundary_sweep.py` asserts
+the arithmetic of both.
+
+**The part that is a departure and not just a defect.** `THETA0_Z_MAX` was fixed **after** the
+first run rather than before it. That is the pattern **D-9** and **D-13** exist to make
+visible: a threshold set with the data in view. Three things are said about it rather than
+none. The replacement was forced by an error that is demonstrable without reference to the
+outcome — the old comparison ignores one of two sampling errors, which is wrong whichever way
+it reads. The new threshold is a conventional 3σ with its family-wise rate stated, not a value
+tuned to the observation. And the observed maximum is published beside the flag precisely so
+that the threshold is not load-bearing.
+
+**Why it is worth an entry rather than a quiet fix.** Four entries in this file now record the
+same class of defect. The lesson D-15 drew — *"the only thing that caught it was reading the
+output rather than the flag"* — held again, and the countermeasure D-8 proposed (run every
+check once in a state where it should give the opposite answer) **would have caught this one
+and was not applied to this flag**. The smoke run did exercise it, at 400 draws, and it read
+FALSE there too; that was read as "expected at 400 draws" rather than as a reason to check the
+arithmetic.
