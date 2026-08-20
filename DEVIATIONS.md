@@ -224,3 +224,83 @@ project should be run once in a state where it is expected to give the opposite 
 floor check in `src/diagnostics/floor_check.py` and the no-CRN negative control in
 `results/jacobian_rank.S_A.no_crn_control.yaml` are that habit applied deliberately; this entry
 is what it costs when it is not.
+
+## D-9 — A second distortion family set was added, and the existing results were known
+
+**Session G4, 2026-08-20.** Not a departure from instruction — the G4 brief requires it
+(Phase 1.2). Recorded here because `docs/OPEN_QUESTIONS.md` **Q-12** asks that any addition of
+a distortion family be logged *"with whether the existing results were known at the time"*, and
+the honest answer is **yes, they were**.
+
+**What was added.** `SIR3Params.families`, taking `"base"` (the default, and the pre-G4
+behaviour bit-for-bit) or `"adversarial"` (a second triple of one-parameter families). The base
+branch was not modified; the identity-at-zero contract is asserted for both branches, including
+that the two sets are bit-identical to each other at `η = 0`, and that each adversarial family
+is *distinguishable* from its base counterpart away from zero — a family accidentally identical
+to the one it replaces would silently re-measure the base result and report it as a
+confirmation.
+
+**Why the timing is a problem worth stating.** `docs/THRESHOLDS.md` closes the list of *summary
+sets* precisely so that a failing verdict cannot be evaded by proposing one more set. Distortion
+families are not covered by that rule, but the mirror-image abuse is available here and it runs
+the other way: with the base results already known, one could search over candidate families
+until one *fails*, and present the failure as a robustness finding. **That would be the same
+leakage failure `LEDGER_DESIGN.md` D3 names, pointed at a different conclusion.**
+
+**What was done about it, and what it does and does not buy.** Each adversarial family was
+specified against a **named target component** with its reasoning written into
+`src/simulators/sir3.py`'s docstring *before* the set was run, and the first set constructed was
+the set reported. **No second candidate set was tried, and none was discarded.** That is the
+strongest protection available after the fact, and it is weaker than pre-registration: it rests
+on the record of what was written and committed, not on an ordering `git log` can prove, because
+the base numbers already existed in the tree. A reader should weigh it accordingly.
+
+**What would have made it stronger.** The adversarial set should have been specified in G3,
+alongside the base set and before either was run — `audit/S3_REPORT.md` §4.4 already identified
+the exact weakness it probes. The place to design an attack on a result is before the result
+exists.
+
+## D-10 — The field D-8 added to make `dirty` informative was itself corrupting one path
+
+**Session G4, 2026-08-20.** Not a departure from instruction — a defect in code session G3
+wrote, found by session G4 reading its own provenance output rather than by any check.
+
+**The defect.** `src/provenance.py` read `git status --porcelain -uno` through a helper that
+calls `.strip()` on the command's output. The porcelain format is **column-sensitive**: two
+status columns, a space, then the path. An **unstaged** modification puts a space in the first
+column, so stripping the whole output removes the first line's leading space and the caller's
+`line[3:]` then loses the first character of that path — silently, and only for the first
+entry. This session's first results file recorded
+
+    dirty_paths: [rc/simulators/sir3.py]
+
+for a modification to `src/simulators/sir3.py`.
+
+**Why it is worth an entry rather than a quiet fix.** `DEVIATIONS.md` **D-8** records that the
+`dirty` boolean was structurally guaranteed true and therefore uninformative, and that the fix
+was to add `dirty_paths` so a reader could see *which* files were dirty rather than only *that*
+some were. **The field added to make the flag informative was itself wrong from the day it was
+written.** The boolean was right; the field explaining it named a file that does not exist. A
+reader who checked would find nothing at that path and would learn to distrust the field —
+which is D-8's own failure mode, one level down.
+
+**How it survived.** It only ever corrupts the **first** line, only when that line is an
+unstaged modification, and only by one character — so `results/floor_check.yaml` and every
+other file from a clean run recorded `dirty_paths: []` and showed nothing. **There was no test.**
+D-8's stated lesson is that every check should be run once in a state where it is expected to
+give the opposite answer; `dirty_paths` had never been read on a dirty tree by anyone looking at
+it rather than past it.
+
+**The fix.** A separate `_git_raw` helper that does not strip is used for the status call, and
+`dirty` is computed from `tracked.strip()` so its meaning is unchanged. `tests/test_provenance.py`
+is new and asserts four things the module had no test for: every reported dirty and untracked
+path **exists on disk** (the observable signature of this bug, and confirmed to fail against the
+pre-fix parse), the parse agrees with `git status --porcelain -z`, which is NUL-separated and
+needs no column arithmetic so cannot share the defect, `dirty` tracks git's own emptiness test in
+both directions, and untracked outputs do not leak into `dirty_paths` — which is D-8's defect,
+now pinned.
+
+**What was discarded.** The one results file written before the fix
+(`results/robustness/threshold_sensitivity.yaml`, from a dirty tree) was regenerated after the
+code was committed, per `PROVENANCE.md`. No G3 results file is affected: all five were written
+from a clean tree and carry `dirty_paths: []`.

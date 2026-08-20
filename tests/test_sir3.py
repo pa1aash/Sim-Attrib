@@ -206,3 +206,74 @@ def test_prior_predictive_sd_is_positive_for_every_summary_set():
     for name, fn in SUMMARY_SETS.items():
         _mean, sd = prior_predictive_sd(fn, n_replicates=40, seed0=123456)
         assert np.all(sd > 0), f"{name} has a degenerate coordinate"
+
+
+# --------------------------------------------------------------------------------------
+# 5. The adversarial family set (session G4). The base branch must be untouched by it, and
+#    the adversarial branch must satisfy the SAME identity and movement contracts.
+# --------------------------------------------------------------------------------------
+
+ADV = SIR3Params(families="adversarial")
+
+
+def test_unknown_family_set_is_rejected():
+    """A typo must not silently fall through to the base families."""
+    with pytest.raises(ValueError):
+        SIR3Params(families="advarsarial")
+
+
+def test_adversarial_families_are_identity_at_zero():
+    """delta'_k(.; 0) == the BASE simulator exactly -- the same contract, bit for bit.
+
+    This is the check that makes the two family sets comparable at all. If they disagreed at
+    eta = 0 they would be linearised about different points and their Jacobians would not be
+    two answers to one question.
+    """
+    base = simulate(np.zeros(K), seed=11, stochastic=False)
+    adv = simulate(np.zeros(K), seed=11, params=ADV, stochastic=False)
+    assert np.array_equal(base.true_incidence, adv.true_incidence)
+    assert np.array_equal(base.reported, adv.reported)
+    b_noisy = simulate(np.zeros(K), seed=11, stochastic=True)
+    a_noisy = simulate(np.zeros(K), seed=11, params=ADV, stochastic=True)
+    assert np.array_equal(b_noisy.reported, a_noisy.reported)
+
+
+@pytest.mark.parametrize("k", range(K))
+def test_adversarial_families_actually_move_the_output(k):
+    """A family that does nothing would pass the identity test vacuously."""
+    eta = np.zeros(K)
+    eta[k] = 0.05
+    out = simulate(eta, seed=5, params=ADV, stochastic=False)
+    base = simulate(np.zeros(K), seed=5, params=ADV, stochastic=False)
+    rel = np.max(np.abs(out.reported - base.reported)) / np.max(base.reported)
+    assert rel > 1e-6, f"adversarial family {COMPONENTS[k]} barely moves the output ({rel:.3g})"
+
+
+@pytest.mark.parametrize("k", range(K))
+def test_adversarial_families_differ_from_the_base_families(k):
+    """The point of the set is that it is a DIFFERENT set. If a family were accidentally
+    identical to its base counterpart, the re-run would silently re-measure the base result."""
+    eta = np.zeros(K)
+    eta[k] = 0.05
+    base = simulate(eta, seed=5, stochastic=False)
+    adv = simulate(eta, seed=5, params=ADV, stochastic=False)
+    assert not np.allclose(base.reported, adv.reported), (
+        f"adversarial family {COMPONENTS[k]} is indistinguishable from the base family"
+    )
+
+
+def test_adversarial_observation_family_tilts_rather_than_scales():
+    """The observation family's whole purpose is that it is NOT a pure amplitude error.
+
+    A pure amplitude error multiplies the reported series by a constant, so the ratio to the
+    undistorted series is flat. This one is a log-linear tilt, so the ratio must vary -- and
+    must vary by exp(eta), the full swing of the mean-centred modulation across the window.
+    """
+    eta = np.array([0.0, 0.0, 0.3])
+    base = simulate(np.zeros(K), seed=5, params=ADV, stochastic=False).reported
+    tilted = simulate(eta, seed=5, params=ADV, stochastic=False).reported
+    m = base > 0
+    ratio = tilted[m] / base[m]
+    assert ratio.max() / ratio.min() > 1.2, "observation family behaved like a pure multiplier"
+    assert np.isclose(ratio.max() / ratio.min(), np.exp(0.3 * (BASE.T_days - 1) / BASE.T_days),
+                      rtol=1e-6)

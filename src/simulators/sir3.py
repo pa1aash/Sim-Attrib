@@ -80,6 +80,53 @@ construction:
          different third column and possibly a different rank verdict. That is a real
          limitation of the design and it is recorded in the results files, not only here.
 
+THE ADVERSARIAL FAMILY SET -- ADDED IN SESSION G4, AND WHY
+-----------------------------------------------------------
+`families="adversarial"` selects a SECOND, alternative triple of one-parameter families.
+It exists for one purpose: session G4's critic pass (`audit/G3_ADVERSARIAL_REVIEW.md`)
+tests whether G3's separability verdict was a property of the simulator or a property of
+the three families G3 happened to choose. The base triple is deliberately of three
+different qualitative kinds; **the adversarial triple is deliberately of one kind**, chosen
+so that all three columns perturb the SAME dominant feature of an epidemic curve -- its
+observed exponential growth rate.
+
+`families="base"` is the default and is bit-identical to the pre-G4 simulator. Nothing in
+the base branch was changed. `DEVIATIONS.md` D-9 records the addition and states that the
+base results were known at the time it was made -- which is exactly why the adversarial
+triple was designed against a stated target per component, before it was run, rather than
+searched for until one failed.
+
+  eta_1' TRANSMISSION -- constant multiplier.        beta -> beta * exp(eta_1)
+         TARGET: PROGRESSION. In dI/dt = (beta*S/N - gamma)*I, beta and gamma enter one
+         scalar. A constant multiplier on either moves the net growth rate, and while
+         S/N ~ 1 (the whole growth phase) the two are near-indistinguishable; they
+         separate only through susceptible depletion. This is the classical beta/gamma
+         aliasing, and THIS MODULE'S OWN BASE DESIGN NAMES IT: the base progression family
+         is mean-centred precisely because "an uncentred version would alias progression
+         onto a pure rate change". The adversarial set removes that defence on purpose.
+
+  eta_2' PROGRESSION -- constant multiplier.         gamma -> gamma * exp(-eta_2)
+         TARGET: TRANSMISSION. The same aliasing from the other side. The SIGN IS
+         DELIBERATE: -eta_2 makes increasing eta_2 raise R0 = beta/gamma, the same
+         direction eta_1' moves it, so the two columns point the same way rather than
+         opposite ways. A sign that made them anti-parallel would be just as collinear in
+         the |coherence| sense, but aligning them is the more honest attack because it is
+         the configuration a modeller would actually confuse.
+
+  eta_3' OBSERVATION -- mean-centred log-linear reporting trend.
+             rho -> rho * exp(eta_3 * (t/T_days - 0.5))
+         TARGET: both, through the observed growth rate. Multiplying the reported series
+         by exp(eta_3 * t/T) adds exactly eta_3/T_days to the fitted exponential growth
+         rate -- the same summary coordinate beta and gamma move. It is also a real and
+         common misspecification (surveillance improving over the epidemic), not a
+         contrivance, which matters: an adversarial family nobody would write down proves
+         nothing about whether the diagnostic is fragile in practice. It is a strictly
+         harder case than Q-12's reporting-DELAY perturbation, because a delay shifts the
+         curve while a trend tilts it, and tilt is what the other two columns do.
+
+Every adversarial family is still exactly the base simulator at eta = 0, and that is
+tested for both branches.
+
 NORMALISATION -- and the trap it exists to avoid
 -------------------------------------------------
 The rank of J is NOT scale-invariant. Rescaling a summary or reparametrising eta_k changes
@@ -164,6 +211,7 @@ K: int = len(COMPONENTS)
 ETA_SCALE: float = 0.1
 
 NoiseModel = Literal["lognormal", "poisson"]
+FamilySet = Literal["base", "adversarial"]
 
 
 @dataclass(frozen=True)
@@ -185,8 +233,11 @@ class SIR3Params:
     delay_shape: float = 3.0      # reporting delay, gamma shape
     delay_len: int = 21           # delay kernel support, days
     obs_sigma: float = 0.15       # lognormal observation noise scale
+    families: FamilySet = "base"  # which triple of distortion families; see module docstring
 
     def __post_init__(self) -> None:
+        if self.families not in ("base", "adversarial"):
+            raise ValueError(f"unknown family set {self.families!r}")
         if self.N <= 0 or self.I0 <= 0 or self.I0 >= self.N:
             raise ValueError("require 0 < I0 < N")
         if self.beta <= 0 or self.gamma <= 0:
@@ -274,17 +325,25 @@ def _rhs(t: float, y: np.ndarray, p: SIR3Params, eta: np.ndarray, p_ref: float) 
     """
     S, I, _C = y
 
-    # --- component 1: TRANSMISSION, with saturating-incidence distortion -------------
-    denom = 1.0 + eta[0] * (I / p.N) / p_ref
-    if denom <= 0.0:
-        raise ValueError(
-            f"transmission distortion eta_1={eta[0]!r} drives the saturation denominator "
-            f"non-positive (denom={denom!r}); the family is not defined there"
-        )
-    incidence = (p.beta * S * I / p.N) / denom
+    if p.families == "base":
+        # --- component 1: TRANSMISSION, with saturating-incidence distortion ---------
+        denom = 1.0 + eta[0] * (I / p.N) / p_ref
+        if denom <= 0.0:
+            raise ValueError(
+                f"transmission distortion eta_1={eta[0]!r} drives the saturation denominator "
+                f"non-positive (denom={denom!r}); the family is not defined there"
+            )
+        incidence = (p.beta * S * I / p.N) / denom
 
-    # --- component 2: PROGRESSION, with mean-centred log-linear hazard drift ---------
-    gamma_t = p.gamma * math.exp(eta[1] * (t / p.T_days - 0.5))
+        # --- component 2: PROGRESSION, with mean-centred log-linear hazard drift -----
+        gamma_t = p.gamma * math.exp(eta[1] * (t / p.T_days - 0.5))
+    else:
+        # --- ADVERSARIAL: both rate constants get a CONSTANT multiplier, sign-aligned
+        # so that eta_1 and eta_2 move R0 = beta/gamma in the same direction. See the
+        # module docstring for why this is the sharpest available attack on the base set.
+        incidence = (p.beta * math.exp(eta[0])) * S * I / p.N
+        gamma_t = p.gamma * math.exp(-eta[1])
+
     removal = gamma_t * I
 
     return np.array([-incidence, incidence - removal, incidence])
@@ -386,12 +445,18 @@ def simulate(
     # --- component 3: OBSERVATION -----------------------------------------------------
     kernel = _delay_kernel(params)
     delayed = np.convolve(true_incidence, kernel)[: params.T_days]
-    rho_eff = params.rho * math.exp(eta_arr[2])
-    if rho_eff > 1.0:
-        # Not an error: rho is a reporting fraction of a modelled quantity and the
-        # distortion is allowed to push it past 1. Recorded rather than clipped, because
-        # clipping would introduce a kink at the clip point and destroy differentiability.
-        pass
+    if params.families == "base":
+        # A pure AMPLITUDE error: one scalar multiplier on the whole reported series.
+        rho_eff = params.rho * math.exp(eta_arr[2])
+    else:
+        # ADVERSARIAL: a mean-centred log-linear reporting TREND. Tilts the reported
+        # series in log space, adding eta_3/T_days to its fitted exponential growth rate
+        # -- the same coordinate the two rate families move.
+        tt = np.arange(params.T_days, dtype=float) / params.T_days - 0.5
+        rho_eff = params.rho * np.exp(eta_arr[2] * tt)
+    # rho_eff is allowed past 1: rho is a reporting fraction of a modelled quantity and the
+    # distortion may push it there. Recorded rather than clipped, because clipping would
+    # introduce a kink at the clip point and destroy differentiability.
     reported_mean = rho_eff * delayed
 
     if not stochastic:

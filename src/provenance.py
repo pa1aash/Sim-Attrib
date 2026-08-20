@@ -26,6 +26,24 @@ def _git(*args: str) -> str:
     ).stdout.strip()
 
 
+def _git_raw(*args: str) -> str:
+    """As :func:`_git`, but WITHOUT stripping leading whitespace.
+
+    ``git status --porcelain`` emits two status columns then a space then the path, and an
+    UNSTAGED modification puts a space in the first column. Stripping the whole output
+    therefore eats the first line's leading space, and a caller slicing ``line[3:]`` then
+    loses the first character of that one path -- silently, and only for the first entry.
+
+    Found in session G4 by reading this module's own output on a run of the very field that
+    ``DEVIATIONS.md`` D-8 added to make the ``dirty`` flag informative: it reported
+    ``rc/simulators/sir3.py``. The flag was right; the field naming the reason was corrupt.
+    Recorded as **D-10**.
+    """
+    return subprocess.run(
+        ["git", *args], capture_output=True, text=True, check=False
+    ).stdout
+
+
 def _dep_versions() -> str:
     parts = []
     for mod in ("numpy", "scipy", "yaml"):
@@ -58,13 +76,15 @@ def header(*, script: str, command: str, seed: int, started: str) -> dict[str, A
     #
     # Untracked paths are still recorded, separately and without prejudice, because a run's
     # own outputs are expected to appear there and an unexpected entry is worth seeing.
-    tracked = _git("status", "--porcelain", "-uno")
+    # NOT _git(): the porcelain format is column-sensitive and stripping corrupts it. See
+    # _git_raw and DEVIATIONS.md D-10.
+    tracked = _git_raw("status", "--porcelain", "-uno")
     untracked = _git("ls-files", "--others", "--exclude-standard")
     dirty_paths = sorted(line[3:] for line in tracked.splitlines() if line[3:])
     return {
         "script": script,
         "commit": _git("rev-parse", "HEAD") or "UNKNOWN",
-        "dirty": bool(tracked),
+        "dirty": bool(tracked.strip()),
         "dirty_paths": dirty_paths,
         "untracked_paths": sorted(p for p in untracked.splitlines() if p),
         "command": command,
