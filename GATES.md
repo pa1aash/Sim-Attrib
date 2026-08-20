@@ -707,3 +707,124 @@ conditions:  Signed unconditionally, together with G0, G1, G2 and G3, as of this
              defeated. Session G5 is commissioned to resolve it at K = 6 and to measure
              `p_sel` against the cost gate, in that order.
 ```
+
+---
+
+## G5 — Does `S_B` survive a longer component list?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-20, session G5. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **The verdict is WEAKENED, which is not a clean pass, so the session halted after Phase 1.**
+> `p_sel` was not measured, no cost gate was built, and no line of the MMC composition was
+> implemented — the same scope boundary G4 held, held for a different reason.
+>
+> **`S_B` separates the three components under all eight component-wise family assignments**
+> the two declared distortion family sets permit, `κ` from 6.628 to 65.64. **Six of those
+> eight had never been tested.** This is the strongest evidence the project has produced for
+> the precondition the composition rests on, and it narrows **Q-13** materially.
+>
+> **The same property fails at two distortion parameters per component.** The six-column union
+> is INSEPARABLE at `κ = 628.9`, rank 4 of 6, and the confound is **progression against
+> observation** — not a within-component ambiguity. Every singular value is resolved to within
+> 2.3%, the verdict holds across `τ` from 0.005 to 1.0, and `d = 10` leaves no structural zero,
+> so none of the three easy explanations survives.
+>
+> **A rule this session wrote before the run fired against the project, and a measurement taken
+> afterwards was used to qualify it.** That is disclosed at the top of
+> `audit/K6_SPECTRUM_CHECK.md` §0 and in `DEVIATIONS.md` **D-13**, and it did **not** buy the
+> session anything: the halt happened anyway.
+
+### What G5 was judged against
+
+The criteria were fixed by the session brief before any check ran.
+
+| # | Criterion | Result |
+|---|---|---|
+| **G5.1** | **Was the stop condition honoured?** | **met.** The brief permits continuation only in the absence of *"any verdict other than a clean pass"*. WEAKENED is not a clean pass, and the session halted before Phase 2 — including the `p_sel` measurement it was otherwise free to take, and which **Q-14** explicitly does not block |
+| **G5.2** | **Was the negative half reported at the same weight as the favourable half?** | **met.** The six-column INSEPARABLE verdict is sub-verdict 2 of 3 in `audit/K6_SPECTRUM_CHECK.md`, has its own section, and appears in the commit message, the gate headline and the report's opening. The favourable half is reported first only because S10 requires favourable findings not be buried either |
+| G5.3 | Full six-column spectrum computed and reported, all singular values | **met** — `results/robustness/k6_spectrum.yaml`, all three summary sets, three column counts each, plus decade-span, adjacent ratios, and where `τ·σ₁` falls relative to the spectrum |
+| G5.4 | Whether a gap exists, or a smooth decay, reported without inventing a criterion | **met** — `gap prominence` (largest adjacent ratio ÷ median) is reported as a *descriptive* statistic with no threshold applied and no verdict depending on it. Inventing a gap criterion with the singular values visible is the leakage failure `LEDGER_DESIGN.md` D3 names |
+| G5.5 | The six-column object run through the machinery the three-column verdict was run through | **met, and this is the load-bearing addition.** G4's six-column number came from a single step size, which `docs/THRESHOLDS.md` §1.4 says *"is not a result"*. It now carries the h-plateau, the resolution test, the equivalence-class stability requirement and a 719-permutation leakage check |
+| G5.6 | At least five alternative `τ`, both family sets, stable range and flip boundary identified | **met** — nine tolerances spanning four decades, under **both** couplings (`κ_max = 1/τ`, and `κ_max` held at 100), with the exact flip point `τ* = σ_K/σ₁` computed rather than sampled |
+| G5.7 | The `κ_max` branch resolved rather than deferred a second time | **met** — closed form derived, region stated (`κ_max < κ ≤ 1/τ`, empty at the registered pair), and checked against the production rule at 108 grid points per spectrum. Two deliberately broken grids are required to be caught by `tests/test_k6_spectrum.py` |
+| G5.8 | `audit/K6_SPECTRUM_CHECK.md` written, verdict at the top, G4's STANDS/WEAKENED/OVERTURNED vocabulary | **met** — three sub-verdicts, because one word does not carry it |
+| G5.9 | No pre-registered threshold revised | **met** — `docs/THRESHOLDS.md` is untouched this session; the drift test in `tests/test_jacobian_rank.py` still passes |
+| G5.10 | `results/` not overwritten | **met** — everything written this session is new and lives in `results/robustness/`; the five G3 files and the G4 robustness files are byte-identical |
+| G5.11 | Every prose number traceable to generated output (S10) | **met** — `results/robustness/K6_TABLE.md` is generated by `src/diagnostics/report_k6.py` and reproduced verbatim in the check's appendix; every claim in the prose was verified against the YAML programmatically before the document was committed |
+| G5.12 | Flags tested against S4 ("under what condition does this read FALSE?") | **met** — the reproduction check is shown failing on a 0.1% perturbation; the `κ`-algebra checker is shown catching an inverted ceiling comparison and a rank rule on the wrong singular value; the liveness check is exercised against a live process, an exited one, a recycled PID and a stale pidfile |
+| G5.13 | The S3 liveness defect understood and specifically fixed, not reused | **met** — `src/runlock.py` replaces pattern-matching over a process listing with a kernel query on one recorded PID, with PID-reuse and zombie guards. The three ways the old form reports a live run as dead are written out in its docstring |
+| G5.14 | No tree edit while a run was in flight | **met** — two runs, both launched from a clean committed tree, both recording `dirty: false` and `dirty_paths: []`; the runner refuses to start when a live instance holds its output path |
+| G5.15 | Gate sign-offs and the visibility ruling recorded per the operator's decisions | **met** — G4 signed with G0–G3; `docs/DECISIONS.md` **D-11** records the visibility ruling and forecloses re-raising it |
+| G5.16 | Scope boundary held | **met** — no `p_sel`, no `results/cost_gate.yaml`, no MMC implementation, no `paper/main.tex`. The eight family assignments are a re-combination of the two declared sets, not an extension beyond them, and no new distortion family was written |
+| G5.17 | Departures from the brief disclosed rather than silently reinterpreted | **met** — **D-12** (the brief asked for two six-column spectra; only one exists) and **D-13** (a pre-registered implication refuted by a later measurement) |
+| G5.18 | The test suite still passes | **met** — **109 tests** (84 at the end of G4; 25 added, of which **eight** require a check to fail or a bad input to be rejected) |
+| G5.19 | No reference to any authoring agent in commit metadata or file contents | verified before each push |
+
+### What G5 explicitly does not certify
+
+- **That refining the pre-registered implication was the right call.** A rule written before the
+  run said a cross-mechanism six-column confound overturns the three-column result; it fired;
+  and an eight-assignment measurement taken afterwards was used to say the implication was too
+  strong. **The classification criterion is reported exactly as it fired and is not
+  reinterpreted — but the refinement is in the project's favour and was made after seeing the
+  data.** Both readings are in `audit/K6_SPECTRUM_CHECK.md` §0 so the operator can take the
+  other one. **This is the single most scrutinisable judgement in the session.**
+- **That eight family assignments are a sample of anything.** They are every combination of
+  **two** family sets this project chose, one of which was designed to fail. **Q-13 is narrowed,
+  not closed.**
+- **That the six-column failure is confined where this session says it is.** Only `K = 3` and
+  `K = 6` were measured. The intermediate case — one component carrying two parameters while the
+  others carry one — is constructible from the recorded columns at zero simulation cost and was
+  **not run**. **Q-15.**
+- **That `S_B` is comfortable.** The worst assignment, `ABA` at `κ = 65.64`, flips at 1.523× the
+  registered `τ` — so **doubling `τ` flips it**, and the project's own halve/double grid
+  straddles the boundary. G4's sentence *"halving or doubling `τ` changes nothing"* is true of
+  the base families and false of the adversarial ones.
+- **That the resolution test guards against a gapless spectrum.** `audit/R2_THREAT_CHECK.md`
+  §1.3 nominated it for exactly that and **it did not fire**: all six values are resolved to
+  within 2.3% while the spectrum is 2.80 decades wide with essentially no break. The test
+  measures estimator convergence; spectral density is a property of the matrix. That sentence in
+  `R2_THREAT_CHECK.md` should not be relied on again.
+- **That anything here bears on affordability.** `p_sel` remains unmeasured through six
+  sessions. **O-16.**
+- **That the MMC composition has been attacked.** It has not, by anyone, ever. **O-17**, older
+  and larger half, unpaid.
+- **That this was an independent review.** Same project, same code, same session that wrote the
+  check. Unchanged from G4 and not improved by this session having found things.
+- **That the numbers reproduce on other hardware.** They reproduce on this machine, from the
+  recorded seed and commit, and the three-column spectra reproduce the G3/G4 records exactly —
+  which is a check on this session's estimator, not on anyone else's machine.
+
+### Process caveats — what this session did badly or not at all
+
+- **The first Phase 1 run was discarded and repeated.** The eight-assignment analysis was
+  conceived *after* the first run had produced the six-column verdict, so the run was repeated
+  to add it. Nothing was contaminated — the tree was clean, the output was deleted before the
+  rerun, and the numbers are identical — but it is the third session in a row in which the
+  right check was thought of after the run rather than before it (**D-9**, **D-13**).
+- **The pre-registered rule was written too coarsely**, which is what made **D-13** necessary.
+  A rule that had said "only if the confound lies inside some three-column assignment" would
+  have been testable rather than assumed, and the test was cheap.
+- **`p_sel` was not measured, for the second session running.** G4 did not measure it by
+  instruction; G5 did not measure it because it halted first. **Q-14 explicitly does not block
+  it**, so this is a consequence of the stop rule rather than of the finding.
+- **Google Scholar still not searched.** Sixth session. **O-7.**
+- **`audit/CLAIM_GRAPH.md` is still stale.** Fifth session flagged rather than rewritten.
+- **`results/` still carries the vacuous `leakage_checked` literal.** **O-22**, unchanged — the
+  new files carry a real check, the G3 files still carry the literal, and regenerating them was
+  again judged out of scope.
+- **The machine was loaded throughout** (load average ~7 on 8 cores, 8 GB), so the column
+  estimation ran on four workers rather than eight and the two runs took about 13 minutes each.
+  Irrelevant to the numbers; relevant to whoever prices Phase 2.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

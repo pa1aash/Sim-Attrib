@@ -297,6 +297,89 @@ from an unresolved item, and the difference is the reason this entry exists.
 
 ---
 
+## D-12 — PROPOSED, NOT DECIDED: which of two paths the project takes after G5's split verdict.
+
+**Date:** 2026-08-20 · **Proposed by session G5** · **Status: PROPOSED. The operator decides.**
+· **Evidence:** `audit/K6_SPECTRUM_CHECK.md`, `audit/S5_REPORT.md` · **Action:** P-2
+
+**This entry exists because the G5 brief requires the diagnostic-only pivot to be written down
+as a proposed path whenever the session halts. It halted. But the brief anticipated a halt
+caused by `S_B`'s separability being overturned, and that is not what happened**, so writing
+the pivot as though the evidence forced it would misrepresent the evidence. Both paths are
+below, with an honest reading of which the numbers favour.
+
+### What G5 actually established
+
+- **`S_B` separates the three components under all eight component-wise family assignments**
+  the two declared sets permit — `κ` from 6.628 to 65.64, every singular value resolved, six of
+  the eight never tested before. This is the **strongest** evidence the project has for the
+  separability precondition of `audit/MMC_COMPOSITION_SPEC.md` §5.
+- **The same property fails at two distortion parameters per component** — the six-column
+  union is INSEPARABLE at `κ = 628.9` with a progression–observation confound that is not an
+  estimator artefact, not a threshold artefact, and not structural.
+- **`p_sel` is still unmeasured and the cost gate still unbuilt.** The session halted before
+  Phase 2 because the brief permits continuation only in the absence of *"any verdict other
+  than a clean pass"*, and WEAKENED is not a clean pass.
+
+### Path 1 — measure the cost gate, then build the composition (what the evidence favours)
+
+The composition's precondition is a `K = 3` statement and it is met, eight times over. Nothing
+G5 found touches it. What stands between the project and its first experiment is unchanged from
+what G4 said: **`p_sel`, the cost gate, and then the build** — Phases 2 and 3 of the G5 brief,
+run as written.
+
+**Cost:** one session, possibly two. **Risk:** the cost gate may fail, which is a real
+possibility the G5 brief priced explicitly and which would land the project back at this
+decision with one more measurement in hand rather than none.
+
+**What it must carry into the paper regardless:** the six-column result, as a stated
+limitation. **Q-14** is the question of which sentence; the recommendation there is the
+one-parameter sentence with the two-parameter failure conceded rather than omitted.
+
+### Path 2 — the diagnostic-only pivot (`audit/PIVOT.md`, the pivoted paper)
+
+The rank diagnostic itself as the contribution: the identifiability statement, the boundary,
+the diagnostic that checks it before any inference is run, and the empirical finding. No
+attribution experiment, no MMC composition, no `p_sel`.
+
+**What G5 adds to this path's case, and it is not nothing.** `PIVOT.md` deliverable **P4**
+requires the diagnostic run *"across several defensible summary sets, not one"* and **P5**
+requires *"the threshold … justified and its sensitivity reported"*. Both are now
+substantially discharged: three summary sets, eight family assignments, nine tolerances across
+four decades, both threshold couplings, the `κ_max` branch mapped in closed form and checked
+against the production rule at 108 grid points per spectrum, and a six-column counterexample
+that gives the boundary teeth. **The diagnostic-only paper is closer to written than the
+composition paper is to built.**
+
+**What weakens this path's case.** `PIVOT.md`'s pivoted paper was framed around a *negative*
+empirical finding — deliverable P4 anticipates *"a realistic simulator fails the condition
+under defensible summary sets"*. **That is not what the simulator does.** `S_B` passes under
+every assignment tried. The available finding is the more nuanced and less quotable one: the
+condition holds at one distortion parameter per component and fails at two. That is a real
+result and it is harder to headline than a clean negative.
+
+### The honest reading, offered as a recommendation and not as a decision
+
+**Path 1.** The precondition is met and better supported than at any point in this project's
+history; the cost gate is a measurement that has been deferred through two sessions and decides
+the question either way; and Path 2 remains fully available afterwards, since every artefact
+Path 2 needs already exists and none of it is consumed by attempting Path 1. **Path 2 is not
+foreclosed by trying Path 1 first, and Path 1 is foreclosed by nothing except a failed cost
+gate — which is itself the information needed to choose Path 2 on evidence rather than on
+fatigue.**
+
+**The argument against the recommendation, stated so it is not only implied.** This project has
+adopted three headlines and lost all three, and the composition it would be building has
+**still never been attacked by anyone** (**O-17**, the older and larger half, unpaid through
+six sessions). Building it before it has been refuted repeats the pattern that killed G0, G1
+and G2 — construction ahead of criticism. A reader of this repository's history could
+reasonably conclude that the next thing to do is attack the composition, not implement it, and
+that would be Path 1 with its first two steps swapped.
+
+**This is a decision, not a calculation, and it is the operator's.** **P-2.**
+
+---
+
 ## Not decisions — still open
 
 `Q-3` (reciprocal reviewer), `Q-6` (multi-component scope), and `Q-7` (citation-error

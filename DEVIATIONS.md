@@ -344,3 +344,56 @@ step size `h` is not a result"*. The number the deferred gapless-spectrum object
 on was computed without the h-plateau, without the resolution test, without the
 equivalence-class stability requirement and without the leakage check — all of which every
 number in `results/` carries. This session supplies them.
+
+## D-13 — A rule written before the numbers fired against the project, and a measurement taken afterwards was used to qualify it
+
+**Session G5, 2026-08-20.** Not a departure from instruction. Recorded because it is the move
+in this session most likely to be wrong, and because a reader who only saw the conclusion would
+not see that it was made.
+
+**What was written in advance, and when.** `src/diagnostics/k6_spectrum.py`, committed at
+`a8159f8`, **before the run that produced any six-column number**, states a rule for reading a
+six-column rank deficiency:
+
+> A six-column INSEPARABLE verdict whose null directions are all within-mechanism does not
+> overturn the three-column result; one with a cross-mechanism null direction does. That
+> distinction is stated here, before the numbers, so it cannot be chosen afterwards to suit
+> them.
+
+**What fired.** Both of `S_B`'s six-column near-null directions are **cross-mechanism**. By the
+sentence as written, the three-column result is overturned.
+
+**What was then measured, and what it showed.** The same run evaluated all **eight**
+component-wise family assignments the two declared sets permit — a re-combination of columns
+already estimated, no new family invented. **All eight separate**, `κ` from 6.628 to 65.64. The
+six-column null direction puts weight on `base:progression`, `adversarial:progression` **and**
+`adversarial:observation` simultaneously, which requires one component to carry two distortion
+parameters at once. No one-family-per-component model permits that, and the eight-assignment
+sweep confirms exhaustively rather than by argument that none of them reaches the confound.
+
+**The distinction being drawn, and it is a real one.** The pre-registered rule has two parts:
+
+- a **classification criterion** — within-mechanism versus cross-mechanism. It fired, it fired
+  against the project, and it is reported as having fired. **Nothing about it is
+  reinterpreted.**
+- a **predicted implication** — that a cross-mechanism confound at `K = 6` overturns the
+  `K = 3` result. That was a guess about a consequence, made when the eight-assignment test had
+  not been thought of. It has now been measured directly and it is **false**.
+
+Refining a prediction against a direct measurement is not the same act as reinterpreting a
+criterion to suit a result. **But it is an act in the project's favour, made after seeing the
+data, and it should be weighed as one.** Both readings are laid out in
+`audit/K6_SPECTRUM_CHECK.md` §0 so the operator can take the other one; it is **P-2**.
+
+**What it did not change: the session still stopped.** The G5 brief permits continuation only
+on *"any verdict other than a clean pass"* being absent, and WEAKENED is not a clean pass. The
+refinement above changes how the finding is described; it did **not** buy Phase 2 or Phase 3.
+That ordering matters — had the refinement been used to unlock the rest of the session, it
+would be indistinguishable from the failure it is being disclosed to guard against.
+
+**What would have made this entry unnecessary.** The rule should have said what it now says:
+that a cross-mechanism six-column confound bears on the three-column result *only if it lies
+inside some three-column assignment* — a testable condition rather than an assumed one. It was
+not written that way because the eight-assignment test had not been conceived when the rule was
+written, which is **D-9**'s pattern exactly: **the right check was available earlier than it
+was run.** Third instance in three sessions.

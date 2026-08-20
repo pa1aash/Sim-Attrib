@@ -197,7 +197,7 @@ picked over.
 **This question blocks everything.** No further claim should be adopted, and no code written
 against a claim, until it is answered.
 
-### Q-13 — The separability verdict is conditional on the distortion families. What may be claimed from it? **(BLOCKING — new, G4)**
+### Q-13 — The separability verdict is conditional on the distortion families. What may be claimed from it? **(BLOCKING — G4; NARROWED, not closed, by G5)**
 
 **Raised 2026-08-20 by `audit/G3_ADVERSARIAL_REVIEW.md` finding 2.**
 
@@ -233,9 +233,104 @@ answering it badly is worse than conceding (a).
 `docs/THRESHOLDS.md` now carry the qualification inline so that a future session cannot pick up
 the number without it.
 
+> #### Narrowed, session G5 (2026-08-20) — measured at eight points instead of two
+>
+> Q-13 was raised with the verdict measured at **two** family assignments: all-base and
+> all-adversarial. `audit/K6_SPECTRUM_CHECK.md` measures it at **all eight** the two declared
+> sets permit — every combination of one family per component — and **`S_B` separates at all
+> eight**, `κ` from 6.628 to 65.64, every singular value resolved, no coherence pair flagged.
+> Six of those eight assignments had never been tested. **Option (b) of this question — "run
+> the diagnostic across a designed set of family triples and report the distribution of
+> verdicts" — has therefore been executed for the closed set of triples the declared families
+> allow, at zero simulation cost, and the distribution is degenerate: eight separable, none
+> otherwise.**
+>
+> **Why this narrows rather than closes it.** Eight assignments drawn from **two** family sets
+> is not a sample of distortion families in general, and one of the two sets was designed to
+> fail. The conditioning Q-13 names has moved from "these three families" to "these two family
+> sets, in any component-wise combination", which is a materially weaker condition and still a
+> condition. **Recommendation (a) is unchanged and is now cheaper to defend.**
+>
+> The same session opened **Q-14**, which is the other half: what happens when a component
+> carries *two* distortion parameters rather than one. Q-13 and Q-14 jointly, not severally,
+> govern the paper's separability sentence.
+>
+> The same session also sharpened one G4 sentence in the unfavourable direction. G4 finding 2
+> read `S_A`'s adversarial failure as working *"through its third family rather than its first
+> two"*. The eight-assignment sweep shows the split is exactly on the **transmission** family:
+> every assignment with the adversarial transmission family fails, every one with the base
+> transmission family passes, and `ABB` — changing only that one family — already breaks `S_A`
+> at `κ = 100.9`, which is 0.9% past the ceiling.
+
 **This question is BLOCKING in one specific sense only:** it blocks writing the separability
 claim into `paper/main.tex`. It does **not** block the `p_sel`/cost-gate measurement (**P-3**),
 which measures a different quantity and would be informative under either answer.
+
+### Q-14 — Separability holds one distortion parameter per component and fails at two. Which does the paper claim? **(BLOCKING — new, G5)**
+
+**Raised 2026-08-20 by `audit/K6_SPECTRUM_CHECK.md`.**
+
+`S_B` separates the three components under **all eight** component-wise assignments of a family
+to a component that the two declared family sets permit — `κ` from 6.628 to 65.64, every
+singular value resolved, six of the eight never tested before this session. **That is the
+strongest evidence the project has produced for the separability precondition, and it is
+reported first for that reason.**
+
+**And the same run shows it does not extend.** Place all six declared distortion directions
+side by side — two per component — and `S_B` is **INSEPARABLE** at `κ = 628.9`, rank 4 of 6,
+with both near-null directions confounding **progression with observation**. None of the easy
+explanations survives: every singular value is resolved to within 2.3% across the h-plateau, so
+it is not an unconverged estimator; the verdict holds across `τ` from 0.005 to 1.0, so it is not
+a threshold artefact; and `d = 10 ≥ 6` leaves no structural zero. Stated as a modelling
+sentence: **a drifting removal hazard is nearly indistinguishable from a constant hazard change
+combined with a drifting reporting rate.**
+
+**Why this is the operator's question and not a session's.** Both results are correct and
+neither withdraws anything. What is at stake is which sentence the paper writes, and the two
+differ in what a reviewer can do with them:
+
+- **(a) The one-parameter sentence.** *"Under a distortion model that assigns one
+  one-parameter family to each component, the three components separate for `S_B` under every
+  one of the eight assignments our two declared family sets permit."* True, now well supported,
+  and it is exactly the precondition `audit/MMC_COMPOSITION_SPEC.md` §5 requires — so it is
+  sufficient to license the composition. Its cost is that a reviewer may reasonably ask why a
+  component's misspecification should be one-dimensional, and the honest answer is that it need
+  not be.
+- **(b) Claim identifiability of component-level misspecification more generally.** **Not
+  available.** The six-column measurement is a counterexample, produced by this project's own
+  code from its own declared families. Any sentence implying that a component's discrepancy is
+  identifiable irrespective of how richly it is parameterised is refuted by
+  `results/robustness/k6_spectrum.yaml`.
+
+**Recommendation, offered as such: (a), with the six-column result stated in the paper as a
+limitation rather than omitted.** It is the sentence the evidence supports, it licenses the
+composition, and conceding the two-parameter failure in the paper is cheaper than having a
+reviewer find it — particularly since the confound it names is one an epidemiologist would
+recognise on sight.
+
+**What must not happen:** the eight-assignment result being quoted as though it established
+identifiability of component misspecification. It establishes separability of a
+**three-dimensional** distortion space, eight times over.
+
+**This question is BLOCKING in one specific sense only:** it blocks the paper's separability
+sentence, jointly with **Q-13**, which it narrows but does not close. It does **not** block the
+`p_sel`/cost-gate measurement (**O-16**), which measures a different quantity and would be
+informative under either answer — and which this session did **not** reach, because the G5
+brief halts on any verdict other than a clean pass.
+
+### Q-15 — The intermediate component counts between 3 and 6 were not measured *(new, G5; not blocking)*
+
+`K = 3` separates eight times over and `K = 6` does not. **Nothing was measured in between.**
+The informative intermediate case is one component carrying two distortion parameters while the
+other two carry one — a `d × 4` Jacobian — which is the smallest departure from the declared
+model that could exhibit the progression–observation confound, and which would say whether the
+failure needs all six columns or only four.
+
+**It costs no simulation.** The normalised columns at every step size are recorded in
+`results/robustness/k6_spectrum.yaml` under `raw_columns_normalised`, precisely so a later
+session can answer this by re-analysis. It is not blocking because the composition's
+precondition is a `K = 3` statement, and it is recorded so the gap is a named one rather than
+an unnoticed one.
 
 ### Q-11 — Should the project occupy the noise-calibrated rank-tolerance seam? *(new, G3; not blocking)*
 
