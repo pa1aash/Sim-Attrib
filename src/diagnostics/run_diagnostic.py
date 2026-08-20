@@ -32,7 +32,7 @@ import yaml
 
 from ..provenance import header, now_iso
 from ..simulators import sir3
-from ..simulators.sir3 import BASE, COMPONENTS, ETA_SCALE, K, prior_predictive_sd, simulate
+from ..simulators.sir3 import BASE, COMPONENTS, ETA_SCALE, K, prior_predictive_stats
 from ..simulators.summaries import (
     GROWTH_WINDOW,
     N_BINS,
@@ -191,11 +191,10 @@ def main(argv: list[str] | None = None) -> int:
 
     # --- 2. prior-predictive normalisation ----------------------------------------------
     print(f"estimating prior-predictive sd from R_norm={args.norm_replicates} replicates ...")
-    sd_map: dict[str, np.ndarray] = {}
-    mean_map: dict[str, np.ndarray] = {}
-    for name, fn in SUMMARY_SETS.items():
-        m, s = prior_predictive_sd(fn, n_replicates=args.norm_replicates, seed0=seed_norm)
-        sd_map[name], mean_map[name] = s, m
+    stats = prior_predictive_stats(SUMMARY_SETS, n_replicates=args.norm_replicates,
+                                   seed0=seed_norm)
+    sd_map = {name: sd for name, (_m, sd) in stats.items()}
+    mean_map = {name: m for name, (m, _sd) in stats.items()}
 
     # --- 3. the sweep, all summary sets from the same simulator runs ---------------------
     print(f"running h-sweep over {list(H_VALUES)} with R={args.replicates} ...")

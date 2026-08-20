@@ -443,6 +443,39 @@ def prior_predictive_sd(
     return arr.mean(axis=0), arr.std(axis=0, ddof=1)
 
 
+def prior_predictive_stats(
+    summary_fns,
+    *,
+    n_replicates: int,
+    seed0: int,
+    params: SIR3Params = BASE,
+    noise_model: NoiseModel = "lognormal",
+) -> dict[str, tuple[np.ndarray, np.ndarray]]:
+    """:func:`prior_predictive_sd` for several summary maps, sharing the simulator runs.
+
+    Sharing is not only cheaper. It puts every summary set on the SAME undistorted noise
+    realisations, so a difference between two sets' normalisations is a property of the
+    summaries and not of which draws each happened to get.
+
+    Returns ``{name: (mean, sd)}``.
+    """
+    if n_replicates < 2:
+        raise ValueError("need at least 2 replicates for a standard deviation")
+    acc: dict[str, list] = {name: [] for name in summary_fns}
+    for r in range(n_replicates):
+        out = simulate(np.zeros(K), seed=seed0 + r, params=params,
+                       stochastic=True, noise_model=noise_model)
+        for name, fn in summary_fns.items():
+            acc[name].append(fn(out))
+    return {
+        name: (
+            np.asarray(rows, dtype=float).mean(axis=0),
+            np.asarray(rows, dtype=float).std(axis=0, ddof=1),
+        )
+        for name, rows in acc.items()
+    }
+
+
 def with_params(**kwargs) -> SIR3Params:
     """Convenience: a copy of :data:`BASE` with fields overridden."""
     return replace(BASE, **kwargs)
