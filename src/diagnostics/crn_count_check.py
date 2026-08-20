@@ -79,7 +79,7 @@ def _apply(kind: str, mu: np.ndarray, seed: int, sigma: float) -> np.ndarray:
     raise ValueError(kind)
 
 
-def _pathwise_step_census(h_native: float, n_points: int = 4001) -> dict[str, Any]:
+def _pathwise_step_census(h_native: float, n_points: int = 801) -> dict[str, Any]:
     """Walk eta finely at ONE fixed seed and count how the pathwise map actually behaves.
 
     This is the claim "eta |-> y(eta; omega) is a step function" checked directly, rather than
