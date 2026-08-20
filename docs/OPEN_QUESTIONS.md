@@ -352,6 +352,79 @@ session can answer this by re-analysis. It is not blocking because the compositi
 precondition is a `K = 3` statement, and it is recorded so the gap is a named one rather than
 an unnoticed one.
 
+### Q-16 — The rejection sampler does not terminate over the nuisance set. Is the MMC composition the right vehicle at all? **(BLOCKING — new, G6)**
+
+**Raised 2026-08-20 by `results/cost_gate.yaml`, the first measurement this project has taken
+of the composition rather than of its precondition.**
+
+**What was measured.** `p_sel` — *"the probability a null draw lands in the observed selection
+cell"*, `audit/MMC_COMPOSITION_SPEC.md` §4 — by direct Monte Carlo, 3,780,038 null draws,
+under `S_B` with the selection rule of `src/attribution/selection.py`.
+
+- **At the base parameter point the composition is comfortably affordable.** The worst
+  selection cell holds **0.2346** of null draws under the primary assignment `AAA` with the
+  studentised rule (95% CI 0.2320–0.2372), so one MMC test costs **4.2×10⁵ to 4.3×10⁷** draws
+  against the pre-registered gate of 10⁸. **PASS.**
+- **Over the nuisance set it is not affordable at any price.** The specification's own cost
+  model takes the minimum over `θ ∈ Ω₀`, and at a relative half-width of **0.05** — the
+  narrowest box measured — the minimum is **zero acceptances in 100,000 draws**, 95% upper
+  bound 3.84×10⁻⁵. The cost is unbounded, and at least **2.6×10⁹** draws even at the cheapest
+  declared `(M, N)`. **FAIL at every declared corner, under both selection-rule variants, for
+  both family assignments, with the confidence interval deciding it.**
+
+**The mechanism, measured rather than argued.** The selection rule must be a **fixed function
+of the data** — §3.4's lemma needs one event applied to `y_obs` and to every replicate, so a
+`θ`-dependent rule is not available. The nuisance parameters move the normalised summary
+distribution by a **median of 27 and up to 65 standard deviations** at a half-width of 0.05,
+against a single-draw noise magnitude of √10 ≈ 3.16. A `θ`-free rule facing a shift twenty
+times the noise selects one component deterministically, and the observed cell becomes
+unreachable. **That is precisely the case §3.4 singles out: *"If some admissible nuisance
+value makes the observed selection impossible, the rejection sampler never terminates
+there."*** It now has a number.
+
+**Why this is the operator's question and not a session's.** It is not a correctness question
+— nothing in `results/` needs withdrawing, and the separability precondition is untouched. It
+is a question about **what the project's experimental vehicle is**, and there are three
+answers with different costs:
+
+- **(a) Bound `Ω₀` hard enough that the cells stay reachable.** `audit/MMC_COMPOSITION_SPEC.md`
+  §4 point 2 already prices this: bounding `Ω₀` means Dufour's CSEMMC, *"which is
+  **asymptotically** valid — trading away precisely the finite-sample exactness that motivates
+  MMC"*. So this buys termination by giving up the property the composition exists for. **And
+  the width at which termination returns has NOT been measured** — see the note below.
+- **(b) Change `T_k` so the cells stay reachable under nuisance drift.** Not available in the
+  obvious form: any rule whose reference point tracks `θ` is not a fixed function of the data
+  and breaks §3.4's lemma, which is the composition's only theorem. Something cleverer may
+  exist; nobody has proposed it, and inventing one after seeing this measurement would be the
+  leakage failure `LEDGER_DESIGN.md` D3 names.
+- **(c) The diagnostic-only path of `audit/PIVOT.md`.** The rank diagnostic as the
+  contribution, with no attribution experiment and no composition. `docs/DECISIONS.md` D-12
+  records that this path is not foreclosed by having tried Path 1, and that a failed cost gate
+  is exactly the evidence on which it would be chosen deliberately.
+
+**Recommendation, offered as such and not as a decision.** **(c), with this measurement
+reported as a finding rather than as a failure.** It is the first result this project has
+produced about the composition itself rather than about its precondition, it is negative in a
+specific and interpretable way, and a limits paper that says *"here is the identifiability
+condition, here is the diagnostic that checks it, and here is why the obvious exact procedure
+for acting on it does not terminate"* is a stronger paper than one that omits the last
+clause. **(a) is defensible if the operator wants the composition built anyway**, but it must
+be taken with the asymptotic downgrade stated in the abstract, not in a limitations section.
+
+**What this session deliberately did NOT measure, and what it would cost.** The half-widths
+measured were 0.05, 0.10, 0.20 and 0.50, and the collapse is already complete at 0.05 — so the
+**boundary lies below the smallest box measured and its location is unknown**. Locating it
+needs the same script at half-widths of roughly 0.002 to 0.02: about 1.7 million null draws,
+**ten minutes on this machine**, no new code beyond a command-line argument. It was not run
+because the session brief halts the session on a FAIL, and because a check that could only
+soften a verdict, thought of after seeing that verdict, is the pattern `DEVIATIONS.md` D-9 and
+D-13 exist to make visible. **It is the first thing to run if the operator takes option (a),
+and it is cheap.**
+
+**This question is BLOCKING** for any further work on the composition, and for nothing else.
+It does not block the diagnostic-only paper, whose deliverables are substantially discharged
+already (`docs/DECISIONS.md` D-12), and it does not touch Q-13 or D-14.
+
 ### Q-11 — Should the project occupy the noise-calibrated rank-tolerance seam? *(new, G3; not blocking)*
 
 **Raised 2026-08-20 by `audit/R2_THREAT_CHECK.md` §2.**

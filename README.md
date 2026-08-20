@@ -25,6 +25,23 @@ There is **no simulator, no diagnostic, no attribution code, no results, and no
 manuscript**. No number has been computed. Where this repository refers to a method or
 a finding, it refers to something intended, not something demonstrated.
 
+> **Status, session G6 (2026-08-20). The paragraph above was true when it was written in G0
+> and has been false since G3; it is left standing because the layout table below was written
+> with it and the drift is worth seeing.** There is now a simulator
+> (`src/simulators/sir3.py`), 14 diagnostic and reporting modules
+> (`src/diagnostics/`, of which `jacobian_rank.py` is the rank condition itself), a
+> selection rule (`src/attribution/selection.py`), and 26 files of
+> recorded numbers and generated tables (`results/`). There is still **no manuscript**:
+> `paper/` holds the venue template and nothing else.
+>
+> Two findings carry the state of the project. **The separability precondition holds**, for the
+> summary set `S_B` under all eight component-wise distortion-family assignments the declared
+> families permit — inside a scope restricted to one distortion parameter per component
+> (`docs/DECISIONS.md` **D-14**), outside which the project's own measurement is a
+> counterexample. **The cost gate on the composition that precondition was for has failed**, on
+> non-termination rather than on cost (`results/cost_gate.yaml`, `docs/OPEN_QUESTIONS.md`
+> **Q-16**). Start with `audit/S6_REPORT.md`.
+
 ## Layout
 
 | Path | Contents |

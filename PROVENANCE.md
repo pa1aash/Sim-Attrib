@@ -89,6 +89,8 @@ edit to the old one.
 | `src/diagnostics/run_diagnostic.py` | `results/jacobian_rank.{S_A,S_B,S_C}.yaml`, `results/jacobian_rank.S_A.no_crn_control.yaml` |
 | `src/diagnostics/floor_check.py` (via the runner) | `results/floor_check.yaml` |
 | `src/diagnostics/report_tables.py` | `results/SUMMARY_TABLE.md` — **generated**, never hand-edited |
+| `src/diagnostics/p_sel.py` *(G6)* | `results/p_sel.yaml` |
+| `src/diagnostics/cost_gate.py` *(G6)* | `results/cost_gate.yaml`, `results/COST_GATE_TABLE.md` — **generated**, never hand-edited |
 
 `src/provenance.py` builds the header defined above. It is the only place that header's shape
 is defined, so a results file cannot drift from this contract by being written by hand.
@@ -131,6 +133,22 @@ Required by the session G3 brief §2.11.
 | Rank and condition number are invariant to the common `eta_scale`; column norms are not | `tests/test_jacobian_rank.py::test_rank_and_condition_number_are_invariant_to_the_common_eta_scale` |
 | Pre-registered thresholds have not drifted from `docs/THRESHOLDS.md` | `tests/test_jacobian_rank.py::test_pre_registered_thresholds_have_not_drifted` |
 | **The floor check lands near 1/3** | `tests/test_jacobian_rank.py::test_floor_check_lands_near_one_third` |
+
+### The `leakage_checked` attestation, and what session G6 does and does not owe it (2026-08-20)
+
+The attestation above is required *"of any results file produced by an attribution run"*.
+`results/p_sel.yaml` and `results/cost_gate.yaml` are produced by a **selection-rule** run, not
+by an attribution-accuracy run: they report the probability that a null draw lands in a given
+selection cell, and **no accuracy figure is computed anywhere in this session**, so the
+additional requirement above (`K`, `floor`, the as-run uniform attributor) does not attach and
+neither does the leakage attestation as written.
+
+**The underlying guarantee is nevertheless enforced, and by construction rather than by
+attestation.** `src/attribution/selection.py` takes a summary vector and nothing else — there is
+no argument, global, filename or side channel through which the identity of a distorted
+component could reach it — and `tests/test_selection.py` asserts that the rule's answer is a
+function of that vector alone. **When an accuracy figure is first computed, this contract's
+`leakage_checked` field attaches to it and must be a real check, not a literal (O-22).**
 
 ### Not yet satisfied
 

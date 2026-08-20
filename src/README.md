@@ -17,3 +17,9 @@ off-spec.
 `simulators/summaries.py`, `diagnostics/jacobian_rank.py`, `diagnostics/floor_check.py`,
 `diagnostics/run_diagnostic.py`, `diagnostics/report_tables.py`, and `provenance.py`. Tests
 are in `tests/`. `attribution/` is still empty.
+
+**Status, session G6 (2026-08-20):** `attribution/` is no longer empty — it holds
+`selection.py`, the selection rule the composition specification deferred, and nothing else.
+`diagnostics/` has gained `p_sel.py` and `cost_gate.py`. Sessions G4 and G5 added
+`diagnostics/{crn_count_check,threshold_sensitivity,summary_smoothness_check,wide_spectrum_check,run_family_check,report_robustness,k6_spectrum,report_k6}.py`
+and `runlock.py`.

@@ -847,3 +847,129 @@ conditions:  Signed as an accurate record of the session, INCLUDING the "does no
              take that measurement and no more — the composition is not to be built
              until the gate has reported.
 ```
+
+## G6 — Is the composition affordable at all?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-20, session G6. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **The cost gate FAILS, and it fails on non-termination rather than on cost.** `p_sel` — the
+> number three sessions deferred — is measured. `results/cost_gate.yaml`, `results/p_sel.yaml`.
+>
+> **At the base parameter point the composition is comfortably affordable.** The worst
+> selection cell holds **0.2346** of null draws under `S_B` with the primary `AAA` assignment
+> and the studentised rule (95% CI 0.2320–0.2372), so one MMC test costs **4.2×10⁵ to
+> 4.3×10⁷** draws against the pre-registered gate of 10⁸. That is a PASS, and it is the only
+> case that passes.
+>
+> **Over the nuisance set it is not affordable at any price.** The specification's own cost
+> model takes the minimum over `θ ∈ Ω₀`. At a relative half-width of **0.05** — the narrowest
+> box measured — that minimum is **zero acceptances in 100,000 draws**, 95% upper bound
+> 3.84×10⁻⁵, so the cost is unbounded and at least **2.6×10⁹** draws at the cheapest declared
+> `(M, N)`. **FAIL at all four declared corners, under both selection-rule variants, for both
+> family assignments, and `ci_decides_the_gate` is TRUE.**
+>
+> **The mechanism is measured, not argued.** The selection rule must be `θ`-free, because
+> `audit/MMC_COMPOSITION_SPEC.md` §3.4's lemma needs one event applied to the observation and
+> to every replicate. The nuisance parameters shift the normalised summary distribution by a
+> **median of 27 and up to 65 standard deviations** at half-width 0.05, against a single-draw
+> noise magnitude of 3.16. A `θ`-free rule facing a shift twenty times the noise selects one
+> component deterministically. **That is §3.4's own named failure case — the one where the
+> rejection sampler never terminates — and it now has a number.**
+>
+> **This is the first thing this project has measured about the composition rather than about
+> its precondition.** It is also the first partial payment on the older half of **O-17**.
+
+### What G6 was judged against
+
+The criteria were fixed by the session brief before any check ran.
+
+| # | Criterion | Result |
+|---|---|---|
+| **G6.1** | **Was `p_sel` measured, with an uncertainty rather than a point value (S5)?** | **met.** Every cell probability carries a Wilson 95% interval; the gate is evaluated at both ends of it and `ci_decides_the_gate` is reported as a flag. It reads TRUE here — the measurement is precise enough that the verdict does not move within the interval |
+| **G6.2** | **Was the AAA (worst validated) case the headline, rather than a more favourable one?** | **met.** `AAA` is the headline and `BBB` is reported as contrast. Both fail. The one PASS in the whole document — the base-parameter-point floor — is labelled "not the gate" wherever it appears |
+| G6.3 | The pre-registered cost model used exactly, not re-derived | **met** — `M × N / min_θ p_sel` with `M ∈ {10³, 10⁴}` and `N ∈ {99, 999}` taken from `audit/MMC_COMPOSITION_SPEC.md` §4's own table, evaluated at all four corners because the specification gives ranges rather than values |
+| G6.4 | The compute budget located in project records and cited | **met** — the gate's own threshold is 10⁸ draws (§4); the declared budget is `audit/S0_REPORT.md` §7's *"Forward simulation only, ≤10⁷ solves"*. **Both are reported, and the discrepancy is reported rather than reconciled: the gate sits an order of magnitude above the budget it claims to represent** |
+| G6.5 | `results/cost_gate.yaml` written with propagated uncertainty and an exact ratio | **met** — plus `results/COST_GATE_TABLE.md`, generated, so no number in prose is hand-typed (S11) |
+| **G6.6** | **Was the FAIL branch honoured?** | **met.** Phase 3 was not entered: `audit/MMC_COMPOSITION_SPEC.md` is untouched, its superseded 10⁷–10⁹ estimate is left standing and flagged as outstanding rather than quietly corrected, and no composition code exists |
+| G6.7 | The S3 liveness check fixed and verified before launch | **met** — `src/runlock.py` exercised against a real still-running process, a live process with a mismatched module, a killed process and an absent pidfile, in that order, before anything was launched |
+| G6.8 | No tree edit while a run was in flight | **met** — the run was launched from a clean committed tree and recorded `dirty: false`, `dirty_paths: []` |
+| G6.9 | Flags tested against S4 ("under what condition does this read FALSE?") | **met** — every gate flag is shown coming out both ways on either side of its own stated flip point; the three-valued verdict is shown reaching PASS, FAIL and SPLIT; a zero-acceptance point is required to produce an infinite point cost and a finite bound |
+| G6.10 | Departures and defects disclosed rather than silently reinterpreted | **met** — **D-14** (the specification defers `T_k`; this session chose one, and the number is conditional on it) and **D-15** (a flag written this session read FALSE for a reason other than the one it named — D-8's failure mode, one generation later) |
+| G6.11 | The bookkeeping the operator's decisions required | **met** — G5 signed; **D-12** decided as Path 1; **D-14** recorded as DECIDED with the four places the scope obligation lands, including `paper/main.tex` |
+| G6.12 | The test suite still passes | **met** — **140 tests** (109 at the end of G5; 31 added, of which **16** require a check to fail, a bad input to be refused, or a flag to come out both ways) |
+| G6.13 | Scope boundary held | **met** — no MMC composition, no rejection sampler, no maximiser, no `paper/main.tex`. `src/attribution/` contains the selection rule and nothing else |
+| G6.14 | No reference to any authoring agent in commit metadata or file contents | verified before each push |
+
+### What G6 explicitly does not certify
+
+- **That `p_sel` is a property of the composition.** It is a property of the composition **and
+  of the selection rule `T_k`**, which `audit/MMC_COMPOSITION_SPEC.md` §6 left *"not
+  specified"* and which this session had to choose in order to measure anything at all. A
+  different `T_k` gives a different `p_sel` and a different cost. **This number is conditional
+  on `src/attribution/selection.py` in exactly the way G3's separability verdict is conditional
+  on three distortion families.** `DEVIATIONS.md` **D-14**.
+- **That the primary studentisation variant was the neutral choice.** It is the one favourable
+  to the gate, by construction: studentising equalises the cells and the cost is `1/min p_sel`.
+  It was nominated primary before any number existed and for a stated reason, and the
+  unfavourable variant is measured and reported beside it — but a reader weighing this should
+  know the primary was chosen knowing which direction it pointed. **Both variants fail**, which
+  is the only reason the choice is not load-bearing here.
+- **That the nuisance box is `Ω₀`.** `Ω₀` is not specified anywhere in this project. A relative
+  box on the five coordinates §1 names is a stand-in, its half-widths were declared before the
+  run, and the headline width of 0.20 was declared before the run. **A grid understates a
+  minimum**, so the cost reported is a lower bound on what a continuous derivative-free
+  maximiser would pay.
+- **That the boundary has been located.** The collapse is already complete at the narrowest
+  box measured. **Where between `θ_0` and ±5% the cells stop being reachable is unknown**, was
+  not measured, and would cost about ten minutes. **Q-16** says exactly how.
+- **That option (a) of Q-16 has been ruled out.** Bounding `Ω₀` tightly enough may well restore
+  termination. What this session establishes is that it is not free: §4 point 2 prices it as
+  the CSEMMC downgrade from finite-sample to asymptotic validity.
+- **That the composition has been attacked.** It has now been **measured**, which is the first
+  payment on **O-17**'s older half in seven sessions. It has still not been refuted by anyone,
+  and this measurement was taken by the same project, in the same session that wrote the rule
+  it measures.
+- **That the wall-clock translation licenses anything.** This session found that null draws at
+  a fixed `θ` share one deterministic integration, which makes a draw about 0.36 ms rather than
+  the ~0.14 s `GATES.md` G4 recorded — so the gate's own 10⁸-draw threshold is roughly ten
+  core-hours, not thousands. **That does not rescue anything here**: an unreachable cell is not
+  expensive, it is unreachable, and no machine changes that. It is recorded because it changes
+  what a future cost estimate should assume, not what this one concluded.
+- **That this was an independent review.** Same project, same code, same session. Unchanged
+  since G4 and not improved by this session having found something.
+
+### Process caveats — what this session did badly or not at all
+
+- **A flag written this session read FALSE for a reason other than the one it named**, which is
+  the exact defect `DEVIATIONS.md` D-8 records, in the session that had just re-read D-8, D-10
+  and D-13 before writing any code. It was caught only by disbelieving the output. **D-15.**
+- **`T_k` was specified by a session, not by the operator.** It is a real design decision with
+  the cost number hanging off it, taken under time pressure because the measurement was
+  otherwise impossible. **D-14**, and it is the fourth consecutive session in which the right
+  piece of work turned out to have been available earlier than it was done.
+- **`audit/MMC_COMPOSITION_SPEC.md` §4 still carries its superseded 10⁷–10⁹ estimate**, because
+  the brief's FAIL branch forbids Phase 3. A specification containing an estimate that a
+  measurement has superseded is the staleness problem `audit/CLAIM_GRAPH.md` has been flagged
+  for since G2. **O-28.**
+- **The boundary sweep was not run.** Deliberately — see the "does not certify" section — but
+  it means the most actionable follow-up question is left open at a cost of ten minutes.
+- **Google Scholar still not searched.** Seventh session. **O-7.**
+- **`audit/CLAIM_GRAPH.md` still stale.** Sixth session flagged rather than rewritten.
+- **`results/` still carries the vacuous `leakage_checked` literal** in G3's files. **O-22.**
+- **No literature check ran at all**, by scope. The non-termination of a rejection sampler
+  under nuisance drift is not an exotic phenomenon and somebody has very likely written about
+  it; nobody here looked.
+- **The machine was heavily loaded** (load average 40–150 on 8 cores, shared with unrelated
+  work), so the wall-clock figures are upper bounds on this hardware rather than clean timings.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
