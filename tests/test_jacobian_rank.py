@@ -231,3 +231,62 @@ def test_floor_check_is_reproducible():
 
 def test_floor_check_tracks_k():
     assert floor_check(n_draws=20_000, seed=5, k=5)["accuracy_simulated"] == pytest.approx(0.2, abs=0.02)
+
+
+# --------------------------------------------------------------------------------------
+# Leakage: a check that can fail, replacing a hard-coded literal (session G4).
+# --------------------------------------------------------------------------------------
+
+def test_leakage_check_passes_on_the_real_diagnostic(sweeps):
+    """Component-label equivariance holds for every summary set.
+
+    Until G4 this property was recorded in the results files as `leakage_checked: true` and
+    nothing computed it -- a literal, with no condition under which it could have read false.
+    See `audit/G3_ADVERSARIAL_REVIEW.md` finding 5 and `DEVIATIONS.md` D-8 for the defect class.
+    """
+    from src.diagnostics.jacobian_rank import leakage_check
+    for name in SUMMARY_SETS:
+        r = leakage_check(sweeps[name])
+        assert r["passes"], f"{name}: {r['failures']}"
+        assert r["n_permutations_tested"] == 5  # 3! - 1
+
+
+def test_leakage_check_detects_a_component_indexed_analysis(sweeps, monkeypatch):
+    """D-8's rule: run the check once in a state where it must give the opposite answer.
+
+    A check that has only ever been seen passing is indistinguishable from one that cannot
+    fail -- which is precisely what it is replacing. So a deliberately label-dependent
+    analysis is injected here (a tolerance applied to one named column only, the shape a real
+    leak would take) and the check must catch it.
+    """
+    import src.diagnostics.jacobian_rank as jr
+    from src.diagnostics.jacobian_rank import leakage_check
+
+    real_analyse = jr.analyse
+
+    def leaky_analyse(sweep, **kw):
+        out = real_analyse(sweep, **kw)
+        # "Component 2 is the observation component, and we know it is well determined."
+        out["column_norms"] = list(out["column_norms"])
+        out["column_norms"][2] *= 2.0
+        return out
+
+    monkeypatch.setattr(jr, "analyse", leaky_analyse)
+    r = leakage_check(sweeps["S_A"])
+    assert not r["passes"], "the leakage check failed to detect a component-indexed analysis"
+    assert r["worst_discrepancy"]["column_norms"] > 0
+
+
+def test_leakage_check_is_not_vacuous_on_a_synthetic_leak():
+    """The same demonstration without monkeypatching, on a matrix built to break equivariance.
+
+    A Jacobian whose columns are genuinely asymmetric is NOT a leak -- equivariance must still
+    hold for it, and does. What breaks equivariance is component-indexed *analysis*, not an
+    asymmetric matrix, and the two are separated here so the check's meaning is not misread.
+    """
+    from src.diagnostics.jacobian_rank import JacobianSweep, leakage_check
+    J = np.array([[5.0, 0.1, 0.0], [0.0, 3.0, 0.2], [0.1, 0.0, 1.0], [2.0, 0.0, 0.0]])
+    sw = JacobianSweep("synthetic", (1e-1, 1e-2, 1e-3, 1e-4),
+                       tuple(J + 1e-12 * i for i in range(4)),
+                       np.ones(4), 8, 1, True, ETA_SCALE, 0)
+    assert leakage_check(sw)["passes"]

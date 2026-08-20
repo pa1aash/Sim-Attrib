@@ -51,6 +51,7 @@ from .jacobian_rank import (
     VK_MIN,
     analyse,
     estimate_jacobian,
+    leakage_check,
 )
 
 REPO = Path(__file__).resolve().parents[2]
@@ -71,6 +72,14 @@ FRAMING = (
     "worth building at all."
 )
 
+#: NOTE FOR A READER OF results/*.yaml (session G4). Every file currently in `results/` was
+#: written by the PREVIOUS version of this script, which recorded `leakage_checked: true` as a
+#: hard-coded literal -- a field with no condition under which it could read false. The prose
+#: statement it accompanied is sound and is unchanged below; what was missing was any check.
+#: `jacobian_rank.leakage_check` is that check, and this script now runs and records it. The
+#: existing results files were NOT regenerated, because re-running the diagnostic to change a
+#: metadata field would overwrite the numbers session G3 recorded. They therefore carry the
+#: literal, and `audit/G3_ADVERSARIAL_REVIEW.md` finding 5 says so.
 LEAKAGE_STATEMENT = (
     "The diagnostic never receives a component index, a ground-truth label, or any "
     "indication of which component is responsible for anything. Its whole input is the "
@@ -260,7 +269,7 @@ def main(argv: list[str] | None = None) -> int:
                 },
             },
             "results": a,
-            "leakage_checked": True,
+            "leakage_check": leakage_check(sweeps[name]),
             "leakage_how": LEAKAGE_STATEMENT,
         })
 
@@ -288,7 +297,7 @@ def main(argv: list[str] | None = None) -> int:
         "summary_set": "S_A",
         "common_random_numbers": False,
         "results": ctrl,
-        "leakage_checked": True,
+        "leakage_check": leakage_check(ctrl_sweeps["S_A"]),
         "leakage_how": LEAKAGE_STATEMENT,
     })
 

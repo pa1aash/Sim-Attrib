@@ -53,6 +53,7 @@ from .jacobian_rank import (
     VK_MIN,
     analyse,
     estimate_jacobian,
+    leakage_check,
 )
 
 REPO = Path(__file__).resolve().parents[2]
@@ -175,6 +176,7 @@ def main(argv: list[str] | None = None) -> int:
                 "plateau_rel_tol": PLATEAU_REL_TOL,
             },
             "results": a,
+            "leakage_check": leakage_check(sweeps[name]),
         }
         if args.families == "adversarial":
             doc["adversarial_intent"] = ADVERSARIAL_INTENT

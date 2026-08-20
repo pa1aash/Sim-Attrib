@@ -29,8 +29,22 @@ which component is "really" responsible for anything. Its entire input is (i) th
 as a callable, (ii) the distortion basis -- that is, the fact that there are K
 one-parameter families and that perturbing family k means setting eta_k -- and (iii) the
 resulting summary vectors. It computes a property of the map, not a guess about a hidden
-truth, so there is no hidden truth available to leak. Every results file records
-``leakage_checked: true`` together with that statement.
+truth, so there is no hidden truth available to leak.
+
+**Until session G4 that argument was recorded in every results file as
+``leakage_checked: true``, and nothing computed it.** It was a hard-coded literal: there was
+no condition under which the field could have read ``false``, which is the defect class
+``DEVIATIONS.md`` D-8 exists to name. The argument above was and is sound; the field claiming
+it had been checked was not a check.
+
+:func:`leakage_check` replaces it with one that can fail. The testable content of the claim is
+**equivariance under relabelling the components**: if the diagnostic really treats the K
+columns symmetrically and holds no privileged knowledge about which is which, then permuting
+the columns must leave the singular values, the numerical rank and the condition number
+unchanged, and must permute the column norms, the coherence matrix and the right singular
+vectors correspondingly. Any component-indexed special case -- a threshold applied to one
+column, an assumption that column 2 is the observation component -- breaks that and is caught.
+It is a necessary condition rather than a proof of no leakage, and it is stated as one.
 
 THE ESTIMATOR
 -------------
@@ -86,6 +100,7 @@ import numpy as np
 from ..simulators.sir3 import BASE, ETA_SCALE, K, SIR3Params, NoiseModel, simulate
 
 __all__ = [
+    "leakage_check",
     "TAU",
     "KAPPA_MAX",
     "COLNORM_INVISIBLE",
@@ -468,4 +483,108 @@ def analyse(
             if kappa > kappa_max
             else "separable: full column rank at tau and condition number within ceiling"
         ),
+    }
+
+
+def leakage_check(
+    sweep: JacobianSweep,
+    *,
+    tol: float = 1e-10,
+    **analyse_kwargs: Any,
+) -> dict[str, Any]:
+    """Test the leakage claim by relabelling the components, instead of asserting it.
+
+    Runs :func:`analyse` on the sweep and on every non-identity permutation of its columns,
+    and requires that
+
+      * the singular values, the numerical rank and the condition number are UNCHANGED;
+      * the column norms and the pairwise coherence matrix PERMUTE with the labels;
+      * each near-null right singular vector permutes with them too, up to sign, which the SVD
+        does not fix.
+
+    Under what condition does this read ``false``? Any component-indexed behaviour anywhere in
+    the analysis path: a per-column threshold, a hard-coded "column 2 is the observation
+    component", an ordering assumption in the equivalence-class rule. The check is run against
+    a deliberately label-dependent analysis in ``tests/test_jacobian_rank.py`` to confirm it
+    detects one, per D-8's rule that a check should be seen giving the opposite answer.
+
+    **What it does not establish.** Equivariance is necessary, not sufficient: a leak that
+    treated all components symmetrically would survive it. The prose claim above is the
+    argument; this is the part of it that is mechanically checkable.
+    """
+    from itertools import permutations
+
+    base = analyse(sweep, **analyse_kwargs)
+    kk = base["dimensions"]["K"]
+    worst: dict[str, float] = {"singular_values": 0.0, "condition_number": 0.0,
+                               "column_norms": 0.0, "coherence": 0.0,
+                               "near_null_vectors": 0.0}
+    failures: list[dict[str, Any]] = []
+
+    for perm in permutations(range(kk)):
+        if perm == tuple(range(kk)):
+            continue
+        permuted = JacobianSweep(
+            summary_set=sweep.summary_set,
+            h_values=sweep.h_values,
+            jacobians=tuple(J[:, list(perm)] for J in sweep.jacobians),
+            sd=sweep.sd,
+            n_replicates=sweep.n_replicates,
+            seed0=sweep.seed0,
+            crn=sweep.crn,
+            eta_scale=sweep.eta_scale,
+            n_simulations=sweep.n_simulations,
+        )
+        other = analyse(permuted, **analyse_kwargs)
+
+        d_sv = float(np.max(np.abs(np.asarray(other["singular_values_at_representative_h"])
+                                   - np.asarray(base["singular_values_at_representative_h"]))))
+        b_k, o_k = base["condition_number"], other["condition_number"]
+        d_k = 0.0 if (b_k == o_k) else float(abs(o_k - b_k))
+        d_cn = float(np.max(np.abs(np.asarray(other["column_norms"])
+                                   - np.asarray(base["column_norms"])[list(perm)])))
+        d_co = float(np.max(np.abs(np.asarray(other["pairwise_coherence"])
+                                   - np.asarray(base["pairwise_coherence"])[np.ix_(list(perm), list(perm))])))
+
+        d_nn = 0.0
+        if len(other["near_null_directions"]) != len(base["near_null_directions"]):
+            d_nn = float("inf")
+        else:
+            for nb, no in zip(base["near_null_directions"], other["near_null_directions"]):
+                vb = np.asarray(nb["right_singular_vector_at_representative_h"])[list(perm)]
+                vo = np.asarray(no["right_singular_vector_at_representative_h"])
+                d_nn = max(d_nn, float(min(np.max(np.abs(vo - vb)), np.max(np.abs(vo + vb)))))
+
+        worst["singular_values"] = max(worst["singular_values"], d_sv)
+        worst["condition_number"] = max(worst["condition_number"], d_k)
+        worst["column_norms"] = max(worst["column_norms"], d_cn)
+        worst["coherence"] = max(worst["coherence"], d_co)
+        worst["near_null_vectors"] = max(worst["near_null_vectors"], d_nn)
+
+        same_rank = (other["numerical_rank"]["rank_certain"] == base["numerical_rank"]["rank_certain"]
+                     and other["numerical_rank"]["rank_possible"] == base["numerical_rank"]["rank_possible"])
+        if not same_rank or max(d_sv, d_k, d_cn, d_co, d_nn) > tol:
+            failures.append({"permutation": list(perm), "rank_unchanged": bool(same_rank),
+                             "max_singular_value_change": d_sv, "condition_number_change": d_k,
+                             "max_column_norm_mismatch": d_cn, "max_coherence_mismatch": d_co,
+                             "max_near_null_vector_mismatch": d_nn})
+
+    return {
+        "what_is_checked": (
+            "component-label equivariance: permuting the K columns must leave the singular "
+            "values, the numerical rank and the condition number unchanged, and must permute "
+            "the column norms, the coherence matrix and the near-null right singular vectors "
+            "(up to sign) correspondingly"
+        ),
+        "why_this_is_the_testable_content_of_the_leakage_claim": (
+            "the diagnostic is given no component index and no ground-truth label, so it must "
+            "treat the K columns symmetrically. Any component-indexed special case breaks "
+            "equivariance and is caught here. Necessary, not sufficient: a leak that treated "
+            "all components symmetrically would survive this."
+        ),
+        "n_permutations_tested": int(len(list(permutations(range(kk)))) - 1),
+        "tolerance": float(tol),
+        "worst_discrepancy": worst,
+        "failures": failures,
+        "passes": bool(not failures),
     }
