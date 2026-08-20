@@ -40,7 +40,7 @@ size, including the two that are favourable to the project (`S_B`'s survival, an
 reported numbers turning out uncontaminated) — S10 cuts both ways and a critic pass that only
 reported bad news would be as unreliable as one that reported none.
 
-## The four findings, and one that was not asked for
+## The six findings — four the brief named, two it did not
 
 | # | What was attacked | Verdict against G3 |
 |---|---|---|
@@ -573,8 +573,17 @@ being smooth.** Count output is the textbook case where that condition fails.
 > > the interchange of differentiation and integration is not applicable, such as when there are
 > > **discontinuities in the cost function**."*
 
-Full-text hit counts on the corrected instrument, control re-validated in the same batch
-(`"expected number of draws required to obtain one acceptable"` → **1**, arXiv:2405.07026):
+**Instrument validation, in both directions, per S4.** The positive control
+(`"expected number of draws required to obtain one acceptable"`) was run **before** the batch and
+again **after** it, returning exactly **1** — arXiv:2405.07026 — both times. It was also run
+against a **negative** control, a nonsense phrase, which returned **0 through the verified
+empty-page path**: the parser matched arXiv's literal `No Results` text rather than defaulting an
+unrecognised response to zero. That is the defect G3 caught in its own batch script, and the
+detector has now been seen giving **both** answers correctly rather than only the convenient one
+— the same D-8 discipline this review applies to everything else. A response the parser cannot
+read returns `PARSE_FAIL`, never `0`.
+
+Full-text hit counts on the corrected instrument:
 `"infinitesimal perturbation analysis" "sample path" discontinuous unbiased` → **29**;
 `"smoothed perturbation analysis" discontinuous sample path` → **10**;
 `"common random numbers" "finite difference" discrete-event derivative estimator discontinuous`
