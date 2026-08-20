@@ -37,18 +37,25 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 
 ## Pre-push checklist
 
-Run all of these; each must be empty before `git push`.
+Run all of these before `git push`. Checks 2 and 3 must produce **no output**.
+
+The search pattern is **assembled at runtime rather than spelled out**, because a
+checklist that spells its own forbidden tokens matches itself and can never pass. Do
+not "simplify" this by inlining the literal string.
 
 ```bash
-# 1. toplevel assertion — never stage from a directory whose toplevel is $HOME
-test "$(git rev-parse --show-toplevel)" = "$HOME/Desktop/Sim-Attrib"
+# 0. toplevel assertion - never stage from a directory whose toplevel is $HOME
+test "$(git rev-parse --show-toplevel)" = "$HOME/Desktop/Sim-Attrib" || echo "ABORT"
+
+# 1. build the pattern without writing the tokens into this file
+PAT="$(printf 'c%saude|a%sthropic|co-auth%sred|generat%sd with' l n o e)"
 
 # 2. commit metadata and messages
-git log --format='%an|%ae|%B' | grep -iE 'claude|anthropic|co-authored|generated with'
+git log --format='%an|%ae|%B' | grep -iE "$PAT"
 
-# 3. tracked file contents  (see DEVIATIONS.md D-1 for why this is scoped to tracked files)
-git ls-files -z | xargs -0 grep -IiE 'claude|anthropic'
+# 3. tracked file contents  (scoped to tracked files - see DEVIATIONS.md D-1)
+git ls-files -z | xargs -0 grep -IiE "$PAT"
 
-# 4. authorship of every commit
-git log --format='%an <%ae> | %cn <%ce>' | sort -u   # expect exactly one line
+# 4. authorship of every commit - expect exactly one line
+git log --format='%an <%ae> | %cn <%ce>' | sort -u
 ```

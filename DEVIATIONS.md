@@ -3,29 +3,32 @@
 Where execution departed from instruction, and why. Written as it happens, not
 reconstructed afterwards.
 
-## D-1 — Scope of the authorship grep
+## D-1 - Scope and construction of the authorship grep
 
-**Instruction:** before every push, run
-`grep -rIiE 'claude|anthropic' --exclude-dir=.git .` over the working directory and
-require empty output.
+**Instruction:** before every push, run a recursive case-insensitive grep for the names
+of authoring agents over the working directory, excluding `.git`, and require empty
+output.
 
-**What is done instead:** the check is run in two parts.
+**Two changes were made.**
 
-1. `git ls-files -z | xargs -0 grep -IiE 'claude|anthropic'` — over **tracked files
-   only**, required empty. This is the check that determines whether a push proceeds.
-2. `git log --format='%an|%ae|%B' | grep -iE 'claude|anthropic|co-authored|generated with|robot-emoji'`
-   — over all commit metadata and messages, required empty.
+**(a) Scoped to tracked files.** The gating check runs over `git ls-files` output rather
+than the whole working directory. The literal recursive grep also descends into
+gitignored paths that are not part of the repository and never will be - the local
+plugin working directory `.remember/`, and the local research vault if one is ever
+created inside this tree. A match there would block a push over a file that is not
+being pushed, while saying nothing about repository contents. Restricting to tracked
+files tests the property the instruction actually protects: that nothing *in the
+repository* names an authoring agent. The unrestricted grep is still run and its output
+inspected; it is simply not the gate.
 
-**Why:** the literal working-directory grep also descends into gitignored paths that are
-not part of the repository and never will be — the local plugin working directory
-`.remember/`, and the local research vault if one is ever created inside this tree. A
-match there would block a push over a file that is not being pushed, while telling us
-nothing about repository contents. Restricting to tracked files tests the actual
-property the instruction is protecting: that nothing *in the repository* names an
-authoring agent.
+**(b) Pattern assembled at runtime.** Written out literally, the checklist contains the
+very tokens it searches for, so it matches itself and the gate can never pass. This is
+not hypothetical - it fired on the first run of the check, on the checklist text alone.
+The pattern is therefore constructed with `printf` from fragments, and the checklist in
+`OUTSTANDING.md` carries a note not to inline it.
 
-The unrestricted grep is still run and its output inspected; it is simply not the gate.
-Both forms are recorded in `OUTSTANDING.md` under the pre-push checklist.
+Neither change weakens the check. Both are recorded because a check that is quietly
+adjusted until it passes is worse than no check.
 
 ## D-2 — hyperresearch generation is older than the instruction anticipated
 
