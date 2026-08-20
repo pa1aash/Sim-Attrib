@@ -16,21 +16,22 @@
 > — everything here is non-archival, so a later venue costs nothing. **Operator decision:
 > Q-1 in `docs/OPEN_QUESTIONS.md`.**
 
-> ## ⚠️ THIS REPOSITORY IS PUBLIC
+> ## ⚠️ REPOSITORY VISIBILITY — PUBLIC DURING BUILD, PRIVATE BEFORE THE PAPER
 >
-> **It must be switched to private at <https://github.com/pa1aash/Sim-Attrib/settings>
-> before any unpublished result, draft manuscript, or novel technical claim is
-> committed.**
+> Repository is intentionally PUBLIC during the build phase. MUST be switched to
+> PRIVATE at <https://github.com/pa1aash/Sim-Attrib/settings> before the paper draft or
+> final results are committed, ahead of Sim2Science submission (double-blind).
+> Operator decision, 2026-08-20.
 >
-> What has been pushed so far is a planning document and scaffolding, which is why the
-> push proceeded. The moment `src/`, `results/`, or `paper/` stops being empty, this is
-> a public preprint of unreviewed work under a double-blind submission plan.
+> This banner stays at the top of this file for the rest of the project's life until it
+> is resolved. It is not a blocker on committing code this session — the operator has
+> considered the trade-off and accepted it — but it becomes one the moment `paper/`
+> gains a draft or `results/` gains a final number.
 >
-> This was not verified from the machine: `gh` is not authenticated here
-> (`gh auth login` has not been run), so `gh repo view` could not report visibility.
-> The status above is carried from the operator's own statement of it. Confirm it
-> directly. Visibility is not changed by this session by design — it is the operator's
-> action.
+> Not verifiable from this machine: `gh` is not authenticated here (`gh auth status`
+> reports "You are not logged into any GitHub hosts", re-checked 2026-08-20), so
+> `gh repo view` cannot report current visibility. The status above is carried from the
+> operator's own statement of it. See O-4.
 
 Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent session.
 
@@ -38,7 +39,7 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 
 | # | Action | Owner | Notes |
 |---|---|---|---|
-| O-1 | Switch repository visibility public → private | OPERATOR | See banner. Blocks all Phase-2 commits. |
+| O-1 | Switch repository visibility public → private | OPERATOR | See banner. **Rescoped 2026-08-20:** no longer blocks code commits — operator decided the repo stays public through the build phase. Becomes blocking the moment `paper/` gains a draft or `results/` gains a final number. |
 | O-2 | Sign or reject gate G0 after reading `audit/S0_REPORT.md` | OPERATOR | `GATES.md` is `ready for review — UNSIGNED`. |
 | O-3 | Select a venue once the conditional recommendation in `audit/VENUE.md` is read | OPERATOR | Determines page limit and template, which determine how much of the work is presentable. |
 
