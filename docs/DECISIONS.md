@@ -160,6 +160,65 @@ carries the reminder until it is resolved.
 
 ---
 
+## D-6 — R2 is cited infrastructure, not a claimed method contribution.
+
+**Date:** 2026-08-20 · **Recorded by session G3, executing the operator's Q-10 decision**
+· **Evidence:** `audit/R2_THREAT_CHECK.md`, verdict **NARROW-CONDITIONAL**
+
+> **On the numbering.** **There is no D-5.** It was named in G2's brief as that session's
+> addition and never written, because it was a Phase-3 artefact and G2 stopped at Phase 1
+> (`DEVIATIONS.md` D-7 records this). The gap is left rather than closed by renumbering, so
+> that a reader who finds D-5 referenced in G2's brief can see what happened to it.
+
+**Decision.** The noisy-rank diagnostic (**R2**) is carried in the eventual paper as
+**infrastructure that is cited and used**, not as a claimed method contribution. Concretely:
+the paper may say *"we compute the summary Jacobian by central differences and call its
+numerical rank at a pre-registered tolerance, following [Cintrón-Arias et al. 2009] for the
+rank-and-condition-number screen and [Moré & Wild 2012] for finite differencing under
+simulation noise"*. It may **not** say that either the estimator or the rank rule is new.
+
+**Rationale — the operator pre-specified this branch, and the check landed on it.** The Q-10
+decision recorded in G3's brief was: run one narrow corrected-instrument check on R2, then
+build the diagnostic regardless of the outcome, with the outcome determining only *how R2 is
+framed*. The check returned **NARROW-CONDITIONAL**:
+
+- the rank + condition-number screen on a sensitivity matrix is **Cintrón-Arias, Banks,
+  Capaldi & Lloyd (2009)**, 122 citations, worked on an **epidemic model**;
+- finite differencing under simulation noise is **Moré & Wild (2010/2012)**, with a *"provably
+  near-optimal"* difference parameter — a stronger result than R2's h-sweep;
+- the only unoccupied seam is that nobody carries the estimated noise level forward into the
+  **rank tolerance** (four full-text zeros, live control). That seam is one sentence wide, and
+  `docs/THRESHOLDS.md` does not in fact occupy it — it derives `τ = 10⁻²` from a **compute
+  budget**, not from a noise level.
+
+**What it forecloses.** "We contribute a simulation-based rank estimator" and "we contribute a
+rule for calling numerical rank under noise" are both unavailable as contributions and must
+not reappear as such — the same way ex-C2's identifiability characterisation became a cited
+precondition under **D-3**. Any future session that wants to claim the noise-calibrated
+tolerance seam must **first** either re-derive `τ` from a noise level, with a `DEVIATIONS.md`
+entry stating that the numeric threshold changed and why the change is not motivated by a
+result, or state plainly in the paper that the project named the gap and did not fill it.
+
+**What it does NOT foreclose.** R2's *empirical output* — whether a standard 3-component SIR
+simulator passes its own rank condition, and under which summary set — is untouched by this.
+That is a finding about this simulator, not a claim about method, and its value does not
+depend on any novelty verdict. It is what Phase 2 produces.
+
+**What it does not settle.** **R2a** — whether an h-plateau exists at all for this simulator.
+If it does not, no rank call is defensible and the diagnostic is uninterpretable regardless of
+framing. That is an empirical question, answered by the run and not by the literature. A
+second, sharper threat is recorded in `audit/R2_THREAT_CHECK.md` §1.3: the sloppy-models
+literature (Gutenkunst et al. 2007, 1,152 citations) finds these spectra **gapless**, and a
+gapless spectrum makes any rank threshold a statement about the analyst rather than the model.
+`docs/THRESHOLDS.md` §1.4's unresolved-singular-value rule is the pre-registered place where
+that would surface.
+
+**Executed 2026-08-20, session G3.** The diagnostic was built and run; see `results/`.
+Docstrings and results-file descriptive fields describe R2 in these terms and not in the
+terms of `PLAN_SOURCE.md`, G0's C1/C2, or G1's R1 (brief §2.10).
+
+---
+
 ## Not decisions — still open
 
 `Q-3` (reciprocal reviewer), `Q-6` (multi-component scope), and `Q-7` (citation-error
