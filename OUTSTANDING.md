@@ -1,21 +1,5 @@
 # Outstanding actions
 
-> ## ⏰ NINE DAYS TO THE NEURIPS 2026 DEADLINE
->
-> **29 August 2026, 23:59 AoE.** Verified against the venue's own CFP and the OpenReview
-> API (`duedate` 2026-08-30 11:59 UTC). Notification 29 September, and NeurIPS's own
-> guidance says that date **"cannot be extended under any circumstances."**
->
-> All four candidate venues share the same deadline, so **missing it closes NeurIPS 2026
-> entirely** — there is no sequential fallback. See `audit/VENUE.md`.
->
-> Against that: `src/` and `results/` are empty, and the plan's own effort estimate is
-> 2–3 weeks. The full 5-page paper as designed cannot be built, run, and written in nine
-> days. The honest options are the **2-page Tiny Paper track** at Sim2Science carrying
-> the identifiability result plus the rank diagnostic, or **skipping NeurIPS 2026**
-> — everything here is non-archival, so a later venue costs nothing. **Operator decision:
-> Q-1 in `docs/OPEN_QUESTIONS.md`.**
-
 > ## ⚠️ REPOSITORY VISIBILITY — PUBLIC DURING BUILD, PRIVATE BEFORE THE PAPER
 >
 > Repository is intentionally PUBLIC during the build phase. MUST be switched to
@@ -41,14 +25,14 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 |---|---|---|---|
 | O-1 | Switch repository visibility public → private | OPERATOR | See banner. **Rescoped 2026-08-20:** no longer blocks code commits — operator decided the repo stays public through the build phase. Becomes blocking the moment `paper/` gains a draft or `results/` gains a final number. |
 | O-2 | Sign or reject gate G0 after reading `audit/S0_REPORT.md` | OPERATOR | `GATES.md` is `ready for review — UNSIGNED`. |
-| O-3 | Select a venue once the conditional recommendation in `audit/VENUE.md` is read | OPERATOR | Determines page limit and template, which determine how much of the work is presentable. |
+| ~~O-3~~ | ~~Select a venue~~ | — | **CLOSED 2026-08-20.** Sim2Science, 5-page main track. `docs/DECISIONS.md` D-2. |
 
 ## Non-blocking — carry forward
 
 | # | Action | Owner | Notes |
 |---|---|---|---|
 | O-4 | Authenticate `gh` (`gh auth login`) | OPERATOR | Without it, repository state cannot be verified from this machine and workshop OpenReview pages cannot be queried through the API. |
-| O-5 | Obtain the venue's LaTeX template from the venue itself, once O-3 is settled | agent | Fetched, never reconstructed. Until then `paper/` stays empty. |
+| ~~O-5~~ | ~~Obtain the venue's LaTeX template~~ | — | **CLOSED 2026-08-20.** Fetched unmodified to `paper/neurips_2026_template/`; SHA-256 recorded in `docs/DECISIONS.md` D-2. |
 | O-6 | Retrieve the four paywalled statistics references, or record final failure | agent | Tracked individually in `audit/LEDGER_CITATIONS.md`. A preprint is not a substitute for the version of record when a specific theorem is being attributed. |
 | O-7 | Re-run the prior-art sweep against OpenReview and Google Scholar before submission | agent | The originating plan's sweep covered neither. |
 

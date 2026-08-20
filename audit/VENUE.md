@@ -7,30 +7,20 @@ names the URL that was tried.
 
 ---
 
-## ⚠️ THE FINDING THAT DOMINATES EVERY OTHER
+## Reference facts — NeurIPS 2026 dates and structure
 
-**The NeurIPS 2026 workshop list is public — announced 2026-08-10 — and the submission
-deadline is 29 August 2026 AoE. That is nine days from today.**
+Per `docs/DECISIONS.md` **D-1**, calendar feasibility is not a planning input for this
+project. These are retained as reference facts only. **Do not reintroduce countdown or
+urgency framing anywhere in this repository.**
 
-Source: <https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/> —
-*"Several workshops have begun soliciting submissions, many using our suggested submission
-date of Aug 29, 2026."*
-
-The notification date is a hard wall: NeurIPS's own workshop guidance states the
-**"Mandatory Accept/Reject Notification Date: September 29, 2026, AoE"** and that it
-**"cannot be extended under any circumstances"**
-(<https://neurips.cc/Conferences/2026/WorkshopsGuidance>).
-
-**What this means, stated plainly.** This repository contains no simulator, no diagnostic,
-no results, and no manuscript. The plan's own effort estimate is 2–3 weeks. Nine days is
-not enough to build the diagnostic, run a ≥200-replicate collinearity sweep, and write
-five pages — and the four venues share the same deadline, so there is no sequential
-fallback: missing 29 August closes all of NeurIPS 2026, not one workshop.
-
-This is an operator decision, not an agent one, and it is logged as **O-3** in
-`OUTSTANDING.md` and as **Q-1** in `docs/OPEN_QUESTIONS.md`. The realistic options are a
-2-page Tiny Paper at Sim2Science carrying C2's limits result plus the rank diagnostic; or
-skipping NeurIPS 2026 and targeting a later venue with the full paper.
+| Fact | Value | Source |
+|---|---|---|
+| Workshop submission deadline | **29 August 2026, 23:59 AoE** | <https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/>; Sim2Science CFP; OpenReview API `duedate` 2026-08-30 11:59 UTC |
+| Accept/reject notification | **29 September 2026 AoE** | <https://neurips.cc/Conferences/2026/WorkshopsGuidance> |
+| Is the notification date extendable? | **No.** NeurIPS states it "cannot be extended under any circumstances" | as above |
+| Workshop list announced | 2026-08-10 | blog post above |
+| Shared across candidates | All four candidate venues use the same 29 August date | per-venue sections below |
+| Archival status | **All NeurIPS 2026 workshop papers are non-archival** and do not appear in proceedings | <https://neurips.cc/Conferences/2026/WorkshopsGuidance> |
 
 ### NeurIPS 2026 is three-site — the plan's "Paris" is half right
 
@@ -207,53 +197,60 @@ imperfect simulators"*, so the hook exists, but it is a reframing rather than a 
 
 ---
 
-## 5. Conditional recommendation
+## 5. DECIDED — Sim2Science, 5-page main track
 
-Per instruction, this is **conditional on the novelty verdicts and does not commit to a
-venue.** Venue choice is the operator's (P-3 / O-3).
+**This section recorded a conditional recommendation. As of 2026-08-20 it records a
+decision.** See `docs/DECISIONS.md` **D-2**, which is the authoritative entry; this
+section carries the venue-side evidence for it.
 
-### If C1 survives — selection/error-control framing intact
+| Field | Committed value |
+|---|---|
+| Venue | **Sim2Science: ML with Imperfect Scientific Models**, NeurIPS 2026, Paris satellite |
+| Track | **5-page main track** — *not* the 2-page Tiny Paper track |
+| Template | NeurIPS 2026, `\usepackage[dblblindworkshop]{neurips_2026}`, `\workshoptitle{Sim2Science}` |
+| Template location | `paper/neurips_2026_template/` — fetched unmodified; SHA-256 in `docs/DECISIONS.md` D-2 |
+| Blinding | Double-blind. Verified by reading `neurips_2026.sty`: `dblblindworkshop` leaves `\@anonymous` at its default `true`, where `sglblindworkshop` sets `\@anonymousfalse` |
 
-Then the paper has two separable contributions and the venues split:
+**Why the main track and not Tiny Papers.** G0 recommended the 2-page track, and that
+recommendation had exactly one load-bearing premise: that C2 — the identifiability
+result — would be the headline, and two pages is enough to state a boundary condition and
+show a diagnostic. That premise died in the same session it was written. C2 is
+**Kahl, Wendland, Neidhardt, Weber & Kschischo (2019)**, *Physical Review X* 9:041046,
+resting on **Sain & Massey (1969)**. A two-page paper whose headline is a published PRX
+result, submitted to a workshop advised by **Jakob Macke**, is a paper that gets read by
+someone who already knows the result.
 
-- **Sim2Science remains the better home even so.** The e-values venue would fit the
-  *machinery*, but its scope has no simulator or misspecification language at all, so the
-  motivating problem would have to be re-explained from scratch inside 4 pages to an
-  audience that does not have it. Sim2Science already names both halves of the paper —
-  "simulator diagnostics and discrepancy modeling" **and** "degeneracy … and
-  identifiability" — and gives 5 pages rather than 4.
-- **E-values becomes the right venue only if the contribution is genuinely the selection
-  procedure** — a valid e-value construction for simulator-calibrated tests with control
-  over the selected component. That is a real paper, but it is a *different* paper from
-  the one the plan describes, and it would be read by Grünwald and Ramdas.
-- **Concurrent submission to both is discouraged by Sim2Science**, so this is a choice,
-  not a hedge.
+The reframed contribution (`docs/DECISIONS.md` D-3) needs room the Tiny track does not
+have: a mechanism claim, a precondition it depends on, a noisy-rank estimator, and a
+demonstration. Five pages is the smallest honest container for that.
 
-### If C1 dies and C2 carries the paper
+**The other two Paris venues are now out.** E-values fits the *machinery* but its scope
+contains no simulator, misspecification, or discrepancy language, so the motivating
+problem would need re-explaining from scratch inside four pages to Grünwald and Ramdas.
+Representations for the Physical Sciences is self-described as "tightly scoped" to
+self-supervision, transfer, sampling, and tokenization, and does not fit. Sim2Science
+discourages parallel submission to other NeurIPS 2026 workshops, so this is a choice and
+not a hedge.
 
-- **Sim2Science is the only home of the three.** The e-values hook disappears entirely
-  with the selection machinery, and RPS's scope never covered this. This confirms the
-  expectation recorded in `PIVOT.md`.
-- And it is a **good** home: the CFP's *"Analysis of simulator structure, degeneracy,
-  simplifications, and identifiability"* bullet is a direct solicitation of exactly the
-  pivoted paper.
+**What the decision commits us to** — all four are now obligations, not contingencies:
 
-### Independent of either verdict — the format recommendation
+1. **Mandatory reciprocal review.** A named co-author nominated at submission, assigned
+   **2** papers. Failure to review is grounds for desk-rejecting our own submission.
+   **Who this is remains open — Q-3.**
+2. **The NeurIPS reproducibility checklist**, required here and waived at the other three.
+   `paper/neurips_2026_template/checklist.tex` is the fetched source.
+3. **In-person attendance in Paris**, mandatory for accepted papers; "We cannot
+   accommodate remote presentations."
+4. **Double-blind anonymisation**, with the repository-visibility consequence recorded as
+   `docs/DECISIONS.md` D-4.
 
-Given nine days and an empty `src/`, the **2-page Tiny Paper track at Sim2Science** is the
-only format the current state of the work can honestly fill. It fits what actually exists
-or is nearest to existing: the identifiability statement and the rank diagnostic, with the
-diagnostic run on a 3-component SIR simulator. It does not require the collinearity sweep,
-the baselines, or the ≥200-replicate protocol — none of which can be built, run, and
-written up in nine days.
-
-**The alternative worth putting to the operator explicitly is skipping NeurIPS 2026.**
-The work is non-archival either way, so nothing is lost by submitting later to a venue
-where the full paper can be presented. Rushing a 5-page submission built on numbers
-produced in nine days risks exactly the failure `LEDGER_DESIGN.md` D3 warns about: a
-leakage or floor-reporting error that is invisible in the abstract and fatal in review.
-
----
+**Scope fit, for the record.** The CFP's bullet 2 —
+*"Understanding and mitigating model misspecification, including simulator diagnostics and
+discrepancy modeling"* — covers the demonstration; bullet 4 —
+*"Analysis of simulator structure, degeneracy, simplifications, and identifiability"* —
+covers the precondition. Neither bullet covers the mechanism claim (R1) directly, which
+is worth knowing: the paper's actual headline is the part of it the CFP does **not**
+solicit, and the introduction has to do that work.
 
 ## 6. Not verified — named, not glossed
 

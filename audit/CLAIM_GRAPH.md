@@ -1,5 +1,153 @@
 # Claim graph
 
+**Rewritten 2026-08-20** for the reframe recorded in `docs/DECISIONS.md` **D-3**. The
+paper's surviving claims are **R1** and **R2**. `C1` and `C2` are retired as *historical
+labels*; the analysis that produced their verdicts is preserved verbatim below the fold,
+because the reasoning trail is why R1 and R2 are what they are.
+
+The purpose of this file is unchanged: no assertion can be quietly refuted without it
+being immediately visible which claim goes with it.
+
+Ledger entry codes refer to `LEDGER_ASSERTIONS.md`.
+
+---
+
+## The claims as they now stand
+
+**R1 — Primary. The rejection-sampling mechanism.**
+In simulation-based settings, exact conditional inference given a selection event requires
+**no analytic characterisation of that event**. Under the null the simulator draws from the
+exact null distribution, so the conditional law given a selection cell — e.g. {argmin = i} —
+is obtained by **rejection sampling**: simulate, apply the selection rule, keep the draws
+that land in the cell. This removes the obstruction that **Liu, Markovic-Voronov & Taylor
+(2023)** identify as the central barrier to conditional selective inference in general. The
+cost is compute, of order N_alt/α draws, which is a budget problem rather than an
+identification problem.
+
+**R2 — Secondary. The noisy-rank estimator.**
+A simulation-based estimator of the summary Jacobian **J = ∂s/∂η**, together with a
+defensible rule for calling **numerical rank from a noisy, sampled Jacobian**. Every source
+G0 found assumes the map is symbolic or analytically differentiable. A simulator's Jacobian
+is neither: it is estimated by finite differences from stochastic output, so its singular
+values carry both discretisation error and simulation noise, and the rank call is a
+statistical decision rather than a linear-algebra one.
+
+**The demonstration.** Component-level misspecification attribution on a 3-component
+simulator. This is what R1 is shown *on*. It is not the subject of the paper.
+
+**The precondition, cited not claimed.** Per-component discrepancy attribution is
+non-identifiable in general (data constrain only the sum) and becomes identifiable exactly
+when the summary Jacobian has full column rank. This is **prior art** and is cited as such:
+**Brynjarsdóttir & O'Hagan (2014)**, **Catchpole & Morgan (1997)**, **Kahl, Wendland,
+Neidhardt, Weber & Kschischo (2019)**. It establishes when the demonstration's target
+quantity is well-posed at all, and it is R2's reason for existing.
+
+---
+
+## Dependency structure
+
+```
+R1  (simulator-exact conditional calibration of the selection event)
+ |
+ ├── R1a  No prior work calibrates a selection event by drawing MORE           ── HARD, and
+ |          simulator samples instead of characterising it analytically           the whole claim
+ |          → tested in audit/R1_THREAT_CHECK.md (Phase 2, G1)
+ ├── R1b  Ranking-and-selection / simulation-optimization does NOT already     ── HARD
+ |          do this  (Kim & Nelson; Chick; Branke, Chick & Schmidt; IZ         ── the search
+ |          and PCS procedures)                                                  G0 never ran
+ ├── R1c  Randomized selective inference (Tian & Taylor) does not already      ── HARD
+ |          contain the construction in non-simulator form
+ ├── R1d  The rejection-sampling construction actually yields the EXACT        ── HARD (proof)
+ |          conditional null — a theorem, not yet written
+ ├── R1e  The construction beats the marginal procedure where they disagree    ── SOFT (empirical)
+ └── R1f  Compute cost ~N_alt/α is affordable at the demonstration's scale     ── SOFT (budget)
+
+R2  (numerical rank of a noisy, simulation-estimated Jacobian)
+ |
+ ├── R2a  Finite-difference J has an identifiable plateau in h — signal is     ── HARD
+ |          separable from truncation error and simulation noise                 (G1, Phase 3)
+ ├── R2b  A rank rule can be stated and defended BEFORE seeing results         ── HARD (D3 leakage)
+ |          → docs/THRESHOLDS.md, written before any singular value exists
+ ├── R2c  Near-degeneracy is MEANINGFUL in the finite-parametric case, i.e.    ── HARD
+ |          Kahl et al.'s "no such thing as nearly invertible" does not import    → threatens D8
+ ├── R2d  Rank is reported under a fixed, documented normalisation of both     ── HARD (validity)
+ |          summaries and η — rank of J is not scale-invariant
+ └── R2e  The impoverished control set S_C fails as predicted                  ── SOFT (validation)
+
+Shared / inherited:
+ ├── PRE   The rank condition itself (prior art, cited)                        → R2's subject,
+ |                                                                                R1's precondition
+ └── D8    Equivalence-class reporting where the rank condition fails          → depends on R2c
+```
+
+`HARD` = the claim does not survive in its stated form if this fails.
+`SOFT` = the claim survives but is weakened, usually in scope or in evidence rather than
+in truth.
+
+---
+
+## Failure propagation — what dies with what
+
+| If this fails | Then |
+|---|---|
+| **R1a / R1b / R1c** (the mechanism is prior art) | **R1 is DEAD**, and with it the paper's headline. What remains is R2 plus a demonstration — a diagnostics paper, not a mechanism paper. This is the single highest-consequence open question in the project and is why Phase 2 of G1 exists. |
+| **R1b** partially (R&S calibrates PCS by replication but not a *conditional* law) | **R1 NARROWS.** The claim becomes "conditional selective inference specifically", and the paper must position against R&S explicitly rather than ignore it — R&S delivers probability-of-correct-selection, which is the guarantee an applied reader assumes anyway. |
+| **R1d** (the construction does not give the exact conditional null) | **R1 is DEAD as a theorem** and survives at best as a heuristic with empirical calibration — which is a different and much weaker paper. |
+| **R1e** (no empirical advantage) | R1 survives as a correctness result with no demonstrated payoff. Publishable, but the demonstration section becomes an anticlimax. |
+| **R2a** (no h-plateau) | **R2 is DEAD**, and so is the diagnostic. If the finite-difference Jacobian has no regime where truncation error and simulation noise are both small, its singular values are not estimating anything and no rank call is defensible. This is a real possibility and is checked first. |
+| **R2c** (Kahl's dichotomy imports) | **D8 is ill-posed** and equivalence-class reporting must be withdrawn. R2 survives — a rank *test* is still meaningful — but the graceful-degradation story goes, and the diagnostic becomes binary. |
+| **R2b** violated (thresholds fixed after seeing results) | **R2's numbers are inadmissible**, per `LEDGER_DESIGN.md` D3. Not a truth failure — a validity one, and unrecoverable after the fact. |
+| **R2d** violated (undocumented normalisation) | Every singular value and every rank call in the paper is uninterpretable. Cheap to honour, impossible to repair. |
+| **PRE** (the rank condition is wrong, not merely prior) | Vanishingly unlikely — it is a 1997 *iff* with a 1971 antecedent and a 2019 *PRX* restatement. If it happened, R2 has no subject. |
+
+---
+
+## The load-bearing observation, restated for the new structure
+
+Under the old structure the danger was that C1 and C2 were **coupled** while the plan's
+risk model treated them as independent. Under the new structure the danger is different
+and sharper: **R1 and R2 are genuinely independent, and R1 carries almost all of the
+weight.**
+
+R2 is safe in the sense that matters — nobody disputes that a simulator's Jacobian must be
+estimated rather than differentiated, and the estimator either works or produces an
+interpretable negative result. But R2 alone is a diagnostics note. **R1 is the paper**, and
+R1's entire defence is a **negative search result**: no prior work was found that does this.
+G0 named that as the least secure conclusion in its own report, and it was tested against
+nine conjunctive arXiv queries, OpenAlex, OpenReview, and a 2026 review — but **not**
+against ranking-and-selection, which is the literature that has spent forty years
+exploiting exactly the property R1 rests on: that in a simulation you can always draw more
+samples.
+
+That gap is R1b, and closing it is Phase 2 of G1. Until it is closed, every line of code
+written on the assumption that R1 is novel is written at risk.
+
+---
+
+## Status
+
+| Node | Status |
+|---|---|
+| R1a, R1b, R1c | **UNVERIFIED** — Phase 2 of G1, `audit/R1_THREAT_CHECK.md` |
+| R1d | **NOT ATTEMPTED** — no proof written |
+| R1e, R1f | **NOT ATTEMPTED** — no attributor implemented |
+| R2a, R2b, R2d, R2e | **G1 Phase 3** — `docs/THRESHOLDS.md` and `results/jacobian_rank.*.yaml` |
+| R2c | **G1 Phase 3.7** — written argument required before D8 is implemented |
+| PRE | **VERIFIED as prior art** — G0, `S0_REPORT.md` §2 |
+
+---
+---
+
+# HISTORICAL — the C1 / C2 claim graph as written before the reframe
+
+**Preserved unedited.** This is the structure the project had when session G0 began, and
+the verdicts recorded against it are what produced the R1 / R2 structure above. `C1`
+survives, reframed, as the *demonstration*; its one genuinely novel component became `R1`.
+`C2` is refuted as an original result and survives only as `PRE`, a cited precondition; its
+residual — the noisy simulation-based estimator — became `R2`.
+
+## (original file begins)
+
 C1 and C2 as the plan states them, what each rests on, and **what falls when a
 dependency falls**. The purpose is that no assertion can be quietly refuted without it
 being immediately visible which claim goes with it.

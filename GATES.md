@@ -29,7 +29,7 @@ Prepared: 2026-08-20. Signature line below is to be completed by the operator.
 | G0.8 | Literature review executed against the canonical research query, with adversarial search per major claim | **partially met** — 12 primary sources read in full; OpenReview searched; ≥3 adversarial searches per investigation. **But steps 10–16 of the pipeline did not run: no adversarial critics, no patcher, no polish. Google Scholar was not searched.** See `S0_REPORT.md` §10 |
 | G0.9 | Novelty verdict per claim on the DEAD / NARROW / NARROW-CONDITIONAL / OPEN scale, each naming the specific constraining result | met — **C1 NARROW-CONDITIONAL, C2 DEAD as stated** (residual NARROW). `S0_REPORT.md` §2 |
 | G0.10 | Structural-identifiability check on C2 treated as a first-class question | met — and it is what killed C2. Kahl et al. (2019) *PRX* 9:041046 retrieved and read directly. `S0_REPORT.md` §2 |
-| G0.11 | Venue evidence gathered from primary sources; recommendation conditional, not committed | `audit/VENUE.md` |
+| G0.11 | Venue evidence gathered from primary sources; recommendation conditional, not committed | met — `audit/VENUE.md`. **Superseded 2026-08-20:** the operator has since decided the venue (Sim2Science, 5-page main track), so §5 of that file now records a decision. `docs/DECISIONS.md` D-2 |
 | G0.12 | Pivot pre-registered *before* the verdict was known | `audit/PIVOT.md` |
 | G0.13 | No experimental numbers produced | met — `results/` is empty by design |
 | G0.14 | No reference to any authoring agent in commit metadata or file contents | verified before each push |
