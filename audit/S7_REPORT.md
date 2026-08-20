@@ -249,7 +249,7 @@ the same thing in a shape that can be written down.
 another since G1's `Q-8` is closed. The boundary the previous session deliberately did not
 locate is located, and it was located in the only order that makes it admissible. Seven figures
 exist, under a provenance contract the project wrote before it had any numbers and had never
-had to honour. Every number the paper rests on is generated with a path to its source.
+had to honour. Every number the paper rests on now carries a path to its source.
 
 **What is not.** No independent eye has been anywhere near this — not the figures, not the
 claims, not the sweep. **The same session drew the figures, wrote the checks the figures pass,

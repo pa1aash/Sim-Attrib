@@ -30,6 +30,26 @@ The pattern is therefore constructed with `printf` from fragments, and the check
 Neither change weakens the check. Both are recorded because a check that is quietly
 adjusted until it passes is worse than no check.
 
+### Addendum, session G7 (2026-08-21): the grep's first false positive, and it is worth expecting
+
+**Check 3 fired on `audit/S7_REPORT.md` and the hit was innocent.** A sentence described a
+number as having been produced together with a path to its source, using the past participle of
+*generate* immediately followed by the preposition *with* — which is one of the four bigrams the
+runtime-assembled pattern looks for. Nothing about authorship was involved.
+
+**The phrase is deliberately not reproduced here.** `OUTSTANDING.md` already says why the
+pattern is assembled at runtime rather than spelled out: *"a checklist that spells its own
+forbidden tokens matches itself and can never pass."* The same applies to any file describing a
+hit. The first draft of this very entry quoted the offending sentence and tripped check 3 on
+itself.
+
+Recorded because the failure mode is not the one this check exists to catch and a future
+session will meet it again: **the pattern contains ordinary English**, so any prose describing
+how something was produced can trip it. The rule stands unchanged — checks 2 and 3 must produce
+**no output**, and a hit is inspected rather than whitelisted. The sentence was reworded, which
+is the correct response: an exception list would be the first step toward a check that cannot
+fail.
+
 ## D-2 — hyperresearch generation is older than the instruction anticipated
 
 **Instruction:** probe for `hyperresearch profile` and `hyperresearch run`; if present,
