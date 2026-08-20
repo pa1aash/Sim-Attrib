@@ -175,3 +175,52 @@ without operator input is the behaviour that produced the first three kills.
 were named in the brief's header as this session's additions. Neither was written, because
 both are Phase 3 artefacts. The operator's decisions from this session, if any, will therefore
 be D-5 onward whenever they are recorded.
+
+## D-8 — The `dirty` provenance flag was structurally guaranteed true, and said nothing
+
+**Session G3, 2026-08-20.** Not a departure from instruction — a defect in code this session
+wrote, found by an artefact this session added, and recorded because the failure was silent.
+
+**The contract.** `PROVENANCE.md` requires every results file to record `dirty`, and states its
+meaning: *"A dirty tree means the recorded commit does not describe the code that ran."*
+`dirty: true` is *"disqualifying for any number that reaches the manuscript."*
+
+**The defect.** `src/provenance.py` computed `dirty` from `git status --porcelain`, which
+includes **untracked** files. A run writes its own results into `results/`, and those files are
+untracked at the moment they are written. So the first output of a run saw a clean tree and
+recorded `dirty: false`; **every subsequent output saw the earlier outputs and recorded
+`dirty: true`.** The flag was guaranteed true for all but the first file of any multi-file run.
+
+**Why it matters more than it looks.** The flag was not merely wrong, it was *uninformative
+while appearing informative*. Every results file would have carried a disqualifying marker for a
+reason having nothing to do with the code, and the only available responses would have been to
+ignore the flag — which trains a reader to ignore it everywhere — or to discard every run
+forever. Either way the contract's central guarantee would have quietly stopped working.
+
+**How it was caught.** Not by the check. Earlier in the same session two runs were correctly
+discarded for genuine dirtiness (uncommitted code in the first; documentation edited while the
+second was in flight). Diagnosing the second one prompted adding a `dirty_paths` field so a
+reader could see *which* files were dirty rather than only *that* some were. On the next run
+that field showed the dirty paths were `results/floor_check.yaml`,
+`results/jacobian_rank.S_A.yaml`, … — the run's own outputs, and nothing else. **A boolean would
+have hidden this indefinitely.**
+
+**The fix.** `dirty` is now computed from `git status --porcelain -uno` — tracked modifications
+only — which is what the contract's own wording describes, since untracked output files are not
+code. Untracked paths are still recorded, in a separate `untracked_paths` field, without
+prejudice: a run's own outputs are expected there, and an unexpected entry is worth seeing.
+
+**What was discarded.** The run made under the defective check. As with the two before it, the
+files were deleted rather than kept, and the run was repeated from a clean tree. Three runs of
+this diagnostic were therefore thrown away before one was admissible; only the last is in
+`results/`.
+
+**The general lesson, which is the reason this entry is long.** A validity check that cannot
+fail, or cannot pass, is indistinguishable from one that works until someone looks at what it is
+actually comparing. This one could not pass. `DEVIATIONS.md` D-1 records the mirror-image case
+from session G0 — an authorship grep that matched its own checklist text and so could never
+pass — and the two together suggest the standing habit worth keeping: **every check in this
+project should be run once in a state where it is expected to give the opposite answer.** The
+floor check in `src/diagnostics/floor_check.py` and the no-CRN negative control in
+`results/jacobian_rank.S_A.no_crn_control.yaml` are that habit applied deliberately; this entry
+is what it costs when it is not.

@@ -44,19 +44,29 @@ def now_iso() -> str:
 
 def header(*, script: str, command: str, seed: int, started: str) -> dict[str, Any]:
     """Build the provenance header required by ``PROVENANCE.md``."""
-    status = _git("status", "--porcelain")
-    dirty_paths = sorted(line[3:] for line in status.splitlines() if line[3:])
+    # `dirty` means what PROVENANCE.md says it means: THE RECORDED COMMIT DOES NOT DESCRIBE
+    # THE CODE THAT RAN. That is a statement about tracked files, so it is computed with
+    # `-uno` (tracked modifications only).
+    #
+    # Using plain `--porcelain` here was a real defect and it is worth stating why, because
+    # the failure was silent and self-inflicted: a run writes its own results files into
+    # `results/`, those files are untracked at the moment they are written, so every file
+    # after the first saw a non-empty `git status` and recorded `dirty: true`. The flag was
+    # therefore GUARANTEED true for all but the first output of any multi-file run, which
+    # made it carry no information at all while looking like it did. A provenance flag that
+    # is always tripped is worse than none: it trains a reader to ignore it.
+    #
+    # Untracked paths are still recorded, separately and without prejudice, because a run's
+    # own outputs are expected to appear there and an unexpected entry is worth seeing.
+    tracked = _git("status", "--porcelain", "-uno")
+    untracked = _git("ls-files", "--others", "--exclude-standard")
+    dirty_paths = sorted(line[3:] for line in tracked.splitlines() if line[3:])
     return {
         "script": script,
         "commit": _git("rev-parse", "HEAD") or "UNKNOWN",
-        "dirty": bool(status),
-        # A bare `dirty: true` says the recorded commit does not describe the code that ran,
-        # but not WHICH code. Recording the paths lets a reader judge whether the
-        # modifications could have touched the run at all -- and, more usefully, lets a
-        # future session see that a run was invalidated by an unrelated edit made while it
-        # was in flight, which is otherwise indistinguishable from a genuinely stale result.
-        # It does not soften the contract: dirty is still disqualifying.
+        "dirty": bool(tracked),
         "dirty_paths": dirty_paths,
+        "untracked_paths": sorted(p for p in untracked.splitlines() if p),
         "command": command,
         "seed": seed,
         "started": started,
