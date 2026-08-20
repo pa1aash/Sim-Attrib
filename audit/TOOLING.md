@@ -101,3 +101,88 @@ originating plan's own sweep covered neither OpenReview nor Google Scholar, the 
 widened by explicit instruction instead: academic APIs first (Semantic Scholar, arXiv,
 OpenAlex), then OpenReview, then general web search, then at least one deliberately
 adversarial search per major claim.
+
+---
+---
+
+# CORRECTION — session G2, 2026-08-20: the arXiv searches were never full-text
+
+**This corrects a load-bearing methodological claim in both G0 and G1**, and it is the most
+probable single explanation for why this project has had three primary claims die to prior art.
+
+## What was believed
+
+`audit/S0_REPORT.md` §2 reports that R1's novelty was checked against *"nine conjunctive arXiv
+full-text queries"*. `audit/R1_THREAT_CHECK.md` §4 (G1) reports its zero-counts under the
+heading `arXiv full text`. Both sessions used the arXiv **API** with the `all:` field prefix.
+
+## What is true
+
+**The arXiv API's `all:` field searches metadata only** — title, abstract, authors, comments,
+journal reference. It does **not** index the body of the paper.
+
+Demonstrated rather than assumed. Three phrases were verified present in already-fetched paper
+bodies, then queried through the API:
+
+| Phrase | In fetched body | API `all:"…"` total |
+|---|---|---|
+| `expected number of draws required to obtain one acceptable` (Freidling et al., Supp. §S3.2) | 1 | **0** |
+| `repeatedly executing the selection algorithm` (Liu et al., arXiv:2203.14504) | 2 | **0** |
+| `conditional PCS` (Hong, Fan & Luo) | 3 | 5 — also appears in abstracts |
+
+Two phrases that provably exist in arXiv papers return zero.
+
+## The real full-text index, and how to use it
+
+It exists, it works, and it is the route named in the G2 brief's S4:
+
+```bash
+curl -sS -L -A "<desktop UA>" -X POST "https://arxiv.org/search_classic" \
+     --data-urlencode 'query="<exact phrase>"' --data "searchtype=ft"
+```
+
+`https://search.arxiv.org/` renders the form; the form POSTs to `arxiv.org/search_classic`
+with `searchtype=ft`. The response is HTML containing `Displaying hits N to M of TOTAL`,
+`https://arxiv.org/abs/<id>` links, and a body snippet around each match.
+
+**Verified:** the first phrase in the table above returns exactly Freidling et al. with the
+surrounding body text; the second returns exactly arXiv:2203.14504.
+
+A reusable helper was written to the session scratchpad rather than committed, since it is a
+working artefact and not project record. The four lines above are the whole of it.
+
+## Order-of-magnitude difference in coverage
+
+Same question, two instruments, this session:
+
+| Query | Metadata API | Full-text index |
+|---|---|---|
+| selective inference + nuisance | 7 | 54 |
+| Monte Carlo test + nuisance parameters | 2 | 24 |
+
+Dufour's maximized Monte Carlo, the repro-samples line, and the co-sufficient-sampling line —
+the three findings that killed G2's target claim — **all surfaced only on the full-text index.**
+
+## What this invalidates, stated precisely
+
+**Positive findings are unaffected.** "Here is a paper that does the thing" does not depend on
+how the paper was found. The ex-C2 refutation (Kahl et al.) and the R1 refutation (Freidling
+et al.) stand.
+
+**Negative findings from G0 and G1 are downgraded.** Every zero-count reported by those
+sessions as evidence that a literature does not contain something was a *metadata* zero. Under
+S4's rule these were **instrument gaps reported as measured zeros**, which is exactly the
+conflation that rule exists to prevent.
+
+Specifically re-checked this session: G1's conclusion that ranking-and-selection and selective
+inference "have not met" was based on a metadata zero. Re-run on the full-text index,
+`"selection event" "maximized Monte Carlo"` returns a genuine full-text **0**, so that
+conclusion survives — **but it survives because it was re-checked, not because G1 established
+it.** No other G0/G1 negative has been re-checked.
+
+## Standing rule from here
+
+1. **Never report an arXiv zero from the metadata API as evidence of absence.** Use
+   `search_classic` with `searchtype=ft`, and say which instrument produced the number.
+2. **State the instrument next to every count**, in the same row.
+3. A metadata zero is an **instrument gap**, not a negative result.
