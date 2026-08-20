@@ -223,3 +223,31 @@ def test_reproduction_check_reads_false_on_perturbed_values(tmp_path, monkeypatc
                                                2.747076714481247 * 1.001])
     assert not bad["reproduces"]
     assert bad["max_relative_difference"] > 1e-4
+
+
+# --- the eight mixed triples ----------------------------------------------------------------
+
+def test_there_are_eight_triples_and_the_two_declared_sets_are_among_them():
+    assert len(k6.TRIPLES) == 8
+    assert len(set(k6.TRIPLES)) == 8
+    assert "BBB" in k6.TRIPLES and "AAA" in k6.TRIPLES
+
+
+def test_triple_columns_maps_codes_to_the_right_family_and_component():
+    """Fails if the code is read right-to-left, or if B and A are swapped."""
+    assert k6.triple_columns("BBB") == [("base", 0), ("base", 1), ("base", 2)]
+    assert k6.triple_columns("AAA") == [("adversarial", 0), ("adversarial", 1), ("adversarial", 2)]
+    # transmission adversarial, progression base, observation base
+    assert k6.triple_columns("ABB") == [("adversarial", 0), ("base", 1), ("base", 2)]
+
+
+def test_triple_codes_are_rejected_when_malformed():
+    for bad in ("BB", "BBBB", "BBX", "", "ba b"):
+        with pytest.raises(ValueError):
+            k6.triple_columns(bad)
+
+
+def test_triple_label_names_one_family_per_component_in_component_order():
+    assert k6.triple_label("ABB").split(" + ") == [
+        "adv:transmission", "base:progression", "base:observation"
+    ]

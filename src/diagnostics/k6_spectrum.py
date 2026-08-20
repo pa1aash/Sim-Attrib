@@ -34,6 +34,26 @@ which is ``DEVIATIONS.md`` **D-9**'s problem at twice the size. So this script r
 
 Recorded as ``DEVIATIONS.md`` **D-12**.
 
+THE EIGHT MIXED TRIPLES, AND WHY THEY ARE IN SCOPE
+----------------------------------------------------
+A six-column verdict answers a question nobody asked: *can all six declared distortion
+directions be identified at once?* The question that bears on the paper is one step back from
+it. A family set assigns **one** family to each component; the two declared sets assign base
+to all three and adversarial to all three. Between those two extremes sit **six further
+assignments** -- base transmission with adversarial progression, and so on -- and each is a
+perfectly ordinary three-column distortion model of the same simulator.
+
+**No new family is invented to build them.** Every column comes from the two sets already
+declared; the eight triples are a re-combination, not an extension, which is why this stays
+inside the session's scope boundary of "the two family sets already defined". They are cheap:
+the columns are already estimated for the six-column object, so all eight run through the
+full machinery at no additional simulator cost.
+
+They are also the informative object. If all eight separate, a six-column failure is a
+statement about a six-dimensional distortion space and nothing narrower. If some do not, then
+the failure reaches a three-column model an analyst could plausibly have declared, and the
+separability claim is conditional on the family assignment and not only on the family set.
+
 THE QUESTION THE SIX-COLUMN VERDICT ACTUALLY ANSWERS
 -----------------------------------------------------
 A six-column verdict is **not** a harder version of the three-column one. The six columns
@@ -115,6 +135,13 @@ SIX_COLUMN_LABELS: tuple[str, ...] = tuple(
     f"{fs}:{c}" for fs in FAMILY_SETS for c in COMPONENTS
 )
 SIX_COLUMN_MECHANISM: tuple[str, ...] = tuple(COMPONENTS[j % K] for j in range(2 * K))
+
+#: The eight component-wise assignments of a family to each component. ``"B"`` is the base
+#: family for that component, ``"A"`` the adversarial one. ``BBB`` and ``AAA`` are the two
+#: declared sets; the other six are re-combinations of the same columns.
+TRIPLES: tuple[str, ...] = tuple(
+    "".join(code) for code in __import__("itertools").product("BA", repeat=K)
+)
 
 #: Multipliers of the pre-registered tau at which the verdict is recomputed. Eight
 #: alternatives spanning four decades around the registered value, which is more than the
@@ -500,6 +527,18 @@ def reproduction_check(name: str, family_set: str, sv: Sequence[float]) -> dict[
     }
 
 
+def triple_columns(code: str) -> list[tuple[str, int]]:
+    """The (family set, component) column keys for a mixed triple such as ``"BAB"``."""
+    if len(code) != K or any(c not in "BA" for c in code):
+        raise ValueError(f"bad triple code {code!r}")
+    return [("base" if c == "B" else "adversarial", k) for k, c in enumerate(code)]
+
+
+def triple_label(code: str) -> str:
+    return " + ".join(f"{'base' if c == 'B' else 'adv'}:{COMPONENTS[k]}"
+                      for k, c in enumerate(code))
+
+
 # --------------------------------------------------------------------------------------
 
 def main(argv: list[str] | None = None) -> int:
@@ -621,6 +660,56 @@ def main(argv: list[str] | None = None) -> int:
                                        n_replicates=args.replicates, seed0=args.seed,
                                        n_simulations=n_sims)
 
+        # The eight component-wise family assignments. BBB and AAA are the two declared sets
+        # and are recomputed here from the same columns, so their agreement with the 'base'
+        # and 'adversarial' blocks above is a check on the assembly rather than a repetition.
+        triples: dict[str, Any] = {}
+        for code in TRIPLES:
+            keys = triple_columns(code)
+            per_h_t = [[cols[(fs, hi, k)][name] for fs, k in keys]
+                       for hi in range(len(H_VALUES))]
+            sw = _sweep(name, per_h_t, sd, h_values=H_VALUES, n_replicates=args.replicates,
+                        seed0=args.seed, n_simulations=n_sims // 2)
+            a_t = analyse(sw)
+            triples[code] = {
+                "code": code,
+                "families": triple_label(code),
+                "is_a_declared_family_set": code in ("BBB", "AAA"),
+                "spectrum": describe_spectrum(a_t["singular_values_at_representative_h"], TAU),
+                "resolved": a_t["resolved"],
+                "singular_value_variation_factor": a_t["singular_value_variation_factor"],
+                "plateau_found": a_t["plateau"]["found"],
+                "numerical_rank": a_t["numerical_rank"],
+                "condition_number": a_t["condition_number"],
+                "column_norms": a_t["column_norms"],
+                "invisible_components": a_t["invisible_components"],
+                "coherence_flagged_pairs": a_t["coherence_flagged_pairs"],
+                "near_null_directions": a_t["near_null_directions"],
+                "equivalence_classes": [
+                    [COMPONENTS[j] for j in nn["equivalence_class_members"]]
+                    for nn in a_t["near_null_directions"]
+                ],
+                "verdict": "INSEPARABLE" if a_t["inseparable"] else "separable",
+                "reason": a_t["inseparable_reason"],
+                "tau_sensitivity": tau_sensitivity(sw),
+                "leakage_check_passes": leakage_check(sw)["passes"],
+            }
+        blocks["mixed_triples"] = triples
+        blocks["mixed_triples_note"] = (
+            "Eight component-wise assignments of a family to each component, built ENTIRELY "
+            "from the two declared family sets -- a re-combination, not an extension. BBB is "
+            "the base set and AAA the adversarial one; the other six are three-column "
+            "distortion models an analyst could equally have declared."
+        )
+        blocks["raw_columns_normalised"] = {
+            f"{fs}:{COMPONENTS[k]}": {
+                "h_values": list(H_VALUES),
+                "columns_by_h": [[float(x) for x in (cols[(fs, hi, k)][name] / sd)]
+                                 for hi in range(len(H_VALUES))],
+            }
+            for fs in FAMILY_SETS for k in range(K)
+        }
+
         for key, sweep in sweeps.items():
             a = analyse(sweep)
             sv = a["singular_values_at_representative_h"]
@@ -671,6 +760,14 @@ def main(argv: list[str] | None = None) -> int:
               f"-> {s6['verdict']} (kappa {s6['condition_number']:.4g}, "
               f"spread {s6['spectrum']['spread_decades_over_positive_singular_values']})",
               flush=True)
+        print("  mixed triples (B = base family, A = adversarial family, per component):",
+              flush=True)
+        for code, blk in blocks["mixed_triples"].items():
+            print(f"    {code} {'*' if blk['is_a_declared_family_set'] else ' '} "
+                  f"rank {blk['numerical_rank']['rank_certain']}/{K} "
+                  f"kappa {blk['condition_number']:.4g} -> {blk['verdict']}"
+                  + (f"   class {blk['equivalence_classes']}" if blk['equivalence_classes'] else ""),
+                  flush=True)
         for cl in s6.get("near_null_classification", []):
             print(f"    near-null: {cl['kind']} {cl['mechanisms_in_class']} "
                   f"energy {({k: round(v, 3) for k, v in cl['mechanism_energy'].items()})}",
