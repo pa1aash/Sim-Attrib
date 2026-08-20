@@ -6,8 +6,12 @@ that is cheap to honour in advance and expensive-to-impossible to repair afterwa
 violated design commitment usually does not produce an obviously broken result; it
 produces a plausible, publishable, wrong one.
 
-Status here means *implemented and enforced in code*, not *agreed to*. Everything is
-`NOT IMPLEMENTED` — there is no code.
+Status here means *implemented and enforced in code*, not *agreed to*.
+
+> **Updated 2026-08-20, session G3.** Code now exists, so these statuses are no longer
+> uniformly `NOT IMPLEMENTED`. Four commitments are enforced in code; four remain unimplemented
+> because they govern the **attribution** experiment, which has not been built. Each status line
+> below says which, and names the file that enforces it.
 
 ---
 
@@ -30,7 +34,10 @@ attributor as actually run** — so the harness is checked against its own known
 random attributor that does not score ≈1/K means the evaluation harness is broken, and
 that finding is worth more than any method result computed with it.
 
-**Status: NOT IMPLEMENTED**
+**Status: IMPLEMENTED AND ENFORCED (G3).** `src/diagnostics/floor_check.py` computes both the
+analytic floor `1/K` and the accuracy of a uniform attributor **as actually run**, and the runner
+executes it **first**, before anything rests on the harness. `results/floor_check.yaml`.
+Asserted in `tests/test_jacobian_rank.py::test_floor_check_lands_near_one_third`.
 
 ---
 
@@ -51,7 +58,14 @@ without the per-seed spread hides exactly this.
 of levels) × K × (number of baselines) is the real cost, and it is a product the plan
 never forms. See H1 in `LEDGER_ASSERTIONS.md` and §7 of `S0_REPORT.md`.
 
-**Status: NOT IMPLEMENTED**
+**Status: IMPLEMENTED (G3), and the unresolved design question above was resolved first.**
+`docs/THRESHOLDS.md` §2.1 fixes class membership at `|v_k| ≥ 0.3`, requires `|v_k|` to be
+reported **as a range across the h-plateau**, and requires components whose `|v_k|` crosses the
+threshold within the plateau to be flagged **borderline**. `src/diagnostics/jacobian_rank.py`
+reports all of that, and — per §3.4 — labels an **exact** degeneracy differently from a **near**
+one, because the first is an identifiability claim and the second is an affordability claim.
+`S_C` exercised this and produced an exact null direction; the economy SVD would have omitted it
+entirely, which is why the full right-singular basis is retained.
 
 ---
 
@@ -80,7 +94,11 @@ attributor, which makes this failure mode unusually easy to hit.
 **Enforcement.** `PROVENANCE.md` requires `leakage_checked: true` on every
 attribution results file. `false` invalidates the accuracy figure in that file.
 
-**Status: NOT IMPLEMENTED**
+**Status: IMPLEMENTED FOR THE DIAGNOSTIC, NOT YET FOR ATTRIBUTION (G3).** The diagnostic
+receives only simulator output and the distortion basis — never a component index or a
+ground-truth label — and every results file records `leakage_checked: true` together with an
+explicit statement of how. There is no attributor yet, so the harder half of D3 (the channels
+listed above, especially the last one) is untested.
 
 ---
 
@@ -111,7 +129,14 @@ rank/condition-number threshold that counts as "inseparable", must be fixed in w
 Otherwise the STOP condition can be evaded indefinitely by proposing one more summary set.
 Logged as an operator question.
 
-**Status: NOT IMPLEMENTED — and its threshold is not yet specified**
+**Status: IMPLEMENTED, THRESHOLD SPECIFIED, AND EVALUATED (G3).** The ambiguity flagged above
+was resolved *before* the diagnostic ran: `docs/THRESHOLDS.md` §1.1 closes the summary-set list
+at three and §1.3 fixes "inseparable" as `rank < 3` at `τ = 10⁻²` **or** `κ > 100`.
+`src/diagnostics/run_diagnostic.py` evaluates the condition and writes
+`results/STOP_CONDITION_FIRED.md` when it fires, deleting it when it does not, so the file's
+presence is always a current statement. **It did not fire** — see `results/SUMMARY_TABLE.md` §7.
+Note that this is the branch that requires the *more* discipline, not less: the commitment was
+only ever real if honoured when inconvenient, and it came out convenient.
 
 ---
 
@@ -121,7 +146,8 @@ Stated separately from D1 in the plan; it is the reporting half of the same comm
 See D1. Recorded separately so that a reporting violation is not excused by a
 measurement that was done correctly.
 
-**Status: NOT IMPLEMENTED**
+**Status: NOT IMPLEMENTED.** No accuracy figure exists yet, so nothing has had to be quoted
+against the floor. The floor itself is established in advance (D1), which is the right order.
 
 ---
 
@@ -142,7 +168,9 @@ specified therefore tests C1's mechanism in the setting where its advantage is s
 extension: at least one multi-component condition would strengthen C1 considerably.
 The plan does not mention this.
 
-**Status: NOT IMPLEMENTED**
+**Status: NOT IMPLEMENTED.** No attribution experiment exists. The single-component-at-a-time
+design is, however, already reflected in the diagnostic: the Jacobian is estimated one component
+at a time by construction. The scope limitation above stands, and **Q-6** remains open.
 
 ---
 
@@ -162,7 +190,8 @@ procedure, not a strawman constructed to lose.
 resolved — whether RNPE's criticism step is per-summary-statistic or per-component
 determines what it is even being compared against.
 
-**Status: NOT IMPLEMENTED**
+**Status: NOT IMPLEMENTED.** No baselines exist. Baseline (i) — the trivial one — is the only
+part that exists, as `src/diagnostics/floor_check.py`.
 
 ---
 

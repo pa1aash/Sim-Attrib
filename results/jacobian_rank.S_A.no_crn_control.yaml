@@ -1,0 +1,154 @@
+provenance:
+  script: src/diagnostics/run_diagnostic.py
+  commit: 570692c2f16b04c1948b47665c162c9478fe1de8
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/floor_check.yaml
+  - results/jacobian_rank.S_A.yaml
+  - results/jacobian_rank.S_B.yaml
+  - results/jacobian_rank.S_C.yaml
+  command: python -m src.diagnostics.run_diagnostic --seed 20260820 --replicates 128 --norm-replicates
+    2000 --floor-draws 10000
+  seed: 20260820
+  started: '2026-08-20T16:15:42+05:30'
+  finished: '2026-08-20T16:30:36+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+framing: 'This diagnostic is INFRASTRUCTURE for a composition paper (maximized Monte Carlo, Dufour 2006,
+  composed with a selection event for component-level misspecification attribution). It is NOT a claimed
+  method contribution: the rank-and-condition-number screen on a sensitivity matrix is Cintron-Arias,
+  Banks, Capaldi & Lloyd (2009) and finite differencing under simulation noise is More & Wild (2012).
+  See docs/DECISIONS.md D-6 and audit/R2_THREAT_CHECK.md. Its purpose here is to decide whether component
+  attribution is well posed for THIS simulator under THIS closed list of summary sets -- the precondition,
+  per Kahl et al. (2019), for the composition being worth building at all.'
+what_this_is: 'NEGATIVE CONTROL, not a result about the simulator. The identical sweep run with INDEPENDENT
+  noise realisations across the +h and -h evaluations, i.e. without common random numbers. It exists to
+  demonstrate the failure mode rather than to assert it: compare the singular values here against jacobian_rank.S_A.yaml.'
+expected_behaviour: Without common random numbers the difference quotient carries noise of order obs_sigma/h,
+  so the leading singular value should grow as 1/h and no plateau should be identifiable.
+summary_set: S_A
+common_random_numbers: false
+results:
+  dimensions:
+    d: 4
+    K: 3
+  h_sweep:
+  - h: 0.1
+    singular_values:
+    - 4.262805165084056
+    - 1.1714990091717372
+    - 0.9922593924070037
+  - h: 0.01
+    singular_values:
+    - 6.6582004345545975
+    - 2.790987019323615
+    - 0.8253737546048353
+  - h: 0.001
+    singular_values:
+    - 48.63276575644627
+    - 3.3627903696901136
+    - 0.7530854584223596
+  - h: 0.0001
+    singular_values:
+    - 474.915635957638
+    - 3.4026682937869395
+    - 0.7434458248990065
+  - h: 1.0e-05
+    singular_values:
+    - 4738.261565531696
+    - 3.406470024915143
+    - 0.742451639052799
+  - h: 1.0e-06
+    singular_values:
+    - 47371.771265584626
+    - 3.4068483549060877
+    - 0.742351932044474
+  relative_frobenius_change_between_adjacent_h:
+  - 0.9456792629273536
+  - 5.867105682617319
+  - 8.744491208493747
+  - 8.976828832509993
+  - 8.99770898612567
+  plateau:
+    rule: longest contiguous run of h with ||J(h_{i+1})-J(h_i)||_F / ||J(h_i)||_F < plateau_rel_tol
+    plateau_rel_tol: 0.05
+    found: false
+    h_range:
+    - 0.1
+    - 0.1
+    h_indices:
+    - 0
+    - 0
+    n_h_in_plateau: 1
+    representative_h: 0.1
+    censored_at_large_h: true
+    censored_at_small_h: false
+  singular_values_at_representative_h:
+  - 4.262805165084056
+  - 1.1714990091717372
+  - 0.9922593924070037
+  singular_value_range_across_plateau:
+  - - 4.262805165084056
+    - 4.262805165084056
+  - - 1.1714990091717372
+    - 1.1714990091717372
+  - - 0.9922593924070037
+    - 0.9922593924070037
+  singular_value_variation_factor:
+  - 1.0
+  - 1.0
+  - 1.0
+  resolved:
+  - true
+  - true
+  - true
+  resolve_factor: 2.0
+  numerical_rank:
+    tau: 0.01
+    rule: 'rank = #{ i : sigma_i >= tau * sigma_1 }, with unresolved sigma counted in neither direction'
+    rank_certain: 3
+    rank_possible: 3
+    determined: true
+    full_column_rank: true
+  condition_number: 4.296059274121282
+  kappa_max: 100.0
+  column_norms:
+  - 1.4942307261498349
+  - 1.2351339391849183
+  - 4.095145320386184
+  colnorm_invisible_threshold: 0.1
+  invisible_components: []
+  pairwise_coherence:
+  - - 1.0
+    - 0.2400165951310342
+    - 0.7253054369726695
+  - - 0.2400165951310342
+    - 1.0000000000000002
+    - 0.30359817925703925
+  - - 0.7253054369726695
+    - 0.30359817925703925
+    - 0.9999999999999998
+  coherence_flag_threshold: 0.98
+  coherence_flagged_pairs: []
+  right_singular_vectors_at_representative_h:
+  - - 0.2694844047394298
+    - -0.09557145255800714
+    - -0.958250621214611
+  - - -0.0008266527567046722
+    - 0.9950399062371554
+    - -0.09947312019220392
+  - - -0.9630043988723287
+    - -0.027598595100210788
+    - -0.26806873241957835
+  near_null_directions: []
+  vk_min: 0.3
+  inseparable: false
+  inseparable_reason: 'separable: full column rank at tau and condition number within ceiling'
+leakage_checked: true
+leakage_how: The diagnostic never receives a component index, a ground-truth label, or any indication
+  of which component is responsible for anything. Its whole input is the simulator as a callable, the
+  distortion basis (that there are K one-parameter families and that perturbing family k means setting
+  eta_k), and the resulting summary vectors. It computes a property of the map s(eta), not a guess about
+  a hidden truth, so there is no hidden truth available to leak.

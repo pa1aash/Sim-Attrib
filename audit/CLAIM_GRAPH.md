@@ -1,5 +1,24 @@
 # Claim graph
 
+> ## ⚠️ STATUS 2026-08-20 (session **G3**) — THIS FILE IS STILL STALE BELOW THIS BANNER
+>
+> **Third session in which this file has been flagged rather than rewritten.** Recorded as such
+> rather than excused.
+>
+> What has changed since the G2 banner below was written:
+>
+> - **R2 has now been threat-checked** — `audit/R2_THREAT_CHECK.md`, verdict
+>   **NARROW-CONDITIONAL** — and is carried as **cited infrastructure, not a claimed
+>   contribution** (`docs/DECISIONS.md` **D-6**). The "R2 — Secondary. The noisy-rank estimator"
+>   node below describes it as a contribution and is therefore **wrong as written**.
+> - **Q-10 is answered and executed.** The G2 banner's instruction that "no claim structure
+>   should be drawn until the operator answers it" is discharged.
+> - **The live claim is now the composition** specified in `audit/MMC_COMPOSITION_SPEC.md`, which
+>   appears nowhere below.
+> - **R1 remains DEAD.** The "R1 — Primary" node below is historical.
+>
+> Do not read the dependency graph below as current. `DEVIATIONS.md` **D-7**.
+
 > ## ⚠️ STATUS 2026-08-20 (session G2) — THIS FILE IS STALE BELOW THIS BANNER
 >
 > **R1 is DEAD** (G1, `audit/R1_THREAT_CHECK.md`) and the **composite-null successor claim is

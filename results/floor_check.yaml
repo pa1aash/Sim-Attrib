@@ -1,0 +1,35 @@
+provenance:
+  script: src/diagnostics/floor_check.py
+  commit: 570692c2f16b04c1948b47665c162c9478fe1de8
+  dirty: false
+  dirty_paths: []
+  untracked_paths: []
+  command: python -m src.diagnostics.run_diagnostic --seed 20260820 --replicates 128 --norm-replicates
+    2000 --floor-draws 10000
+  seed: 20260820
+  started: '2026-08-20T16:15:42+05:30'
+  finished: '2026-08-20T16:15:43+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+framing: 'This diagnostic is INFRASTRUCTURE for a composition paper (maximized Monte Carlo, Dufour 2006,
+  composed with a selection event for component-level misspecification attribution). It is NOT a claimed
+  method contribution: the rank-and-condition-number screen on a sensitivity matrix is Cintron-Arias,
+  Banks, Capaldi & Lloyd (2009) and finite differencing under simulation noise is More & Wild (2012).
+  See docs/DECISIONS.md D-6 and audit/R2_THREAT_CHECK.md. Its purpose here is to decide whether component
+  attribution is well posed for THIS simulator under THIS closed list of summary sets -- the precondition,
+  per Kahl et al. (2019), for the composition being worth building at all.'
+floor_check:
+  K: 3
+  floor_analytic: 0.3333333333333333
+  n_draws: 10000
+  seed: 20260820
+  accuracy_simulated: 0.3299
+  deviation_from_floor: -0.0034333333333332883
+  binomial_standard_error_at_floor: 0.004714045207910317
+  tolerance_4se: 0.018856180831641266
+  passes: true
+  interpretation: A uniform-random attributor over K components achieves 1/K by construction. The simulated
+    value agreeing with the analytic floor to within 4 binomial standard errors is the harness reproducing
+    its own known answer. Every attribution accuracy this project reports is reported against this floor;
+    an accuracy quoted in isolation is not admissible (PROVENANCE.md).

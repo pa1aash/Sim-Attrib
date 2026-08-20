@@ -21,17 +21,25 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 
 ## Blocking — resolve before the next session commits code
 
+> **Note, G3 (2026-08-20):** the heading is now slightly wrong and is kept for continuity. Code
+> has been committed. Nothing in this table blocked it: the two items that did (**O-8**, **O-15**)
+> were resolved by the operator and executed this session, and are closed below.
+
 | # | Action | Owner | Notes |
 |---|---|---|---|
-| O-1 | Switch repository visibility public → private | OPERATOR | See banner. **Rescoped 2026-08-20:** no longer blocks code commits — operator decided the repo stays public through the build phase. Becomes blocking the moment `paper/` gains a draft or `results/` gains a final number. |
-| O-2 | Sign or reject gate G0 after reading `audit/S0_REPORT.md` | OPERATOR | `GATES.md` is `ready for review — UNSIGNED`. **Proposed `conditions` text now drafted in `GATES.md`** (G1 §5.2) — accept, amend, or reject. |
-| **O-8** | **Answer Q-8: R1 is prior art. Decide what the paper is.** | OPERATOR | **BLOCKS ALL CODE.** `audit/R1_THREAT_CHECK.md`, verdict DEAD. Three options in `docs/OPEN_QUESTIONS.md`. Note that option (b)'s deliverable is technically unblocked and can be authorised on its own. |
-| **O-9** | **Answer Q-9: the simulator's null is composite** | OPERATOR / agent | A correctness question, not a novelty one. It survives every option in Q-8. |
-| **O-10** | **Threat-check R2 — now two sessions overdue** | agent | Still never checked. Mandated by G2's brief, cut by the Phase-1 stop rule. Project record is now **0-for-3**. Run it on the **full-text** index (O-13). |
+| **O-1** | **Switch repository visibility public → private** | OPERATOR | See banner. **TRIGGER CONDITION NOW ARGUABLY MET (2026-08-20, G3): `results/` contains numbers.** D-4 makes the switch due "the moment `paper/` gains a draft or `results/` gains a final number". Whether the diagnostic's output is "final results" in D-4's sense is the operator's call; this row is a factual notice, not a reopening of the decision. |
+| O-2 | **Sign or reject gates G0, G1, G2 and G3** | OPERATOR | All four are `UNSIGNED`. **Proposed `conditions` text is now drafted for all of G0, G1 and G2** in `GATES.md` (G3 §4.2) — accept, amend, or reject. G3 is new and its report is `audit/S3_REPORT.md`. This has been outstanding for three sessions. |
+| ~~O-8~~ | ~~Answer Q-8~~ | — | **CLOSED 2026-08-20 (G3).** Superseded by Q-10, which the operator answered and G3 executed. Option (b) — build the diagnostic — was taken and delivered. No longer blocks code; code exists. |
+| ~~O-9~~ | ~~Answer Q-9~~ | — | **CLOSED 2026-08-20 (G2).** Answered: the repairs are published (Dufour's MMC; repro samples; co-sufficient sampling). It is a citation, not a research question. |
+| ~~O-10~~ | ~~Threat-check R2~~ | — | **CLOSED 2026-08-20 (G3).** `audit/R2_THREAT_CHECK.md`, verdict **NARROW-CONDITIONAL**, run entirely on the corrected full-text instrument. Consequence recorded as **D-6**. |
 | **O-13** | **Re-run G0/G1's load-bearing NEGATIVE searches on the arXiv full-text index** | agent | Both sessions used the metadata API while reporting "full text". Every negative they recorded is an **instrument gap**, not a measured zero. One was re-checked in G2 and survived; the rest are unverified. `audit/TOOLING.md`. |
 | **O-14** | **Obtain Dufour (2006) version of record** before MMC is cited in any manuscript | agent | *J. Econometrics* 133(2), DOI 10.1016/j.jeconom.2005.06.007 — paywalled; Unpaywall and OpenAlex both `closed`. CIRANO WP 2005s-02 was read and is cited as a working paper. |
-| **O-15** | **Answer Q-10 — three consecutive kills; continue or stop** | OPERATOR | **BLOCKS EVERYTHING.** `audit/S2_REPORT.md`. Three options, none of them adopted by this session by design. |
+| ~~O-15~~ | ~~Answer Q-10~~ | — | **CLOSED 2026-08-20 (G3).** Operator answered: one narrow R2 check, then build the diagnostic regardless. Both done. |
 | O-11 | Resolve "Presanis et al. (2017)" or withdraw the claim it supports | agent | Cannot be resolved via Crossref; may be a byline error introduced in G0. `audit/LEDGER_CITATIONS.md`. |
+| **O-16** | **Measure `p_sel`** — the probability a null draw lands in the observed selection cell | agent | **DECIDES WHETHER THE NEXT SESSION'S WORK IS AFFORDABLE.** Cheap: needs only null draws and the selection rule, no MMC. The cost gate is pre-registered in `audit/MMC_COMPOSITION_SPEC.md` §4. |
+| **O-17** | **Run an adversarial critic** — against the MMC composition, and against `audit/S3_REPORT.md` | agent | **Four sessions, zero critics.** The project's largest methodological debt. Both times it was paid down by accident it changed the answer. |
+| **O-18** | **Re-run the diagnostic at several seeds** and report the verdict's stability | agent | The separability result is **single-seed**. The plateau is stable and the singular values resolved, but seed-to-seed stability of the *verdict* has not been computed. Cheapest remaining check. |
+| **O-19** | **Add a ligature rule alongside S7** | agent | PDF extraction preserves `ﬀ`/`ﬁ`/`ﬂ`, so `grep -a "difference parameter"` returned **0** against 18 real occurrences. S7's `grep -a` rule does not cover this. Normalise NFKC and validate against a control term containing a ligature. `audit/R2_THREAT_CHECK.md` §3.4. |
 | ~~O-3~~ | ~~Select a venue~~ | — | **CLOSED 2026-08-20.** Sim2Science, 5-page main track. `docs/DECISIONS.md` D-2. |
 
 ## Non-blocking — carry forward

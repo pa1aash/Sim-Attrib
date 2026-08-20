@@ -1,0 +1,262 @@
+provenance:
+  script: src/diagnostics/run_diagnostic.py
+  commit: 570692c2f16b04c1948b47665c162c9478fe1de8
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/floor_check.yaml
+  command: python -m src.diagnostics.run_diagnostic --seed 20260820 --replicates 128 --norm-replicates
+    2000 --floor-draws 10000
+  seed: 20260820
+  started: '2026-08-20T16:15:42+05:30'
+  finished: '2026-08-20T16:24:57+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+framing: 'This diagnostic is INFRASTRUCTURE for a composition paper (maximized Monte Carlo, Dufour 2006,
+  composed with a selection event for component-level misspecification attribution). It is NOT a claimed
+  method contribution: the rank-and-condition-number screen on a sensitivity matrix is Cintron-Arias,
+  Banks, Capaldi & Lloyd (2009) and finite differencing under simulation noise is More & Wild (2012).
+  See docs/DECISIONS.md D-6 and audit/R2_THREAT_CHECK.md. Its purpose here is to decide whether component
+  attribution is well posed for THIS simulator under THIS closed list of summary sets -- the precondition,
+  per Kahl et al. (2019), for the composition being worth building at all.'
+summary_set: S_A
+summary_coordinate_labels:
+- peak_height
+- peak_time
+- final_size
+- growth_rate
+component_labels:
+- transmission
+- progression
+- observation
+simulator:
+  module: src/simulators/sir3.py
+  components_K: 3
+  components:
+  - transmission
+  - progression
+  - observation
+  base_parameters:
+    N: 100000.0
+    I0: 10.0
+    beta: 0.35
+    gamma: 0.14
+    R0_basic: 2.4999999999999996
+    T_days: 120
+    substeps_per_day: 24
+    rho: 0.4
+    delay_mean_days: 3.0
+    delay_shape: 3.0
+    delay_kernel_len_days: 21
+    obs_sigma: 0.15
+  integrator: 'fixed-step RK4 (not adaptive: adaptive step selection is itself a source of computational
+    noise)'
+  distortion_families:
+    transmission: beta*S*I/N -> beta*S*I/N / (1 + eta_1*(I/N)/p_ref)   [saturating incidence; prevalence
+      nonlinearity]
+    progression: gamma -> gamma*exp(eta_2*(t/T - 0.5))   [mean-centred log-linear hazard drift; timing/trend]
+    observation: rho -> rho*exp(eta_3)   [reporting-fraction multiplier; pure amplitude]
+  distortion_identity_at_zero: delta_k(.;0) == base simulator exactly, tested in tests/test_sir3.py
+  p_ref_peak_prevalence_fraction: 0.2335235106521953
+  summary_definitions:
+    growth_rate_window_days:
+    - 5
+    - 25
+    n_bins_S_B: 10
+    peak_statistics: peak height and peak time are computed by PARABOLIC INTERPOLATION about the discrete
+      argmax. A discrete argmax is integer-valued and therefore a step function of eta, with no finite-difference
+      derivative at any h. This is a substantive choice about the summary, not an implementation detail.
+normalisation:
+  why_this_matters: The rank of J is NOT scale-invariant. Rescaling a summary or reparametrising eta_k
+    changes the singular values and can change the numerical rank. Every threshold below is a statement
+    about these normalisations and about nothing else.
+  summaries:
+    rule: each summary coordinate divided by its prior-predictive standard deviation at eta = 0
+    n_replicates_R_norm: 2000
+    seed0: 21160820
+    coordinate_labels:
+    - peak_height
+    - peak_time
+    - final_size
+    - growth_rate
+    prior_predictive_sd:
+    - 182.67676332644606
+    - 2.091297770353305
+    - 933.2578128117411
+    - 0.006007470674698982
+    prior_predictive_mean:
+    - 1909.4968036607652
+    - 42.80043535095383
+    - 35708.90078961138
+    - 0.2082503466000218
+    degenerate_coordinates_dropped: []
+  distortions:
+    rule: each eta_k divided by a fixed relative perturbation scale, identical across k
+    eta_scale: 0.1
+    meaning: One normalised unit is a 10% relative deformation of the component. Because eta_scale is
+      COMMON across k, scaling it multiplies J by a constant and therefore leaves the normalised spectrum,
+      the numerical rank at a relative tolerance, and the condition number unchanged; only the column-norm
+      (invisible-component) test depends on its absolute value.
+    transmission_saturation_reference_prevalence_p_ref: 0.2335235106521953
+  interpretation_of_J_entry: J[d, k] is the change in summary d, in prior-predictive standard deviations,
+    produced by a full-scale (one normalised unit) relative distortion of component k.
+estimator:
+  scheme: central differences, J[:,k] = mean_r [s(+h e_k; seed_r) - s(-h e_k; seed_r)] / (2h) / sd
+  common_random_numbers: true
+  why_common_random_numbers: 'The +h and -h evaluations use the SAME replicate seeds. Without this the
+    two evaluations draw independent observation noise, the difference quotient inherits noise of order
+    obs_sigma/h, and at small h that term swamps the signal: the finite difference then measures the simulator''s
+    randomness rather than its response. See the no_crn_control results file, where the leading singular
+    value grows exactly as 1/h.'
+  n_replicates_R: 128
+  seed0: 20260820
+  n_simulator_runs: 1536
+  noise_model: lognormal
+  why_not_a_count_noise_model: 'Under common random numbers a count-valued observation layer (Poisson,
+    negative binomial) is a STEP function of eta: the difference quotient is either exactly 0 or O(1/h)
+    and no derivative exists at any h. A continuous multiplicative layer multiplies the derivative instead
+    of quantising it. The observation noise model therefore determines whether J is estimable at all,
+    which is a modelling constraint and not an implementation detail.'
+thresholds_pre_registered:
+  source: docs/THRESHOLDS.md, written before any singular value existed in this repository
+  tau_rank_tolerance: 0.01
+  kappa_max: 100.0
+  colnorm_invisible: 0.1
+  coherence_flag: 0.98
+  vk_min_equivalence_class: 0.3
+  resolve_factor: 2.0
+  h_values:
+  - 0.1
+  - 0.01
+  - 0.001
+  - 0.0001
+  - 1.0e-05
+  - 1.0e-06
+  plateau_rel_tol:
+    value: 0.05
+    note: FIXED IN SESSION G3, not in THRESHOLDS.md, which pre-registered the resolution criterion but
+      not how the plateau is identified. Stated in src/diagnostics/jacobian_rank.py and fixed before any
+      singular value existed.
+results:
+  dimensions:
+    d: 4
+    K: 3
+  h_sweep:
+  - h: 0.1
+    singular_values:
+    - 4.156932355352413
+    - 1.1424675773715423
+    - 0.8136163564503861
+  - h: 0.01
+    singular_values:
+    - 4.155947966389754
+    - 1.0426771012358675
+    - 0.7727330232059872
+  - h: 0.001
+    singular_values:
+    - 4.155946920654892
+    - 1.0426755892050161
+    - 0.7727321570293135
+  - h: 0.0001
+    singular_values:
+    - 4.155946909997309
+    - 1.042675574063193
+    - 0.7727321482770891
+  - h: 1.0e-05
+    singular_values:
+    - 4.155946910839109
+    - 1.042675574040207
+    - 0.7727321486059924
+  - h: 1.0e-06
+    singular_values:
+    - 4.155946897278998
+    - 1.042675588198281
+    - 0.7727321404188312
+  relative_frobenius_change_between_adjacent_h:
+  - 0.11746238138464507
+  - 6.646565193318598e-07
+  - 6.703771864825317e-09
+  - 1.4733374461157478e-09
+  - 1.2613951858690189e-08
+  plateau:
+    rule: longest contiguous run of h with ||J(h_{i+1})-J(h_i)||_F / ||J(h_i)||_F < plateau_rel_tol
+    plateau_rel_tol: 0.05
+    found: true
+    h_range:
+    - 0.01
+    - 1.0e-06
+    h_indices:
+    - 1
+    - 5
+    n_h_in_plateau: 5
+    representative_h: 0.0001
+    censored_at_large_h: false
+    censored_at_small_h: true
+  singular_values_at_representative_h:
+  - 4.155946909997309
+  - 1.042675574063193
+  - 0.7727321482770891
+  singular_value_range_across_plateau:
+  - - 4.155946897278998
+    - 4.155947966389754
+  - - 1.042675574040207
+    - 1.0426771012358675
+  - - 0.7727321404188312
+    - 0.7727330232059872
+  singular_value_variation_factor:
+  - 1.0000002572484161
+  - 1.000001464689208
+  - 1.0000011424232407
+  resolved:
+  - true
+  - true
+  - true
+  resolve_factor: 2.0
+  numerical_rank:
+    tau: 0.01
+    rule: 'rank = #{ i : sigma_i >= tau * sigma_1 }, with unresolved sigma counted in neither direction'
+    rank_certain: 3
+    rank_possible: 3
+    determined: true
+    full_column_rank: true
+  condition_number: 5.378250302208281
+  kappa_max: 100.0
+  column_norms:
+  - 1.574618032494868
+  - 0.9131766461858669
+  - 3.955106636874388
+  colnorm_invisible_threshold: 0.1
+  invisible_components: []
+  pairwise_coherence:
+  - - 1.0
+    - 0.3375767928991632
+    - 0.7770563291935029
+  - - 0.3375767928991632
+    - 1.0000000000000002
+    - 0.196268978077859
+  - - 0.7770563291935029
+    - 0.196268978077859
+    - 1.0
+  coherence_flag_threshold: 0.98
+  coherence_flagged_pairs: []
+  right_singular_vectors_at_representative_h:
+  - - 0.31202713697235385
+    - -0.050127515965831204
+    - -0.9487498605722856
+  - - -0.7267547871515759
+    - 0.6306037694635312
+    - -0.2723350239882003
+  - - -0.6119367166179064
+    - -0.774484420812634
+    - -0.16033507655349485
+  near_null_directions: []
+  vk_min: 0.3
+  inseparable: false
+  inseparable_reason: 'separable: full column rank at tau and condition number within ceiling'
+leakage_checked: true
+leakage_how: The diagnostic never receives a component index, a ground-truth label, or any indication
+  of which component is responsible for anything. Its whole input is the simulator as a callable, the
+  distortion basis (that there are K one-parameter families and that perturbing family k means setting
+  eta_k), and the resulting summary vectors. It computes a property of the map s(eta), not a guess about
+  a hidden truth, so there is no hidden truth available to leak.
