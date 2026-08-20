@@ -245,7 +245,11 @@ what was already believed — the test standing constraint S3 requires of anythi
 flag. Measured state at 2026-08-20: **PUBLIC**.
 
 **What this session did about it: nothing, deliberately.** D-4 forecloses any session changing
-visibility itself. The operator has been notified and is making the switch directly on GitHub.
+visibility itself. The operator was notified. **See D-11 for how the operator ruled**: the
+repository stays public through the build phase and is switched before submission, which means
+the sentence "is making the switch directly on GitHub" — written by G4 as an expectation about
+what would follow — was an expectation and not an observation. It is left in place, corrected
+here rather than edited away.
 
 **What it forecloses.** Nothing new. It removes one thing only: a later session may not treat the
 trigger as still-open or still-arguable. It has fired, on a specified date, against a measured
@@ -255,6 +259,41 @@ operator.
 **What it does not settle.** Whether the switch has actually happened. This session can see the
 repository was public when it looked; it cannot see what the operator does afterwards, and it
 must not be read later as evidence that the repository is still public.
+
+---
+
+## D-11 — The visibility trigger is ruled on: public through build, private before submission.
+
+**Date:** 2026-08-20 · **Recorded by session G5** · **Depends on:** D-4, D-7 · **Action:** O-1
+
+**This is the operator's ruling on the trigger D-7 recorded as fired. It is a decision, not a
+notice, and it is the last word on the subject until the switch is made.**
+
+**The ruling, verbatim in substance.** The repository **remains PUBLIC through the build
+phase**. It will be switched to **PRIVATE before submission**, as a separate action, outside
+any session's scope. The operator reconfirmed this explicitly after G4 flagged the D-4/D-7
+trigger.
+
+**What it changes about D-4.** Nothing about the destination; only the timing. D-4 set the
+switch at *"immediately before the paper draft or final results are committed"*, and D-7 found
+that `results/` gaining numbers had met that condition. The operator has weighed the trigger
+having fired against the cost of switching mid-build and has chosen to carry the exposure to
+the end of the build. **That is a judgement about the operator's own risk, and it is theirs to
+make.**
+
+**What it forecloses, and this is the part that matters for future sessions.** No session may
+re-raise repository visibility as an open question, re-measure it, treat it as pending, or
+argue that the fired trigger obliges action now. **It is settled.** A session that finds itself
+reasoning about visibility should stop and cite this entry.
+
+**What it does not settle.** Whether the switch has been made — it has not, by design, and it
+is not due yet. **O-1** stays open as an operator action with a stated trigger of "before
+submission", and P-4 in `audit/S4_REPORT.md` is superseded by this entry rather than answered
+by it.
+
+**The honest reading.** This is a decision to accept a known, named exposure for a stated
+period, made with the trigger visible rather than in ignorance of it. That is a different thing
+from an unresolved item, and the difference is the reason this entry exists.
 
 ---
 

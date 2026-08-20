@@ -13,17 +13,23 @@
 > gains a draft or `results/` gains a final number.
 >
 > **TRIGGER FIRED — recorded 2026-08-20, session G4.** `results/` contains real numbers, which
-> is the condition D-4 names. The operator has been notified and is making the switch directly
-> on GitHub; **this session does not attempt to change visibility** and could not (O-4).
-> `docs/DECISIONS.md` **D-7** records the firing.
+> is the condition D-4 names. `docs/DECISIONS.md` **D-7** records the firing.
 >
-> **Visibility as measured, not as assumed.** `gh` is still not authenticated here (`gh auth
-> status`: "You are not logged into any GitHub hosts", re-checked 2026-08-20), so `gh repo view`
-> cannot be used. It was measured instead through the **unauthenticated** GitHub REST API, which
-> answers the question without credentials: an anonymous `GET /repos/pa1aash/Sim-Attrib` returned
-> **HTTP 200** with `"private": false`, `"visibility": "public"`. A private repository returns
-> **404** to an anonymous request, so this check reads differently in the two cases and is not
-> vacuous (standing constraint S3). **Measured state at 2026-08-20: PUBLIC.** See O-4.
+> **OPERATOR RULING ON THE TRIGGER — 2026-08-20, reconfirmed at the start of session G5, and
+> NOT a reopened question.** The repository **stays PUBLIC through the build phase**. The switch
+> to private happens **before submission**, as a separate action outside any session's scope.
+> D-4's trigger having fired does not make the switch due now; the operator has weighed it and
+> ruled. **No session is to re-raise this, re-measure it, or treat it as pending.** It is settled
+> and it is the operator's to execute.
+>
+> **Visibility as measured when it last was, recorded rather than re-checked.** `gh` was not
+> authenticated here (`gh auth status`: "You are not logged into any GitHub hosts", 2026-08-20),
+> so `gh repo view` was unavailable. It was measured instead through the **unauthenticated**
+> GitHub REST API: an anonymous `GET /repos/pa1aash/Sim-Attrib` returned **HTTP 200** with
+> `"private": false`, `"visibility": "public"`. A private repository returns **404** to an
+> anonymous request, so that check reads differently in the two cases and was not vacuous
+> (standing constraint S3). **Measured state at 2026-08-20: PUBLIC — which is the intended
+> state for the build phase.** See O-4.
 
 Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent session.
 
@@ -35,7 +41,7 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 
 | # | Action | Owner | Notes |
 |---|---|---|---|
-| **O-1** | **Switch repository visibility public → private** | OPERATOR | **TRIGGER HAS FIRED (2026-08-20, G4). Operator notified; the switch is theirs to make and is not attempted here.** `docs/DECISIONS.md` **D-7**. Measured state at 2026-08-20 is **PUBLIC** (anonymous REST API, HTTP 200, `private: false`). D-4 makes the switch due "the moment `paper/` gains a draft or `results/` gains a final number", and `results/` contains numbers. G3 hedged this as "arguably" met; the operator has resolved the hedge. **P-4:** confirm the switch has been made. |
+| **O-1** | **Switch repository visibility public → private, before submission** | OPERATOR | **RULED, NOT PENDING (2026-08-20, reconfirmed G5).** The trigger fired in G4; the operator has ruled that the repository **stays PUBLIC through the build phase** and is switched **before submission**, as a separate action outside any session's scope. `docs/DECISIONS.md` **D-7**, **D-11**. Measured state at 2026-08-20 is **PUBLIC**, which is the intended state. **No session is to re-raise, re-measure, or re-litigate this.** |
 | ~~O-2~~ | ~~Sign or reject gates G0, G1, G2 and G3~~ | — | **CLOSED 2026-08-20 (G4).** All four signed by the operator: G0, G1 and G2 with their drafted `conditions` accepted in full, G3 with no conditions beyond normal review. `GATES.md`. **G4 itself is new and UNSIGNED** (S9) — see O-20. Original note follows: All four are `UNSIGNED`. **Proposed `conditions` text is now drafted for all of G0, G1 and G2** in `GATES.md` (G3 §4.2) — accept, amend, or reject. G3 is new and its report is `audit/S3_REPORT.md`. This has been outstanding for three sessions. |
 | ~~O-8~~ | ~~Answer Q-8~~ | — | **CLOSED 2026-08-20 (G3).** Superseded by Q-10, which the operator answered and G3 executed. Option (b) — build the diagnostic — was taken and delivered. No longer blocks code; code exists. |
 | ~~O-9~~ | ~~Answer Q-9~~ | — | **CLOSED 2026-08-20 (G2).** Answered: the repairs are published (Dufour's MMC; repro samples; co-sufficient sampling). It is a citation, not a research question. |
@@ -48,7 +54,7 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 | **O-17** | **Run an adversarial critic** — against the **MMC composition** | agent | **PARTLY DISCHARGED 2026-08-20 (G4).** A critic pass ran against G3's Phase 2 *numbers* — `audit/G3_ADVERSARIAL_REVIEW.md` — and changed the answer, as it did both previous times the debt was paid by accident. **The composition itself is still unrefuted by anyone**, which is what `audit/MMC_COMPOSITION_SPEC.md` §6 says and what this row now tracks. Note also that G4's pass was **not independent**: the same project, its own code, the same session. |
 | ~~O-18~~ | ~~Re-run the diagnostic at several seeds~~ | — | **CLOSED 2026-08-20 (G4).** Two further seeds run through the identical diagnostic; `results/robustness/jacobian_rank.seed_*.yaml`, tabulated in `results/robustness/ROBUSTNESS_TABLE.md` §2 and read in `audit/G3_ADVERSARIAL_REVIEW.md`. |
 | **O-19** | **Add a ligature rule alongside S7** | agent | *(still open; G4 used `hyperresearch`'s own extraction plus NFKC normalisation rather than raw `grep`, so the defect did not recur, but no rule has been written down.)* PDF extraction preserves `ﬀ`/`ﬁ`/`ﬂ`, so `grep -a "difference parameter"` returned **0** against 18 real occurrences. S7's `grep -a` rule does not cover this. Normalise NFKC and validate against a control term containing a ligature. `audit/R2_THREAT_CHECK.md` §3.4. |
-| **O-20** | **Sign or reject gate G4** | OPERATOR | `GATES.md`. `ready for review — UNSIGNED`. Report: `audit/S4_REPORT.md`. **P-1.** |
+| ~~O-20~~ | ~~Sign or reject gate G4~~ | — | **CLOSED 2026-08-20 (G5).** Signed unconditionally by the operator, together with G0–G3, as recorded in `GATES.md`. The signature is explicit that Q-13 stays open and that the gapless-spectrum objection stays DEFERRED — signing G4 did not settle either. |
 | **O-21** | **Answer Q-13** — what may be claimed from a family-conditional separability verdict | OPERATOR | **BLOCKING for the paper's separability sentence only.** Does not block the `p_sel` measurement. `docs/OPEN_QUESTIONS.md`. |
 | **O-22** | **Re-run `run_diagnostic.py` once, so `results/` carries a real leakage check** | agent | Every file in `results/` records `leakage_checked: true` as a **hard-coded literal**. `jacobian_rank.leakage_check` now computes a real one and `run_diagnostic.py` records it, but G3's files were deliberately not regenerated (that would overwrite G3's numbers). A clean re-run at the same seed should reproduce them exactly **and** carry the check — and if it does not reproduce them exactly, that is itself the finding. |
 | ~~O-3~~ | ~~Select a venue~~ | — | **CLOSED 2026-08-20.** Sim2Science, 5-page main track. `docs/DECISIONS.md` D-2. |

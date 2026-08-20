@@ -580,7 +580,7 @@ conditions:  None beyond normal review. G3 is signed as met on all twenty-one cr
 
 ## G4 — Does G3's own result survive being attacked?
 
-**status: ready for review — UNSIGNED**
+**status: SIGNED 2026-08-20**
 
 Prepared 2026-08-20, session G4. Signature block below is for the operator.
 
@@ -689,7 +689,21 @@ the brief's own test of whether this was a critic pass or a confirmation pass.
 ### Operator sign-off
 
 ```
-signed:      ____________________
-date:        ____________________
-conditions:  ____________________
+signed:      Palaash Gang
+date:        2026-08-20
+conditions:  Signed unconditionally, together with G0, G1, G2 and G3, as of this date.
+
+             G4 is signed as an accurate record of the first adversarial pass this
+             project has run, INCLUDING its split verdict and INCLUDING the "does not
+             certify" section, which is signed as part of the record and not as a list
+             of conditions to be closed.
+
+             Signing G4 does NOT settle Q-13, which remains open and blocking for the
+             paper's separability sentence only. It does not endorse `S_A` as
+             generalising, and it does not convert `S_B`'s survival into an
+             unconditional claim.
+
+             The gapless-spectrum objection is signed as G4 left it: DEFERRED, not
+             defeated. Session G5 is commissioned to resolve it at K = 6 and to measure
+             `p_sel` against the cost gate, in that order.
 ```
