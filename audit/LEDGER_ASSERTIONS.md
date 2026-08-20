@@ -326,3 +326,111 @@ multiplies. Assessed in `S0_REPORT.md` §7.
 **Confirms/refutes:** not independently checkable; recorded for completeness and not
 relied upon.
 **Status: NOT CHECKABLE**
+
+---
+---
+
+# VERIFICATION RESULTS — session G0, 2026-08-20
+
+Appended, not merged into the entries above. The pre-registered confirm/refute criteria
+stay visible exactly as written before verification, so that the criteria can be checked
+against the findings rather than reconstructed from them.
+
+Sources were read **in full text**, fetched as PDFs. No status below rests on a secondary
+description of a paper.
+
+## Group B — Anau Montel, Alvey & Weniger (arXiv:2412.15100) — ALL CONFIRMED
+
+Full text read (11,676 words). Title: *"Tests for model misspecification in
+simulation-based inference: from local distortions to global model checks."*
+
+| # | Status | Evidence |
+|---|---|---|
+| B1 | **CONFIRMED** | The quoted phrase is verbatim accurate: *"distortions in individual data bins, correlated distortions, excesses in specific Fourier modes, or additional model components, depending on the type of data at hand."* |
+| B2 | **CONFIRMED** | Their distortion families are instantiable per-component; the plan's concession that the generic framing "is that paper" is correct. |
+| B3 | **CONFIRMED** | §II.2: *"We refer to each test statistic ti as localized, not in the spatial sense, but because it is tied to a specific, single, narrowly defined distortion scenario in the data."* §II.3: the construction gives *"the individual significance of each specific alternative."* Term counts over the full text: **"competitive" = 0**, **"degeneracy" = 0**, **"which distortion" = 0**, **"attribution" = 0**. Both uses of "distinguish" are H0-vs-H1 only. |
+| B4 | **CONFIRMED — but the plan under-credits them; see below** | |
+| B5 | **CONFIRMED** | No identifiability statement of any kind. The concept is absent, not underdeveloped. |
+
+### B4 requires re-framing before it is written into a paper
+
+They are **not** naive about multiplicity. §II.3 explicitly computes a *"**global
+p-value** for the overall, i.e. **trials-corrected**, significance of the **minimum
+observed p-value** from all tests"*, and it accounts for correlations between tests.
+
+That correction controls the **global null** — the probability of any false detection
+having looked in many places. It attaches no error rate to the **identity** of the
+argmin. So the plan's sentence is literally correct, but the paper must state the gap in
+its sharpened form:
+
+> A trials/family-wise correction over a family of tests is not error control over the
+> identity of the selected member.
+
+Writing "they report no error control" without this distinction invites a reviewer who
+has read §II.3 to object that multiplicity *is* handled — and the objection would land.
+
+**Their own conclusion claims three things: "Detection of model misspecification",
+"Efficient", "Principled".** Detection is their word. No attribution claim is made.
+
+## Group C — RNPE — C1b RESOLVED AS PER-SUMMARY-STATISTIC
+
+Full text read (9,556 words); **arXiv:2210.06564**, an ID the plan does not give.
+
+| # | Status | Evidence |
+|---|---|---|
+| C1a | **CONFIRMED** | The error model is placed on summary statistics. |
+| C1b | **RESOLVED: per-summary-statistic** | §2.2, verbatim: the design goal is *"easy assessment of **which summary statistics** are approximately well-specified and which are misspecified"*, implemented as *"a 'spike and slab' error model **on each summary statistic**"*, with the error model factorising as a product over the D summary statistics. Figure 1 reports a *"Posterior misspecification probability"* per statistic. |
+
+**This is the branch the plan feared, and it is worse than the plan's contingency
+allows.** Two features the plan does not anticipate:
+
+1. RNPE already produces per-coordinate localisation **with a graded posterior
+   probability** — not a binary flag and not a global score. C1's promise of "a
+   per-component score with a calibrated null" is structurally the same move one
+   coordinate-system over.
+2. The misspecification indicators are inferred **jointly**, coupled through the shared
+   denoised data. So RNPE is closer in spirit to C1's proposed *competitive* procedure
+   than the named gatekeeper is.
+
+What RNPE does **not** do: attribute to simulator **components** (its coordinates are
+summary statistics); provide any **frequentist** error control (the output is a posterior
+probability under fixed hand-chosen hyperparameters ρ=0.5, σ=0.01, τ=0.25, explicitly not
+tuned); or offer any identifiability analysis.
+
+**Propagation.** Per `CLAIM_GRAPH.md`, C1's remaining defence is the component-vs-summary
+distinction, which only has content when summaries do not map one-to-one onto components
+— exactly the regime C2's rank condition describes. **C1 is now dependent on C2.** The
+plan presents them as independent fallbacks; they are not.
+
+## Group E — partial, bearing on E3
+
+**Wu, Shirvan & Kozlowski (2018), arXiv:1801.10309**, *"Demonstration of the Relationship
+between Sensitivity and Identifiability for Inverse Uncertainty Quantification"* — full
+text read (9,280 words) — sits in exactly C2's setting (KOH calibration with an explicit
+discrepancy term) and states:
+
+> *"identifiability is largely related to the sensitivity of the calibration parameters
+> w.r.t. the chosen responses. In order for a certain calibration parameter to be
+> statistically identifiable, it should be significant to at least one of the responses."*
+
+The sensitivity↔identifiability link in the discrepancy setting is therefore **already
+published**. It differs from E3 in form — Sobol' global indices rather than a Jacobian
+rank; a *necessary* condition rather than an *iff*; separating parameters from **one**
+aggregate discrepancy rather than separating **several** discrepancy components from each
+other; and requiring observed data. The residual space for E3 is real but **narrower than
+the plan assumes**, and must be claimed against this paper explicitly.
+
+This finding also makes the unanticipated global-sensitivity-analysis objection (gap M4)
+concrete: that paper describes sensitivity analysis as attributing response uncertainty
+"to various input parameters", which is the vocabulary of attribution already in use in
+the same problem setting.
+
+E3's full verdict is pending the dedicated structural-identifiability investigation.
+
+## Group A — partial
+
+| # | Status | Note |
+|---|---|---|
+| A1 | **NOT REFUTED so far** | Direct searches for a component-level attributor in SBI returned nothing. Searches run and empty: arXiv `misspecification AND simulation-based inference AND attribution`; `"which component" AND simulator AND misspecification`; `abs:"source of misspecification"`; `abs:misspecification AND abs:localiz AND abs:simulator`; `abs:"selective inference" AND abs:"simulation-based"`. Recorded so the negative is auditable rather than assumed. **Not yet checked against OpenReview**, which is where the plan's own sweep was weakest. |
+| A2 | CONFIRMED (self-report) | unchanged |
+| A3, A4 | **UNVERIFIED** | Both papers retrieved in full text but not yet read closely enough to certify the plan's one-line characterisations. |

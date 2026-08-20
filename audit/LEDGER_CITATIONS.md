@@ -113,3 +113,81 @@ them, and their absence is itself a finding about the plan's coverage.
 **M1 and M4 are the two most likely sources of an unanticipated rejection**, because both
 are large, mature literatures that ask a version of this project's question in different
 vocabulary, and the plan engages neither.
+
+---
+---
+
+# VERIFICATION RESULTS — session G0, 2026-08-20
+
+Every entry below was checked by **fetching the paper and reading its title block**.
+Nothing here is from memory or from secondary description.
+
+## Byline errors in the plan — four found, and it is a pattern
+
+| # | Plan's citation | The paper itself | Severity |
+|---|---|---|---|
+| C1 | "**Montel**, Alvey & Weniger" | Surname is **Anau Montel**. *Noemi Anau Montel, James Alvey, Christoph Weniger* | Moderate — compound surname split |
+| C5 | "Ward, Cannon, Beaumont, Fasiolo & **Naderiparizi**" | Fifth author is **Sebastian M. Schmon** (Improbable / Durham). arXiv:**2210.06564** | **Serious** — names an author who is not on the paper |
+| C6 | "**Kelly, Huang, Tomaselli, Wehenkel** (RoPE), arXiv:2405.08719" | arXiv:2405.08719 is *"Addressing Misspecification in Simulation-based Inference through Data-driven Calibration"* — **Antoine Wehenkel, Juan L. Gamella, Ozan Sener, Jens Behrmann, Guillermo Sapiro, Jörn-Henrik Jacobsen, Marco Cuturi**. Only Wehenkel is right; "Tomaselli" belongs to arXiv:2508.02404 | **Serious** — two papers conflated |
+| C2 | "Schmitt, Radev & Bürkner" | *Marvin Schmitt, Paul-Christian Bürkner, **Ullrich Köthe**, Stefan T. Radev* | Minor — one author omitted |
+
+The plan concedes its four *journal-side* citations were unretrieved. The finding here is
+that the **arXiv-side** citations were not reliably retrieved either. Treat every
+reference as unverified until fetched.
+
+## Retrieval log — full text obtained
+
+| Ref | Identifier | Words | Status |
+|---|---|---|---|
+| C1 Anau Montel et al. | arXiv:2412.15100 | 11,676 | RETRIEVED (preprint) — **read in full** |
+| C5 Ward et al. RNPE | arXiv:2210.06564 | 9,556 | RETRIEVED (preprint) — **read in full** |
+| C2 Schmitt et al. | arXiv:2112.08866 | 14,979 | RETRIEVED (preprint) |
+| C3 Schmitt et al. | arXiv:2406.03154 | 15,026 | RETRIEVED (preprint) |
+| C4 Cannon, Ward & Gutmann | arXiv:2209.01845 | 8,463 | RETRIEVED (preprint) |
+| C6 Wehenkel et al. | arXiv:2405.08719 | 16,986 | RETRIEVED (preprint) |
+| C7 Tomaselli, Ventura & Wasserman | arXiv:2508.02404 | 19,696 | RETRIEVED (preprint) — plan's citation **correct** |
+| C8 Leclercq | arXiv:2209.11057 | 4,334 | RETRIEVED (preprint) |
+| C10 Pierre et al. | arXiv:2507.03086 | 10,479 | RETRIEVED (preprint) |
+| C13 Tuo & Wu | arXiv:1507.07280 | 8,703 | RETRIEVED (**preprint, not the version of record** — *Ann. Statist.* 43(6), DOI 10.1214/15-AOS1314) |
+| — Wu, Shirvan & Kozlowski | arXiv:1801.10309 | 9,280 | RETRIEVED (preprint) — **not in the plan; bears directly on C2** |
+
+## The "paywalled four" — the premise was wrong
+
+The plan treats these as unretrievable. Located via OpenAlex, **three of four are openly
+accessible**:
+
+| Ref | DOI | OA | Route |
+|---|---|---|---|
+| C11 Kennedy & O'Hagan, *JRSS-B* 63(3) 2001 | 10.1111/1467-9868.00294 | **Yes** | OUP PDF |
+| C12 Brynjarsdóttir & O'Hagan, *Inverse Problems* 30(11) 2014 | 10.1088/0266-5611/30/11/114007 | **Yes** | IOP PDF |
+| C13 Tuo & Wu, *Ann. Statist.* 43(6) 2015 | 10.1214/15-AOS1314 | **Yes** | OSTI; arXiv:1507.07280 |
+| C14 Arendt, Apley & Chen 2012 | 10.1115/1.4007390 | **No** | ASME paywall — **still open**, and it is the one most likely to matter for C2 |
+
+They were not blocked by paywalls. They were not looked for with an open-access resolver.
+
+## C15 — the incomplete citation, now complete
+
+The plan gives "Marshall & Spiegelhalter conflict p-values" with no year, title, or
+venue. The paper is:
+
+> **E. C. Marshall & D. J. Spiegelhalter (2007)**, *"Identifying outliers in Bayesian
+> hierarchical models: **a simulation-based approach**"*, **Bayesian Analysis 2(2)**,
+> DOI **10.1214/07-BA218**. Open access.
+
+**The subtitle is a problem for the plan's defence.** The plan argues conflict
+diagnostics "need a tractable likelihood; SBI has neither". A paper whose title announces
+a simulation-based approach is prima facie evidence against that, and the plan was
+written without retrieving it.
+
+## C16 — full title recovered
+
+> **Presanis, Ohlssen, Spiegelhalter & De Angelis (2013)**, *"Conflict Diagnostics in
+> Directed Acyclic Graphs, **with Applications in Bayesian Evidence Synthesis**"*,
+> *Statistical Science* **28(3)**, DOI **10.1214/13-STS426**. Open access; also Cambridge
+> Apollo, DOI 10.17863/cam.34842.
+
+## Note on C9 — the flagged overlap
+
+C9 (Yang, Nott & Presanis, arXiv:2511.02977) shares an author with C16. As logged before
+verification, this is where a bridge between the conflict-diagnostics and SBI literatures
+would appear. Under dedicated investigation; verdict pending.
