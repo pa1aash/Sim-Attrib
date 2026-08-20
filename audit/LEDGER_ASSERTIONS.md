@@ -434,3 +434,134 @@ E3's full verdict is pending the dedicated structural-identifiability investigat
 | A1 | **NOT REFUTED so far** | Direct searches for a component-level attributor in SBI returned nothing. Searches run and empty: arXiv `misspecification AND simulation-based inference AND attribution`; `"which component" AND simulator AND misspecification`; `abs:"source of misspecification"`; `abs:misspecification AND abs:localiz AND abs:simulator`; `abs:"selective inference" AND abs:"simulation-based"`. Recorded so the negative is auditable rather than assumed. **Not yet checked against OpenReview**, which is where the plan's own sweep was weakest. |
 | A2 | CONFIRMED (self-report) | unchanged |
 | A3, A4 | **UNVERIFIED** | Both papers retrieved in full text but not yet read closely enough to certify the plan's one-line characterisations. |
+
+## Group D — conflict diagnostics — **D2 PARTLY FAILS. This is the most damaging finding of the session.**
+
+The plan's defence is a single sentence: *"these need a tractable likelihood and a DAG;
+SBI has neither."* Pre-registered entry D2 warned that this is **two claims, not one**,
+and that the DAG half looked false on inspection. Both halves were checked separately.
+
+### D2(a) — "needs a tractable likelihood" — **REFUTED as a claim about the literature**
+
+There is an established **likelihood-free branch** of prior-data-conflict checking, most
+of it by Nott and co-authors, and the plan cites none of it:
+
+| Work | What it does |
+|---|---|
+| Chakraborty, Nott & Evans, arXiv:2202.09993 | States verbatim that the checks are *"applicable regardless of whether the likelihood is tractable or not… without requiring evaluation of the likelihood"* |
+| Mao, Wang, Nott & Evans, *Stat & Comput* 2021, DOI 10.1007/s11222-021-10053-3 | Conflict between **summary-statistic subsets**, fully likelihood-free |
+| Chakraborty, Nott, Drovandi, Frazier & Sisson, arXiv:2203.09782 | A calibrated **module-level** conflict p-value in likelihood-free cutting feedback |
+| Yuyan, Evans & Nott, arXiv:2504.09475 | Amortized neural SBI |
+| Ratmann et al., *PNAS* 2009 | Early simulation-based model criticism |
+| **Leclercq, arXiv:2209.11057** | **Layer-level misspecification diagnosis in SBI — and it is in the plan's own bibliography** |
+
+The claim holds **only narrowly, for the three papers the plan actually names** — where it
+is genuinely solid: Marshall & Spiegelhalter's conflict replicate is drawn from a
+normalised likelihood; Presanis et al. 2013 needs Jeffreys' priors and OpenBUGS refits;
+Presanis et al. 2017 runs on MLEs and inverse observed information.
+
+**Required rewrite.** "These need a tractable likelihood" is refutable by a referee in one
+sentence. The defensible version is: *the DAG node-splitting apparatus of Marshall &
+Spiegelhalter and Presanis et al. is tied to a fully specified parametric likelihood, and
+the likelihood-free branch checks conflict between summary-statistic subsets or two-module
+partitions — never among an arbitrary number of competing simulator components with
+selection-aware error control.*
+
+### D2(b) — "needs a DAG" — **REFUTED as stated; the repaired version is not independent**
+
+Decomposing a simulator into components supplies a DAG, exactly as the pre-registered
+entry anticipated. What node-splitting actually requires is a **separator node whose
+surrounding evidence splits into two conditionally independent partitions, each separately
+identifying that node.** Simulators fail that — but not for want of a graph. They fail
+because every component sits upstream of one observation stream.
+
+**That is C2's identifiability claim restated.** So the plan cannot use "no DAG" as a
+distinction *independent* of C2; the honest version collapses into it. Another shared
+dependency the plan's risk model treats as separate.
+
+### Three direct collisions with the plan's claims
+
+1. **Marshall & Spiegelhalter (2007) already state the non-identifiability**, in the
+   prior-vs-likelihood case: *"it will not be possible to then distinguish failures in the
+   specification of the prior or the likelihood."* E1 is less novel than the plan assumes.
+2. **Yang, Nott & Presanis (2025) concede** that *"node-splitting may suffer from
+   identifiability problems"*.
+3. **Presanis et al. (2017) already give a Jacobian non-singularity condition** as the
+   regularity condition for valid node-level conflict inference — a rank-type condition
+   for node-level localisation, in a neighbouring literature, predating C2. **This is the
+   single most dangerous find for E3.**
+
+### D1 — CONFIRMED
+
+Node-level localisation with calibrated p-values is what this literature does.
+
+### What survives — and it is narrower than the plan's framing
+
+1. **Competitive rather than marginal attribution.** Every conflict diagnostic here is a
+   marginal test at one node against one partition-pair. Presanis et al. (2017) document
+   that results are not invariant to the partition chosen and suffer masking. Nobody ranks
+   components against each other.
+2. **Post-selection error control without likelihood asymptotics.** Presanis et al. (2017)
+   gives max-T FWER over a **pre-specified** family under asymptotic multivariate
+   normality — a fixed-family result, not conditional/selective inference, and not
+   available without a tractable likelihood.
+3. **K > 2 competing components.** The likelihood-free branch handles two-module cuts and
+   two-way summary splits. Nothing handles K components competing at once.
+
+### Checked and negative
+
+**Yang, Nott & Presanis (arXiv:2511.02977) is NOT the bridge.** Flagged before
+verification as the most likely place a bridge would appear, because Presanis authors both
+literatures. Its full text contains no mention of intractable likelihoods, simulators,
+neural methods, ABC, or likelihood-free inference outside its reference list. C9's
+pre-registered concern is discharged.
+
+---
+
+## Group A — A1 downgraded to **PARTIAL**
+
+`Leclercq, arXiv:2209.11057` — in the plan's own "prior art you must cite" list, and
+uncharacterised there — diagnoses misspecification **at a named layer** of a Bayesian
+hierarchical model inside SBI, demonstrated on **Lotka–Volterra with a complex
+observational process**, which is one of the two simulators the plan proposes to use.
+
+A1 survives only under a strict reading of "attribute" (assigning fault among several
+competing components, with a statement of error). Under the looser reading — localising
+misspecification to a named structural part of a model — **the plan's own bibliography
+contains a counterexample it does not acknowledge.**
+
+The paper must therefore define "attribution" precisely and early, and position
+explicitly against Leclercq. Otherwise "none attribute" reads as overreach against a
+citation the authors supplied themselves.
+
+**OpenReview has now been searched** — the gap the plan's own sweep left. Queries:
+`component-level model misspecification attribution simulator`; `which component of the
+simulator is misspecified`; `misspecification attribution simulation-based inference`.
+Every substantive SBI hit is detection, robustification, or calibration; two are 2026
+entrants the plan does not know about (Flow Matching for Robust SBI, ICLR 2026; Flow
+Matching Calibration for SBI, ICML 2026), both robustification. No component attributor
+found. The negative is now auditable rather than assumed.
+
+## Group A — A3, A4 now CONFIRMED
+
+- **A3 CONFIRMED.** Schmitt et al. (arXiv:2112.08866) detect misspecification via a
+  **maximum mean discrepancy** statistic in summary space (88 occurrences of "MMD"),
+  described as *"a distribution mismatch test"*. Zero occurrences of "localiz" or
+  "attribut". Global detection, as the plan says.
+- **A4 CONFIRMED.** Wehenkel et al. (arXiv:2405.08719, the paper the plan calls RoPE)
+  robustifies: "robust" 28, "calibration set" 67, **"localiz" 0, "which component" 0**. It
+  overcomes misspecification with a real-world calibration set via optimal transport. No
+  attribution.
+
+## Group H — H1 REFUTED as stated
+
+See `S0_REPORT.md` §7. The 10⁴–10⁵ figure counts forward simulations for one experiment,
+not the protocol as designed. Multiplying the plan's own factors — ≥200 replicates × ~10
+collinearity levels × Monte-Carlo null draws — puts the Anau Montel-style baseline alone
+at ~2×10⁶ simulations at N_mc = 1000, which is 20× the stated ceiling, from one of four
+baselines.
+
+**CPU-only holds for the forward solves** — those are milliseconds and embarrassingly
+parallel. It is the **neural density estimation** in the RNPE and learned-test-statistic
+baselines that breaks it, because NPE is amortised over parameters but **not over the
+simulator**: each collinearity level changes the simulator and forces a retrain.
