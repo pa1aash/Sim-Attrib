@@ -352,7 +352,40 @@ session can answer this by re-analysis. It is not blocking because the compositi
 precondition is a `K = 3` statement, and it is recorded so the gap is a named one rather than
 an unnoticed one.
 
-### Q-16 — The rejection sampler does not terminate over the nuisance set. Is the MMC composition the right vehicle at all? **(BLOCKING — new, G6)**
+### Q-16 — The rejection sampler does not terminate over the nuisance set. Is the MMC composition the right vehicle at all? **ANSWERED 2026-08-20 (operator, at the start of G7) — the diagnostic-only path**
+
+> **THE ANSWER, RECORDED ABOVE THE QUESTION IT SETTLES.** The operator takes **option (c)**,
+> the recommendation this question offered: **the MMC composition is dropped as an experimental
+> vehicle and retained in the paper as a stated negative result.** Recorded as
+> `docs/DECISIONS.md` **D-16**, DECIDED, with the four contributions the paper now claims.
+>
+> **The rationale, in one paragraph.** The gate did not fail on price, it failed on
+> **termination**: over the nuisance set the minimum acceptance probability is zero — no draw
+> in 100,000 enters the observed cell at a five-percent perturbation, 95% upper bound
+> 3.84×10⁻⁵ — and the obstruction is structural rather than budgetary. `§3.4`'s lemma requires
+> the selection rule to be a fixed function of the data; the nuisance parameters shift the
+> normalised summaries by a median of 27 standard deviations where the noise supplies about
+> 3.16; so a `θ`-free rule selects deterministically and the observed cell becomes unreachable.
+> **No machine changes that**, which removes the only reading under which "build it anyway" was
+> a compute decision. Option (a) buys termination by bounding `Ω₀`, at the price of Dufour's own
+> CSEMMC downgrade from finite-sample to asymptotic validity — i.e. by giving up the property
+> the composition exists for — and option (b) requires inventing a rule after seeing the
+> measurement that killed the obvious one, which is the leakage failure `LEDGER_DESIGN.md` D3
+> names. **The measurement is therefore reported as a finding rather than as a failure**: it is
+> the first thing this project has established about the composition rather than about its
+> precondition, it is negative in a specific and quantified way, and it tells a reader of any
+> simulator of this class what to check before attempting exact conditional inference on it.
+>
+> **What this does NOT do.** It does not withdraw anything in `results/`. It does not touch the
+> separability precondition, which stands inside D-14's scope. It does not say the composition
+> is wrong — only that this simulator, and any simulator whose nuisance-to-noise ratio resembles
+> it, cannot serve as its demonstration. And it does not close **Q-13**, which remains open and
+> blocking for the paper's separability sentence.
+>
+> **The boundary sweep this question priced was subsequently run** — session G7, Phase 1,
+> `results/boundary_sweep.yaml` — **as characterisation, not as verdict-seeking.** The scope
+> decision above was taken before it ran and does not depend on it. What it buys is a figure
+> with a shape instead of a bare threshold statement.
 
 **Raised 2026-08-20 by `results/cost_gate.yaml`, the first measurement this project has taken
 of the composition rather than of its precondition.**

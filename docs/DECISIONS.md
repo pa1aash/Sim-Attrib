@@ -478,6 +478,92 @@ and nothing wider.**
 
 ---
 
+## D-16 — DECIDED: the MMC composition is dropped as an experimental vehicle and kept as a stated negative result.
+
+**Date:** 2026-08-20 · **Decided by the operator** at the start of session G7 · **Answers:**
+Q-16 (blocking since G6) · **Evidence:** `results/cost_gate.yaml`, `results/p_sel.yaml`,
+`audit/S6_REPORT.md` · **Closes:** P-2 of G6 · **Executes:** Q-16 option (c), the
+diagnostic-only path of `audit/PIVOT.md`
+
+### The decision
+
+**The MMC + selection-event composition is not built.** It is retained in the paper as a
+**negative result**: a quantified account of why naive rejection-sampling-based exact
+conditional inference does not terminate for this class of simulator.
+
+**The paper's scope is closed at four contributions**, and no session may widen it without a
+new decision here:
+
+1. **The rank/coherence diagnostic** — the method.
+2. **The eight-assignment separability result for `S_B`** under single-mechanism distortion —
+   the positive result, scoped by **D-14**.
+3. **The `K = 6` cross-mechanism confound** — the boundary result, which is where D-14's
+   assumption is load-bearing rather than decorative.
+4. **The MMC non-termination finding** — the cautionary result, stated as a genuine negative
+   result and quantified.
+
+### Why, and the part that is not a compute argument
+
+**The gate failed on termination, not on price.** Over the nuisance set the minimum acceptance
+probability is zero — no draw in 100,000 enters the observed cell at a relative half-width of
+0.05, 95% upper bound 3.84×10⁻⁵ — and the mechanism is structural. `audit/MMC_COMPOSITION_SPEC.md`
+§3.4's lemma, the composition's only theorem, requires the selection rule to be a **fixed
+function of the data**; the nuisance parameters move the normalised summaries by a median of 27
+and up to 65 standard deviations at that half-width, against a single-draw noise magnitude of
+√10 ≈ 3.16; a `θ`-free rule facing a shift twenty times the noise selects deterministically, and
+the cell the data actually selected becomes unreachable. **A larger machine does not touch
+that**, which is what removes "build it anyway on more compute" from the table.
+
+**The two alternatives, and their prices, both refused.** Option (a) — bound `Ω₀` until the
+cells stay reachable — buys termination with Dufour's own CSEMMC downgrade from finite-sample to
+asymptotic validity, i.e. by surrendering the property the composition exists for. Option (b) —
+find a selection rule that survives nuisance drift without becoming `θ`-dependent — requires
+inventing one *after* seeing the measurement that killed the obvious one, which is the leakage
+failure `LEDGER_DESIGN.md` D3 names.
+
+### This is not a smaller paper. It is a different and more defensible one.
+
+Sim2Science's call names **"simulator diagnostics"** and **"analysis of … degeneracy,
+simplifications, and identifiability"** among its interests. The four contributions above are
+that paper: here is the identifiability condition, here is the diagnostic that checks it before
+any inference is run, here is exactly where the condition's scope assumption breaks, and here is
+why the obvious exact procedure for acting on the condition does not terminate. **The last
+clause is a contribution and is to be written as one**, not as an apology for an unbuilt
+experiment.
+
+### What it forecloses
+
+- **No session may implement the composition, the rejection sampler, or the maximiser** without
+  a superseding decision recorded here. `src/attribution/` keeps the selection rule, which is
+  now evidence for contribution 4 rather than infrastructure for an unbuilt experiment.
+- **No session may report the composition as "future work with a compute caveat".** The
+  obstruction is not compute and describing it that way misstates this project's own
+  measurement.
+- **`audit/MMC_COMPOSITION_SPEC.md` becomes a historical / negative-result document**, not a
+  build target. Its content is not deleted: it is the source for the negative-result section
+  and for the non-termination figure.
+
+### What it does NOT do
+
+- **It does not withdraw any number.** Nothing in `results/` is affected; the separability
+  precondition stands inside D-14's scope.
+- **It does not close Q-13**, which remains open and blocking for the paper's separability
+  sentence, nor does it touch D-14, whose four placement obligations still land on
+  `paper/main.tex`.
+- **It does not claim the composition is wrong.** It claims this simulator cannot serve as its
+  demonstration, and states the property of the simulator — the nuisance-to-noise ratio — that
+  makes it so, so that a reader can check their own.
+- **It does not license a scaled-down or hidden version of the experiment.** §4's own words: on
+  a failed gate *"the honest output is the cost analysis itself, not a scaled-down experiment
+  that hides it."*
+
+**Executed 2026-08-20 (session G7).** Q-16 marked ANSWERED in `docs/OPEN_QUESTIONS.md`;
+`audit/MMC_COMPOSITION_SPEC.md` re-headed as historical; the boundary sweep (**O-30**) run as
+characterisation of the negative result; the claim set consolidated in
+`audit/FINAL_CLAIMS.md`.
+
+---
+
 ## Not decisions — still open
 
 `Q-3` (reciprocal reviewer), `Q-6` (multi-component scope), and `Q-7` (citation-error

@@ -1,5 +1,45 @@
 # MMC + selection event — specification, not an implementation
 
+> # ⛔ STATUS 2026-08-20 (session G7): THIS IS A HISTORICAL AND NEGATIVE-RESULT DOCUMENT. IT IS NOT A BUILD TARGET.
+>
+> **`docs/DECISIONS.md` D-16 (DECIDED, operator, start of G7) drops the composition specified
+> below as an experimental vehicle.** It is not to be implemented. No session may build the
+> rejection sampler, the maximiser, or the composed test without a superseding decision recorded
+> in `docs/DECISIONS.md`.
+>
+> **Nothing below is deleted, and the reason matters.** This document is now the *source* for
+> the paper's fourth contribution — the MMC non-termination finding — and for the figure that
+> reports it. A specification that was written before its own cost was measured, and that names
+> in §3.4 the exact failure case the measurement later found, is stronger evidence than a
+> retrospective account of the same thing. Deleting or rewriting it would destroy that.
+>
+> **What was measured, and what it did to this document.** `results/p_sel.yaml` and
+> `results/cost_gate.yaml` (session G6) applied the pre-registered cost gate of §4. **It failed
+> on non-termination rather than on cost.** At the base parameter point the composition is
+> comfortably affordable — the worst selection cell holds 0.2346 of null draws — but §4 point 1's
+> own rule takes the minimum over `θ ∈ Ω₀`, and over the nuisance set that minimum is **zero
+> acceptances in 100,000 draws** at a relative half-width of 0.05, 95% upper bound 3.84×10⁻⁵.
+> That is precisely the case **§3.4** singles out in its own words — *"If some admissible
+> nuisance value makes the observed selection impossible, the rejection sampler never terminates
+> there"* — and it now has a number instead of a warning.
+>
+> **Three specific things below are superseded, and are flagged in place rather than edited
+> out:**
+>
+> - **§4's order-of-magnitude table** (`1/p_sel ~ 150`, product `10⁷–10⁹` draws) is superseded by
+>   measurement. It was borrowed from Freidling et al.'s setting, where the conditioning event
+>   stays reachable. **`OUTSTANDING.md` O-28**; the annotation is §4.1 below, added in G7.
+> - **§6's deferral of `T_k`** was discharged by `src/attribution/selection.py`, written in G6
+>   because `p_sel` is a property of the cell `T_k` defines and could not be measured otherwise.
+>   `DEVIATIONS.md` **D-14**.
+> - **§5's precondition list** is now scoped by `docs/DECISIONS.md` **D-14**: at most one
+>   one-parameter distortion family per component. The six-column union is INSEPARABLE.
+>
+> **Where the boundary of the collapse lies** — how far from `θ₀` the cells stay reachable — was
+> measured in G7 as `results/boundary_sweep.yaml`, and is reported in **§4.2** below. That sweep
+> is characterisation of a closed question, not a reopening of it: D-16 was taken before it ran.
+
+
 **Session G3, 2026-08-20. SPECIFICATION ONLY.** Nothing in this document was built or run
 this session, by instruction. It exists so that the next session builds a thing that was
 specified before its results were known, rather than specifying a thing after building it.
