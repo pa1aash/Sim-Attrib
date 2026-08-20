@@ -91,6 +91,9 @@ edit to the old one.
 | `src/diagnostics/report_tables.py` | `results/SUMMARY_TABLE.md` — **generated**, never hand-edited |
 | `src/diagnostics/p_sel.py` *(G6)* | `results/p_sel.yaml` |
 | `src/diagnostics/cost_gate.py` *(G6)* | `results/cost_gate.yaml`, `results/COST_GATE_TABLE.md` — **generated**, never hand-edited |
+| `src/diagnostics/boundary_sweep.py` *(G7)* | `results/boundary_sweep.yaml` |
+| `src/diagnostics/report_boundary.py` *(G7)* | `results/BOUNDARY_TABLE.md` — **generated**, never hand-edited |
+| `src/viz/fig*.py` *(G7)* | `figures/*.pdf`, `figures/*.preview.png`, `figures/*.provenance.json` — see below |
 
 `src/provenance.py` builds the header defined above. It is the only place that header's shape
 is defined, so a results file cannot drift from this contract by being written by hand.
@@ -156,3 +159,56 @@ No **attribution accuracy** figure exists, so the additional requirement above �
 and the as-run uniform attributor in the same file — has not yet had to be met by an accuracy
 results file. `results/floor_check.yaml` establishes the floor in advance of any accuracy being
 computed, which is the order this contract intends.
+
+
+---
+
+## Figures, and how the contract above reaches them (added session G7, 2026-08-21)
+
+The **Figures** rule at the top of this document was written in session G0 and had never been
+exercised, because **no figure existed anywhere in this repository until session G7**. It now
+is, and by machinery rather than by discipline.
+
+### What every figure carries
+
+`src/viz/provenance.py` writes a `<stem>.provenance.json` beside every figure. It records the
+`results/*.yaml` files that fed it **with their SHA-256 at generation time**, each source's own
+provenance header (script, commit, seed, `dirty`), the figure script and repository commit, the
+drafted caption, the resolved style facts, and the output files with their hashes. The chain a
+reader can walk without human memory is therefore
+
+    figure  ->  provenance sidecar  ->  results file  ->  emitting script  ->  commit + seed
+
+with no step taken on trust.
+
+### The check that can fail, and what makes it fail
+
+Listing source files proves only that a script opened them. So each figure additionally
+**declares, per plotted series, the dotted path in the source YAML that series came from**, and
+the sidecar writer re-reads the file from disk and compares. `data_matches_source` reads FALSE
+when a number in the figure is not at the declared path — a hand-typed value, a value carried
+from an earlier run, a transform applied but not declared — or when the source file changed
+under the figure, or when a results-schema change moved the path. **It does not check
+un-declared annotations, and it cannot say whether the declared path is the right quantity to
+plot.** Both limits are stated in the module and in each sidecar.
+
+`tests/test_viz.py` exercises the pipeline end to end on synthetic data whose right answer is
+known in advance, and shows the check reading FALSE on each of the four things it claims to
+catch.
+
+### Two properties of the output that the contract now depends on
+
+- **No tool identity and no timestamp in any figure file.** Matplotlib stamps its own name and
+  a wall-clock `CreationDate` into every PDF and PNG unless told otherwise, and there is no
+  `savefig.metadata` rcParam to set globally. `src/viz/style.save` is therefore the **only**
+  sanctioned way to write a figure in this project; no script may call `savefig` directly.
+  Standing constraint **S1**, extended this session to figure metadata.
+- **Figures are byte-reproducible.** Dropping `CreationDate` means re-running a figure script
+  on unchanged data produces an identical file, so the hash a sidecar records describes the
+  figure's *content* rather than the minute it was drawn. Asserted in `tests/test_viz.py`.
+
+### What is not yet satisfied
+
+Nothing checks that a figure's **caption** describes the figure. The caption is drafted beside
+the figure and stored in the sidecar so that a drafting session works from a caption written
+while the figure's content was fresh, but it is prose and no flag guards it.
