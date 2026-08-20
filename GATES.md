@@ -11,7 +11,7 @@ action, not a permission already granted.
 
 ## G0 — Foundation: repository, plan ingestion, positioning
 
-**status: ready for review — UNSIGNED**
+**status: SIGNED 2026-08-20, with conditions**
 
 Prepared: 2026-08-20. Signature line below is to be completed by the operator.
 
@@ -53,10 +53,31 @@ Prepared: 2026-08-20. Signature line below is to be completed by the operator.
 ### Operator sign-off
 
 ```
-signed:      ____________________
-date:        ____________________
-conditions:  ____________________
+signed:      Palaash Gang
+date:        2026-08-20
+conditions:  ACCEPTED AS DRAFTED. The five-item `conditions` text proposed below by
+             session G1 is adopted verbatim and in full, with every item ACCEPTED as a
+             standing limitation rather than required closed:
+
+             1. Arendt, Apley & Chen (2012) remains unretrieved (five routes logged).
+             2. The four adversarial critics never ran in G0; the finding that caveat
+                covered was subsequently refuted. The caveat was correct.
+             3. Google Scholar was never searched.
+             4. Semantic Scholar was rate-limited; citation-chaining never performed.
+             5. Two S0_REPORT claims failed verification in G1; both corroborating, not
+                load-bearing.
+
+             G0 is signed as an accurate record of what that session found and of what it
+             did not check. It is NOT signed as an endorsement of its novelty verdicts.
 ```
+
+> **Recording note on item 6, session G4 (2026-08-20).** Session G3 proposed a sixth item —
+> that G0's negative searches ran on the metadata index rather than the full-text one — and
+> offered it explicitly *"if the operator is amending rather than accepting"*. The operator
+> accepted the conditions **as drafted**, so item 6 is **not** part of the signed text. The
+> substance is not lost: it is carried as **O-13** in `OUTSTANDING.md` and stated in G3's note
+> below. This paragraph records the reading taken, so that a reader who disagrees with it can
+> see it rather than have to reconstruct it.
 
 #### Proposed `conditions` text for G0 — a PROPOSAL, not a signature
 
@@ -134,7 +155,7 @@ depends on it.
 
 ## G1 — Feasibility: does the simulator pass its own rank condition?
 
-**status: ready for review — UNSIGNED**
+**status: SIGNED 2026-08-20 as NOT MET, with conditions**
 
 Prepared 2026-08-20, session G1. Signature block below is for the operator.
 
@@ -271,15 +292,30 @@ would keep G1 open over a deliverable that has already been produced under a dif
 ### Operator sign-off
 
 ```
-signed:      ____________________
-date:        ____________________
-conditions:  ____________________
+signed:      Palaash Gang
+date:        2026-08-20
+conditions:  ACCEPTED AS DRAFTED. The six-item `conditions` text proposed above by session
+             G3 is adopted verbatim and in full, with every item ACCEPTED:
+
+             1. G1.1 and G1.2 were NOT MET and signing does not convert them to met.
+             2. They are discharged by G3, not by G1; option (c) is withdrawn as moot.
+             3. The stop that blocked G1 was correct — the R1 verdict was DEAD.
+             4. docs/THRESHOLDS.md was written despite the stop and is logged as
+                DEVIATIONS.md D-6; its value depends on having preceded any singular value,
+                which `git log` establishes.
+             5. G1's negative searches are unverified instrument gaps (O-13); its positive
+                finding — the R1 refutation from primary texts — is unaffected.
+             6. Branke, Chick & Schmidt (2007) and Kim & Nelson (2006) remain unretrieved,
+                with a recorded substitution for the latter.
+
+             G1 is signed as an accurate record of a session whose DEFINING CRITERION WAS
+             NOT MET. It is not signed as a pass.
 ```
 
 
 ## G2 — Does the composite-null gap survive a threat check?
 
-**status: NOT MET — UNSIGNED**
+**status: SIGNED 2026-08-20 as NOT MET, correctly stopped, with conditions**
 
 Prepared 2026-08-20, session G2. Signature block below is for the operator.
 
@@ -396,14 +432,29 @@ least partly an instrument failure, and G2 is the session that established that.
 ### Operator sign-off
 
 ```
-signed:      ____________________
-date:        ____________________
-conditions:  ____________________
+signed:      Palaash Gang
+date:        2026-08-20
+conditions:  ACCEPTED AS DRAFTED. The seven-item `conditions` text proposed above by
+             session G3 is adopted verbatim and in full, with every item ACCEPTED:
+
+             1. G2.5 and G2.6 were not done; both are now discharged by G3.
+             2. The stop was correct and was the brief's own.
+             3. G2.11 — the search-instrument correction — is the most valuable thing this
+                project has produced, and it was not in the brief.
+             4. The correction is retrospective and the debt is not paid (O-13).
+             5. The instrument-gap class of defect recurred twice in G3 within one session
+                of audit/TOOLING.md being written. The ligature case is carried as O-19.
+             6. Dufour's version of record was not obtained (O-14); it blocks citing MMC in
+                any manuscript.
+             7. No adversarial critic ran; G2's verdict is single-pass.
+
+             G2 is signed as NOT MET, correctly stopped, and — on the evidence of G3 — the
+             session that fixed the project's actual problem.
 ```
 
 ## G3 — First code. Does the simulator pass its own rank condition?
 
-**status: ready for review — UNSIGNED**
+**status: SIGNED 2026-08-20**
 
 Prepared 2026-08-20, session G3. Signature block below is for the operator.
 
@@ -512,7 +563,16 @@ Prepared 2026-08-20, session G3. Signature block below is for the operator.
 ### Operator sign-off
 
 ```
-signed:      ____________________
-date:        ____________________
-conditions:  ____________________
+signed:      Palaash Gang
+date:        2026-08-20
+conditions:  None beyond normal review. G3 is signed as met on all twenty-one criteria, and
+             the "What G3 explicitly does not certify" section above is signed WITH it, as
+             part of the record rather than as a set of conditions to be closed.
+
+             Signed in the knowledge that G3's own numbers had not been attacked by anything
+             at the moment of signing, and that session G4 was commissioned for exactly that
+             purpose. Where G4 qualifies a G3 number, the qualification is to be recorded
+             against that number in `results/` and in `docs/THRESHOLDS.md`, not by reopening
+             this gate. If G4 OVERTURNS one, that is a decision point for the operator and
+             not something a signed gate absorbs quietly.
 ```

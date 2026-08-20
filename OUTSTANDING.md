@@ -12,10 +12,18 @@
 > considered the trade-off and accepted it — but it becomes one the moment `paper/`
 > gains a draft or `results/` gains a final number.
 >
-> Not verifiable from this machine: `gh` is not authenticated here (`gh auth status`
-> reports "You are not logged into any GitHub hosts", re-checked 2026-08-20), so
-> `gh repo view` cannot report current visibility. The status above is carried from the
-> operator's own statement of it. See O-4.
+> **TRIGGER FIRED — recorded 2026-08-20, session G4.** `results/` contains real numbers, which
+> is the condition D-4 names. The operator has been notified and is making the switch directly
+> on GitHub; **this session does not attempt to change visibility** and could not (O-4).
+> `docs/DECISIONS.md` **D-7** records the firing.
+>
+> **Visibility as measured, not as assumed.** `gh` is still not authenticated here (`gh auth
+> status`: "You are not logged into any GitHub hosts", re-checked 2026-08-20), so `gh repo view`
+> cannot be used. It was measured instead through the **unauthenticated** GitHub REST API, which
+> answers the question without credentials: an anonymous `GET /repos/pa1aash/Sim-Attrib` returned
+> **HTTP 200** with `"private": false`, `"visibility": "public"`. A private repository returns
+> **404** to an anonymous request, so this check reads differently in the two cases and is not
+> vacuous (standing constraint S3). **Measured state at 2026-08-20: PUBLIC.** See O-4.
 
 Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent session.
 
@@ -27,8 +35,8 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 
 | # | Action | Owner | Notes |
 |---|---|---|---|
-| **O-1** | **Switch repository visibility public → private** | OPERATOR | See banner. **TRIGGER CONDITION NOW ARGUABLY MET (2026-08-20, G3): `results/` contains numbers.** D-4 makes the switch due "the moment `paper/` gains a draft or `results/` gains a final number". Whether the diagnostic's output is "final results" in D-4's sense is the operator's call; this row is a factual notice, not a reopening of the decision. |
-| O-2 | **Sign or reject gates G0, G1, G2 and G3** | OPERATOR | All four are `UNSIGNED`. **Proposed `conditions` text is now drafted for all of G0, G1 and G2** in `GATES.md` (G3 §4.2) — accept, amend, or reject. G3 is new and its report is `audit/S3_REPORT.md`. This has been outstanding for three sessions. |
+| **O-1** | **Switch repository visibility public → private** | OPERATOR | **TRIGGER HAS FIRED (2026-08-20, G4). Operator notified; the switch is theirs to make and is not attempted here.** `docs/DECISIONS.md` **D-7**. Measured state at 2026-08-20 is **PUBLIC** (anonymous REST API, HTTP 200, `private: false`). D-4 makes the switch due "the moment `paper/` gains a draft or `results/` gains a final number", and `results/` contains numbers. G3 hedged this as "arguably" met; the operator has resolved the hedge. **P-4:** confirm the switch has been made. |
+| ~~O-2~~ | ~~Sign or reject gates G0, G1, G2 and G3~~ | — | **CLOSED 2026-08-20 (G4).** All four signed by the operator: G0, G1 and G2 with their drafted `conditions` accepted in full, G3 with no conditions beyond normal review. `GATES.md`. **G4 itself is new and UNSIGNED** (S9) — see O-20. Original note follows: All four are `UNSIGNED`. **Proposed `conditions` text is now drafted for all of G0, G1 and G2** in `GATES.md` (G3 §4.2) — accept, amend, or reject. G3 is new and its report is `audit/S3_REPORT.md`. This has been outstanding for three sessions. |
 | ~~O-8~~ | ~~Answer Q-8~~ | — | **CLOSED 2026-08-20 (G3).** Superseded by Q-10, which the operator answered and G3 executed. Option (b) — build the diagnostic — was taken and delivered. No longer blocks code; code exists. |
 | ~~O-9~~ | ~~Answer Q-9~~ | — | **CLOSED 2026-08-20 (G2).** Answered: the repairs are published (Dufour's MMC; repro samples; co-sufficient sampling). It is a citation, not a research question. |
 | ~~O-10~~ | ~~Threat-check R2~~ | — | **CLOSED 2026-08-20 (G3).** `audit/R2_THREAT_CHECK.md`, verdict **NARROW-CONDITIONAL**, run entirely on the corrected full-text instrument. Consequence recorded as **D-6**. |

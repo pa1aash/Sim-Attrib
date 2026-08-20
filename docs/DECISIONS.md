@@ -219,6 +219,45 @@ terms of `PLAN_SOURCE.md`, G0's C1/C2, or G1's R1 (brief §2.10).
 
 ---
 
+## D-7 — D-4's visibility trigger has fired. Recorded, not executed.
+
+**Date:** 2026-08-20 · **Recorded by session G4** · **Depends on:** D-4 · **Action:** O-1, P-4
+
+**This entry records that a condition already decided in D-4 has been met. It does not make a
+new decision and does not reopen D-4.**
+
+**The condition.** D-4 fixed the repository as public during the build and private *"immediately
+before the paper draft or final results are committed"*; `OUTSTANDING.md` **O-1** states the same
+trigger as *"the moment `paper/` gains a draft or `results/` gains a final number."*
+
+**The finding.** `results/` contains numbers — five files produced by session G3, recorded in
+`results/SUMMARY_TABLE.md`, each carrying a provenance header naming the commit and seed that
+produced it. G3 raised this as a factual notice and hedged it as *"arguably"* met. **The operator
+has now resolved the hedge: the trigger has fired.** That resolution is what this entry records.
+
+**Measured state, not assumed state.** `gh` is not authenticated on this machine (**O-4**), so
+`gh repo view` was unavailable. Visibility was measured instead through the **unauthenticated**
+GitHub REST API, which answers the question without credentials: an anonymous
+`GET /repos/pa1aash/Sim-Attrib` returned **HTTP 200** with `"private": false`,
+`"visibility": "public"`. **A private repository returns 404 to an anonymous request**, so the
+check gives different answers in the two cases and is a real check rather than a restatement of
+what was already believed — the test standing constraint S3 requires of anything written as a
+flag. Measured state at 2026-08-20: **PUBLIC**.
+
+**What this session did about it: nothing, deliberately.** D-4 forecloses any session changing
+visibility itself. The operator has been notified and is making the switch directly on GitHub.
+
+**What it forecloses.** Nothing new. It removes one thing only: a later session may not treat the
+trigger as still-open or still-arguable. It has fired, on a specified date, against a measured
+visibility state. **P-4** is the confirmation that the switch was made, and it belongs to the
+operator.
+
+**What it does not settle.** Whether the switch has actually happened. This session can see the
+repository was public when it looked; it cannot see what the operator does afterwards, and it
+must not be read later as evidence that the repository is still public.
+
+---
+
 ## Not decisions — still open
 
 `Q-3` (reciprocal reviewer), `Q-6` (multi-component scope), and `Q-7` (citation-error
