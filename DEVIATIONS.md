@@ -109,3 +109,46 @@ what happened rather than what was planned.
 container. The purpose of the checkpoint — that an interrupted run loses nothing — is
 served by the finding files, which is where the recoverable content actually is.
 `STATE.md` names the last completed step and lists every banked finding.
+
+## D-6 — Phase 3 was stopped, and one non-code part of it was written anyway
+
+**Instruction (Phase 2.4):** on a DEAD or NARROWS verdict, *"STOP before Phase 3 … do not
+proceed to build code for a mechanism that just lost its novelty without operator input."*
+**Instruction (P-1):** *"decide how to proceed before any further code is written."*
+
+**The verdict was DEAD.** `audit/R1_THREAT_CHECK.md`.
+
+**What was honoured.** **No code was written.** `src/` is unchanged and still contains only
+READMEs and `.gitkeep` files. `src/simulators/sir3.py`, `src/simulators/summaries.py`,
+`src/diagnostics/jacobian_rank.py`, the unit tests, the floor check, and every
+`results/*.yaml` specified in Phase 3 **do not exist**. No number was produced this session,
+so `results/` remains empty and `PROVENANCE.md` still describes a repository with no numbers
+in it. Consequently **G1's own headline criterion — which branch of the 3.10 STOP condition
+fired — has no answer**, because the diagnostic was not run.
+
+**What was written anyway, and why.** `docs/THRESHOLDS.md` — Phase 3.6 (Q-4 and Q-5) and
+Phase 3.7 (the Kahl/D8 argument). Three reasons:
+
+1. **It is not code.** Both stop instructions are scoped to code. This is a
+   pre-registration document and an argument.
+2. **Writing it now is the strongest available form of the commitment it makes.**
+   `LEDGER_DESIGN.md` D3 and `S0_REPORT.md` §8 both warn that fixing the summary-set list
+   and the rank tolerance *after* seeing singular values is "the respectable form of the
+   leakage failure". Thresholds written in a session that provably produced **no singular
+   values at all** cannot have been fitted to results. The commit history establishes it,
+   the same way `PIVOT.md`'s does.
+3. **Phase 5.4 depends on it** — it instructs that Q-4 and Q-5 be closed by reference to
+   `docs/THRESHOLDS.md`, so Phase 5 presumes the file exists.
+
+**The judgement call, stated plainly.** §2.4 says "STOP before Phase 3", which read at its
+widest blocks the whole phase including its writing. P-1 says "before any further code is
+written", which blocks only code. I took the narrower reading for the pre-registration
+document and the wider reading for everything else. A reader who disagrees should treat
+`docs/THRESHOLDS.md` as a proposal rather than a commitment; nothing depends on it yet,
+because nothing has been run.
+
+**Note on which claim Phase 3 actually serves.** Phase 3 builds **R2**, the noisy-rank
+estimator. R2 does not depend on R1 — `audit/CLAIM_GRAPH.md` records them as independent,
+and the Phase-2 refutation touches only R1. So Phase 3 is arguably unblocked *on the merits*
+while being blocked *by instruction*. That is the operator's call, not this session's, and
+it is put to them as part of **Q-8**.

@@ -19,19 +19,6 @@ Failure to review is grounds for **desk-rejecting our own submission**. All auth
 be listed at submission; none can be added later. This needs a real person committed.
 No longer conditional: `docs/DECISIONS.md` **D-2** commits the project to Sim2Science.
 
-### Q-4 — What counts as "any reasonable summary set" for the STOP condition?
-`LEDGER_DESIGN.md` D4 commits to stopping and reporting a negative identifiability result
-if components are inseparable "under any reasonable summary set". That phrase is not
-operational. Before the diagnostic runs, fix in writing: (i) which summary sets will be
-searched, and (ii) what rank / condition-number threshold counts as inseparable.
-Otherwise the STOP condition can be evaded indefinitely by proposing one more summary set.
-
-### Q-5 — What singular-value or coherence threshold defines an equivalence class?
-`LEDGER_DESIGN.md` D8. Real Jacobians are near-singular rather than singular, so the
-equivalence classes reported depend on where the cutoff is set. That choice is a
-substantive part of the method, not a numerical tolerance, and its sensitivity must be
-reported. Needs a defensible answer before results are generated.
-
 ### Q-6 — Is a multi-component misspecification condition in scope?
 The design knocks exactly one component off-spec at a time, so ground truth is unique by
 construction. But real simulators are wrong in several places at once — and that is the
@@ -99,6 +86,37 @@ claimed about exact conditional validity in SBI until it is answered.
 
 ## Answered
 
+### Q-4 — What counts as "any reasonable summary set", and what rank tolerance? **ANSWERED 2026-08-20**
+
+**Answered in `docs/THRESHOLDS.md` §1** — referenced, not duplicated here.
+
+In summary: the list is **closed at `S_A`, `S_B`, `S_C`**, with a `DEVIATIONS.md` entry
+required to add a fourth. Numerical rank is called at `τ = 10⁻²` relative to `σ_1`, and a
+summary set is "inseparable" if `rank(J) < 3` or `κ > 100`. The ceiling `κ_max = 100` is
+derived from the study's own simulation budget — separation costs `n ≈ κ²` replicates, and
+`κ = 1000` would cost more than `S0_REPORT.md` §7 prices the entire protocol at.
+
+**These were fixed before any singular value existed**, in a session that produced no
+numbers at all; `git log` is the evidence. A near-zero column norm (`‖J_·k‖ < 0.1`) is
+recorded as a **separate** failure — a component invisible to the summaries, not a
+confounded one.
+
+### Q-5 — What threshold defines an equivalence class? **ANSWERED 2026-08-20**
+
+**Answered in `docs/THRESHOLDS.md` §2** — referenced, not duplicated here.
+
+Component *k* joins the class named by a near-null right singular vector `v` iff
+**`|v_k| ≥ 0.3`**, reported as a range across the h-plateau with border-crossing components
+flagged. **Coherence is reported but is deliberately not the decision rule**: the coherence
+consistent with `κ_max = 100` is `μ ≈ 0.9998`, too close to 1 to be estimable, so `|μ| ≥ 0.98`
+is used only to flag which pair is responsible.
+
+`docs/THRESHOLDS.md` §3 additionally carries the Phase-3.7 argument for why finite-parametric
+equivalence classes are meaningful where Kahl et al.'s function-space ones are not — with a
+real concession in §3.4: at *exact* rank deficiency Kahl's dichotomy does import, and near-
+degeneracy claims must be labelled as statements about **affordability**, not identifiability.
+
+---
 ### Q-1 — Do we target NeurIPS 2026 at all? **ANSWERED 2026-08-20**
 
 **Answer: yes, and the question's own framing is retired.** `docs/DECISIONS.md` **D-1**.
