@@ -125,6 +125,19 @@ this decision must be revisited by the operator before further work.
 **Executed 2026-08-20.** `audit/CLAIM_GRAPH.md` was rewritten around R1 and R2, with the
 original C1/C2 analysis **appended and preserved**, not deleted.
 
+> ### ⛔ D-3 IS SUSPENDED — the condition it was recorded under has failed
+>
+> The Phase-2 threat check returned **DEAD**, not SAFE. R1's mechanism is prior art:
+> **Freidling, Zhao & Gao (arXiv:2405.07026)** publish it as a named rejection-sampling
+> algorithm with the same cost analysis, the **April-2026 review** (Neufeld, Perry &
+> Witten, arXiv:2604.09779) catalogues it as a known Monte Carlo strategy, and **Liu,
+> Markovic-Voronov & Taylor (arXiv:2203.14504)** — cited in D-3 as identifying the barrier —
+> in fact removes it. Full evidence: `audit/R1_THREAT_CHECK.md`.
+>
+> D-3's verbatim text is **retained above, unedited**, because it is the operator's own
+> words and the record of what was decided and why. It is **not** live guidance. No work
+> proceeds on R1 as stated until the operator answers **Q-8**.
+
 ---
 
 ## D-4 — Repository visibility: public during build, private before the paper.

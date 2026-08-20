@@ -126,9 +126,17 @@ written on the assumption that R1 is novel is written at risk.
 
 ## Status
 
+> **UPDATED 2026-08-20, after Phase 2.** R1a and R1c **FAILED**. R1b **passed**. The
+> threat was not where this graph predicted: ranking-and-selection is clean (R1b SAFE),
+> and the refutation came from selective inference itself — the literature G0 believed it
+> had already cleared. `audit/R1_THREAT_CHECK.md`. R1 is **DEAD** as an original
+> mechanism; the paper's structure is now an open operator question (**Q-8**).
+
 | Node | Status |
 |---|---|
-| R1a, R1b, R1c | **UNVERIFIED** — Phase 2 of G1, `audit/R1_THREAT_CHECK.md` |
+| **R1a** — no prior work calibrates a selection event by drawing more samples | **FAILED.** Freidling, Zhao & Gao, arXiv:2405.07026, Algorithm 1 "Rejection sampling" |
+| **R1b** — ranking-and-selection does not already do this | **PASSED.** R&S bounds analytically under normality (Slepian/Kimball/Bonferroni) and conditions on the parameter configuration, not the selection event. 0 hits for `"ranking and selection" AND "selective inference"` on arXiv full text |
+| **R1c** — randomized selective inference does not contain it | **FAILED.** Tian & Taylor sample the conditional law, but only after polyhedral characterisation — so R1c is narrowly intact; it fails via Liu et al. (2023), Liu & Panigrahi (2025), and the Neufeld–Perry–Witten review, which together give three published routes past analytic characterisation |
 | R1d | **NOT ATTEMPTED** — no proof written |
 | R1e, R1f | **NOT ATTEMPTED** — no attributor implemented |
 | R2a, R2b, R2d, R2e | **G1 Phase 3** — `docs/THRESHOLDS.md` and `results/jacobian_rank.*.yaml` |
