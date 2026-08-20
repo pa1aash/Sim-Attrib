@@ -19,14 +19,40 @@ Failure to review is grounds for **desk-rejecting our own submission**. All auth
 be listed at submission; none can be added later. This needs a real person committed.
 No longer conditional: `docs/DECISIONS.md` **D-2** commits the project to Sim2Science.
 
-### Q-6 — Is a multi-component misspecification condition in scope?
+### Q-6 — Is a multi-component misspecification condition in scope? *(unchanged, but now cheaper to decide)*
+
+Still open and still a scope call. **Note for whoever answers it:** this question was framed
+around strengthening C1's competitive-testing argument, and C1 no longer exists in that form.
+Under `Q-8` option (b) the question becomes far less pressing — a rank diagnostic does not
+care how many components are off-spec at once. Under option (a) it stays exactly as sharp as
+`LEDGER_DESIGN.md` D6 describes.
+
+Original question follows.
+
+
 The design knocks exactly one component off-spec at a time, so ground truth is unique by
 construction. But real simulators are wrong in several places at once — and that is the
 regime where competitive-vs-marginal testing matters *most*. As designed, the experiment
 tests C1's mechanism where its advantage is smallest. Adding one multi-component condition
 would strengthen C1 considerably. Scope call.
 
-### Q-7 — How should the plan's citation errors be handled?
+### Q-7 — How should the plan's citation errors be handled? *(partly acted on; confirm the policy)*
+
+**Acted on 2026-08-20 without waiting**, since it was cheap and the reference list was still
+small: `audit/BIBLIOGRAPHY.bib` was built by **fetching** all 52 entries, and all four byline
+errors are corrected against the fetched records. What still needs the operator's answer is
+the **policy** — specifically whether a full re-verification pass *against the papers
+themselves* is required before submission, over and above fetching from canonical indexes.
+
+**This session found the reason it might be.** Crossref **and** OpenAlex both return an
+incomplete author list for Catchpole & Morgan (1997), omitting Morgan; it took the
+publisher's own article page to catch it. **Fetching from a canonical index is necessary but
+not sufficient.** And one of G0's own citations — "Presanis et al. (2017)" — cannot be
+resolved at all (O-11).
+
+Original question follows.
+
+
 Four byline errors were verified against the papers themselves, including one author
 credited with a paper she is not on, and one citation that conflates two different papers
 (`LEDGER_CITATIONS.md`). Sim2Science's scientific advisors include Jakob Macke, so the
