@@ -61,12 +61,23 @@ LABELS = ["peak_height", "peak_time", "final_size", "growth_rate"]
 
 def _fine_sweep(seed: int, k: int, lo: float, hi: float, n: int) -> dict[str, Any]:
     """Walk eta_k finely at one fixed seed and record every argmax switch that occurs."""
-    etas = np.linspace(lo, hi, n)
+    etas = np.linspace(lo, hi, n)  # noqa: E501 - see the domain guard below
     rows = []
+    skipped = []
     for e in etas:
         eta = np.zeros(K)
         eta[k] = e
-        y = simulate(eta, seed=seed).reported
+        try:
+            y = simulate(eta, seed=seed).reported
+        except ValueError as exc:
+            # The transmission family is only defined while its saturation denominator stays
+            # positive, and a large NEGATIVE eta_1 raises prevalence past the reference and
+            # drives it through zero. Recorded rather than silently narrowed: a sweep that
+            # quietly shrank its own range would report "no switches found" over a range it
+            # never covered. Every eta actually used by the estimator is 100x smaller than the
+            # narrowest bound here, so nothing the diagnostic does is affected.
+            skipped.append({"eta": float(e), "reason": str(exc).split(";")[0]})
+            continue
         loc, hgt = peak_interpolated(y)
         rows.append((float(e), int(np.argmax(y)), float(loc), float(hgt)))
 
@@ -84,11 +95,13 @@ def _fine_sweep(seed: int, k: int, lo: float, hi: float, n: int) -> dict[str, An
             })
     locs = np.array([r[2] for r in rows])
     hgts = np.array([r[3] for r in rows])
-    steps = np.diff(etas)
+    steps = np.diff(np.array([r[0] for r in rows]))
     return {
         "component_k": k,
         "eta_range": [float(lo), float(hi)],
         "n_points": int(n),
+        "n_points_outside_the_family_domain_and_skipped": len(skipped),
+        "skipped": skipped[:5],
         "eta_step": float(steps[0]),
         "n_argmax_switches": len(switches),
         "switches": switches,
