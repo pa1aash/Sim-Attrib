@@ -304,3 +304,43 @@ now pinned.
 (`results/robustness/threshold_sensitivity.yaml`, from a dirty tree) was regenerated after the
 code was committed, per `PROVENANCE.md`. No G3 results file is affected: all five were written
 from a clean tree and carry `dirty_paths: []`.
+
+## D-12 — The brief asked for two six-column spectra. There is only one, and inventing a second would repeat D-9 at twice the size
+
+**Session G5, 2026-08-20.** A departure from the literal instruction, stated rather than
+quietly reinterpreted.
+
+**What was asked.** The G5 brief, Phase 1.1: *"Compute and report the FULL singular-value
+spectrum (all 6 columns, not top-3) of `S_B`'s Jacobian, under: (a) the base distortion
+families … (b) the adversarial families constructed in G4."*
+
+**Why it cannot be done as written.** A distortion family set declares **three** one-parameter
+families, so it supplies exactly three columns. The six-column Jacobian
+`results/robustness/wide_spectrum_check.yaml` measured is the **union** of the two sets'
+columns — and that union is one matrix, the same one whichever set you name first. "The
+six-column spectrum under the base families" and "under the adversarial families" are not two
+objects; they are one object described twice.
+
+**The available alternative, and why it was rejected.** Six columns per family set could be
+manufactured by inventing three further families for each. That is precisely **D-9**'s failure
+— designing distortion families with the results already visible — at twice the scale, and
+with a much larger space to search in. D-9 records that the one adversarial set G4 built was
+protected only by having been specified against a named target before it ran, and calls that
+*"weaker than pre-registration"*. Six new families chosen now, against a spectrum whose shape
+is known, would carry none of even that protection.
+
+**What was done instead.** `src/diagnostics/k6_spectrum.py` reports three spectra in full: the
+three-column spectrum under the base families, the three-column spectrum under the adversarial
+families, and the one six-column spectrum their union defines. The brief's underlying question
+— *does `S_B`'s separability survive a longer component list* — is answered by the third, and
+the answer is qualified by which mechanisms the six-column near-null directions actually
+connect, which is a distinction the brief did not draw and which decides what the six-column
+verdict bears on. See `audit/K6_SPECTRUM_CHECK.md`.
+
+**What this session added that the brief did not ask for, and why it is the load-bearing
+part.** G4's six-column measurement was taken at **one step size**. `docs/THRESHOLDS.md` §1.4,
+written by this project before any singular value existed, says *"a rank computed at a single
+step size `h` is not a result"*. The number the deferred gapless-spectrum objection now rests
+on was computed without the h-plateau, without the resolution test, without the
+equivalence-class stability requirement and without the leakage check — all of which every
+number in `results/` carries. This session supplies them.
