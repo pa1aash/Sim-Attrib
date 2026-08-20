@@ -397,3 +397,94 @@ inside some three-column assignment* — a testable condition rather than an ass
 not written that way because the eight-assignment test had not been conceived when the rule was
 written, which is **D-9**'s pattern exactly: **the right check was available earlier than it
 was run.** Third instance in three sessions.
+
+## D-14 — The specification deferred `T_k`. `p_sel` cannot be measured without it, so this session chose one
+
+**Session G6, 2026-08-20.** Not a departure from instruction — the session brief requires the
+`p_sel` measurement, and `OUTSTANDING.md` **O-16** already records in one line why it could not
+be taken as written: *"One thing must be specified before it can be measured at all."*
+Recorded here because the choice is a real degree of freedom, it was made by a session rather
+than by the operator, and **the number this session reports is a property of it.**
+
+**What the specification says.** `audit/MMC_COMPOSITION_SPEC.md` §4 defines
+`p_sel(theta) = P(k-hat(y) = k | theta, eta = 0)` and §6 says of the statistic the selection
+rule maximises:
+
+> **It assumes `T_k` exists and is sensible.** The per-component discrepancy statistic is
+> named `T_k` throughout and is **not specified**. Choosing it is a real design problem — it
+> must be sensitive to `eta_k` and insensitive to `eta_j`, which is a statement about the same
+> Jacobian the diagnostic estimates — and it is deferred.
+
+**What was chosen, and when.** The rank-conditioned rule of `src/attribution/selection.py`:
+normalise the summary discrepancy, apply the pseudo-inverse of the recorded summary Jacobian,
+and take the largest component in absolute value. It was written, tested and **committed
+before the run that produced any `p_sel`**, in the same way `src/diagnostics/k6_spectrum.py`
+was committed at `a8159f8` before G5's run, and for the same reason.
+
+**Why this rule and not another.** It is the one construction that discharges §6's own
+requirement as an identity rather than as an aspiration: `J⁺J = I` **is** "sensitive to `η_k`
+and insensitive to `η_j`" written as an equation, and `J` is literally *"the same Jacobian the
+diagnostic estimates"*. It also satisfies the three other constraints the specification puts on
+`T_k` — built on a separable summary set (§3.2), computable from summaries alone (§5.4), and a
+fixed deterministic function of the data with nothing estimated from `y_obs` (§3.4).
+
+**The part that is a free choice, disclosed rather than buried.** The rule needs a scale on
+which to compare three components, and there are two defensible ones: divide by each
+component's null standard deviation (`studentised`), or compare on the common `ETA_SCALE`
+(`plain`). **Studentising raises the smallest cell probability, and the cost is `1/min p_sel`,
+so the primary choice is the one favourable to the cost gate.** It was nominated primary for a
+stated reason written before the numbers — under `plain` the argmax is dominated by whichever
+component is estimated worst, which is a bad attributor before it is anything else — and
+**both variants are measured, reported, and required to agree before the gate may return
+PASS.** A session that measured only the favourable variant would be doing what
+`DEVIATIONS.md` **D-9** and **D-13** exist to make visible.
+
+**What a different `T_k` would do to the number.** `p_sel` is a property of the cell, and the
+cell is what `T_k` defines, so a different statistic gives a different `p_sel` and a different
+cost. **This session's cost number is therefore conditional on this rule in exactly the way
+G3's separability verdict is conditional on three distortion families.** It is not a property
+of the composition alone. The honest statement of scope is: *the composition, with this
+selection rule, at this simulator, costs what is reported* — and a rule with more balanced
+cell probabilities would cost less, while a rule with a nearly-deterministic selection would
+cost far more.
+
+**What would have made this unnecessary.** `T_k` should have been specified in G3 alongside
+the rest of the composition, before any cost was at stake. `audit/MMC_COMPOSITION_SPEC.md` §6
+lists it as one of six things the specification does not do, and it is the only one of the six
+that blocks a measurement rather than a build. **That is the same pattern D-9 and D-13
+record — the right piece of work was available earlier than it was done — and this is the
+fourth session in a row in which it applies.**
+
+## D-15 — A flag written this session read FALSE for a reason other than the one it named
+
+**Session G6, 2026-08-20.** Caught before the production run, by running the check and
+disbelieving its answer. Recorded because `DEVIATIONS.md` **D-8** says every check should be
+run once in a state where it is expected to give the opposite answer, and this is what that
+discipline caught this time.
+
+**The flag as first written.** `src/diagnostics/p_sel.py` recorded
+`recovers_at_the_smallest_planted_magnitude`: does the selection rule name the component that
+was actually distorted, on noiseless data, at the smallest planted magnitude? The stated
+reading was that a FALSE means **the rule is wrong**, because at a distortion of 0.001
+normalised units the linearisation the rule is built on is essentially exact.
+
+**It read FALSE, and the reading was wrong.** The rule is correct: `max |J⁺J − I|` is at
+machine precision. What the flag was actually detecting is that the rule's reference point
+`m0` — the prior-predictive mean recorded in `results/jacobian_rank.S_B.yaml` — is an average
+over `R_norm = 2000` replicates and therefore carries Monte Carlo error of order
+`1/√2000 ≈ 0.022` per normalised summary coordinate. Propagated through `J⁺`, that lands as an
+offset of roughly **0.005 to 0.014 normalised units in `η̂` before any distortion is planted at
+all**, which is larger than the 0.001 the flag was testing at.
+
+**What was done.** The flag is replaced by `rule_inverts_its_jacobian`, which tests the rule
+and nothing else and reads FALSE only if `J⁺J ≠ I`. The offset is measured and reported in its
+own right as `reference_point_offset`, because it is a **floor on what the selection rule can
+attribute** and G7 needs to know it exists — it can be lowered only by re-estimating `m0` with
+more replicates, and no amount of care elsewhere in the composition removes it. The recovery
+table survives as a description, with its smallest magnitude raised above the floor.
+
+**Why it is worth an entry rather than a quiet fix.** The failure is D-8's exactly, one
+generation later: *a flag that reads FALSE for a reason other than the one it names*. It was
+written this session, by the session that had just re-read D-8, D-10 and D-13. **Three prior
+entries in this file record the same class of defect and it still happened.** The only thing
+that caught it was reading the output rather than the flag.
