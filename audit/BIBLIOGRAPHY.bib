@@ -1,0 +1,474 @@
+%%%% audit/BIBLIOGRAPHY.bib -- canonical bibliography for Sim-Attrib
+%%
+%% SOURCE OF TRUTH for every reference this project cites. Supersedes the citation
+%% list in audit/PLAN_SOURCE.md, which is historical only. audit/LEDGER_CITATIONS.md
+%% records retrieval status and characterisation accuracy; this file records the
+%% citation itself.
+%%
+%% PROVENANCE. Every entry below was FETCHED, not typed:
+%%   - arXiv entries from https://arxiv.org/bibtex/<id>
+%%   - journal entries from https://doi.org/<DOI> via BibTeX content negotiation
+%%     (Accept: application/x-bibtex), i.e. the publisher's own record via Crossref.
+%% Assembled 2026-08-20, session G1. 52 entries fetched, 0 fetch failures.
+%%
+%% THREE DEFECTS IN THE FETCHED RECORDS ARE FLAGGED IN PLACE BELOW. Read them before
+%% using this file: Catchpole_1997 (incomplete author list in BOTH Crossref and
+%% OpenAlex), Arendt_2012 (metadata only -- full text never retrieved), and the
+%% unresolvable "Presanis et al. (2017)" cited in audit/S0_REPORT.md.
+%%
+%% Entry keys are as the source supplied them and have NOT been renamed, so that any
+%% entry can be re-fetched and diffed against its origin.
+
+%%============================================================================
+%% 1. SBI MISSPECIFICATION -- the immediate related work
+%% The four byline errors G0 found in the plan are corrected here BY FETCHING.
+%% Each corrected author list below is the publisher's/arXiv's own record.
+%%============================================================================
+%% THE GATEKEEPER. Plan said 'Montel, Alvey & Weniger'.
+%% CORRECTED: 'Anau Montel' is a compound surname and must not be split.
+@misc{montel2025testsmodelmisspecificationsimulationbased,
+      title={Tests for model misspecification in simulation-based inference: from local distortions to global model checks}, 
+      author={Noemi Anau Montel and James Alvey and Christoph Weniger},
+      year={2025},
+      eprint={2412.15100},
+      archivePrefix={arXiv},
+      primaryClass={astro-ph.IM},
+      url={https://arxiv.org/abs/2412.15100}, 
+}
+
+%% RNPE. Plan said fifth author 'Naderiparizi'.
+%% CORRECTED: the fifth author is Sebastian M. Schmon. arXiv:2210.06564.
+@misc{ward2022robustneuralposteriorestimation,
+      title={Robust Neural Posterior Estimation and Statistical Model Criticism}, 
+      author={Daniel Ward and Patrick Cannon and Mark Beaumont and Matteo Fasiolo and Sebastian M Schmon},
+      year={2022},
+      eprint={2210.06564},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML},
+      url={https://arxiv.org/abs/2210.06564}, 
+}
+
+%% RoPE. Plan said 'Kelly, Huang, Tomaselli, Wehenkel'.
+%% CORRECTED: only Wehenkel is right; 'Tomaselli' belongs to arXiv:2508.02404 below.
+%% The plan conflated two different papers.
+@misc{wehenkel2025addressingmisspecificationsimulationbasedinference,
+      title={Addressing Misspecification in Simulation-based Inference through Data-driven Calibration}, 
+      author={Antoine Wehenkel and Juan L. Gamella and Ozan Sener and Jens Behrmann and Guillermo Sapiro and Jörn-Henrik Jacobsen and Marco Cuturi},
+      year={2025},
+      eprint={2405.08719},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML},
+      url={https://arxiv.org/abs/2405.08719}, 
+}
+
+%% Plan said 'Schmitt, Radev & Burkner'. CORRECTED: Ullrich Koethe was omitted,
+%% and the order is Schmitt, Buerkner, Koethe, Radev.
+@misc{schmitt2022detectingmodelmisspecificationamortized,
+      title={Detecting Model Misspecification in Amortized Bayesian Inference with Neural Networks}, 
+      author={Marvin Schmitt and Paul-Christian Bürkner and Ullrich Köthe and Stefan T. Radev},
+      year={2022},
+      eprint={2112.08866},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2112.08866}, 
+}
+
+@misc{schmitt2024detectingmodelmisspecificationamortized,
+      title={Detecting Model Misspecification in Amortized Bayesian Inference with Neural Networks: An Extended Investigation}, 
+      author={Marvin Schmitt and Paul-Christian Bürkner and Ullrich Köthe and Stefan T. Radev},
+      year={2024},
+      eprint={2406.03154},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2406.03154}, 
+}
+
+@misc{cannon2022investigatingimpactmodelmisspecification,
+      title={Investigating the Impact of Model Misspecification in Neural Simulation-based Inference}, 
+      author={Patrick Cannon and Daniel Ward and Sebastian M. Schmon},
+      year={2022},
+      eprint={2209.01845},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML},
+      url={https://arxiv.org/abs/2209.01845}, 
+}
+
+%% Plan's citation of this one is CORRECT.
+@misc{tomaselli2025robustsimulationbasedinference,
+      title={Robust Simulation Based Inference}, 
+      author={Lorenzo Tomaselli and Valérie Ventura and Larry Wasserman},
+      year={2025},
+      eprint={2508.02404},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2508.02404}, 
+}
+
+%% Downgraded assertion A1: this paper localises misspecification to a NAMED MODEL
+%% LAYER, so 'none attribute' is false. It is in the plan's own bibliography.
+@misc{leclercq2022simulationbasedinferencebayesianhierarchical,
+      title={Simulation-based inference of Bayesian hierarchical models while checking for model misspecification}, 
+      author={Florent Leclercq},
+      year={2022},
+      eprint={2209.11057},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      doi={https://doi.org/10.3390/psf2022005004},
+      url={https://arxiv.org/abs/2209.11057}, 
+}
+
+@misc{yang2025detectingconflictsevidencesynthesis,
+      title={Detecting Conflicts in Evidence Synthesis Models Using Score Discrepancies}, 
+      author={Fuming Yang and David J. Nott and Anne M. Presanis},
+      year={2025},
+      eprint={2511.02977},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2511.02977}, 
+}
+
+@misc{pierre2025mitigatingmodelmisspecificationsimulationbased,
+      title={Mitigating Model Misspecification in Simulation-Based Inference for Galaxy Clustering}, 
+      author={Sébastien Pierre and Bruno Régaldo-Saint Blancard and ChangHoon Hahn and Michael Eickenberg},
+      year={2025},
+      eprint={2507.03086},
+      archivePrefix={arXiv},
+      primaryClass={astro-ph.CO},
+      doi={https://doi.org/10.1103/gypc-sqnx},
+      url={https://arxiv.org/abs/2507.03086}, 
+}
+
+
+%%============================================================================
+%% 2. CALIBRATION, DISCREPANCY, AND THE IDENTIFIABILITY PRECONDITION
+%% Per docs/DECISIONS.md D-3 these are CITED PRECONDITIONS, not claimed results.
+%%============================================================================
+@article{Kennedy_2001, title={Bayesian Calibration of Computer Models}, volume={63}, ISSN={1467-9868}, url={http://dx.doi.org/10.1111/1467-9868.00294}, DOI={10.1111/1467-9868.00294}, number={3}, journal={Journal of the Royal Statistical Society Series B: Statistical Methodology}, publisher={Oxford University Press (OUP)}, author={Kennedy, Marc C. and O’Hagan, Anthony}, year={2001}, month=Sept, pages={425–464} }
+
+%% Refutes E1. Eqs (16)-(17) state the non-identifiability result verbatim.
+%% The plan cited this paper as LACKING the result it actually contains.
+@article{Brynjarsd_ttir_2014, title={Learning about physical parameters: the importance of model discrepancy}, volume={30}, ISSN={1361-6420}, url={http://dx.doi.org/10.1088/0266-5611/30/11/114007}, DOI={10.1088/0266-5611/30/11/114007}, number={11}, journal={Inverse Problems}, publisher={IOP Publishing}, author={Brynjarsdóttir, Jenný and OʼHagan, Anthony}, year={2014}, month=Oct, pages={114007} }
+
+%% Version of record. G0 read only the preprint (arXiv:1507.07280, below).
+@article{Tuo_2015, title={Efficient calibration for imperfect computer models}, volume={43}, ISSN={0090-5364}, url={http://dx.doi.org/10.1214/15-AOS1314}, DOI={10.1214/15-aos1314}, number={6}, journal={The Annals of Statistics}, publisher={Institute of Mathematical Statistics}, author={Tuo, Rui and Wu, C. F. Jeff}, year={2015}, month=Dec }
+
+%% Preprint of the above. NOT a substitute for the VoR when attributing a theorem.
+@misc{tuo2015efficientcalibrationimperfectcomputer,
+      title={Efficient Calibration for Imperfect Computer Models}, 
+      author={Rui Tuo and C. F. Jeff Wu},
+      year={2015},
+      eprint={1507.07280},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/1507.07280}, 
+}
+
+%% *** UNRETRIEVED -- FULL TEXT NEVER OBTAINED ***
+%% Metadata below is fetched and correct: J. Mech. Des. 134(10):100908.
+%% Routes tried and failed, 2026-08-20: ASME Digital Collection (paywall);
+%% Unpaywall API (is_oa false, zero OA locations); OpenAlex (oa_status closed);
+%% Northwestern IDEAL lab page (fetch failed); ResearchGate (login-gated, no auth
+%% profile configured -- see audit/TOOLING.md).
+%% DO NOT CITE ANY CLAIM FROM THIS PAPER. Nothing in it has been read. It remains
+%% the single most likely source of a further weakening of R2. See O-6.
+@article{Arendt_2012, title={Quantification of Model Uncertainty: Calibration, Model Discrepancy, and Identifiability}, volume={134}, ISSN={1528-9001}, url={http://dx.doi.org/10.1115/1.4007390}, DOI={10.1115/1.4007390}, number={10}, journal={Journal of Mechanical Design}, publisher={ASME International}, author={Arendt, Paul D. and Apley, Daniel W. and Chen, Wei}, year={2012}, month=Sept }
+
+%% *** DEFECT IN THE FETCHED RECORD -- READ BEFORE USE ***
+%% Crossref AND OpenAlex both return the author as 'E. A. Catchpole' ALONE.
+%% That is incomplete. Verified against the publisher's own article page
+%% (https://academic.oup.com/biomet/article/84/1/187/233805), the authors are
+%%    E. A. Catchpole AND B. J. T. Morgan.
+%% The entry below is left EXACTLY as fetched so it can be diffed against its source.
+%% Any use of it must set author = {Catchpole, E. A. and Morgan, B. J. T.}.
+%% This is not a transcription slip on our side; it is an error in two major indexes,
+%% and it is exactly the class of error that produced the plan's four byline mistakes.
+@article{Catchpole_1997, title={Detecting parameter redundancy}, volume={84}, ISSN={1464-3510}, url={http://dx.doi.org/10.1093/biomet/84.1.187}, DOI={10.1093/biomet/84.1.187}, number={1}, journal={Biometrika}, publisher={Oxford University Press (OUP)}, author={Catchpole, E.}, year={1997}, month=Mar, pages={187–196} }
+
+%% Antecedent of Catchpole & Morgan Thm 1 via their Thm 3.
+@article{Rothenberg_1971, title={Identification in Parametric Models}, volume={39}, ISSN={0012-9682}, url={http://dx.doi.org/10.2307/1913267}, DOI={10.2307/1913267}, number={3}, journal={Econometrica}, publisher={JSTOR}, author={Rothenberg, Thomas J.}, year={1971}, month=May, pages={577} }
+
+%% Structural identifiability for ODE models -- gap M1 in LEDGER_CITATIONS.
+@article{Chis_2011, title={Structural Identifiability of Systems Biology Models: A Critical Comparison of Methods}, volume={6}, ISSN={1932-6203}, url={http://dx.doi.org/10.1371/journal.pone.0027755}, DOI={10.1371/journal.pone.0027755}, number={11}, journal={PLoS ONE}, publisher={Public Library of Science (PLoS)}, author={Chis, Oana-Teodora and Banga, Julio R. and Balsa-Canto, Eva}, editor={Jaeger, Johannes}, year={2011}, month=Nov, pages={e27755} }
+
+%% Column-space condition on a discrepancy function.
+@article{Plumlee_2017, title={Bayesian Calibration of Inexact Computer Models}, volume={112}, ISSN={1537-274X}, url={http://dx.doi.org/10.1080/01621459.2016.1211016}, DOI={10.1080/01621459.2016.1211016}, number={519}, journal={Journal of the American Statistical Association}, publisher={Informa UK Limited}, author={Plumlee, Matthew}, year={2017}, month=June, pages={1274–1285} }
+
+%% *** THE KILLING CITATION FOR EX-C2. *** Read in full during G0 (16,492 words).
+%% Per-component additive model error + necessary-and-sufficient rank condition +
+%% sensor-placement algorithm, in PRX, 2019, resting on Sain & Massey (1969).
+%% Also the source of the 'no such thing as nearly invertible' passage that
+%% docs/THRESHOLDS.md section 3 argues does not import to the finite-parametric case.
+@article{Kahl_2019, title={Structural Invertibility and Optimal Sensor Node Placement for Error and Input Reconstruction in Dynamic Systems}, volume={9}, ISSN={2160-3308}, url={http://dx.doi.org/10.1103/PhysRevX.9.041046}, DOI={10.1103/physrevx.9.041046}, number={4}, journal={Physical Review X}, publisher={American Physical Society (APS)}, author={Kahl, Dominik and Wendland, Philipp and Neidhardt, Matthias and Weber, Andreas and Kschischo, Maik}, year={2019}, month=Dec }
+
+%% The 1969 invertibility rank condition Kahl et al. rest on.
+@article{Sain_1969, title={Invertibility of linear time-invariant dynamical systems}, volume={14}, ISSN={0018-9286}, url={http://dx.doi.org/10.1109/TAC.1969.1099133}, DOI={10.1109/tac.1969.1099133}, number={2}, journal={IEEE Transactions on Automatic Control}, publisher={Institute of Electrical and Electronics Engineers (IEEE)}, author={Sain, M. and Massey, J.}, year={1969}, month=Apr, pages={141–149} }
+
+%% Sensitivity <-> identifiability in the Kennedy-O'Hagan discrepancy setting.
+@misc{wu2018demonstrationrelationshipsensitivityidentifiability,
+      title={Demonstration of the Relationship between Sensitivity and Identifiability for Inverse Uncertainty Quantification}, 
+      author={Xu Wu and Koroush Shirvan and Tomasz Kozlowski},
+      year={2018},
+      eprint={1801.10309},
+      archivePrefix={arXiv},
+      primaryClass={stat.AP},
+      doi={https://doi.org/10.1016/j.jcp.2019.06.032},
+      url={https://arxiv.org/abs/1801.10309}, 
+}
+
+
+%%============================================================================
+%% 3. CONFLICT DIAGNOSTICS
+%%============================================================================
+%% Full citation recovered in G0; the plan gave no year, title or venue.
+%% NOTE THE SUBTITLE -- 'a simulation-based approach' -- which is prima facie
+%% evidence against the plan's D2(a) defence.
+@article{Marshall_2007, title={Identifying outliers in Bayesian hierarchical models: a simulation-based approach}, volume={2}, ISSN={1936-0975}, url={http://dx.doi.org/10.1214/07-BA218}, DOI={10.1214/07-ba218}, number={2}, journal={Bayesian Analysis}, publisher={Institute of Mathematical Statistics}, author={Marshall, E. C. and Spiegelhalter, D. J.}, year={2007}, month=June }
+
+@article{Presanis_2013, title={Conflict Diagnostics in Directed Acyclic Graphs, with Applications in Bayesian Evidence Synthesis}, volume={28}, ISSN={0883-4237}, url={http://dx.doi.org/10.1214/13-STS426}, DOI={10.1214/13-sts426}, number={3}, journal={Statistical Science}, publisher={Institute of Mathematical Statistics}, author={Presanis, Anne M. and Ohlssen, David and Spiegelhalter, David J. and De Angelis, Daniela}, year={2013}, month=Aug }
+
+%% Calibrated module-level conflict p-value, likelihood-free. Refutes D2(a).
+@misc{chakraborty2022modularizedbayesiananalysescutting,
+      title={Modularized Bayesian analyses and cutting feedback in likelihood-free inference}, 
+      author={Atlanta Chakraborty and David J. Nott and Christopher Drovandi and David T. Frazier and Scott A. Sisson},
+      year={2022},
+      eprint={2203.09782},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2203.09782}, 
+}
+
+%% 'applicable regardless of whether the likelihood is tractable or not'.
+@misc{chakraborty2022weaklyinformativepriorspriordata,
+      title={Weakly informative priors and prior-data conflict checking for likelihood-free inference}, 
+      author={Atlanta Chakraborty and David J. Nott and Michael Evans},
+      year={2022},
+      eprint={2202.09993},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2202.09993}, 
+}
+
+%% *** SUBSTITUTE -- READ THIS NOTE ***
+%% audit/S0_REPORT.md section 2 cites 'Presanis et al. (2017)' for a Jacobian
+%% non-singularity condition on node-level conflict inference. NO SUCH 2017 PAPER
+%% COULD BE RESOLVED on 2026-08-20 via three Crossref bibliographic queries.
+%% The nearest 2017 work on node-level conflict measures in DAGs is the entry below,
+%% by Gaasemyr & Natvig -- DIFFERENT AUTHORS. Either G0's citation is a byline error
+%% of the same kind it was documenting, or it refers to something not indexed.
+%% THE UNDERLYING CLAIM IS THEREFORE UNVERIFIED and must not be cited until resolved.
+%% The entry below is included as a candidate only; its text has NOT been read.
+@inbook{G_semyr_2017, title={Node-Level Conflict Measures in Bayesian Hierarchical Models Based on Directed Acyclic Graphs}, ISBN={9789535135784}, url={http://dx.doi.org/10.5772/intechopen.70058}, DOI={10.5772/intechopen.70058}, booktitle={Bayesian Inference}, publisher={InTech}, author={Gåsemyr, Jørund I. and Natvig, Bent}, year={2017}, month=Nov }
+
+
+%%============================================================================
+%% 4. SELECTIVE INFERENCE -- and the refutation of R1
+%% This section is the substance of audit/R1_THREAT_CHECK.md.
+%%============================================================================
+%% The polyhedral method -- the analytic characterisation everything else reacts to.
+@article{Lee_2016, title={Exact post-selection inference, with application to the lasso}, volume={44}, ISSN={0090-5364}, url={http://dx.doi.org/10.1214/15-AOS1371}, DOI={10.1214/15-aos1371}, number={3}, journal={The Annals of Statistics}, publisher={Institute of Mathematical Statistics}, author={Lee, Jason D. and Sun, Dennis L. and Sun, Yuekai and Taylor, Jonathan E.}, year={2016}, month=June }
+
+%% Example 1: marginal tests mis-attribute under correlation. Refutes F1 as novelty.
+@misc{fithian2017optimalinferencemodelselection,
+      title={Optimal Inference After Model Selection}, 
+      author={William Fithian and Dennis Sun and Jonathan Taylor},
+      year={2017},
+      eprint={1410.2597},
+      archivePrefix={arXiv},
+      primaryClass={math.ST},
+      url={https://arxiv.org/abs/1410.2597}, 
+}
+
+%% Section 4.1: the same pedagogical example, a decade earlier.
+@article{Fan_2008, title={Sure Independence Screening for Ultrahigh Dimensional Feature Space}, volume={70}, ISSN={1467-9868}, url={http://dx.doi.org/10.1111/j.1467-9868.2008.00674.x}, DOI={10.1111/j.1467-9868.2008.00674.x}, number={5}, journal={Journal of the Royal Statistical Society Series B: Statistical Methodology}, publisher={Oxford University Press (OUP)}, author={Fan, Jianqing and Lv, Jinchi}, year={2008}, month=Oct, pages={849–911} }
+
+%% Knockoffs. Prop 2.2: FDR control requires full column rank -- the coupling.
+@article{Barber_2015, title={Controlling the false discovery rate via knockoffs}, volume={43}, ISSN={0090-5364}, url={http://dx.doi.org/10.1214/15-AOS1337}, DOI={10.1214/15-aos1337}, number={5}, journal={The Annals of Statistics}, publisher={Institute of Mathematical Statistics}, author={Barber, Rina Foygel and Candès, Emmanuel J.}, year={2015}, month=Oct }
+
+%% Preprint of the above.
+@misc{barber2015controllingfalsediscoveryrate,
+      title={Controlling the false discovery rate via knockoffs}, 
+      author={Rina Foygel Barber and Emmanuel J. Candès},
+      year={2015},
+      eprint={1404.5609},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      doi={https://doi.org/10.1214/15-AOS1337},
+      url={https://arxiv.org/abs/1404.5609}, 
+}
+
+%% Version of record. Samples the conditional law by MCMC -- but only AFTER the
+%% selection event is characterised analytically as a POLYHEDRON. NARROWS R1c.
+@article{Tian_2018, title={Selective inference with a randomized response}, volume={46}, ISSN={0090-5364}, url={http://dx.doi.org/10.1214/17-AOS1564}, DOI={10.1214/17-aos1564}, number={2}, journal={The Annals of Statistics}, publisher={Institute of Mathematical Statistics}, author={Tian, Xiaoying and Taylor, Jonathan}, year={2018}, month=Apr }
+
+%% Preprint of the above; read in full (16,670 words).
+@misc{tian2016selectiveinferencerandomizedresponse,
+      title={Selective inference with a randomized response}, 
+      author={Xiaoying Tian and Jonathan E. Taylor},
+      year={2016},
+      eprint={1507.06739},
+      archivePrefix={arXiv},
+      primaryClass={math.ST},
+      url={https://arxiv.org/abs/1507.06739}, 
+}
+
+%% Exact, but by a CLOSED-FORM pivot on a bivariate truncated Gaussian.
+%% Zero occurrences of 'Monte Carlo', 'rejection sampling' or 'simulator'. SAFE.
+@misc{panigrahi2023exactselectiveinferencerandomization,
+      title={Exact Selective Inference with Randomization}, 
+      author={Snigdha Panigrahi and Kevin Fry and Jonathan Taylor},
+      year={2023},
+      eprint={2212.12940},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2212.12940}, 
+}
+
+%% *** REFUTES R1, PART 1. *** docs/DECISIONS.md D-3 cites this paper as IDENTIFYING
+%% the barrier to conditional selective inference. It does not identify a barrier --
+%% it removes one, by bootstrapping the selection algorithm and estimating the
+%% selection probability. Guarantee is asymptotic (Thm 4.5), needing normality and a
+%% smooth selection probability. Read in full.
+@misc{liu2023blackboxselectiveinferencebootstrapping,
+      title={Black-box Selective Inference via Bootstrapping}, 
+      author={Sifan Liu and Jelena Markovic-Voronov and Jonathan Taylor},
+      year={2023},
+      eprint={2203.14504},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2203.14504}, 
+}
+
+%% *** REFUTES R1, PART 2. *** Normalizing-flow transport map to the conditional
+%% distribution given selection, 'even when the underlying selection event lacks an
+%% analytical description ... without imposing any further restrictions'.
+@misc{liu2025flexibleselectiveinferenceflowbased,
+      title={Flexible Selective Inference with Flow-based Transport Maps}, 
+      author={Sifan Liu and Snigdha Panigrahi},
+      year={2025},
+      eprint={2506.01150},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2506.01150}, 
+}
+
+%% *** REFUTES R1, DECISIVELY. *** Supplementary S3.2 is headed 'Rejection Sampling';
+%% Algorithm 1 is titled 'Rejection sampling'. Draw from the exact null, apply the
+%% selection rule, keep the accepted draws -- for 'arbitrary treatment assignment
+%% schemes and conditioning events'. Same 1/p_0 cost analysis as R1's ~N_alt/alpha.
+%% Controls selective type-I error with 'no modelling assumptions'. Read in full.
+@misc{freidling2026selectiverandomizationinferenceadaptive,
+      title={Selective Randomization Inference for Adaptive Experiments}, 
+      author={Tobias Freidling and Qingyuan Zhao and Zijun Gao},
+      year={2026},
+      eprint={2405.07026},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2405.07026}, 
+}
+
+%% The April-2026 review. Section 3.1 names the 'Monte Carlo strategy' for an
+%% intractable conditional-given-selection law and states its two standard objections
+%% ('not always applicable', 'typically quite inefficient'). Example 1 is inference
+%% on a WINNER -- the argmax selection event. R1 is a known option, not an opening.
+@misc{neufeld2026inferenceconditionalselectionreview,
+      title={Inference conditional on selection: a review}, 
+      author={Anna Neufeld and Ronan Perry and Daniela Witten},
+      year={2026},
+      eprint={2604.09779},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/2604.09779}, 
+}
+
+%% Rank verification: is the observed winner truly the best? Exponential families.
+@article{Hung_2019, title={Rank verification for exponential families}, volume={47}, ISSN={0090-5364}, url={http://dx.doi.org/10.1214/17-AOS1634}, DOI={10.1214/17-aos1634}, number={2}, journal={The Annals of Statistics}, publisher={Institute of Mathematical Statistics}, author={Hung, Kenneth and Fithian, William}, year={2019}, month=Apr }
+
+%% Preprint of the above.
+@misc{hung2017rankverificationexponentialfamilies,
+      title={Rank Verification for Exponential Families}, 
+      author={Kenneth Hung and William Fithian},
+      year={2017},
+      eprint={1610.03944},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      doi={https://doi.org/10.1214/17-AOS1634},
+      url={https://arxiv.org/abs/1610.03944}, 
+}
+
+
+%%============================================================================
+%% 5. RANKING AND SELECTION -- checked in G1, verdict SAFE
+%% The literature the session brief flagged as a first-class risk to R1.
+%% It is not the risk: R&S bounds analytically under normality and conditions on the
+%% PARAMETER CONFIGURATION, not on the selection event.
+%%============================================================================
+%% *** NOT RETRIEVED *** -- Elsevier, closed; Unpaywall is_oa false.
+%% SUBSTITUTED by the same authors' WSC-2003 tutorial 'Selecting the Best System:
+%% Theory and Methods', https://informs-sim.org/wsc03papers/013.pdf, which WAS
+%% retrieved and read in full (9,010 words). That tutorial has no DOI and no
+%% publisher BibTeX record, so no fetched entry for it exists; cite it by URL.
+@inbook{Kim_2006, title={Chapter 17 Selecting the Best System}, ISBN={9780444514288}, ISSN={0927-0507}, url={http://dx.doi.org/10.1016/S0927-0507(06)13017-0}, DOI={10.1016/s0927-0507(06)13017-0}, booktitle={Simulation}, publisher={Elsevier}, author={Kim, Seong-Hee and Nelson, Barry L.}, year={2006}, pages={501–534} }
+
+%% The modern review, read (19,258 words). Term counts with grep -a, control
+%% 'the'=1514: 'selection event' 0, 'selective inference' 0, 'post-selection' 0,
+%% 'rejection sampling' 0. The two literatures have not met.
+@misc{hong2021reviewrankingselectionnew,
+      title={Review on Ranking and Selection: A New Perspective}, 
+      author={L. Jeff Hong and Weiwei Fan and Jun Luo},
+      year={2021},
+      eprint={2008.00249},
+      archivePrefix={arXiv},
+      primaryClass={math.OC},
+      doi={https://doi.org/10.1007/s42524-021-0152-6},
+      url={https://arxiv.org/abs/2008.00249}, 
+}
+
+%% *** NOT RETRIEVED *** -- INFORMS, closed; Unpaywall is_oa false; no WSC-2005
+%% companion PDF located on informs-sim.org or ACM DL. Named in the session brief as
+%% a required read. ITS CONTENT HAS NOT BEEN READ.
+@article{Branke_2007, title={Selecting a Selection Procedure}, volume={53}, ISSN={1526-5501}, url={http://dx.doi.org/10.1287/mnsc.1070.0721}, DOI={10.1287/mnsc.1070.0721}, number={12}, journal={Management Science}, publisher={Institute for Operations Research and the Management Sciences (INFORMS)}, author={Branke, Jürgen and Chick, Stephen E. and Schmidt, Christian}, year={2007}, month=Dec, pages={1916–1932} }
+
+@article{Chick_2001, title={New Two-Stage and Sequential Procedures for Selecting the Best Simulated System}, volume={49}, ISSN={1526-5463}, url={http://dx.doi.org/10.1287/opre.49.5.732.10615}, DOI={10.1287/opre.49.5.732.10615}, number={5}, journal={Operations Research}, publisher={Institute for Operations Research and the Management Sciences (INFORMS)}, author={Chick, Stephen E. and Inoue, Koichiro}, year={2001}, month=Oct, pages={732–743} }
+
+%% Bayesian R&S, read. Multivariate normal + posterior allocation; no selection event.
+@misc{görder2017rankingselectionnewsequential,
+      title={Ranking and Selection: A New Sequential Bayesian Procedure for Use with Common Random Numbers}, 
+      author={Björn Görder and Michael Kolonko},
+      year={2017},
+      eprint={1410.6782},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/1410.6782}, 
+}
+
+%% MCB. METADATA ONLY -- text not read.
+@article{Hsu_1984, title={Constrained Simultaneous Confidence Intervals for Multiple Comparisons with the Best}, volume={12}, ISSN={0090-5364}, url={http://dx.doi.org/10.1214/aos/1176346732}, DOI={10.1214/aos/1176346732}, number={3}, journal={The Annals of Statistics}, publisher={Institute of Mathematical Statistics}, author={Hsu, Jason C.}, year={1984}, month=Sept }
+
+%% METADATA ONLY -- text not read.
+@article{Matejcik_1995, title={Two-Stage Multiple Comparisons with the Best for Computer Simulation}, volume={43}, ISSN={1526-5463}, url={http://dx.doi.org/10.1287/opre.43.4.633}, DOI={10.1287/opre.43.4.633}, number={4}, journal={Operations Research}, publisher={Institute for Operations Research and the Management Sciences (INFORMS)}, author={Matejcik, Frank J. and Nelson, Barry L.}, year={1995}, month=Aug, pages={633–640} }
+
+%% METADATA ONLY -- text not read. NOTE THE BYLINE: Crossref gives
+%% 'Nelson, Barry L. and Matejcik, Frank J.' for this Management Science paper,
+%% i.e. NELSON FIRST -- the reverse of the Operations Research paper above, and the
+%% reverse of how the session brief listed it.
+@article{Nelson_1995, title={Using Common Random Numbers for Indifference-Zone Selection and Multiple Comparisons in Simulation}, volume={41}, ISSN={1526-5501}, url={http://dx.doi.org/10.1287/mnsc.41.12.1935}, DOI={10.1287/mnsc.41.12.1935}, number={12}, journal={Management Science}, publisher={Institute for Operations Research and the Management Sciences (INFORMS)}, author={Nelson, Barry L. and Matejcik, Frank J.}, year={1995}, month=Dec, pages={1935–1945} }
+
+
+%%============================================================================
+%% 6. BACKGROUND AND FRAMING
+%%============================================================================
+@article{Cranmer_2020, title={The frontier of simulation-based inference}, volume={117}, ISSN={1091-6490}, url={http://dx.doi.org/10.1073/pnas.1912789117}, DOI={10.1073/pnas.1912789117}, number={48}, journal={Proceedings of the National Academy of Sciences}, publisher={National Academy of Sciences}, author={Cranmer, Kyle and Brehmer, Johann and Louppe, Gilles}, year={2020}, month=May, pages={30055–30062} }
+
+%% DOI resolved in G1: 10.1111/rssb.12356. The plan gave none.
+@article{Frazier_2020, title={Model Misspecification in Approximate Bayesian Computation: Consequences and Diagnostics}, volume={82}, ISSN={1467-9868}, url={http://dx.doi.org/10.1111/rssb.12356}, DOI={10.1111/rssb.12356}, number={2}, journal={Journal of the Royal Statistical Society Series B: Statistical Methodology}, publisher={Oxford University Press (OUP)}, author={Frazier, David T. and Robert, Christian P. and Rousseau, Judith}, year={2020}, month=Jan, pages={421–444} }
+
+@misc{talts2020validatingbayesianinferencealgorithms,
+      title={Validating Bayesian Inference Algorithms with Simulation-Based Calibration}, 
+      author={Sean Talts and Michael Betancourt and Daniel Simpson and Aki Vehtari and Andrew Gelman},
+      year={2020},
+      eprint={1804.06788},
+      archivePrefix={arXiv},
+      primaryClass={stat.ME},
+      url={https://arxiv.org/abs/1804.06788}, 
+}
+

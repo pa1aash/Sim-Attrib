@@ -191,3 +191,120 @@ written without retrieving it.
 C9 (Yang, Nott & Presanis, arXiv:2511.02977) shares an author with C16. As logged before
 verification, this is where a bridge between the conflict-diagnostics and SBI literatures
 would appear. Under dedicated investigation; verdict pending.
+
+---
+---
+
+# SOURCE OF TRUTH CHANGE — session G1, 2026-08-20
+
+## `audit/BIBLIOGRAPHY.bib` is now canonical
+
+**Every citation this project makes comes from `audit/BIBLIOGRAPHY.bib`.** This ledger
+remains the record of *retrieval status* and *characterisation accuracy* — the two things a
+`.bib` file cannot hold — but the citation itself (authors, venue, year, identifier) is
+whatever the `.bib` says. The citation list in `audit/PLAN_SOURCE.md` is **historical
+only** and must not be copied from again.
+
+**52 entries, all fetched, zero fetch failures**, per S3 (canonical third-party text is
+fetched, never written from memory):
+
+| Route | Count |
+|---|---|
+| `https://arxiv.org/bibtex/<id>` | 26 |
+| `https://doi.org/<DOI>` with `Accept: application/x-bibtex` (publisher record via Crossref) | 26 |
+
+Source keys were left exactly as supplied, so any entry can be re-fetched and diffed
+against its origin.
+
+## Three defects found in the fetched records — all flagged in place in the `.bib`
+
+### 1. Catchpole & Morgan (1997) — two major indexes have an incomplete author list
+
+**Crossref and OpenAlex both return the author as `E. A. Catchpole` alone.** The paper is
+by **E. A. Catchpole and B. J. T. Morgan**, verified against the publisher's own article
+page, <https://academic.oup.com/biomet/article/84/1/187/233805>. Biometrika **84**(1):
+187–196, March 1997, DOI `10.1093/biomet/84.1.187`.
+
+The fetched entry is left unaltered in the `.bib` so it can be diffed against its source,
+with the correction and its provenance recorded next to it. **This matters beyond one
+entry**: it is direct evidence that fetching from a canonical index is necessary but not
+*sufficient*, which is the same failure mode that produced the plan's four byline errors.
+Load-bearing citations still need checking against the paper.
+
+### 2. Arendt, Apley & Chen (2012) — still UNRETRIEVED, now with every route logged
+
+Full citation now confirmed: *"Quantification of Model Uncertainty: Calibration, Model
+Discrepancy, and Identifiability"*, **Journal of Mechanical Design 134(10):100908**,
+DOI `10.1115/1.4007390`.
+
+| Route | Attempted | Result |
+|---|---|---|
+| ASME Digital Collection | 2026-08-20 | Paywall |
+| **Unpaywall REST API**, `email=palaashgang@gmail.com` | 2026-08-20 | `is_oa: false`, `oa_status: closed`, **zero** OA locations |
+| OpenAlex OA resolver | 2026-08-20 | `oa_status: closed` |
+| **Institutional repository** — Northwestern IDEAL lab page | 2026-08-20 | Fetch failed |
+| **ResearchGate** | 2026-08-20 | Fetch failed — login-gated; no auth profile configured (`audit/TOOLING.md`) |
+
+**Marked UNRETRIEVED in the `.bib`, with an explicit instruction not to cite any claim
+from it.** Nothing in it has been read. O-6 stays open. It remains the most likely source
+of a further weakening of R2's residual.
+
+### 3. "Presanis et al. (2017)" cannot be resolved — and may be our own byline error
+
+`audit/S0_REPORT.md` §2 states that *"Presanis et al. (2017) already state a Jacobian
+non-singularity condition for valid node-level conflict inference"*, as corroboration for
+the ex-C2 refutation.
+
+**No such 2017 paper could be located.** Three separate Crossref bibliographic queries were
+run on 2026-08-20. What they return for 2017 node-level conflict measures in DAGs is
+**Gåsemyr & Natvig (2017)**, *"Node-Level Conflict Measures in Bayesian Hierarchical Models
+Based on Directed Acyclic Graphs"*, DOI `10.5772/intechopen.70058` — **different authors**.
+
+Either G0 committed a byline error of exactly the kind it was documenting, or the citation
+points to something not indexed by Crossref. Gåsemyr & Natvig is included in the `.bib` as
+a **candidate only**; its text has not been read.
+
+**Consequence:** the corroborating claim is **UNVERIFIED** and must not be cited until this
+is resolved. It does not weaken the ex-C2 refutation, which rests on Kahl et al. (2019)
+read directly — this was corroboration, not load-bearing.
+
+## The four byline errors — now corrected by fetching
+
+All four corrections in the table earlier in this file are confirmed against fetched
+canonical records and are carried in `audit/BIBLIOGRAPHY.bib` §1:
+
+| Plan | Fetched record |
+|---|---|
+| "Montel, Alvey & Weniger" | `Noemi Anau Montel and James Alvey and Christoph Weniger` |
+| "…Fasiolo & Naderiparizi" | `…Matteo Fasiolo and Sebastian M Schmon` |
+| "Kelly, Huang, Tomaselli, Wehenkel" | `Antoine Wehenkel and Juan L. Gamella and Ozan Sener and Jens Behrmann and Guillermo Sapiro and Jörn-Henrik Jacobsen and Marco Cuturi` |
+| "Schmitt, Radev & Bürkner" | `Marvin Schmitt and Paul-Christian Bürkner and Ullrich Köthe and Stefan T. Radev` |
+
+**A fifth byline detail, new this session.** The two 1995 MCB papers have *different* author
+orders and the session brief listed only one of them: *Operations Research* 43(4):633–640 is
+**Matejcik & Nelson**, while *Management Science* 41(12):1935–1945 is **Nelson & Matejcik**.
+Both are in the `.bib`; neither text has been read.
+
+## References added this session
+
+**From G0's findings, previously in no ledger:** Fan & Lv (2008); Fithian, Sun & Taylor
+(2017); Neufeld, Perry & Witten (2026); Hsu (1984); Matejcik & Nelson (1995) ×2;
+Chakraborty, Nott, Drovandi, Frazier & Sisson (arXiv:2203.09782); Chakraborty, Nott & Evans
+(arXiv:2202.09993); Liu, Markovic-Voronov & Taylor (2023); Rothenberg (1971); Chis, Banga &
+Balsa-Canto (2011); Plumlee (2017); Wu, Shirvan & Kozlowski (arXiv:1801.10309); Marshall &
+Spiegelhalter (2007); **Barber & Candès — confirmed as *Ann. Statist.* 43(5), DOI
+`10.1214/15-AOS1337`, with preprint arXiv:1404.5609**; Kahl et al. (2019); Sain & Massey
+(1969); Catchpole & Morgan (1997); Lee, Sun, Sun & Taylor (2016).
+
+**Surfaced by Phase 2 of this session** (`audit/R1_THREAT_CHECK.md`): Freidling, Zhao & Gao
+(arXiv:2405.07026); Liu & Panigrahi (arXiv:2506.01150); Panigrahi, Fry & Taylor
+(arXiv:2212.12940); Tian & Taylor (2018, *Ann. Statist.* 46(2)); Hung & Fithian (2019,
+*Ann. Statist.* 47); Kim & Nelson (2006) and their WSC-2003 tutorial; Hong, Fan & Luo
+(arXiv:2008.00249); Branke, Chick & Schmidt (2007); Chick & Inoue (2001); Görder & Kolonko
+(arXiv:1410.6782); Gåsemyr & Natvig (2017).
+
+**One reference has no fetchable BibTeX record and must be cited by URL:** Kim & Nelson,
+*"Selecting the Best System: Theory and Methods"*, Proceedings of the 2003 Winter Simulation
+Conference, <https://informs-sim.org/wsc03papers/013.pdf>. It has no DOI. It was retrieved
+and **read in full** (9,010 words) and is the substitute for the paywalled 2006 handbook
+chapter.
