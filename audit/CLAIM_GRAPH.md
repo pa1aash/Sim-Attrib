@@ -1,5 +1,35 @@
 # Claim graph
 
+> # ⛔ STATUS 2026-08-21 (session **G7**): SUPERSEDED. THE CURRENT CLAIM SET IS `audit/FINAL_CLAIMS.md`.
+>
+> **This file is no longer the project's claim structure and is not to be read as one.** It has
+> been flagged as stale at the top of three consecutive sessions (G2, G3, and by implication
+> every session since) and never rewritten. It is not rewritten now either, for the reason the
+> G3 banner already gives: the reasoning trail is why the surviving claims are what they are,
+> and editing it would falsify the record of how the project got here.
+>
+> **What replaces it.** `audit/FINAL_CLAIMS.md`, written in session G7 and scoped by
+> `docs/DECISIONS.md` **D-16**. Four contributions, no MMC composition:
+>
+> | | claim | kind |
+> |---|---|---|
+> | **C1** | the rank and coherence diagnostic, as a pre-inference decision procedure | method |
+> | **C2** | `S_B` separates the three components under all eight declarable family assignments | positive |
+> | **C3** | at two distortion parameters per component the same set is inseparable, on a progression–observation confound | boundary |
+> | **C4** | rejection-sampling-based exact conditional inference does not terminate for this class of simulator | cautionary |
+>
+> **What every node below is now.** `R1` is DEAD (G1, Freidling, Zhao & Gao 2024). `R2` is
+> **cited infrastructure, not a claimed contribution** (`docs/DECISIONS.md` D-6), and the node
+> below describing it as a contribution is wrong as written. The composite-null successor claim
+> is DEAD (G2, Dufour 2006). The MMC composition that replaced it is **dropped as an
+> experimental vehicle and retained as a negative result** (D-16) — it is C4. `C1` and `C2` are
+> historical labels retired in G1.
+>
+> **The staleness itself is a finding about this project's process**, recorded rather than
+> tidied away: a dependency graph that nobody maintained across seven sessions is exactly the
+> artefact that goes on looking authoritative while ceasing to be true. `DEVIATIONS.md` D-7.
+
+
 > ## ⚠️ STATUS 2026-08-20 (session **G3**) — THIS FILE IS STILL STALE BELOW THIS BANNER
 >
 > **Third session in which this file has been flagged rather than rewritten.** Recorded as such

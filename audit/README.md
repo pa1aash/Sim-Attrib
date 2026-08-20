@@ -9,8 +9,12 @@ The governance layer: what the plan asserted, what was checked, and what the che
 - `LEDGER_CITATIONS.md` — every reference named in the plan, with identifier, retrieval
   status, and whether the plan's characterisation of it is accurate.
 - `LEDGER_DESIGN.md` — design commitments and the consequence of violating each.
-- `CLAIM_GRAPH.md` — C1 and C2, their dependencies, and which ledger entries each rests
-  on, so that a falling assertion visibly takes its claims with it.
+- `FINAL_CLAIMS.md` *(G7)* — **the current claim set, and the file a drafting session
+  works from.** Four contributions, scoped by `docs/DECISIONS.md` D-16, each with the
+  exact claim, its evidence files, its scope conditions, and the figures that support it.
+- `CLAIM_GRAPH.md` — **SUPERSEDED by `FINAL_CLAIMS.md`.** C1 and C2, their dependencies,
+  and which ledger entries each rests on. Kept as the reasoning trail; its dependency
+  graph has been stale since G2 and is not to be read as current.
 - `TOOLING.md`, `VENUE.md`, `PIVOT.md`, `S0_REPORT.md`.
 
 **Does not belong here:** full text of third-party papers. Bibliographic facts and
