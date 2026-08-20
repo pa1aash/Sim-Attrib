@@ -45,10 +45,18 @@ def now_iso() -> str:
 def header(*, script: str, command: str, seed: int, started: str) -> dict[str, Any]:
     """Build the provenance header required by ``PROVENANCE.md``."""
     status = _git("status", "--porcelain")
+    dirty_paths = sorted(line[3:] for line in status.splitlines() if line[3:])
     return {
         "script": script,
         "commit": _git("rev-parse", "HEAD") or "UNKNOWN",
         "dirty": bool(status),
+        # A bare `dirty: true` says the recorded commit does not describe the code that ran,
+        # but not WHICH code. Recording the paths lets a reader judge whether the
+        # modifications could have touched the run at all -- and, more usefully, lets a
+        # future session see that a run was invalidated by an unrelated edit made while it
+        # was in flight, which is otherwise indistinguishable from a genuinely stale result.
+        # It does not soften the contract: dirty is still disqualifying.
+        "dirty_paths": dirty_paths,
         "command": command,
         "seed": seed,
         "started": started,

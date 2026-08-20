@@ -13,4 +13,7 @@ anything that reads real observational data. This project is synthetic by design
 ground truth is known by construction because a component is deliberately knocked
 off-spec.
 
-Nothing in this directory exists yet. No code has been written for this project.
+**Status, session G3 (2026-08-20): this directory now contains code.** `simulators/sir3.py`,
+`simulators/summaries.py`, `diagnostics/jacobian_rank.py`, `diagnostics/floor_check.py`,
+`diagnostics/run_diagnostic.py`, `diagnostics/report_tables.py`, and `provenance.py`. Tests
+are in `tests/`. `attribution/` is still empty.

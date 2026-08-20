@@ -16,4 +16,10 @@ Accuracy figures carry a further requirement: they are quoted against the 1/K de
 floor, never in isolation. A results file reporting attribution accuracy must record K
 and the corresponding floor alongside the accuracy.
 
-Empty. No experiment has been run. This project has produced no numbers.
+**Status, session G3 (2026-08-20): no longer empty.** `floor_check.yaml`,
+`jacobian_rank.{S_A,S_B,S_C}.yaml`, `jacobian_rank.S_A.no_crn_control.yaml`, and the generated
+`SUMMARY_TABLE.md`. These are the project's first numbers.
+
+`SUMMARY_TABLE.md` is **generated** by `src/diagnostics/report_tables.py` and must not be
+edited by hand; it exists so the reports in `audit/` can quote results without any number
+being typed into a markdown file.

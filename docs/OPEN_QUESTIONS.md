@@ -6,6 +6,21 @@ decision is worth more later than the decision alone.
 
 ## Open
 
+> ### Standing audit debt, carried and non-blocking (noted G3)
+>
+> **Some of G0's and G1's negative findings were made before the `search_classic` fix and are
+> UNVERIFIED, not confirmed.** `audit/TOOLING.md` establishes that the arXiv API's `all:` field
+> searches metadata, not full text, so every zero those sessions reported as evidence of
+> absence was a *metadata* zero. Two have since been re-checked on the working index and
+> survived (G2 re-checked one; G3's R2 sweep is the first check run entirely on the corrected
+> instrument). **The rest are instrument gaps, not measured zeros.** Tracked as **O-13**.
+>
+> This is recorded here so a future session does not treat those findings as settled, and it is
+> **not blocking**: the project's live claims — the composition in
+> `audit/MMC_COMPOSITION_SPEC.md` and the empirical result in `results/` — do not rest on them.
+> The *positive* findings that killed C2, R1 and the composite-null gap are unaffected, since a
+> paper that does the thing does not depend on how it was found.
+
 ### Q-2 — Repository visibility *(answered in principle, action outstanding)*
 **Answered 2026-08-20 by `docs/DECISIONS.md` D-4:** public during the build phase, private
 before the paper draft or final results are committed. The *action* — flipping the setting
@@ -104,7 +119,36 @@ for the mechanism, and the Jacobian diagnostic was not built. See `audit/S1_REPO
 for the argument that option (b)'s deliverable is *technically* unblocked — R2 does not
 depend on R1 — which the operator may wish to authorise separately.
 
-### Q-10 — Three consecutive kills. Does this project continue? **(BLOCKING — P-1)**
+### Q-10 — Three consecutive kills. Does this project continue? **ANSWERED 2026-08-20 — and executed**
+
+> **ANSWER (operator, 2026-08-20).** *Option (a) then (b), in that order, with (b)
+> unconditional.* Verbatim as recorded in session G3's brief:
+>
+> > "run ONE corrected-instrument check on R2 — narrow, not a new investigation phase — then
+> > build the diagnostic regardless of what it finds. The diagnostic was already established
+> > in G1's GATES.md as passing on either branch of its own STOP condition, independent of any
+> > novelty verdict, so R2 coming back DEAD does not block Phase 2 — it only changes whether
+> > the rank estimator is claimed as a method contribution or used purely as infrastructure."
+>
+> **Executed in full, session G3.** The R2 check ran on the corrected full-text instrument
+> and returned **NARROW-CONDITIONAL** (`audit/R2_THREAT_CHECK.md`) — the first of four
+> prior-art checks in this project not to return DEAD. Its consequence for framing is
+> recorded as **D-6**: R2 is cited infrastructure, not a claimed method contribution. The
+> diagnostic was then built and run: `src/simulators/sir3.py`,
+> `src/simulators/summaries.py`, `src/diagnostics/jacobian_rank.py`, and
+> `results/jacobian_rank.*.yaml`. **This repository now contains code and numbers, for the
+> first time.**
+>
+> **The reading that should be carried forward, and it is not simply "the project
+> continues".** R2 survived because it was never the headline. What survives of it is a
+> one-sentence observation about a rank tolerance. All three claims that *were* headlines
+> died. The project's viability now rests on the composition specified in
+> `audit/MMC_COMPOSITION_SPEC.md`, which is a composition of two published techniques and
+> says so first — and on the empirical finding in `results/`, whose value does not depend on
+> any novelty verdict.
+
+Original question follows.
+
 
 **Raised 2026-08-20 by `audit/COMPOSITE_NULL_CHECK.md`, verdict DEAD.**
 
@@ -152,6 +196,57 @@ picked over.
 
 **This question blocks everything.** No further claim should be adopted, and no code written
 against a claim, until it is answered.
+
+### Q-11 — Should the project occupy the noise-calibrated rank-tolerance seam? *(new, G3; not blocking)*
+
+**Raised 2026-08-20 by `audit/R2_THREAT_CHECK.md` §2.**
+
+The one thing nobody in the retrieved literature does is carry an estimated simulation noise
+level forward into the **rank tolerance**. Moré & Wild (2010/2012) estimate the noise level
+and use it to pick a near-optimal difference parameter; Cintrón-Arias et al. (2009) assemble
+the sensitivity matrix and call its rank at MATLAB's *machine* tolerance. Nobody joins them —
+four full-text zeros, control live in the same batch.
+
+**The project does not currently occupy that seam either, and this is the honest part.**
+`docs/THRESHOLDS.md` §1.2 derives `τ = 10⁻²` from a **compute budget** (`n ≳ κ²`), not from a
+noise level. So there are exactly two options and both have a cost:
+
+- **(a) Occupy it.** Re-derive `τ` from an estimated noise level. Requires a `DEVIATIONS.md`
+  entry stating that a pre-registered numeric threshold changed, what result prompted it, and
+  why the change is not motivated by that result. **The last condition is the hard one**: the
+  numbers now exist, so any re-derivation happens with the singular values already visible.
+  That is precisely the leakage failure `LEDGER_DESIGN.md` D3 exists to prevent, and it is
+  not obviously escapable by good intentions.
+- **(b) Do not occupy it.** State plainly in the paper that the gap was identified and not
+  filled, and keep `τ` as pre-registered. Costs the seam; keeps the pre-registration, which
+  is currently one of the few things this project has that is demonstrably clean.
+
+**Recommendation, offered as such:** (b). The pre-registration's value is that it is
+provable from `git log`; the seam's value is one sentence.
+
+### Q-12 — The observation distortion probes reporting fraction only. Is that enough? *(new, G3; scope call)*
+
+**Raised 2026-08-20 by the Phase 2 build.**
+
+The OBSERVATION component is declared as *reporting fraction / delay / noise*, but a
+distortion family is a **one-parameter** deformation, so one sub-process had to be chosen. The
+build chose the **reporting fraction** (`ρ → ρ·exp(η₃)`), a pure amplitude error, deliberately
+— it is the cleanest way to ask whether an amplitude error can be told apart from a mechanism
+error. The delay kernel and the noise scale are held at base values.
+
+**Why this is a real limitation and not a quibble.** The separability verdict in `results/`
+is a statement about *these three columns*. A different observation distortion — perturbing
+the reporting **delay** instead, which is a timing distortion — would give a different third
+column, and the progression family is *also* a timing distortion. The two could plausibly be
+far more collinear than the amplitude/timing pair actually measured. **The favourable verdict
+may therefore be partly a consequence of which observation sub-process was chosen**, and that
+possibility is not testable without adding the second family.
+
+This is the same class of question as **Q-6** (multi-component scope) and is a scope call, not
+a correctness one. Adding a fourth distortion family is **not** governed by THRESHOLDS §1.1,
+which closes the list of *summary sets*, not of distortion families — but the same reasoning
+applies and any addition should be logged in `DEVIATIONS.md` with whether the existing results
+were known at the time.
 
 ## Answered
 

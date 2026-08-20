@@ -97,6 +97,34 @@ offered as something the operator may choose to **accept** as a known limitation
 >              G0 UNDERSTATED how much of this work is prior art, and did so twice.
 > ```
 
+> #### Session G3 note on this proposal (2026-08-20) — it still stands, and one item is now sharper
+>
+> **The G1-drafted text above is not amended.** Two things have changed that a signer should
+> know, and both strengthen rather than weaken it:
+>
+> - **Item 2 has been vindicated twice more.** G1's proposal said G0's missing critics were the
+>   reason its novelty finding was insecure, and that the finding was then refuted. Two further
+>   headline claims have died since. **No critic has run in any of the four sessions.**
+> - **Items 3 and 4 are now four sessions old, not two.** Google Scholar has still never been
+>   searched; Semantic Scholar rate-limited again in G3, so citation-chaining has still never
+>   been performed in this project.
+>
+> **One item should be ADDED if the operator is amending rather than accepting**, because it was
+> not known when the G1 text was written:
+>
+> > ```
+> >              6. G0'S NEGATIVE SEARCHES WERE RUN ON THE WRONG INSTRUMENT. audit/TOOLING.md
+> >                 establishes that the arXiv API's all: field searches METADATA, NOT FULL
+> >                 TEXT. Every zero G0 reported as evidence of absence was a metadata zero.
+> >                 Under S4 these are INSTRUMENT GAPS, not measured zeros. One has since been
+> >                 re-checked on the working index and survived; the rest are unverified
+> >                 (O-13). G0's POSITIVE findings -- the Kahl refutation above all -- are
+> >                 unaffected, because a paper that does the thing does not depend on how it
+> >                 was found.
+> > ```
+>
+> **Recommendation unchanged:** sign with the conditions accepted rather than required closed.
+
 **Recommendation, offered as such.** Sign with conditions 1–5 accepted rather than required
 closed. Closing (1) is likely impossible without institutional access; closing (3) and (4)
 is worth doing but belongs to the *next* prior-art sweep rather than retroactively to G0;
@@ -198,6 +226,48 @@ Prepared 2026-08-20, session G1. Signature block below is for the operator.
   produced two rounds of useless results before being caught. Recorded because an
   unnoticed version of it would have produced a false "nothing found here".
 
+#### Proposed `conditions` text for G1 — a PROPOSAL, not a signature
+
+**Written by session G3 at the operator's request (brief §4.2). It is not a sign-off and does
+not become one by being written here.** The signature line below is deliberately blank (S9).
+
+G1 offered the operator three ways to close itself: **(a)** re-scope the gate, **(b)** authorise
+Phase 3 separately, **(c)** record G1 as failed and re-prepare it next session. **The operator
+took (b)**, via the Q-10 decision, and **session G3 then discharged the deliverable**. So the
+useful thing to record is that G1's unmet criteria are *closed elsewhere*, not that they are
+still open — which means G1 does **not** need re-preparing and option (c) is moot.
+
+> ```
+> conditions:  Signed as an accurate record of a session whose DEFINING CRITERION WAS NOT MET,
+>              and whose unmet criteria have since been discharged by G3. Specifically:
+>
+>              1. G1.1 AND G1.2 WERE NOT MET AND THAT IS NOT REVISED HERE. The diagnostic was
+>                 not built and no branch of the D4 STOP condition had an answer. Signing this
+>                 gate does not convert those to met.
+>              2. THEY ARE NOW DISCHARGED BY G3, not by G1. The diagnostic exists, was run, and
+>                 the STOP condition did not fire. G1 therefore does not need re-preparing, and
+>                 option (c) of its own three options is withdrawn as moot.
+>              3. THE STOP THAT BLOCKED G1 WAS CORRECT. Phase 2.4 required halting on a DEAD
+>                 verdict on R1, and the verdict was DEAD. Building a mechanism that had just
+>                 lost its novelty is exactly what that condition exists to prevent. The gate
+>                 failed; the session did not misbehave.
+>              4. docs/THRESHOLDS.md WAS WRITTEN DESPITE THE STOP, and is logged as a deviation
+>                 (D-6). That judgement call has since paid off in a way it could not have been
+>                 predicted to: the pre-registered argument against a machine-epsilon rank
+>                 tolerance turns out to be an argument against the standard practice in the
+>                 literature G3 later found (Cintron-Arias et al. 2009 call rank at MATLAB's
+>                 machine tolerance). Its value depends on having been written BEFORE any
+>                 singular value existed, which git log establishes.
+>              5. G1'S NEGATIVE SEARCHES ARE UNVERIFIED for the same reason as G0's (O-13).
+>                 Its POSITIVE finding -- the R1 refutation, from primary texts read directly --
+>                 is unaffected.
+>              6. BRANKE, CHICK & SCHMIDT (2007) AND KIM & NELSON (2006) REMAIN UNRETRIEVED,
+>                 with a recorded substitution for the latter. Accepted as a standing limitation.
+> ```
+
+**Recommendation, offered as such.** Sign with conditions 1–6 accepted. Requiring them closed
+would keep G1 open over a deliverable that has already been produced under a different gate.
+
 ### Operator sign-off
 
 ```
@@ -278,6 +348,166 @@ Prepared 2026-08-20, session G2. Signature block below is for the operator.
   the strongest kind available here, but nobody has tried to refute it.
 - **Semantic Scholar was not queried this session.** Not needed; not a gap this time, but
   citation-chaining still has never been performed in this project.
+
+#### Proposed `conditions` text for G2 — a PROPOSAL, not a signature
+
+**Written by session G3 at the operator's request (brief §4.2). Not a sign-off (S9).**
+
+G2 is recorded `NOT MET` because it stopped at Phase 1. That is accurate and should not be
+softened. It is also, on the evidence of the session that followed it, **the most consequential
+session in the project so far**, and a `conditions` text that does not say so would misdescribe
+the record.
+
+> ```
+> conditions:  Signed as NOT MET, correctly stopped, and -- on the evidence of G3 -- the
+>              session that fixed the project's actual problem. Specifically:
+>
+>              1. G2.5 AND G2.6 WERE NOT DONE. The R2 check did not run and the diagnostic was
+>                 not built. Signing does not convert those to met. Both are now discharged by
+>                 G3.
+>              2. THE STOP WAS CORRECT AND WAS THE BRIEF'S OWN. A DEAD verdict on the
+>                 composite-null gap stopped the session before Phases 2-4, exactly as
+>                 pre-registered.
+>              3. G2.11 -- THE SEARCH-INSTRUMENT CORRECTION -- IS THE MOST VALUABLE THING THIS
+>                 PROJECT HAS PRODUCED, and it was not in the brief. G0 and G1 both reported
+>                 "arXiv full-text" searches that were metadata-only. Demonstrated with two
+>                 phrases present in paper bodies that return 0. Every subsequent finding,
+>                 including G3's entire R2 check, depends on that correction.
+>              4. THE CORRECTION IS RETROSPECTIVE AND THE DEBT IS NOT PAID. G0's and G1's
+>                 negative findings are downgraded to instrument gaps. One has been re-checked
+>                 and survived; the rest are unverified (O-13). Accepted as a standing
+>                 limitation, non-blocking, because no live claim rests on them.
+>              5. THE INSTRUMENT-GAP CLASS OF DEFECT RECURRED IN G3, within one session of
+>                 audit/TOOLING.md being written -- twice (arXiv's "No Results." string, and
+>                 ff/fi ligatures in extracted PDF text defeating a plain grep). Both were
+>                 caught by checking rather than by the rule. The rule needs the ligature case
+>                 added alongside S7.
+>              6. DUFOUR'S VERSION OF RECORD WAS NOT OBTAINED (O-14). Every MMC quotation in
+>                 this project, including G3's specification, is attributed to CIRANO WP
+>                 2005s-02. O-14 must be closed before MMC is cited in any manuscript.
+>              7. NO ADVERSARIAL CRITIC RAN. G2's verdict is single-pass, like every other
+>                 verdict in this project.
+> ```
+
+**Recommendation, offered as such.** Sign with conditions 1–7 accepted. Item 3 in particular
+should be recorded as a finding rather than buried: the project's three-for-three record was at
+least partly an instrument failure, and G2 is the session that established that.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
+
+## G3 — First code. Does the simulator pass its own rank condition?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-20, session G3. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **This is the first session to produce code and numbers.** `src/` contains a simulator, three
+> summary sets, a diagnostic, a floor check and a runner; `results/` contains five files;
+> `tests/` contains 65 tests. Three prior sessions produced an audit trail and no software.
+>
+> **Phase 1's R2 verdict is NARROW-CONDITIONAL** — the first of four prior-art checks in this
+> project not to return DEAD. That is not as good as it sounds, and §"does not certify" below
+> says why: R2 survived because it was never the headline, and what survives of it is a
+> one-sentence observation about a rank tolerance.
+>
+> **The D4 STOP condition did NOT fire.** Two of the three summary sets are separable under the
+> criteria pre-registered in `docs/THRESHOLDS.md`, and the impoverished control `S_C` failed
+> exactly as designed, with an *exact* null direction. Per G1's own wording, **both branches of
+> that condition pass the gate; only an unrun or uninterpretable diagnostic fails it.** The
+> diagnostic was run and is interpretable.
+>
+> **Phase 3 is specification only, by instruction.** No MMC code exists.
+
+### What G3 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| G3.1 | Corrected full-text instrument (S4) validated with a known-present phrase **before** anything load-bearing | **met** — control returned exactly arXiv:2405.07026; re-run inside the final batch so the reported zeros are attested against a live instrument |
+| G3.2 | R2 threat-checked against the three literatures G2 named, ≥3 queries, each reformulated at least once | **met** — 20 full-text queries logged with per-query counts; three primary sources retrieved and read in full. `audit/R2_THREAT_CHECK.md` |
+| G3.3 | Verdict on the DEAD / NARROW / NARROW-CONDITIONAL / OPEN scale, strongest case against novelty first | **met** — **NARROW-CONDITIONAL** |
+| G3.4 | R2's framing consequence recorded as a decision | **met** — `docs/DECISIONS.md` **D-6**: cited infrastructure, not a claimed method contribution |
+| **G3.5** | **The simulator exists, with components declared in code and docstring, and `δ_k(·;0)` exactly the base** | **met** — `src/simulators/sir3.py`; identity tested **bit-identical**, and smoothness tested by one-sided derivatives and a bounded second difference |
+| G3.6 | Three summary sets, including the impoverished positive control | **met** — `src/simulators/summaries.py`, list closed at `S_A`/`S_B`/`S_C` |
+| **G3.7** | **The diagnostic exists and has been RUN on a 3-component SIR simulator** — G1.1, unmet for three sessions | **met** — `src/diagnostics/jacobian_rank.py`, `results/jacobian_rank.*.yaml` |
+| **G3.8** | **Which branch of the D4 STOP condition fired** — G1.2, which had no answer at all | **met — the STOP condition did NOT fire.** Numbers in `results/SUMMARY_TABLE.md`, generated from the results files |
+| G3.9 | `h` swept over decades with the plateau reported; a single-h call not expressible | **met** — `h_values` is a sequence and a scalar raises `TypeError`; plateau, its censoring at the sweep edges, and the per-`h` spectrum are all reported |
+| G3.10 | Common random numbers across ± evaluations, with the reason documented | **met, and demonstrated rather than asserted** — the no-CRN negative control is emitted as its own results file and asserted in the tests |
+| G3.11 | Both normalisations fixed and recorded **in the results file**, not only in code | **met** — `normalisation:` block in every `jacobian_rank.*.yaml`, with `R_norm`, the seed, the per-coordinate prior-predictive sd, `eta_scale`, and `p_ref` |
+| G3.12 | Pre-registered thresholds used unrevised | **met** — asserted by a test that fails if `τ`, `κ_max` or the `h` sweep drift from `docs/THRESHOLDS.md` |
+| G3.13 | Random-attributor floor check, analytic vs simulated | **met** — `results/floor_check.yaml`, run **first**, because it validates the harness |
+| G3.14 | `leakage_checked: true` with an explicit statement of how | **met** — every results file carries the statement; the diagnostic never receives a component index or ground-truth label |
+| G3.15 | Unit tests, minimum set named in the brief | **met** — 65 tests: the identity test, smoothness through zero, plateau existence, `S_C`'s positive-control behaviour, the floor check, and the `eta_scale` invariance the docstring claims |
+| G3.16 | Results-file framing matches the CURRENT claim, not a superseded one | **met** — a `framing:` field in every results file; scaffold READMEs updated; drift checked explicitly |
+| G3.17 | MMC composition specified, citing the specific proposition rather than a paraphrase | **met** — `audit/MMC_COMPOSITION_SPEC.md` cites **Dufour Proposition 4.1**, eqs. (4.20)–(4.21), quoted from the retrieved text |
+| G3.18 | Cost stated multiplicatively; conservativeness stated up front | **met** — §0.2 and §0.3 of the spec are the first two things in it, before the procedure |
+| G3.19 | No number hand-typed into a markdown file (S11) | **met** — `results/SUMMARY_TABLE.md` is generated by `src/diagnostics/report_tables.py` from the YAML |
+| G3.20 | No reference to any authoring agent in commit metadata or file contents | verified before each push |
+| G3.21 | Sign-off conditions proposed for G0, G1 and G2 | **met** — below. **Proposed only; not signed** |
+
+### What G3 explicitly does not certify
+
+- **That the project has a viable contribution.** The composition in
+  `audit/MMC_COMPOSITION_SPEC.md` is a composition of two published techniques, its own §0.1
+  says so, and **nobody has tried to refute it**. Three headline claims have already died this
+  way.
+- **That R2 is novel.** It is **NARROW-CONDITIONAL**, which is not the same as safe. Both halves
+  are prior art — Cintrón-Arias et al. (2009) for the rank-and-condition-number screen,
+  Moré & Wild (2012) for finite differencing under simulation noise. The unoccupied seam is one
+  sentence wide and **this project does not currently occupy it** (Q-11).
+- **That the rank call is a meaningful quantity for models of this kind.** The sharpest
+  objection found in Phase 1 is not about novelty: the sloppy-models literature (Gutenkunst et
+  al. 2007, 1,152 citations) reports these spectra as **gapless**, which would make any rank
+  threshold a statement about the analyst. `docs/THRESHOLDS.md` §1.4's unresolved-singular-value
+  rule is where that would have surfaced, and it did not fire here — but that is one simulator,
+  three distortion families, and a `d × 3` matrix, which is a much smaller object than the ones
+  that literature studies.
+- **That the separability verdict generalises.** It holds for **this** simulator, **these three**
+  distortion families and **this closed list** of summary sets. The observation distortion is a
+  pure reporting-fraction multiplier; a delay distortion would give a different third column and
+  could give a different verdict (**Q-12**). The favourable outcome does not make that caveat
+  smaller.
+- **That the composition is affordable.** §4 of the spec prices it at ~10⁷–10⁹ simulator draws
+  against a protocol already priced at 10⁶–10⁷. `p_sel` has **not** been measured.
+- **That G0's and G1's negative findings hold.** Still unverified instrument gaps (**O-13**).
+- **That any of this has been independently reviewed.** See below.
+
+### Process caveats — what this session did badly or not at all
+
+- **No adversarial critic ran, for the fourth consecutive session.** Every verdict in this
+  project, including this session's, is single-pass. G0's D-4 named this as the reason its R1
+  finding was insecure; that finding was wrong. It has still not been fixed.
+- **Google Scholar still not searched.** Fourth session, same gap. **O-7.**
+- **Semantic Scholar rate-limited again** — `search_papers` returned HTTP 429 on its first call.
+  `get_paper_details` worked. **Citation-chaining has never been performed in this project.**
+- **Versions of record still not obtained** for Dufour (2006) (**O-14**), Moré & Wild (2012), or
+  Cintrón-Arias et al. (2009). All three are quoted from working-paper or arXiv versions and are
+  cited as such. **O-14 blocks citing MMC in a manuscript.**
+- **Two instrument defects were caught only because they were checked**, and both are the same
+  class of failure as the one `audit/TOOLING.md` was written about, recurring within one session
+  of that file:
+  1. arXiv renders an empty result set as the literal string `No Results.`; a parser that did
+     not know this reported `PARSE_FAIL`, and one that defaulted to `0` would have manufactured
+     a measured zero out of an unparsed page.
+  2. PDF extraction preserves the `ﬀ`/`ﬁ` ligatures, so `grep "difference parameter"` returned
+     **0** against **18** real occurrences. S7's rule about `grep -a` does not cover this.
+- **The first production run was discarded**, because `PROVENANCE.md` makes `dirty: true`
+  disqualifying and the tree had uncommitted changes when it ran. The code was committed and the
+  run repeated. Recorded because silently keeping those numbers would have been undetectable
+  from the outside.
+- **`audit/CLAIM_GRAPH.md` is still stale.** It carries a G2 banner saying so. Its R1/R2
+  structure predates both D-6 and the composition framing. Not rewritten this session either;
+  the honest reason is that it is Phase-3-shaped work and the session's Phase 3 was scoped to the
+  MMC specification.
+- **`p_sel` was not measured**, so the single number that decides whether the next session's work
+  is affordable does not exist.
 
 ### Operator sign-off
 

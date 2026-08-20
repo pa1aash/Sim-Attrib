@@ -16,4 +16,14 @@ project is a negative identifiability result, not an attribution method.
 fitted posterior, and any procedure that selects a component. Selection lives in
 `../attribution/`.
 
-Empty. The diagnostic is the first technical deliverable of the next session.
+**Status, session G3 (2026-08-20): built and run.** `jacobian_rank.py` is the diagnostic,
+`floor_check.py` the random-attributor floor, `run_diagnostic.py` the runner that emits
+`results/jacobian_rank.*.yaml`, and `report_tables.py` generates the tables the reports quote
+so that no number is hand-typed into a markdown file.
+
+The STOP condition is owned here and **did not fire**: see `results/SUMMARY_TABLE.md` §7.
+
+A note on framing, because it has changed since this file was written: the diagnostic is
+**infrastructure, cited not claimed** (`docs/DECISIONS.md` D-6). It does not gate "everything
+downstream" in the sense of being the paper's contribution; it establishes the precondition
+under which the composition specified in `audit/MMC_COMPOSITION_SPEC.md` is worth building.

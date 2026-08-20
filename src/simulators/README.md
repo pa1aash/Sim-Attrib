@@ -15,4 +15,7 @@ define what "this component is off-spec" means.
 consumes simulator output to make a decision. Those live in the sibling directories,
 so that the simulator can be exercised without importing the machinery under test.
 
-Empty. No simulator exists yet.
+**Status, session G3 (2026-08-20):** `sir3.py` implements the three-component SIR simulator
+(TRANSMISSION, PROGRESSION, OBSERVATION) with one distortion family per component, and
+`summaries.py` implements the closed list of summary sets `S_A`, `S_B`, `S_C`. Lotka-Volterra
+is **not** implemented and is not currently planned.

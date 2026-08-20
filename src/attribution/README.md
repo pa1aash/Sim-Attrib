@@ -17,4 +17,7 @@ numbers that are worthless and not obviously wrong.
 **Does not belong here:** the separability diagnostic, which must be runnable and
 reportable independently of whether any attributor works.
 
-Empty. No attribution code exists yet.
+**Status, session G3 (2026-08-20): still empty, deliberately.** The selection event and the
+maximized-Monte-Carlo composition that would live here are SPECIFIED but not implemented —
+`audit/MMC_COMPOSITION_SPEC.md`. Implementing them is the next session's work and is
+contingent on the cost gate in §4 of that specification.
