@@ -106,11 +106,24 @@ UNDER WHAT CONDITION DOES EACH FLAG THIS SCRIPT WRITES READ FALSE? (standing con
     in ``results/p_sel.yaml``. Reachable: it is exactly what would happen if the default
     ``--seed`` were left at G6's. The run aborts, because a "reproduction check" run on the
     same draws is not a check.
-``theta0_reproduces_recorded_p_sel`` -- FALSE when the re-measured ``theta_0`` cell probability
-    lies outside the Wilson interval of the value ``results/p_sel.yaml`` records for the same
-    cell, for any cell of any key. Reachable: a changed summary set, a changed normalisation, a
-    changed selection rule, or a genuine non-reproducibility would each trip it. **It is not a
-    tautology -- the two measurements share no draw.**
+``theta0_reproduces_recorded_p_sel`` -- FALSE when a two-proportion z-test between this
+    run's ``theta_0`` cell probability and the one ``results/p_sel.yaml`` records exceeds
+    ``THETA0_Z_MAX`` in absolute value, for any cell of any key. Reachable: a changed summary
+    set, a changed normalisation, a changed selection rule, or a genuine non-reproducibility
+    would each trip it. **It is not a tautology -- the two measurements share no draw.**
+
+    **THE FIRST VERSION OF THIS FLAG WAS WRONG, IT READ FALSE, AND IT IS WORTH SAYING WHY.**
+    It asked whether this run's estimate falls inside the *recorded* estimate's Wilson
+    interval, which uses only ONE of the two measurements' sampling errors and therefore
+    rejects a pair of perfectly consistent 100,000-draw estimates about 17% of the time per
+    cell -- some 87% of the time across twelve cells. It duly read FALSE, for a reason other
+    than the one its name promised, which is ``DEVIATIONS.md`` D-8's failure mode for the
+    third time in this project (D-8, D-15, and now **D-17**). The correct comparison is a
+    two-proportion test on the difference; the maximum ``|z|`` it returns is reported next to
+    the flag as ``theta0_max_abs_z``, so a reader can apply their own threshold instead of
+    trusting this one. The superseded comparison is retained as
+    ``theta0_inside_recorded_ci95_alone`` rather than deleted, with a field saying what it
+    actually tests.
 ``w005_reproduces_the_recorded_collapse`` -- FALSE when this sweep's own ``w = 0.05`` minimum is
     NOT zero, i.e. this run finds acceptances at a width where G6 found none in 100,000 draws.
     **Reachable, and it would be a finding rather than a defect**: it would mean the recorded
@@ -190,10 +203,37 @@ N_REFINE_POINTS_PER_WIDTH: int = 4  #: cap on distinct points re-measured at eac
 #: The shape criterion's one threshold. Declared here, before the data exist.
 SLOPE_RATIO_ABRUPT: float = 3.0
 
+#: Two-proportion z above which theta_0 is called a non-reproduction. Twelve cells are
+#: compared (four keys x three cells), so 3.0 is a Bonferroni-flavoured choice with a
+#: family-wise false-alarm rate near 3%.
+#:
+#: **DISCLOSURE, because this threshold was fixed AFTER the first run rather than before it.**
+#: The first version of the check was not a two-proportion test at all and had to be replaced
+#: (D-17). Any threshold set now is set with the data in view, which is exactly the pattern
+#: DEVIATIONS.md D-9 and D-13 exist to make visible. Two things are done about it instead of
+#: nothing: the run reports the observed maximum |z| as a NUMBER next to the flag, so a reader
+#: can apply 2.0 or 4.0 without rerunning anything; and the value here is a conventional
+#: 3-sigma with its family-wise rate stated, not a value tuned to the observation.
+THETA0_Z_MAX: float = 3.0
+
 #: sqrt(d) for S_B: the magnitude of a single null draw's normalised discrepancy, by
 #: construction, since every summary coordinate is divided by its prior-predictive sd.
 #: Reported next to the nuisance shift so the ratio the mechanism turns on is visible.
 NOISE_MAGNITUDE_SQRT_D: float = math.sqrt(10.0)
+
+
+def two_proportion_z(x1: int, n1: int, p2: float, n2: int) -> float:
+    """Pooled two-proportion z between a count-based estimate and a recorded proportion.
+
+    Both measurements' sampling errors enter, which is the whole point: comparing a new
+    estimate against the OLD one's confidence interval alone uses half the available
+    uncertainty and rejects consistent pairs far too often. See ``THETA0_Z_MAX`` and
+    ``DEVIATIONS.md`` D-17.
+    """
+    p1 = x1 / n1
+    pooled = (p1 * n1 + p2 * n2) / (n1 + n2)
+    se = math.sqrt(pooled * (1.0 - pooled) * (1.0 / n1 + 1.0 / n2))
+    return (p1 - p2) / se if se > 0 else 0.0
 
 
 def loglinear_fit(w: list[float], p: list[float]) -> dict[str, Any]:
@@ -396,18 +436,26 @@ def main(argv: list[str] | None = None) -> int:
     repro_rows = []
     for key in keys:
         for k in range(K):
-            p_here = acc0[key][k] / args.theta0_draws
+            n1 = args.theta0_draws
+            n2 = int(rec_a[key]["n_draws"])
+            p1 = acc0[key][k] / n1
+            p2 = float(rec_a[key]["p_sel"][k])
+            z = two_proportion_z(acc0[key][k], n1, p2, n2)
             lo_r, hi_r = float(rec_a[key]["ci95_lower"][k]), float(rec_a[key]["ci95_upper"][k])
-            inside = bool(lo_r <= p_here <= hi_r)
             repro_rows.append({
                 "key": key, "cell": COMPONENTS[k],
-                "p_sel_here": float(p_here),
-                "p_sel_recorded": float(rec_a[key]["p_sel"][k]),
+                "p_sel_here": float(p1), "n_draws_here": n1,
+                "p_sel_recorded": p2, "n_draws_recorded": n2,
+                "two_proportion_z": float(z),
+                "agrees_at_z_max": bool(abs(z) <= THETA0_Z_MAX),
                 "recorded_ci95": [lo_r, hi_r],
-                "inside_recorded_ci95": inside,
+                "inside_recorded_ci95_alone": bool(lo_r <= p1 <= hi_r),
             })
-    theta0_reproduces = bool(all(r["inside_recorded_ci95"] for r in repro_rows))
-    print(f"  theta0_reproduces_recorded_p_sel: {theta0_reproduces}", flush=True)
+    theta0_max_z = max(abs(r["two_proportion_z"]) for r in repro_rows)
+    theta0_reproduces = bool(all(r["agrees_at_z_max"] for r in repro_rows))
+    theta0_inside_alone = bool(all(r["inside_recorded_ci95_alone"] for r in repro_rows))
+    print(f"  theta0_reproduces_recorded_p_sel: {theta0_reproduces} "
+          f"(max |z| = {theta0_max_z:.2f} against {THETA0_Z_MAX})", flush=True)
 
     # ---- the sweep ----------------------------------------------------------------------
     print(f"\nsweep: {len(WIDTHS)} widths x 42 points x {args.screen_draws} draws", flush=True)
@@ -596,6 +644,23 @@ def main(argv: list[str] | None = None) -> int:
             "family_sets_agree_at_zero": families_agree,
             "seed_spans_disjoint_from_G6": spans_disjoint,
             "theta0_reproduces_recorded_p_sel": theta0_reproduces,
+            "theta0_max_abs_z": float(theta0_max_z),
+            "theta0_z_threshold": THETA0_Z_MAX,
+            "theta0_reproduction_test":
+                "two-proportion z between this run's theta_0 cell probability and the one "
+                "results/p_sel.yaml records, over 4 keys x 3 cells = 12 comparisons on draws "
+                "the two runs do not share. The maximum |z| is reported as a number so a "
+                "reader can apply their own threshold rather than this one.",
+            "theta0_inside_recorded_ci95_alone": theta0_inside_alone,
+            "theta0_inside_recorded_ci95_alone_is_NOT_a_reproduction_test":
+                "This field is the check this script shipped in its first version, retained "
+                "rather than deleted. It asks whether this run's estimate falls inside the "
+                "RECORDED estimate's Wilson interval, which accounts for only one of the two "
+                "measurements' sampling errors: two consistent 100,000-draw estimates fail it "
+                "about 17% of the time per cell, so a FALSE here means 'the two runs differ by "
+                "more than one of them alone can explain' and NOT 'the measurement does not "
+                "reproduce'. A flag reading FALSE for a reason other than the one it names is "
+                "DEVIATIONS.md D-8's failure mode; this instance is D-17.",
             "theta0_reproduction_detail": repro_rows,
             "w005_reproduces_the_recorded_collapse": w005_collapse_reproduces,
             "w005_reproduction_note":

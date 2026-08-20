@@ -19,6 +19,7 @@ from src.diagnostics.boundary_sweep import (
     classify_shape,
     gate_row,
     loglinear_fit,
+    two_proportion_z,
 )
 from src.diagnostics.cost_gate import GATE_DRAWS, M_VALUES, N_VALUES
 
@@ -147,3 +148,43 @@ def test_gate_row_carries_the_notice_that_it_decides_nothing():
     of a single row would see it."""
     out = gate_row(0.5, 0.49, 0.51)
     assert "D-16" in out["this_is_characterisation_not_a_decision"]
+
+
+# --------------------------------------------------------------------------------------
+# the theta_0 reproduction test, and the wrong instrument it replaced (DEVIATIONS.md D-17)
+# --------------------------------------------------------------------------------------
+
+def test_two_proportion_z_is_zero_on_identical_estimates():
+    assert two_proportion_z(2500, 10_000, 0.25, 10_000) == pytest.approx(0.0)
+
+
+def test_two_proportion_z_uses_both_measurements_sampling_errors():
+    """The defect this replaced, stated as arithmetic rather than as prose.
+
+    Two estimates from n = 100,000 each, separated by exactly 1.96 standard errors of ONE of
+    them. The old check -- 'is the new estimate inside the old one's 95% interval?' -- calls
+    that a non-reproduction. A two-proportion test, which knows both estimates are noisy,
+    puts it at 1.96/sqrt(2) = 1.39 and does not.
+    """
+    n = 100_000
+    p = 0.25
+    se_one = math.sqrt(p * (1 - p) / n)
+    x1 = round((p + 1.959963984540054 * se_one) * n)
+    z = two_proportion_z(x1, n, p, n)
+    assert abs(z) == pytest.approx(1.959963984540054 / math.sqrt(2.0), rel=1e-2)
+    assert abs(z) < 1.959963984540054          # the old check would have rejected this pair
+    assert abs(z) < SLOPE_RATIO_ABRUPT         # and it is nowhere near THETA0_Z_MAX = 3.0
+
+
+def test_two_proportion_z_does_reject_a_genuine_disagreement():
+    """The replacement is not merely more permissive: it still fires on a real difference.
+    Half a percentage point at n = 100,000 each is roughly 2.6 sigma; a full point is over
+    five, and no threshold anyone would set survives that."""
+    n = 100_000
+    assert abs(two_proportion_z(26_000, n, 0.25, n)) > 5.0
+    assert abs(two_proportion_z(35_000, n, 0.25, n)) > 40.0
+
+
+def test_theta0_z_threshold_is_stated_and_conventional():
+    from src.diagnostics.boundary_sweep import THETA0_Z_MAX
+    assert THETA0_Z_MAX == 3.0
