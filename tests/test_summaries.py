@@ -57,18 +57,66 @@ def test_peak_interpolation_recovers_a_known_parabola_vertex():
     assert height == pytest.approx(7.0, abs=1e-9)
 
 
-def test_peak_interpolation_is_continuous_where_the_discrete_argmax_moves():
-    """At the switch point the peak sits midway between bins and both parabolas agree.
+def test_peak_interpolation_LOCATION_is_continuous_where_the_discrete_argmax_moves():
+    """The peak LOCATION is continuous across a switch of the discrete argmax.
 
-    This is the only place the interpolated peak could jump, so it is the place to check.
+    Renamed and re-scoped in session G4. As originally written this test was named
+    "..._is_continuous_..." without qualification and discarded the height it computed, while
+    its docstring asserted that *"both parabolas agree there"* -- a claim about BOTH statistics.
+    It also used a symmetric parabola, for which the two outer neighbours are equal and the
+    height jump is **identically zero by construction**, so it could not have failed however
+    wrong the general claim was. See `test_peak_interpolation_HEIGHT_jumps_...` below and
+    `audit/G3_ADVERSARIAL_REVIEW.md` finding 4.
+
+    The location claim is true, including for asymmetric curves, and that is what is pinned
+    here -- now on an asymmetric curve, so it is a test rather than a tautology.
     """
     x = np.arange(21.0)
-    prev = None
-    for centre in np.linspace(9.0, 11.0, 401):
-        loc, _h = peak_interpolated(-(x - centre) ** 2 + 5.0)
-        if prev is not None:
-            assert abs(loc - prev) < 0.02
-        prev = loc
+    for skew in (0.0, 0.35):
+        prev = None
+        for centre in np.linspace(9.0, 11.0, 401):
+            y = -(x - centre) ** 2 + 5.0 + skew * x   # skew != 0 makes the neighbours unequal
+            loc, _h = peak_interpolated(y)
+            if prev is not None:
+                assert abs(loc - prev) < 0.02, f"location jumped at skew={skew}"
+            prev = loc
+
+
+def test_peak_interpolation_HEIGHT_jumps_where_the_discrete_argmax_moves():
+    """The peak HEIGHT is NOT continuous across a switch of the discrete argmax.
+
+    Write the three points at the switch as ``a = y[i-1]``, ``m = y[i] = y[i+1]``,
+    ``c = y[i+2]``. From the left the vertex height is ``m + (m-a)/8``; from the right it is
+    ``m + (m-c)/8``. Equal only when ``a == c``. The interpolation therefore removes the
+    discontinuity from peak time and leaves one in peak height, of size ``(a-c)/8``.
+
+    This is asserted rather than merely noted because `src/simulators/summaries.py` documents
+    the opposite, and because peak height is a coordinate of both `S_A` and `S_C`. Whether the
+    discontinuity is ever actually crossed by the diagnostic is a separate, empirical question
+    -- `results/robustness/summary_smoothness_check.yaml` answers it.
+    """
+    a, c = 8.0, 5.0
+    m, eps = 10.0, 1e-9
+    left = peak_interpolated(np.array([1.0, a, m, m - eps, c, 1.0]))
+    right = peak_interpolated(np.array([1.0, a, m - eps, m, c, 1.0]))
+
+    assert left[0] == pytest.approx(right[0], abs=1e-6), "location should NOT jump"
+    assert left[1] == pytest.approx(m + (m - a) / 8, abs=1e-6)
+    assert right[1] == pytest.approx(m + (m - c) / 8, abs=1e-6)
+    assert abs(right[1] - left[1]) == pytest.approx(abs(a - c) / 8, abs=1e-6)
+    assert abs(right[1] - left[1]) > 0.3, "the height jump is real, not a rounding artefact"
+
+
+def test_peak_height_is_continuous_when_the_outer_neighbours_are_equal():
+    """The one case in which the docstring's claim IS true, pinned so the boundary is visible.
+
+    A test that only ever exercised this case is what let the general claim stand unchallenged,
+    so it is kept -- labelled as the special case it is, next to the general one above.
+    """
+    m, eps = 10.0, 1e-9
+    left = peak_interpolated(np.array([1.0, 7.0, m, m - eps, 7.0, 1.0]))
+    right = peak_interpolated(np.array([1.0, 7.0, m - eps, m, 7.0, 1.0]))
+    assert left[1] == pytest.approx(right[1], abs=1e-6)
 
 
 def test_peak_interpolation_falls_back_at_a_boundary():

@@ -1,0 +1,223 @@
+provenance:
+  script: src/diagnostics/threshold_sensitivity.py
+  commit: 06be55c01b1b0063719d0bd0f932644a455b1ef1
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/robustness/threshold_sensitivity.yaml
+  command: python -m src.diagnostics.threshold_sensitivity
+  seed: 0
+  started: '2026-08-20T18:02:32+05:30'
+  finished: '2026-08-20T18:02:33+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+what_this_is: RE-ANALYSIS of results/jacobian_rank.*.yaml under alternative rank tolerances. No simulation
+  was run. Nothing in results/ is modified. Written for session G4's adversarial pass; see audit/G3_ADVERSARIAL_REVIEW.md
+  finding 1.
+seed_field_is_zero_because: no random number was drawn. The seed of the run being re-analysed is recorded
+  in the file this reads, not here.
+source_files:
+- results/jacobian_rank.S_A.yaml
+- results/jacobian_rank.S_B.yaml
+- results/jacobian_rank.S_C.yaml
+pre_registered:
+  tau: 0.01
+  kappa_max: 100.0
+  note: "docs/THRESHOLDS.md \xA71.2 and \xA71.3, unrevised"
+summary_sets:
+  S_A:
+    d: 4
+    K: 3
+    representative_h: 0.0001
+    singular_values:
+    - 4.155946909997309
+    - 1.042675574063193
+    - 0.7727321482770891
+    sigma_i_over_sigma_1:
+    - 1.0
+    - 0.2508876067581595
+    - 0.18593407591859482
+    adjacent_ratios_sigma_i_over_sigma_i_plus_1:
+    - 3.985848535611165
+    - 1.3493363468673838
+    largest_adjacent_ratio_falls_after_index: 1
+    spectrum_spread_decades_log10_sigma1_over_sigmaK: 0.7306410102967805
+    recorded_verdict: separable
+    flip_point:
+      tau_star: 0.18593407591859482
+      tau_star_as_multiple_of_pre_registered_tau: 18.59340759185948
+      kappa_star: 5.378250302208281
+      kappa_star_as_fraction_of_pre_registered_kappa_max: 0.05378250302208281
+      meaning: 'the verdict flips to INSEPARABLE for any tau > tau_star, equivalently for any kappa_max
+        < kappa_star. Both are the same statement: sigma_K/sigma_1 = 1/kappa exactly, so tau and 1/kappa_max
+        are one threshold with two names.'
+    sensitivity:
+    - tau: 0.001
+      kappa_max: 1000.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 5.378250302208281
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.005
+      kappa_max: 200.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 5.378250302208281
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.01
+      kappa_max: 100.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 5.378250302208281
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.02
+      kappa_max: 50.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 5.378250302208281
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.1
+      kappa_max: 10.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 5.378250302208281
+      kappa_within_ceiling: true
+      verdict: separable
+    sensitivity_note: "Each row moves tau and kappa_max TOGETHER, holding kappa_max = 1/tau, because docs/THRESHOLDS.md\
+      \ \xA71.2 derives them from one another (tau = 1/kappa). Moving one alone would test a threshold\
+      \ pair the project never registered."
+  S_B:
+    d: 10
+    K: 3
+    representative_h: 0.0001
+    singular_values:
+    - 27.801215370514683
+    - 5.208396026313991
+    - 2.747076714481247
+    sigma_i_over_sigma_1:
+    - 1.0
+    - 0.18734418466603778
+    - 0.09881138928173377
+    adjacent_ratios_sigma_i_over_sigma_i_plus_1:
+    - 5.33776910013307
+    - 1.895977640106616
+    largest_adjacent_ratio_falls_after_index: 1
+    spectrum_spread_decades_log10_sigma1_over_sigmaK: 1.0051929945101812
+    recorded_verdict: separable
+    flip_point:
+      tau_star: 0.09881138928173377
+      tau_star_as_multiple_of_pre_registered_tau: 9.881138928173378
+      kappa_star: 10.120290861904312
+      kappa_star_as_fraction_of_pre_registered_kappa_max: 0.10120290861904312
+      meaning: 'the verdict flips to INSEPARABLE for any tau > tau_star, equivalently for any kappa_max
+        < kappa_star. Both are the same statement: sigma_K/sigma_1 = 1/kappa exactly, so tau and 1/kappa_max
+        are one threshold with two names.'
+    sensitivity:
+    - tau: 0.001
+      kappa_max: 1000.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 10.120290861904312
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.005
+      kappa_max: 200.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 10.120290861904312
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.01
+      kappa_max: 100.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 10.120290861904312
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.02
+      kappa_max: 50.0
+      rank_certain: 3
+      full_column_rank: true
+      condition_number: 10.120290861904312
+      kappa_within_ceiling: true
+      verdict: separable
+    - tau: 0.1
+      kappa_max: 10.0
+      rank_certain: 2
+      full_column_rank: false
+      condition_number: 10.120290861904312
+      kappa_within_ceiling: false
+      verdict: INSEPARABLE
+    sensitivity_note: "Each row moves tau and kappa_max TOGETHER, holding kappa_max = 1/tau, because docs/THRESHOLDS.md\
+      \ \xA71.2 derives them from one another (tau = 1/kappa). Moving one alone would test a threshold\
+      \ pair the project never registered."
+  S_C:
+    d: 2
+    K: 3
+    representative_h: 0.0001
+    singular_values:
+    - 4.155329597270701
+    - 0.955729365501694
+    - 0.0
+    sigma_i_over_sigma_1:
+    - 1.0
+    - 0.2300008562809157
+    - 0.0
+    adjacent_ratios_sigma_i_over_sigma_i_plus_1:
+    - 4.347809900231988
+    - .inf
+    largest_adjacent_ratio_falls_after_index: 1
+    spectrum_spread_decades_log10_sigma1_over_sigmaK: null
+    recorded_verdict: INSEPARABLE
+    flip_point:
+      tau_star: 0.0
+      tau_star_as_multiple_of_pre_registered_tau: 0.0
+      kappa_star: .inf
+      kappa_star_as_fraction_of_pre_registered_kappa_max: null
+      meaning: 'the verdict flips to INSEPARABLE for any tau > tau_star, equivalently for any kappa_max
+        < kappa_star. Both are the same statement: sigma_K/sigma_1 = 1/kappa exactly, so tau and 1/kappa_max
+        are one threshold with two names.'
+    sensitivity:
+    - tau: 0.001
+      kappa_max: 1000.0
+      rank_certain: 2
+      full_column_rank: false
+      condition_number: .inf
+      kappa_within_ceiling: false
+      verdict: INSEPARABLE
+    - tau: 0.005
+      kappa_max: 200.0
+      rank_certain: 2
+      full_column_rank: false
+      condition_number: .inf
+      kappa_within_ceiling: false
+      verdict: INSEPARABLE
+    - tau: 0.01
+      kappa_max: 100.0
+      rank_certain: 2
+      full_column_rank: false
+      condition_number: .inf
+      kappa_within_ceiling: false
+      verdict: INSEPARABLE
+    - tau: 0.02
+      kappa_max: 50.0
+      rank_certain: 2
+      full_column_rank: false
+      condition_number: .inf
+      kappa_within_ceiling: false
+      verdict: INSEPARABLE
+    - tau: 0.1
+      kappa_max: 10.0
+      rank_certain: 2
+      full_column_rank: false
+      condition_number: .inf
+      kappa_within_ceiling: false
+      verdict: INSEPARABLE
+    sensitivity_note: "Each row moves tau and kappa_max TOGETHER, holding kappa_max = 1/tau, because docs/THRESHOLDS.md\
+      \ \xA71.2 derives them from one another (tau = 1/kappa). Moving one alone would test a threshold\
+      \ pair the project never registered."

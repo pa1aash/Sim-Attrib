@@ -29,11 +29,33 @@ and O(1/h) at the jumps. Its "derivative" would be an artefact of where the jump
 to fall relative to h.
 
 Both peak statistics are therefore computed by PARABOLIC INTERPOLATION through the
-discrete maximum and its two neighbours -- the standard sub-sample peak estimator. The
-interpolated location and height vary continuously with eta, and remain continuous across
-a change of the discrete argmax (at the switch point the peak sits midway between two
-bins and both parabolas agree there). This is a substantive modelling choice about the
-summary, and it is recorded in the results files alongside the numbers it produces.
+discrete maximum and its two neighbours -- the standard sub-sample peak estimator. This is
+a substantive modelling choice about the summary, and it is recorded in the results files
+alongside the numbers it produces.
+
+CORRECTED IN SESSION G4 -- THE DEFENCE WORKS FOR PEAK TIME AND NOT FOR PEAK HEIGHT
+..................................................................................
+This paragraph previously claimed that both interpolated statistics *"remain continuous
+across a change of the discrete argmax (at the switch point the peak sits midway between
+two bins and both parabolas agree there)"*. **The first half is true and the second is
+false.** Write the three points at the switch as a = y[i-1], m = y[i] = y[i+1],
+c = y[i+2]:
+
+    from the left    vertex offset = +1/2 from index i     height = m + (m-a)/8
+    from the right   vertex offset = -1/2 from index i+1   height = m + (m-c)/8
+
+The two offsets name the SAME location, so peak TIME is continuous -- that is the
+statistic the interpolation was introduced to rescue, and it does rescue it. The two
+heights differ by (a-c)/8 and agree only when the outer neighbours happen to be equal, so
+peak HEIGHT still has a jump, smaller than the raw argmax jump but not zero. **Peak height
+is a coordinate of both S_A and S_C.**
+
+The claim survived because `tests/test_summaries.py` exercised it on a symmetric parabola,
+where a == c and the jump is identically zero by construction, and discarded the height it
+computed. Both defects are fixed there. Whether the discontinuity is ever actually crossed
+at the step sizes the diagnostic uses is a separate, empirical question, answered in
+`results/robustness/summary_smoothness_check.yaml` and read in
+`audit/G3_ADVERSARIAL_REVIEW.md` finding 4.
 
 The remaining statistics are smooth without special handling: final size is a sum, the
 binned counts are sums, and the growth rate is an ordinary-least-squares slope over a
