@@ -77,6 +77,7 @@ from __future__ import annotations
 import argparse
 import math
 import os
+import tempfile
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from typing import Any, Sequence
@@ -85,6 +86,7 @@ import numpy as np
 import yaml
 
 from ..provenance import header, now_iso
+from ..runlock import check_pidfile, write_pidfile
 from ..simulators import sir3
 from ..simulators.sir3 import COMPONENTS, ETA_SCALE, K, prior_predictive_stats, with_params
 from ..simulators.summaries import SUMMARY_LABELS, SUMMARY_SETS
@@ -514,6 +516,24 @@ def main(argv: list[str] | None = None) -> int:
     started = now_iso()
     seed_norm = args.seed + 900_000
 
+    # S3: refuse to start if another instance is already writing this file. The check asks the
+    # kernel about one recorded PID rather than grepping a process listing -- see src/runlock.py
+    # for the three ways the pattern-matching version reports a live run as dead, which is what
+    # session G4 hit. The pidfile lives OUTSIDE the repository so that having a run in flight
+    # does not itself dirty the tree.
+    out_path = OUT / "k6_spectrum.yaml"
+    lock = Path(tempfile.gettempdir()) / "sim-attrib-runs" / "k6_spectrum.json"
+    prior = check_pidfile(lock)
+    if prior["alive"]:
+        raise SystemExit(
+            f"REFUSING TO START: pid {prior['pid']} is already running "
+            f"{prior['command']!r} and will write {prior.get('outputs')}. "
+            f"Standing constraint S3. Kill it deliberately or wait."
+        )
+    write_pidfile(lock, module="src.diagnostics.k6_spectrum",
+                  outputs=[str(out_path.relative_to(REPO))])
+    print(f"pidfile {lock} (pid {os.getpid()})", flush=True)
+
     print(f"prior-predictive sd (R_norm={args.norm_replicates}, seed0={seed_norm}) ...", flush=True)
     stats = prior_predictive_stats(SUMMARY_SETS, n_replicates=args.norm_replicates, seed0=seed_norm)
     sd_map = {n: sd for n, (_m, sd) in stats.items()}
@@ -657,7 +677,7 @@ def main(argv: list[str] | None = None) -> int:
                   flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
-    path = OUT / "k6_spectrum.yaml"
+    path = out_path
     with path.open("w", encoding="utf-8") as fh:
         yaml.safe_dump(doc, fh, sort_keys=False, default_flow_style=False, width=100)
     print(f"\nwrote {path.relative_to(REPO)}", flush=True)
