@@ -1,0 +1,1368 @@
+provenance:
+  script: src/diagnostics/cost_gate.py
+  commit: 5ba06237f1894f69ce78b090078616a9594ec3b6
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/p_sel.yaml
+  command: python -m src.diagnostics.cost_gate
+  seed: 20260820
+  started: '2026-08-20T22:41:21+05:30'
+  finished: '2026-08-20T22:42:06+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.14.2
+  deps: numpy==2.4.0, scipy==1.16.3, pyyaml==6.0.3
+measured_p_sel_from: results/p_sel.yaml
+p_sel_run_commit: 5ba06237f1894f69ce78b090078616a9594ec3b6
+gate:
+  source: audit/MMC_COMPOSITION_SPEC.md section 4, pre-registered in session G3
+  cost_model: E[draws] = M * N / min_theta p_sel, per nuisance value, MULTIPLIED
+  threshold_draws: 100000000.0
+  declared_M:
+  - 1000
+  - 10000
+  declared_N:
+  - 99
+  - 999
+  declared_budget_draws: 10000000.0
+  declared_budget_source: 'audit/S0_REPORT.md section 7: ''Forward simulation only, <=10^7 solves, no
+    neural components | CPU-only holds; local, overnight''. The gate''s own threshold is 1e8, an order
+    of magnitude ABOVE this. Both are reported; the gate verdict is taken on the gate''s threshold because
+    that is the pre-registered one.'
+  which_p_sel: 'minimum over the K selection cells and over the declared nuisance box, using the independently
+    re-measured value at any refined point. Section 4 point 1: ''the cost is governed by min over theta
+    of p_sel(theta) across the searched set, not by its value at a plausible theta''.'
+  headline_box_half_width: 0.2
+scope_assumption_D14: 'docs/DECISIONS.md D-14 (DECIDED, operator, 2026-08-20): every claim this project
+  makes about component separability and attribution is scoped to a distortion model that assigns AT MOST
+  ONE one-parameter distortion family to each component. Inside that scope S_B separates under all eight
+  declarable family assignments; outside it, the six-column union is INSEPARABLE at kappa = 628.9 with
+  a progression-observation confound. The selection rule measured here is a K = 3 object and is meaningful
+  only under that restriction.'
+session_verdict:
+  primary_assignment: AAA
+  per_variant_verdicts:
+    AAA|studentised: FAIL
+    AAA|plain: FAIL
+  verdict: FAIL
+  is_a_pass: false
+  rule: PASS only if every declared (M, N) corner passes under BOTH studentisation variants of the selection
+    rule. A SPLIT is not a pass.
+headline:
+  case: AAA|studentised
+  p_sel: 0.0
+  p_sel_ci95: &id001
+  - 0.0
+  - 3.841311258303963e-05
+  attained_at: &id002
+    p_sel: 0.0
+    ci95:
+    - 0.0
+    - 3.841311258303963e-05
+    n_draws: 100000
+    counts: 0
+    cell: 1
+    theta_key: w0.05|corner|-+---
+    width: 0.05
+    estimate_source: refined
+  verdict: FAIL
+  ci_decides_the_gate: true
+  expected_draws_range:
+  - .inf
+  - .inf
+  ratio_to_gate_range:
+  - .inf
+  - .inf
+  expected_draws_ci95_lower_range:
+  - 2577244939.1073565
+  - 260067443855.3787
+  wall_clock_hours_range:
+  - .inf
+  - .inf
+wall_clock:
+  seconds_per_draw_measured: 0.00036224262607703823
+  measured_on: Palaashs-MacBook-Air.local
+  note: One draw is one forward simulation plus one summary evaluation, timed over this run's own draws
+    on a loaded machine. audit/GATES.md G4 records a profiling figure of roughly 0.14 s per run; the two
+    are measured differently and the discrepancy is reported rather than reconciled.
+cost_floor_theta_known:
+  AAA|studentised:
+    p_sel: 0.23457
+    p_sel_ci95:
+    - 0.2319539705981215
+    - 0.23720642138682435
+    corners:
+    - M: 1000
+      N: 99
+      M_times_N: 99000
+      expected_draws: 422048.85535234684
+      expected_draws_ci95_lower: 417358.01004541846
+      expected_draws_ci95_upper: 426808.8179077791
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.00099
+      within_declared_budget_1e7: true
+    - M: 1000
+      N: 999
+      M_times_N: 999000
+      expected_draws: 4258856.631282773
+      expected_draws_ci95_lower: 4211521.73773104
+      expected_draws_ci95_upper: 4306888.980705772
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.00999
+      within_declared_budget_1e7: true
+    - M: 10000
+      N: 99
+      M_times_N: 990000
+      expected_draws: 4220488.553523469
+      expected_draws_ci95_lower: 4173580.1004541847
+      expected_draws_ci95_upper: 4268088.179077791
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.0099
+      within_declared_budget_1e7: true
+    - M: 10000
+      N: 999
+      M_times_N: 9990000
+      expected_draws: 42588566.31282773
+      expected_draws_ci95_lower: 42115217.37731041
+      expected_draws_ci95_upper: 43068889.807057716
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.0999
+      within_declared_budget_1e7: false
+    verdict: PASS
+    verdict_at_ci95_lower_p: PASS
+    verdict_at_ci95_upper_p: PASS
+    ci_decides_the_gate: true
+    cell: 0
+    what_this_is: 'theta known exactly. The absolute floor on the cost, reported because it is the only
+      number that is not a statement about the nuisance set, and NOT the gate: the null is composite,
+      which is the whole reason the composition needs Dufour.'
+  AAA|plain:
+    p_sel: 0.00071
+    p_sel_ci95:
+    - 0.000562981236123048
+    - 0.000895377329840124
+    corners:
+    - M: 1000
+      N: 99
+      M_times_N: 99000
+      expected_draws: 139436619.71830985
+      expected_draws_ci95_lower: 110567909.97564921
+      expected_draws_ci95_upper: 175849555.27427572
+      passes: false
+      passes_at_ci95_lower_p: false
+      passes_at_ci95_upper_p: false
+      p_sel_at_which_this_corner_flips: 0.00099
+      within_declared_budget_1e7: false
+    - M: 1000
+      N: 999
+      M_times_N: 999000
+      expected_draws: 1407042253.5211267
+      expected_draws_ci95_lower: 1115730727.9360967
+      expected_draws_ci95_upper: 1774481875.9495094
+      passes: false
+      passes_at_ci95_lower_p: false
+      passes_at_ci95_upper_p: false
+      p_sel_at_which_this_corner_flips: 0.00999
+      within_declared_budget_1e7: false
+    - M: 10000
+      N: 99
+      M_times_N: 990000
+      expected_draws: 1394366197.1830986
+      expected_draws_ci95_lower: 1105679099.7564921
+      expected_draws_ci95_upper: 1758495552.742757
+      passes: false
+      passes_at_ci95_lower_p: false
+      passes_at_ci95_upper_p: false
+      p_sel_at_which_this_corner_flips: 0.0099
+      within_declared_budget_1e7: false
+    - M: 10000
+      N: 999
+      M_times_N: 9990000
+      expected_draws: 14070422535.211267
+      expected_draws_ci95_lower: 11157307279.360966
+      expected_draws_ci95_upper: 17744818759.495094
+      passes: false
+      passes_at_ci95_lower_p: false
+      passes_at_ci95_upper_p: false
+      p_sel_at_which_this_corner_flips: 0.0999
+      within_declared_budget_1e7: false
+    verdict: FAIL
+    verdict_at_ci95_lower_p: FAIL
+    verdict_at_ci95_upper_p: FAIL
+    ci_decides_the_gate: true
+    cell: 0
+    what_this_is: 'theta known exactly. The absolute floor on the cost, reported because it is the only
+      number that is not a statement about the nuisance set, and NOT the gate: the null is composite,
+      which is the whole reason the composition needs Dufour.'
+  BBB|studentised:
+    p_sel: 0.24945
+    p_sel_ci95:
+    - 0.24677783843094223
+    - 0.25214141037977317
+    corners:
+    - M: 1000
+      N: 99
+      M_times_N: 99000
+      expected_draws: 396873.12086590496
+      expected_draws_ci95_lower: 392636.81380574126
+      expected_draws_ci95_upper: 401170.54525422445
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.00099
+      within_declared_budget_1e7: true
+    - M: 1000
+      N: 999
+      M_times_N: 999000
+      expected_draws: 4004810.583283223
+      expected_draws_ci95_lower: 3962062.393857935
+      expected_draws_ci95_upper: 4048175.5021108105
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.00999
+      within_declared_budget_1e7: true
+    - M: 10000
+      N: 99
+      M_times_N: 990000
+      expected_draws: 3968731.20865905
+      expected_draws_ci95_lower: 3926368.138057413
+      expected_draws_ci95_upper: 4011705.4525422445
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.0099
+      within_declared_budget_1e7: true
+    - M: 10000
+      N: 999
+      M_times_N: 9990000
+      expected_draws: 40048105.83283223
+      expected_draws_ci95_lower: 39620623.93857935
+      expected_draws_ci95_upper: 40481755.021108106
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.0999
+      within_declared_budget_1e7: false
+    verdict: PASS
+    verdict_at_ci95_lower_p: PASS
+    verdict_at_ci95_upper_p: PASS
+    ci_decides_the_gate: true
+    cell: 0
+    what_this_is: 'theta known exactly. The absolute floor on the cost, reported because it is the only
+      number that is not a statement about the nuisance set, and NOT the gate: the null is composite,
+      which is the whole reason the composition needs Dufour.'
+  BBB|plain:
+    p_sel: 0.02412
+    p_sel_ci95:
+    - 0.023187222373643884
+    - 0.025089337690388156
+    corners:
+    - M: 1000
+      N: 99
+      M_times_N: 99000
+      expected_draws: 4104477.6119402987
+      expected_draws_ci95_lower: 3945899.2988056187
+      expected_draws_ci95_upper: 4269592.899256872
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.00099
+      within_declared_budget_1e7: true
+    - M: 1000
+      N: 999
+      M_times_N: 999000
+      expected_draws: 41417910.44776119
+      expected_draws_ci95_lower: 39817711.10612942
+      expected_draws_ci95_upper: 43084073.801592074
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.00999
+      within_declared_budget_1e7: false
+    - M: 10000
+      N: 99
+      M_times_N: 990000
+      expected_draws: 41044776.11940299
+      expected_draws_ci95_lower: 39458992.98805618
+      expected_draws_ci95_upper: 42695928.992568724
+      passes: true
+      passes_at_ci95_lower_p: true
+      passes_at_ci95_upper_p: true
+      p_sel_at_which_this_corner_flips: 0.0099
+      within_declared_budget_1e7: false
+    - M: 10000
+      N: 999
+      M_times_N: 9990000
+      expected_draws: 414179104.47761196
+      expected_draws_ci95_lower: 398177111.0612942
+      expected_draws_ci95_upper: 430840738.0159207
+      passes: false
+      passes_at_ci95_lower_p: false
+      passes_at_ci95_upper_p: false
+      p_sel_at_which_this_corner_flips: 0.0999
+      within_declared_budget_1e7: false
+    verdict: SPLIT
+    verdict_at_ci95_lower_p: SPLIT
+    verdict_at_ci95_upper_p: SPLIT
+    ci_decides_the_gate: true
+    cell: 0
+    what_this_is: 'theta known exactly. The absolute floor on the cost, reported because it is the only
+      number that is not a statement about the nuisance set, and NOT the gate: the null is composite,
+      which is the whole reason the composition needs Dufour.'
+gate_by_box_width:
+  AAA|studentised:
+    w=0.05:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 1
+        theta_key: w0.05|corner|-+---
+        width: 0.05
+        estimate_source: refined
+    w=0.1:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 1
+        theta_key: w0.05|corner|-+---
+        width: 0.05
+        estimate_source: refined
+    w=0.2:
+      p_sel: 0.0
+      p_sel_ci95: *id001
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at: *id002
+    w=0.5:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 1
+        theta_key: w0.05|corner|-+---
+        width: 0.05
+        estimate_source: refined
+  AAA|plain:
+    w=0.05:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+-+--
+        width: 0.05
+        estimate_source: refined
+    w=0.1:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+-+--
+        width: 0.05
+        estimate_source: refined
+    w=0.2:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+-+--
+        width: 0.05
+        estimate_source: refined
+    w=0.5:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+-+--
+        width: 0.05
+        estimate_source: refined
+  BBB|studentised:
+    w=0.05:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+----
+        width: 0.05
+        estimate_source: refined
+    w=0.1:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+----
+        width: 0.05
+        estimate_source: refined
+    w=0.2:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+----
+        width: 0.05
+        estimate_source: refined
+    w=0.5:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|+----
+        width: 0.05
+        estimate_source: refined
+  BBB|plain:
+    w=0.05:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|-----
+        width: 0.05
+        estimate_source: refined
+    w=0.1:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|-----
+        width: 0.05
+        estimate_source: refined
+    w=0.2:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|-----
+        width: 0.05
+        estimate_source: refined
+    w=0.5:
+      p_sel: 0.0
+      p_sel_ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      corners:
+      - M: 1000
+        N: 99
+        M_times_N: 99000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00099
+        within_declared_budget_1e7: false
+      - M: 1000
+        N: 999
+        M_times_N: 999000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.00999
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 99
+        M_times_N: 990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0099
+        within_declared_budget_1e7: false
+      - M: 10000
+        N: 999
+        M_times_N: 9990000
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+        passes_at_ci95_lower_p: false
+        passes_at_ci95_upper_p: false
+        p_sel_at_which_this_corner_flips: 0.0999
+        within_declared_budget_1e7: false
+      verdict: FAIL
+      verdict_at_ci95_lower_p: FAIL
+      verdict_at_ci95_upper_p: FAIL
+      ci_decides_the_gate: true
+      attained_at:
+        p_sel: 0.0
+        ci95:
+        - 0.0
+        - 3.841311258303963e-05
+        n_draws: 100000
+        counts: 0
+        cell: 0
+        theta_key: w0.05|corner|-----
+        width: 0.05
+        estimate_source: refined
+not_part_of_the_gate:
+  what_this_is: The gate prices ONE MMC test. A demonstration is many. These numbers are recorded because
+    the operator needs them and are explicitly NOT part of the pre-registered verdict above.
+  demonstration_multiplier_source: audit/S0_REPORT.md section 7 prices the protocol at R=200 replicates
+    x L=10 collinearity levels for ONE baseline.
+  cost_of_R_replicated_tests:
+    '1':
+    - .inf
+    - .inf
+    '10':
+    - .inf
+    - .inf
+    '200':
+    - .inf
+    - .inf
