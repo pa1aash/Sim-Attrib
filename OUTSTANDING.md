@@ -1,5 +1,21 @@
 # Outstanding actions
 
+> ## ⏰ NINE DAYS TO THE NEURIPS 2026 DEADLINE
+>
+> **29 August 2026, 23:59 AoE.** Verified against the venue's own CFP and the OpenReview
+> API (`duedate` 2026-08-30 11:59 UTC). Notification 29 September, and NeurIPS's own
+> guidance says that date **"cannot be extended under any circumstances."**
+>
+> All four candidate venues share the same deadline, so **missing it closes NeurIPS 2026
+> entirely** — there is no sequential fallback. See `audit/VENUE.md`.
+>
+> Against that: `src/` and `results/` are empty, and the plan's own effort estimate is
+> 2–3 weeks. The full 5-page paper as designed cannot be built, run, and written in nine
+> days. The honest options are the **2-page Tiny Paper track** at Sim2Science carrying
+> the identifiability result plus the rank diagnostic, or **skipping NeurIPS 2026**
+> — everything here is non-archival, so a later venue costs nothing. **Operator decision:
+> Q-1 in `docs/OPEN_QUESTIONS.md`.**
+
 > ## ⚠️ THIS REPOSITORY IS PUBLIC
 >
 > **It must be switched to private at <https://github.com/pa1aash/Sim-Attrib/settings>
