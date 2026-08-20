@@ -973,3 +973,144 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+---
+
+## G7 — Is the paper's scope closed, and does every figure it needs exist?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-21, session G7. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **The scope is closed and the figures exist.** `docs/DECISIONS.md` **D-16**: the MMC
+> composition is dropped as an experimental vehicle and kept as a stated negative result. Four
+> contributions, consolidated in `audit/FINAL_CLAIMS.md`. **Seven figures**, in vector PDF at
+> the venue's own column width, each carrying a provenance sidecar naming the `results/` files
+> it was drawn from and — per plotted series — the dotted path the numbers came from, re-read
+> from disk and compared. **No figure existed anywhere in this repository before this session.**
+>
+> **The boundary is located, and the collapse is a slide rather than a cliff.** Ten half-widths
+> from 0.001 to 0.05, 7,602,000 null draws, six minutes. Under the pre-registered criterion the
+> primary case is **GRADUAL**: about **one decade of acceptance probability per 0.7% of relative
+> nuisance error**, log-linear at `R² = 0.94`. **The pre-registered gate passes at every declared
+> corner only inside a ±0.5% box** on all five nuisance coordinates at once — Q-16 guessed ±0.4%
+> and called such a bound *"no epidemiologist will accept"*.
+>
+> **The mechanism was predicted before the run and the prediction held.** The sweep's design
+> docstring, committed before it produced a number, predicted from G6's recorded shift that the
+> nuisance perturbation would overtake the observation noise near `w ≈ 0.006`. Measured: the
+> crossing is between `w = 0.005` and `w = 0.0075` — **and that is exactly where the gate stops
+> passing.** The shift-to-noise ratio is therefore a one-line check anybody holding a different
+> simulator can run before attempting this composition on it, and it is the transportable part
+> of the finding.
+>
+> **Two things reproduced on draws session G6 never took**, neither arranged: `θ₀` at a maximum
+> two-proportion `|z| = 1.96` against a threshold of 3, and the ±5% collapse down to **the same
+> 21 of 42 dead design points**.
+>
+> **One thing this session did badly, for the third time in this project's history.** A flag it
+> wrote read FALSE for a reason other than the one it named. **`DEVIATIONS.md` D-17.**
+
+### What G7 was judged against
+
+The criteria were fixed by the session brief before any check ran.
+
+| # | Criterion | Result |
+|---|---|---|
+| **G7.1** | **Was Q-16 resolved as an execution of the operator's decision, not a session's?** | **met.** `docs/OPEN_QUESTIONS.md` Q-16 marked ANSWERED with the date and rationale; `docs/DECISIONS.md` **D-16** recorded DECIDED with the four contributions, what it forecloses, and what it does not do; `audit/MMC_COMPOSITION_SPEC.md` re-headed as a historical / negative-result document with nothing deleted. Committed as its own unit before any other work |
+| **G7.2** | **Was the boundary sweep run as characterisation rather than verdict-seeking (S3)?** | **met, and the ordering is the evidence.** D-16 was decided, committed and pushed at `f11de77`; the sweep's script was written afterwards and committed at `c2f3641` before it produced a number. The script's docstring states in advance what it would have done had the result gone the other way — *"if this sweep had found the cells reachable out to 0.04, the composition would still be dropped"* — and every gate row in `results/boundary_sweep.yaml` carries a field saying it decides nothing |
+| G7.3 | The sweep's design, widths, refinement rule and shape criterion pre-registered | **met** — committed at `c2f3641` with 13 tests, including the three branches of the shape criterion and the CENSORED_BELOW branch that makes it refuse rather than guess |
+| G7.4 | `results/boundary_sweep.yaml` written with replicate counts and intervals matching the rigour of every other results file | **met** — Wilson intervals throughout, seed spans asserted disjoint from G6's before the run, `dirty: false`, plus a generated `results/BOUNDARY_TABLE.md` so no number in prose is hand-typed (S11) |
+| **G7.5** | **Do all figures draw only from `results/` (S4)?** | **met.** Five figures read `results/` and nothing else; the two schematics plot no measured number at all and their sidecars say so and state the different correctness condition they carry. The one new computation was authorised, and it wrote `results/boundary_sweep.yaml` before any figure read it |
+| G7.6 | Figures at the stated publication quality bar | **met, with one gap named in the section below** — vector PDF, one shared style module, Okabe-Ito, Times because the venue's own `.sty` sets `ptm`, and a column width **parsed from that `.sty` at import time** rather than typed. Every figure drawn at final printed size, nothing below the venue's own 6pt floor |
+| **G7.7** | **Figure provenance (2.2), and is its check able to fail (S5)?** | **met.** Each figure carries a sidecar with source hashes, the emitting script's own provenance header, the commit, the caption and the output hashes. Each declares, per plotted series, the dotted path its numbers came from; the writer re-reads the file and compares. `tests/test_viz.py` shows the check reading FALSE on each of the four things the module claims it catches — a hand-typed number, an undeclared transform, a source rewritten mid-generation, and a moved path |
+| G7.8 | Unit test of the figure pipeline on synthetic data before trusting it on real results (2.3) | **met** — a known figure from known input, with the artists read back and compared against the input and against hand-computed axis bounds |
+| G7.9 | Captions drafted alongside each figure | **met** — stored in each sidecar, 1,249 to 1,443 characters, written while the figure's content was fresh |
+| **G7.10** | **S1 extended to figure metadata** | **met.** `savefig` is unreachable from a figure script; `src/viz/style.save` is the only sanctioned writer, because there is no `savefig.metadata` rcParam — verified against `matplotlib.rcParams`, not assumed. `pdfinfo` on each PDF shows the emitting script as Creator and Producer and **no CreationDate**; a `strings` grep over every PDF, SVG and PNG against a pattern that includes the plotting library's own name returns nothing. A test asserts it against whatever is in `figures/` |
+| G7.11 | Figures generated from a clean tree | **met, on the second attempt.** The first pass wrote seven sidecars recording `dirty: true`; `PROVENANCE.md` makes that disqualifying, so the code was committed and all seven were redrawn. Output is byte-reproducible, so the discarded pass differed only in its recorded commit |
+| G7.12 | The final claim set consolidated (4.1, 4.2) | **met** — `audit/FINAL_CLAIMS.md` with four sections, each carrying the exact claim, evidence files, scope conditions and figures; 75 load-bearing numbers **generated** with their dotted paths (`results/FINAL_CLAIMS_NUMBERS.md`); `audit/CLAIM_GRAPH.md` superseded by a banner rather than rewritten |
+| G7.13 | Departures and defects disclosed rather than silently reinterpreted | **met** — **D-16** (a results file written twice, with the substance shown bit-identical) and **D-17** (a flag reading FALSE for a reason other than the one it named, and a threshold fixed after the run rather than before it) |
+| G7.14 | The test suite still passes | **met** — **177 tests** (140 at the end of G6; 37 added, of which **19** require a check to fail, a bad input to be refused, or a flag to come out both ways) |
+| G7.15 | Scope boundary held | **met** — no `paper/main.tex`, no composition code, no rejection sampler, no maximiser. `src/attribution/` still contains the selection rule and nothing else |
+| G7.16 | No reference to any authoring agent in commit metadata, file contents, or figure metadata | verified before each push, with the figure-metadata check added this session |
+
+### What G7 explicitly does not certify
+
+- **That anybody has looked at these figures.** Nobody but the session that drew them has.
+  The provenance chain establishes that every plotted number is at its declared path in
+  `results/`; it establishes **nothing** about whether a figure is legible, whether a caption
+  describes its own figure, or whether an annotation placed by hand states the truth. Three
+  figures carry hand-placed annotations, each disclosed in its sidecar as outside the automatic
+  check. **This is the same category as G4's "not a fully independent check", and it is why
+  operator point P-1 asks for eyes on the PDFs rather than on this report.**
+- **That the four contributions are the right four.** They are the operator's, recorded as
+  D-16. What this session did is state them precisely enough to be disagreed with, which is
+  what **P-2** asks the operator to do.
+- **That C1 is claimable in the form written.** `docs/DECISIONS.md` **D-6** forecloses claiming
+  the estimator or the rank rule as new; **D-16** names the diagnostic as contribution 1.
+  `audit/FINAL_CLAIMS.md` writes C1 to satisfy both and **flags the tension rather than
+  resolving it**. A session may not decide this. If the reading is wrong, C1 needs rewording
+  before a word is drafted.
+- **That the boundary sweep answers anything about `Ω₀`.** `Ω₀` is still not specified anywhere
+  in this project. A relative box on the five coordinates §1 names is a stand-in, its widths
+  were declared before the run, and **a grid understates a minimum** — so every cost reported is
+  a lower bound and the ±0.5% figure is the most generous reading available.
+- **That the GRADUAL classification is a property of the simulator alone.** It is a property of
+  the simulator **and of the selection rule**: the two studentised cases classify GRADUAL and
+  the two `plain` cases ABRUPT. The split is reported rather than averaged, and the primary
+  case is the one nominated in G6 before any number existed.
+- **That `D-17`'s replacement threshold is neutral.** `THETA0_Z_MAX = 3.0` was fixed **after**
+  the first run, which is the pattern D-9 and D-13 exist to make visible. Three things are done
+  about it and none of them is nothing: the replacement was forced by an error demonstrable
+  without reference to the outcome, the value is a conventional 3σ with its family-wise rate
+  stated, and the observed maximum is published beside the flag as a number so the threshold is
+  not load-bearing.
+- **That the figures are in the venue's exact typeface.** They are set in Times because
+  `neurips_2026.sty` sets `ptm`, and this machine resolved *Times New Roman*, which is recorded
+  in every sidecar. A machine without it would fall through to a non-Times-metric face. The
+  fall-through is made visible in the record; it is not prevented.
+- **That this was an independent review.** Same project, same code, same session. Unchanged
+  since G4 and not improved by this session having produced more artefacts than any before it.
+
+### Process caveats — what this session did badly or not at all
+
+- **A flag written this session read FALSE for a reason other than the one it named. Third
+  occurrence** — `DEVIATIONS.md` D-8 (G3), D-15 (G6), **D-17** (here) — in a session that read
+  both prior entries before writing code. Worse than G6's: the countermeasure D-8 itself
+  proposed, running every check once in a state where it should give the opposite answer,
+  **was available and was not applied to this flag**. The smoke run did exercise it and it did
+  read FALSE there, and that was read as "expected at 400 draws" rather than as a reason to
+  check the arithmetic.
+- **A results file was written twice.** `results/boundary_sweep.yaml`. The substance is
+  bit-identical between the two runs and that is verified rather than asserted, but a
+  re-measurement forced by a defective check is a real cost. **D-16.**
+- **The figures were drawn twice**, for the same class of reason: the first pass ran from a
+  tree whose style module had changed after its own commit, so every sidecar recorded
+  `dirty: true`.
+- **Three figures carry hand-placed annotations that the provenance check does not cover.**
+  Each is disclosed in its own sidecar with the source-file value beside it, which is the best
+  available substitute and is not the same thing.
+- **`audit/CLAIM_GRAPH.md` is superseded rather than rewritten.** Seventh session flagged. The
+  banner is now stronger — it says the file is not to be read as current — but the underlying
+  work was again not done.
+- **Google Scholar still not searched.** Eighth session. **O-7.**
+- **`results/` still carries G3's vacuous `leakage_checked` literal.** **O-22.**
+- **No literature check ran at all**, by scope. The non-termination of a rejection sampler
+  under nuisance drift is not exotic and somebody has written about it; nobody here has looked,
+  and this is now the fourth thing the paper will assert without a prior-art sweep behind it.
+- **`Q-15` / O-26 is still not closed**, and it costs no simulation: the intermediate `K = 4`
+  and `K = 5` cases are constructible from columns already recorded and would say whether the
+  confound needs all six columns or only four.
+- **The machine was loaded throughout** — load average between 8 and 18 on 8 cores, shared with
+  unrelated work — so wall-clock figures are upper bounds on this hardware. Draw counts are not
+  affected.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
