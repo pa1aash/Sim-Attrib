@@ -183,3 +183,28 @@ of the method and must be justified and its sensitivity reported, not buried in 
 tolerance argument. Logged as an operator question.
 
 **Status: NOT IMPLEMENTED**
+
+---
+
+# VERIFICATION NOTE — D8 is threatened by prior art (added 2026-08-20)
+
+**Kahl et al. (2019), *Physical Review X* 9:041046**, read in full, states:
+
+> *"For a noninvertible system, the null space of Φ is always infinite dimensional …
+> there are **infinitely many independent inputs which cannot be distinguished from each
+> other**. This property shows that **there is no such thing as "nearly invertible."**"*
+
+If that dichotomy imports, **D8 is ill-posed**: where the rank condition fails there is no
+finite equivalence class to report, because the degeneracy is infinite-dimensional, and
+there is no graceful degradation between "identifiable" and "not".
+
+**It may not import.** Kahl et al. treat *function-space* unknown inputs in continuous-time
+systems, where non-invertibility is infinite-dimensional by construction. This project's
+distortion families are **finite-dimensional and parametric** (η ∈ ℝ^K), so the Jacobian is
+a finite d×K matrix, near-degeneracy is meaningful, and the condition number is
+informative.
+
+**Required before D8 is implemented:** a written argument for why the finite-parametric
+case admits meaningful equivalence classes when the functional case does not. This is not
+housekeeping — it is a substantive part of what the paper would be contributing, and it
+sharpens **Q-5**.

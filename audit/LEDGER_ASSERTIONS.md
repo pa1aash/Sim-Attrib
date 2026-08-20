@@ -565,3 +565,176 @@ baselines.
 parallel. It is the **neural density estimation** in the RNPE and learned-test-statistic
 baselines that breaks it, because NPE is amortised over parameters but **not over the
 simulator**: each collinearity level changes the simulator and forces a retrain.
+
+## Group F — selective inference — **F1 REFUTED as a contribution; F2 PARTIAL; and a genuinely new mechanism found**
+
+### F1 — **REFUTED as novelty.** The phenomenon is real and it is textbook.
+
+That marginal tests mis-attribute under correlated alternatives is:
+
+- **Fan & Lv (2008) §4.1**, listed verbatim as the first of three known deficiencies of
+  marginal screening, and assumed away by name in their Condition 3;
+- **Example 1 of Fithian, Sun & Taylor (2017)** — the fact that a global/trials-corrected
+  p-value protects nothing about the *identity* of the argmin;
+- **Example 1 of the Neufeld–Perry–Witten selective-inference review (April 2026)**.
+
+It is the opening pedagogical example of the field, twice over. Dedicated solutions date
+to **Hsu's multiple comparisons with the best (MCB, 1984)**, including a
+**simulation-specific version (Matejcik & Nelson, 1995)** and a modern conditional one
+(Andrews, Kitagawa & McCloskey, *QJE* 2024).
+
+**Consequence.** Cite it as motivation; spend **zero novelty budget** on it. Presenting
+"marginal distortion tests mis-attribute under correlation" as a *finding* will read to
+any selective-inference reviewer as unfamiliarity with the field — and that impression
+will contaminate the reception of the claims that are defensible.
+
+### F2 — **PARTIAL.** Transfer is uneven, and one branch collapses C1 into C2.
+
+| Method | Transfers? | What breaks |
+|---|---|---|
+| **Polyhedral conditional SI** (Lee, Sun, Sun & Taylor) | **No** | Requires Gaussian data with known Σ, a linear statistic η⊤y, and a polytope selection event. An argmin over N_alt Monte-Carlo p-values from neural statistics has none of these. The neural extension (Duy et al. 2022) recovers tractability only by restricting to affine + piecewise-linear networks — excluding softmax and batch-norm by the authors' own admission — and over-conditions, at documented power cost |
+| **Knockoffs** | **Conditionally** | The usual objection **inverts**: F_X is known exactly by construction, and Candès et al. explicitly name simulator sensitivity analysis as a valid case, so the estimation-inflation term vanishes. What breaks instead is the null's well-posedness — Proposition 2.2 presumes one cannot perfectly predict any variable from the others, and the X₂ = 1{X₁>0} counterexample **is** the rank-deficient-Jacobian case. Under rank deficiency knockoffs do not fail loudly; they **silently redefine the confounded component as null** and control FDR against a target that is not the scientific question |
+| **e-BH** | **Best of the three** | Dependence-free FDR control is exactly right for correlated distortion statistics. But valid e-values need E[E] ≤ 1 *exactly*, and an approximate Monte-Carlo p-value yields at best an asymptotic e-value, degrading the finite-sample selling point; and p-to-e calibration is strictly lossy |
+
+**The knockoff result is the important one: FDR control over distortion components holds
+if and only if the summary Jacobian has full column rank.** That is C2's condition. So
+C1's method does not merely *depend* on C2 — under the knockoff route the two claims are
+**the same theorem**.
+
+### The distinction the plan conflates — and the likeliest reviewer objection
+
+"Error control over the selected component" names three different guarantees:
+
+1. **Selective type-I error** — valid *given* that component i was selected, under H₀ (Fithian et al.).
+2. **FDR over the selected set** — expected proportion of flagged components not responsible (knockoffs, e-BH).
+3. **Probability of correct selection** — that the flagged component *is* the culprit (MCB, ranking-and-selection).
+
+**Guarantee 3 is what an applied reader will assume is on offer, and no selective-inference
+method delivers it.** It belongs to ranking-and-selection, which the plan does not cite.
+The paper must state explicitly which of the three it provides.
+
+### The one thing that is genuinely new — and it is a mechanism, not a framing
+
+Conditional selective inference is blocked in general because the selection event must be
+characterised analytically. **In SBI that blocker is removable**: under H₀ the simulator
+draws from the exact null, so the selection event never needs a characterisation —
+rejection-sampling the cell {argmin = i} yields the **exact conditional null distribution**
+of the statistic. The cost is compute (roughly N_alt/α draws to populate each cell at
+level α), which is a budget problem, not an identification problem.
+
+This removes the obstruction that Liu, Markovic-Voronov & Taylor (2023) call the central
+barrier to conditional SI. The investigation found **no prior statement of it**, documented
+across nine conjunctive arXiv full-text queries, OpenAlex queries for `"selective
+inference" + "likelihood-free"` and `+ "ABC"`, disjoint OpenReview clusters, the 2026
+selective-inference review, and zero selective-inference vocabulary anywhere in Anau
+Montel et al.
+
+**This is not what the plan proposed.** The plan proposed "an e-BH/knockoff-style
+selection". The defensible contribution is narrower, more concrete, and better: *simulators
+can do exact conditional calibration of a selection event, which ordinary statistics
+cannot.*
+
+**Recommended framing:** claim the **mechanism** (simulator-exact conditional calibration
+of the argmin selection event) and the **joint theorem** (full column rank is precisely the
+well-posedness condition for the selective/knockoff null on distortion components). Do not
+claim the **problem framing** — it is textbook.
+
+### F3 — not separately verified
+
+The mis-attribution rate as a function of collinearity is an empirical claim about a curve
+this project has not yet computed. Nothing in the literature refutes it; nothing supports
+it either. It stays UNVERIFIED and is an experimental question, not a positioning one.
+
+## Group E — the identifiability claim — **E3 REFUTED. C2 as a theorem is prior art.**
+
+This was pre-registered as "the most likely way C2 dies, and the plan does not anticipate
+it". It died. **Both halves of the characterisation are prior art, and both are prior art
+in the model-discrepancy setting specifically — not merely in the generic parameter
+setting**, which is the defence the plan would otherwise have reached for.
+
+### E1 — the non-identifiability half — **REFUTED as novelty**
+
+**Brynjarsdóttir & O'Hagan (2014), eqs. (16)–(17)** state it for a model-discrepancy
+decomposition, with the manifold M_ζ and the infinite-data limit made explicit. This is
+the paper the plan already names as its analogue — it is not an analogue, it is the
+statement.
+
+Independently, **Marshall & Spiegelhalter (2007)** state the same non-identifiability for
+the prior-vs-likelihood case: *"it will not be possible to then distinguish failures in
+the specification of the prior or the likelihood."*
+
+### E3 — the rank half — **REFUTED**
+
+| Source | What it already says |
+|---|---|
+| **Catchpole & Morgan (1997), Theorem 1** | Identifiability as an **iff** on rk[∂μ/∂θ] — the exact logical form C2 claims |
+| **Rothenberg (1971), Theorem 1** | The Fisher-information version; equivalent by Catchpole & Morgan's Theorem 3 |
+| **Chis, Banga & Balsa-Canto (2011)** | Restated for ODE observables |
+| **Hermann–Krener observability rank condition** | The Lie-derivative form |
+| **Kahl et al. (2019), *Physical Review X* 9:041046** | **The rank condition applied to an additive per-component MODEL-ERROR term, plus a design algorithm for choosing which observables make attribution possible** — via the **Sain–Massey (1969)** invertibility rank condition |
+| **Plumlee (2017), *JASA* 112:1274** | A column-space version applied to a discrepancy function |
+
+**Kahl et al. is the killing citation.** It is not the generic parameter result; it is the
+rank condition for reconstructing an **additive per-component model-error term**, with an
+algorithm for choosing observables so that attribution becomes possible. That is C2's
+contribution — the rank condition *and* the summary-set design consequence — published in
+*Physical Review X* in 2019.
+
+**Severity.** *PRX* 9:041046 and *JASA* 112:1274 are high-visibility venues, and a reviewer
+from systems/control, systems biology, or computer-model calibration would recognise the
+result on sight. The Sain–Massey lineage converts the claim from "we prove" into "we
+rediscover a 1969 result."
+
+Corroborating, from the neighbouring literature: **Presanis et al. (2017)** already give a
+**Jacobian non-singularity condition** as the regularity condition for valid node-level
+conflict inference. And **Wu, Shirvan & Kozlowski (2018), arXiv:1801.10309** already
+establish the sensitivity↔identifiability link in the KOH discrepancy setting, using
+Sobol' indices.
+
+### E2 — **CONFIRMED, and it cuts against the plan**
+
+The analogy to Brynjarsdóttir & O'Hagan is apt. Pre-registration warned that an *exact*
+analogy would put E3's novelty in serious question. It is exact, and it does.
+
+### E4 — **CONFIRMED, and it is now the load-bearing survivor**
+
+The diagnostic genuinely requires no observed data — and this is precisely what the prior
+art does **not** provide. Every source above assumes the map is available **symbolically**
+(differential algebra, Lie derivatives) or **analytically differentiable** (Plumlee's
+gradient). A simulator offers neither.
+
+### What genuinely survives — real, but modest, and not what the plan claims
+
+1. **A simulation-based estimator of the summary Jacobian, and the finite-sample behaviour
+   of its rank.** Estimating ∂(summaries)/∂(per-component perturbation) from simulator
+   calls alone, and deciding rank from a *noisy* estimate. Kahl et al.'s own dichotomy —
+   *"there is no such thing like nearly invertible"* — makes the near-degenerate case
+   acute, and nothing found solves it.
+2. **Using the rank condition as an admissibility gate on a competitive attribution
+   procedure.** The rank condition says when the attribution question is well-posed; the
+   selective-inference machinery controls error *given* that it is. **No source couples
+   the two** — and the knockoff result in Group F shows the coupling is exact, not merely
+   thematic.
+3. **Importing the experimental-design framing to SBI** — that summary-statistic choice is
+   a design problem with a computable optimum. Prior art (Kahl et al.), so cite it rather
+   than claim it, but importing it is a genuine service to the SBI literature.
+
+### Required reframing
+
+Not *"we characterise the identifiability boundary"* but:
+
+> *"the standard local structural identifiability criterion (Rothenberg 1971; Catchpole &
+> Morgan 1997), in the form used for model-error reconstruction in dynamical systems
+> (Sain & Massey 1969; Kahl et al. 2019), specialises in simulation-based inference to a
+> full-column-rank condition on the summary Jacobian — and we give the first
+> simulation-based estimator of it."*
+
+Defensible, citable, and still says something. Claiming the theorem is not.
+
+### Outstanding retrieval risk
+
+**Arendt, Apley & Chen (2012), DOI 10.1115/1.4007390** remains closed-access and unread.
+If they state a rank or linear-independence condition, the residual novelty weakens
+further. Current reading — that they state the phenomenon and a posterior-standard-
+deviation diagnostic rather than a rank theorem — is **inferred from the abstract, not
+read from the text**, and is flagged as unverified. Logged as **O-6**.
