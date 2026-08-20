@@ -27,7 +27,10 @@ Numbered, with an owner. `OPERATOR` means it cannot be resolved by an agent sess
 | O-2 | Sign or reject gate G0 after reading `audit/S0_REPORT.md` | OPERATOR | `GATES.md` is `ready for review — UNSIGNED`. **Proposed `conditions` text now drafted in `GATES.md`** (G1 §5.2) — accept, amend, or reject. |
 | **O-8** | **Answer Q-8: R1 is prior art. Decide what the paper is.** | OPERATOR | **BLOCKS ALL CODE.** `audit/R1_THREAT_CHECK.md`, verdict DEAD. Three options in `docs/OPEN_QUESTIONS.md`. Note that option (b)'s deliverable is technically unblocked and can be authorised on its own. |
 | **O-9** | **Answer Q-9: the simulator's null is composite** | OPERATOR / agent | A correctness question, not a novelty one. It survives every option in Q-8. |
-| **O-10** | **Threat-check R2 before promoting it** | agent | R2 has never been checked to the standard R1 was. Project record on single-pass novelty findings is 0-for-2. |
+| **O-10** | **Threat-check R2 — now two sessions overdue** | agent | Still never checked. Mandated by G2's brief, cut by the Phase-1 stop rule. Project record is now **0-for-3**. Run it on the **full-text** index (O-13). |
+| **O-13** | **Re-run G0/G1's load-bearing NEGATIVE searches on the arXiv full-text index** | agent | Both sessions used the metadata API while reporting "full text". Every negative they recorded is an **instrument gap**, not a measured zero. One was re-checked in G2 and survived; the rest are unverified. `audit/TOOLING.md`. |
+| **O-14** | **Obtain Dufour (2006) version of record** before MMC is cited in any manuscript | agent | *J. Econometrics* 133(2), DOI 10.1016/j.jeconom.2005.06.007 — paywalled; Unpaywall and OpenAlex both `closed`. CIRANO WP 2005s-02 was read and is cited as a working paper. |
+| **O-15** | **Answer Q-10 — three consecutive kills; continue or stop** | OPERATOR | **BLOCKS EVERYTHING.** `audit/S2_REPORT.md`. Three options, none of them adopted by this session by design. |
 | O-11 | Resolve "Presanis et al. (2017)" or withdraw the claim it supports | agent | Cannot be resolved via Crossref; may be a byline error introduced in G0. `audit/LEDGER_CITATIONS.md`. |
 | ~~O-3~~ | ~~Select a venue~~ | — | **CLOSED 2026-08-20.** Sim2Science, 5-page main track. `docs/DECISIONS.md` D-2. |
 

@@ -152,3 +152,26 @@ estimator. R2 does not depend on R1 — `audit/CLAIM_GRAPH.md` records them as i
 and the Phase-2 refutation touches only R1. So Phase 3 is arguably unblocked *on the merits*
 while being blocked *by instruction*. That is the operator's call, not this session's, and
 it is put to them as part of **Q-8**.
+
+## D-7 — Phase 3 not reached; the claim graph was flagged rather than rewritten
+
+**Instruction (Phase 3.3):** update `audit/CLAIM_GRAPH.md` in append-don't-delete style, adding
+the composite-null gap and R2 as new nodes.
+
+**Not done.** Phase 3 is reached "only if Phase 1 did not hit outright DEAD-and-stop"
+(brief, Phase 3 header). Phase 1 returned **DEAD** and the session stopped at §1.5, so 3.1
+(D-5), 3.2 (retitle) and 3.3 (claim-graph rewrite) were all out of scope.
+
+**What was done instead, and why.** A dated status banner was added to the top of
+`audit/CLAIM_GRAPH.md` recording that its R1/R2 structure is stale and pointing at Q-10.
+Nothing below the banner was edited. The reason is narrow: a dependency graph that silently
+describes a refuted claim as live is worse than no graph, and a future session opening that
+file would otherwise inherit a structure that two threat checks have since demolished. This
+is bookkeeping to prevent a stale file misleading a reader, **not** the Phase-3 rewrite, and
+it deliberately does not propose any replacement structure — proposing a fourth framing
+without operator input is the behaviour that produced the first three kills.
+
+**Also not done, and recorded here so it is not lost:** `docs/DECISIONS.md` **D-5** and **D-6**
+were named in the brief's header as this session's additions. Neither was written, because
+both are Phase 3 artefacts. The operator's decisions from this session, if any, will therefore
+be D-5 onward whenever they are recorded.

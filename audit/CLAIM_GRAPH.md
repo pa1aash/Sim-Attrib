@@ -1,5 +1,17 @@
 # Claim graph
 
+> ## ⚠️ STATUS 2026-08-20 (session G2) — THIS FILE IS STALE BELOW THIS BANNER
+>
+> **R1 is DEAD** (G1, `audit/R1_THREAT_CHECK.md`) and the **composite-null successor claim is
+> also DEAD** (G2, `audit/COMPOSITE_NULL_CHECK.md` — the repair is Dufour's maximized Monte
+> Carlo, 2006). **R2 has still never been threat-checked.**
+>
+> The R1/R2 structure below was written in G1 and has **not** been rewritten, because G2's
+> Phase 3 was not reached — Phase 1 returned DEAD and stopped the session. Do not read the
+> dependency graph below as current. The live question is **Q-10**, and no claim structure
+> should be drawn until the operator answers it. `DEVIATIONS.md` **D-7**.
+
+
 **Rewritten 2026-08-20** for the reframe recorded in `docs/DECISIONS.md` **D-3**. The
 paper's surviving claims are **R1** and **R2**. `C1` and `C2` are retired as *historical
 labels*; the analysis that produced their verdicts is preserved verbatim below the fold,

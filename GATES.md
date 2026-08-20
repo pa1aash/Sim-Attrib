@@ -206,3 +206,83 @@ date:        ____________________
 conditions:  ____________________
 ```
 
+
+## G2 — Does the composite-null gap survive a threat check?
+
+**status: NOT MET — UNSIGNED**
+
+Prepared 2026-08-20, session G2. Signature block below is for the operator.
+
+> ### Outcome, stated before the table
+>
+> **Outcome (a) of the three the brief named: a third consecutive kill, stopped at Phase 1.**
+>
+> The session's target claim — that a simulator's composite null breaks the rejection-sampling
+> construction, and that characterising and repairing that gap is the contribution — is
+> **prior art in both halves**. The observation is the founding premise of Monte Carlo
+> testing; the repair is **Dufour (2006)**, *maximized Monte Carlo*, which delivers *"provably
+> exact level"* under exactly the condition a simulator satisfies. Two further independent
+> repairs exist (repro samples with profiling; approximate co-sufficient sampling), one of
+> which ships as a CRAN package.
+>
+> Per the brief's §1.5, a DEAD verdict stops the session before Phases 2–4. **It did.**
+
+### What G2 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| **G2.1** | **Composite-null gap threat-checked to the standard R1 was** | **met** — `audit/COMPOSITE_NULL_CHECK.md`. **Verdict: DEAD**, on three independent (a)-class sources |
+| G2.2 | Freidling et al. re-read in full for what it says about nuisance parameters | **met** — `nuisance` **0**, `composite` **0** (control `the`=1448), but *not* silent: it states an explicit `sharp null` requirement (14×) and an explicit scope limitation. The brief's warning against conflating silence with an explicit assumption was applicable and is honoured in §2 of the check |
+| G2.3 | ≥3 adversarial reformulations, academic sources first, no headed browser (S4) | **met** — 13 full-text queries logged with per-query hit counts; no browser launched |
+| G2.4 | Verdict on the DEAD/NARROW/NARROW-CONDITIONAL/OPEN scale | **met** — DEAD, with the one unoccupied cell stated at its true size in §5 |
+| **G2.5** | **R2 threat-checked (Phase 2)** | **NOT DONE.** Phase 1 hit DEAD and the brief stops the session before Phase 2. **R2 remains entirely untested — the same state G1 left it in** |
+| **G2.6** | **The diagnostic built and run (Phase 4)** | **NOT DONE.** Blocked behind Phase 1. `src/` still contains no Python; `results/` still contains no numbers. **Third session in which the technical deliverable did not happen** |
+| G2.7 | D-5 written, claim graph rewritten, working title restated (Phase 3) | **NOT DONE** — Phase 3 is reached only if Phase 1 did not stop the session |
+| G2.8 | Q-8/Q-9 resolved or restated; Q-10 raised | **met** — Q-9 **answered** (the repair is Dufour's, so it is a citation not a question); Q-8 **narrowed**, its option (a) foreclosed; **Q-10 raised as blocking** |
+| G2.9 | No number produced outside the provenance contract | **met vacuously** — no number was produced |
+| G2.10 | No reference to any authoring agent in commit metadata or file contents | verified before each push |
+| **G2.11** | *(not in the brief; raised by this session)* **Search instrument validated** | **met, and it is the session's most consequential finding** — the arXiv `all:` API field searches **metadata, not full text**. G0 and G1 both described their searches as full-text. Demonstrated with two phrases present in paper bodies that return 0. The real index (`arxiv.org/search_classic`, `searchtype=ft`) was found, verified, and used. `audit/TOOLING.md` |
+
+### What G2 explicitly does not certify
+
+- **That the project has a viable contribution.** It does not identify one. Three headline
+  claims have now been refuted and no replacement is proposed — deliberately, since proposing
+  a fourth framing without operator input is the behaviour that produced the first three.
+- **That R2 is novel, or that it is not.** **R2 has never been tested.** After three kills,
+  its untested status must not be read as survival.
+- **That the area is exhausted.** The opposite may be true: the project has never had a
+  competent prior-art sweep, because the instrument was wrong until this session. Both
+  readings are put to the operator in **Q-10**.
+- **That G0's and G1's negative findings hold.** They were metadata zeros reported as
+  literature absences. Only one has been re-checked on the working index (it survived). The
+  rest are **unverified**, and under S4 they are instrument gaps, not measured zeros.
+- **That the simulator passes its own identifiability precondition.** Unanswered since G1,
+  and unanswerable until the diagnostic is built.
+
+### Process caveats
+
+- **No code, third session running.** `src/` and `results/` are exactly as G0 left them. Each
+  stop was instruction-following rather than drift — G1 stopped on Phase 2.4, G2 on Phase 1.5
+  — but the cumulative effect is a project with a large audit trail and no software.
+- **Phase 2 was skipped, so the most useful remaining check did not run.** If the operator
+  takes Q-10 option (a) or (b), the R2 threat check is the first thing to do, and it is now
+  overdue by two sessions.
+- **`audit/CLAIM_GRAPH.md` was not rewritten** (Phase 3.3 not reached). A dated status
+  pointer was added to it so a future session is not misled by a stale dependency graph; the
+  full rewrite is deferred. Logged in `DEVIATIONS.md` **D-7**.
+- **Dufour's version of record was not obtained.** *J. Econometrics* is paywalled; Unpaywall
+  and OpenAlex both report closed. The **CIRANO working-paper version** was retrieved and read,
+  and every MMC quotation is attributed to it, not to the VoR.
+- **No adversarial critic ran, for the third consecutive session.** This report's verdict is
+  single-pass. It rests on positive evidence — named theorems in retrieved papers — which is
+  the strongest kind available here, but nobody has tried to refute it.
+- **Semantic Scholar was not queried this session.** Not needed; not a gap this time, but
+  citation-chaining still has never been performed in this project.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

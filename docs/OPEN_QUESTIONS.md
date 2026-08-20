@@ -59,7 +59,16 @@ credited with a paper she is not on, and one citation that conflates two differe
 related-work section will be read by people who know this literature. Recommend a full
 re-verification pass over every reference before anything is submitted. Confirm.
 
-### Q-8 — R1 is prior art. What is the paper now? **(BLOCKING — gates all further code)**
+### Q-8 — R1 is prior art. What is the paper now? **(BLOCKING — narrowed 2026-08-20)**
+
+> **Update, G2.** Option **(a)** of this question — "rescope R1 to the transfer claim,
+> requires solving Q-9 first" — is **FORECLOSED**. Q-9 is now answered, and its answer is
+> that the repair is Dufour (2006). There is nothing left to contribute on that path. The
+> live options are **(b) promote the diagnostic and go empirical** and **(c) report the
+> negative outcome**, and they are now folded into **Q-10**, which supersedes this question
+> as the blocking one. Original text follows.
+
+**Q-8 as originally written (G1):**
 
 **Raised 2026-08-20 by `audit/R1_THREAT_CHECK.md`, verdict DEAD.**
 
@@ -95,7 +104,77 @@ for the mechanism, and the Jacobian diagnostic was not built. See `audit/S1_REPO
 for the argument that option (b)'s deliverable is *technically* unblocked — R2 does not
 depend on R1 — which the operator may wish to authorise separately.
 
-### Q-9 — The simulator's null is composite. Does the construction survive that? **(BLOCKING with Q-8)**
+### Q-10 — Three consecutive kills. Does this project continue? **(BLOCKING — P-1)**
+
+**Raised 2026-08-20 by `audit/COMPOSITE_NULL_CHECK.md`, verdict DEAD.**
+
+Three primary claims have now died to prior art, each found by direct retrieval, each after
+being adopted as the paper's headline:
+
+| Session | Claim adopted as headline | Killed by |
+|---|---|---|
+| G0 | **ex-C2** — per-component discrepancy identifiable iff the summary Jacobian has full column rank | **Kahl, Wendland, Neidhardt, Weber & Kschischo (2019)**, *PRX* 9:041046, via Sain & Massey (1969) |
+| G1 | **R1** — calibrate the selection event by rejection sampling from the simulator's null; no analytic characterisation needed | **Freidling, Zhao & Gao (2024)**, arXiv:2405.07026, Algorithm 1 "Rejection sampling" |
+| G2 | **The composite-null gap and its repair** | **Dufour (2006)**, *J. Econometrics* 133(2) — maximized Monte Carlo, provably exact level |
+
+Each kill took between one and three targeted queries once the right instrument was used. The
+third was found in the first hour of the session that went looking for it.
+
+**A large part of the explanation is now known and is not a research problem.** Both prior
+sessions ran what they described as "arXiv full-text" searches. Those searches were
+**metadata-only** — see `audit/TOOLING.md`. The real full-text index found Dufour, the
+repro-samples line and the co-sufficient-sampling line immediately. So the pattern is at
+least partly an instrument failure, now fixed, rather than evidence that the whole area is
+picked over.
+
+**That cuts both ways, and the operator should weigh both.**
+
+- *Argument to continue:* the searches were being run with a broken instrument, so the
+  project has never actually had a competent prior-art sweep of its own idea space. One
+  should now be run **before** a fourth claim is adopted, not after.
+- *Argument to stop:* three for three is not bad luck, and the area — exact inference from
+  simulation, with and without nuisance parameters, with and without selection — is
+  demonstrably crowded, mature, and worked on by strong groups (Taylor, Barber, Witten,
+  Panigrahi, Dufour, Xie). `audit/PIVOT.md` response 3 was written in advance precisely so
+  that stopping would be a decision rather than a failure.
+
+**The options:**
+
+- **(a) Run one clean full-text prior-art sweep first, then decide.** Cheap, and it is the
+  first sweep the project would have had with a working instrument. It should cover R2 —
+  which has *still* never been checked — before anything else.
+- **(b) Drop the mechanism entirely and go empirical.** `PIVOT.md` response 2: build the
+  diagnostic, run it on a 3-component SIR simulator, report whether a standard simulator
+  passes its own identifiability precondition. The novelty budget then rests on an
+  empirical finding, not on machinery. **This is buildable now** and does not depend on
+  any surviving mechanism claim.
+- **(c) Stop and write up the negative result.** `PIVOT.md` response 3.
+
+**This question blocks everything.** No further claim should be adopted, and no code written
+against a claim, until it is answered.
+
+## Answered
+
+### Q-9 — The simulator's null is composite. Does the construction survive that? **ANSWERED 2026-08-20**
+
+**Answer: yes, and by published means — which is why it is not a contribution.**
+`audit/COMPOSITE_NULL_CHECK.md`.
+
+The composite-null obstruction is real and was correctly identified. It is also the founding
+premise of the Monte-Carlo-testing literature, and it has at least three published repairs
+that apply to simulators: **Dufour's maximized Monte Carlo** (maximise the simulated p-value
+over the nuisance space; *"provably exact level, irrespective of the sample size"*; applies
+*"as long as the null distribution … can be simulated once the nuisance parameters have been
+specified"*), **repro samples with profiling** (Xie & Wang 2022 — likelihood-free, exact,
+finite-sample), and **(approximate) co-sufficient sampling** (Barber & Janson 2022).
+
+Q-9 was raised in G1 as a correctness threat to R1. It is answered as a correctness question
+— the construction does not survive a composite null unrepaired, and the repairs are
+off-the-shelf. It therefore stops being a research question and becomes a citation.
+
+Original question follows.
+
+
 
 **Raised 2026-08-20, and it is independent of the novelty verdict.**
 
@@ -110,7 +189,8 @@ D-3's formulation does not mention this. It is the actual technical content of a
 simulation-based version of the mechanism, and it is unsolved here. Nothing should be
 claimed about exact conditional validity in SBI until it is answered.
 
-## Answered
+---
+
 
 ### Q-4 — What counts as "any reasonable summary set", and what rank tolerance? **ANSWERED 2026-08-20**
 
