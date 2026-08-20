@@ -1,0 +1,243 @@
+provenance:
+  script: src/diagnostics/crn_count_check.py
+  commit: 26cfbaf23bee62c2f2feea0fbf75cec2ebddf6bd
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/robustness/jacobian_rank.adversarial.S_A.yaml
+  - results/robustness/jacobian_rank.adversarial.S_B.yaml
+  - results/robustness/jacobian_rank.adversarial.S_C.yaml
+  command: python -m src.diagnostics.crn_count_check
+  seed: 20260820
+  started: '2026-08-20T18:15:03+05:30'
+  finished: '2026-08-20T18:44:54+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+what_this_is: "Session G4 adversarial pass, finding 3. Tests whether the count-observation CRN failure\
+  \ reported in audit/S3_REPORT.md \xA74.1 is a genuine degeneracy of common random numbers with a discrete\
+  \ output, or an artefact of NumPy's Poisson sampler. Does not modify anything in results/. See audit/G3_ADVERSARIAL_REVIEW.md."
+test_statistic: final_size = sum_t y_t. Chosen because it is LINEAR, so E[s(y)] = s(mu) exactly and the
+  target derivative is available in closed form from the deterministic mean with no Monte Carlo error.
+the_discriminator: poisson_inversion is the count layer under the MONOTONE coupling y = F^{-1}_lambda(u)
+  with u frozen by the seed. If the failure were an artefact of NumPy's sampler -- which uses transformed
+  rejection for lambda >= 10, so the number of uniforms it consumes depends on lambda -- the inversion
+  coupling would repair it. If the failure is the discreteness of the output, inversion fails too.
+settings:
+  seed0: 20260820
+  R_small: 128
+  R_large: 20000
+  component_perturbed: 0
+  eta_scale: 0.1
+  obs_sigma: 0.15
+  h_values:
+  - 0.1
+  - 0.01
+  - 0.001
+  - 0.0001
+  - 1.0e-05
+  - 1.0e-06
+pathwise_step_census:
+  eta_range:
+  - -0.010000000000000002
+  - 0.010000000000000002
+  n_points: 801
+  lognormal:
+    n_distinct_values: 801
+    n_points: 801
+    fraction_of_adjacent_pairs_exactly_equal: 0.0
+    n_jumps: 800
+    largest_jump: 0.24318980906537035
+    total_variation: 191.8337498983965
+    endpoint_change: -191.8337498983965
+  poisson_numpy:
+    n_distinct_values: 168
+    n_points: 801
+    fraction_of_adjacent_pairs_exactly_equal: 0.3925
+    n_jumps: 486
+    largest_jump: 40.0
+    total_variation: 2885.0
+    endpoint_change: -129.0
+  poisson_inversion:
+    n_distinct_values: 168
+    n_points: 801
+    fraction_of_adjacent_pairs_exactly_equal: 0.485
+    n_jumps: 412
+    largest_jump: 4.0
+    total_variation: 519.0
+    endpoint_change: -167.0
+difference_quotients:
+- h: 0.1
+  exact_derivative_of_the_mean: -866.5827755363716
+  lognormal:
+    mean_over_R_large: -866.725496102668
+    relative_bias_over_R_large: 0.0001646935184097383
+    sd_of_one_replicate: 101.173988421875
+    se_of_the_mean_over_R_small: 8.942601661599632
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -859.4431086117464
+    relative_error_at_R_small: -0.00823887472285161
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_numpy:
+    mean_over_R_large: -865.69425
+    relative_bias_over_R_large: -0.0010253210212050011
+    sd_of_one_replicate: 149.9293690633122
+    se_of_the_mean_over_R_small: 13.252009195461078
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -844.765625
+    relative_error_at_R_small: -0.025176072214068524
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_inversion:
+    mean_over_R_large: -866.4655
+    relative_bias_over_R_large: -0.00013533102628196145
+    sd_of_one_replicate: 24.247457737056383
+    se_of_the_mean_over_R_small: 2.143192724050848
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -867.3046875
+    relative_error_at_R_small: 0.0008330559803494186
+    sample_sd_at_R_small_is_exactly_zero: false
+- h: 0.01
+  exact_derivative_of_the_mean: -866.5392663675448
+  lognormal:
+    mean_over_R_large: -866.6821466333503
+    relative_bias_over_R_large: 0.00016488608347137374
+    sd_of_one_replicate: 101.15697798414621
+    se_of_the_mean_over_R_small: 8.94109813711601
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -859.3990969509548
+    relative_error_at_R_small: -0.008239868282623733
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_numpy:
+    mean_over_R_large: -854.0375
+    relative_bias_over_R_large: -0.014427235848123807
+    sd_of_one_replicate: 1362.2619467174159
+    se_of_the_mean_over_R_small: 120.408082534534
+    fraction_of_replicates_exactly_zero: 0.00875
+    estimate_at_R_small: -1018.359375
+    relative_error_at_R_small: 0.17520280329461765
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_inversion:
+    mean_over_R_large: -867.39
+    relative_bias_over_R_large: 0.0009817600488220418
+    sd_of_one_replicate: 177.29399188347557
+    se_of_the_mean_over_R_small: 15.670722990554786
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -868.75
+    relative_error_at_R_small: 0.0025512215294321615
+    sample_sd_at_R_small_is_exactly_zero: false
+- h: 0.001
+  exact_derivative_of_the_mean: -866.5388313384028
+  lognormal:
+    mean_over_R_large: -866.6817132013551
+    relative_bias_over_R_large: 0.00016488800938284037
+    sd_of_one_replicate: 101.15680793092409
+    se_of_the_mean_over_R_small: 8.941083106392695
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -859.3986569000549
+    relative_error_at_R_small: -0.008239878214481902
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_numpy:
+    mean_over_R_large: -765.4
+    relative_bias_over_R_large: -0.11671586740341457
+    sd_of_one_replicate: 11982.35438805054
+    se_of_the_mean_over_R_small: 1059.100505296365
+    fraction_of_replicates_exactly_zero: 0.07915
+    estimate_at_R_small: -359.375
+    relative_error_at_R_small: -0.5852753656233369
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_inversion:
+    mean_over_R_large: -854.0
+    relative_bias_over_R_large: -0.014470016674308875
+    sd_of_one_replicate: 1244.0905867618335
+    se_of_the_mean_over_R_small: 109.9631112887054
+    fraction_of_replicates_exactly_zero: 0.12795
+    estimate_at_R_small: -765.625
+    relative_error_at_R_small: -0.11645621371928305
+    sample_sd_at_R_small_is_exactly_zero: false
+- h: 0.0001
+  exact_derivative_of_the_mean: -866.5388263761997
+  lognormal:
+    mean_over_R_large: -866.6817082642627
+    relative_bias_over_R_large: 0.00016488803930521772
+    sd_of_one_replicate: 101.1568062228928
+    se_of_the_mean_over_R_small: 8.94108295542263
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -859.3986518934571
+    relative_error_at_R_small: -0.008239878312899488
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_numpy:
+    mean_over_R_large: -1047.5
+    relative_bias_over_R_large: 0.20883215860109386
+    sd_of_one_replicate: 46316.97860261768
+    se_of_the_mean_over_R_small: 4093.8812067478975
+    fraction_of_replicates_exactly_zero: 0.5007
+    estimate_at_R_small: 3125.0
+    relative_error_at_R_small: -4.606301189144075
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_inversion:
+    mean_over_R_large: -857.75
+    relative_bias_over_R_large: -0.010142449603734357
+    sd_of_one_replicate: 4380.807518166664
+    se_of_the_mean_over_R_small: 387.21233789608215
+    fraction_of_replicates_exactly_zero: 0.52075
+    estimate_at_R_small: -507.8125
+    relative_error_at_R_small: -0.41397605676408783
+    sample_sd_at_R_small_is_exactly_zero: false
+- h: 1.0e-05
+  exact_derivative_of_the_mean: -866.538830086938
+  lognormal:
+    mean_over_R_large: -866.6817116285893
+    relative_bias_over_R_large: 0.00016488763883429025
+    sd_of_one_replicate: 101.15680628752548
+    se_of_the_mean_over_R_small: 8.941082961135406
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -859.3986552909882
+    relative_error_at_R_small: -0.008239878639060397
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_numpy:
+    mean_over_R_large: -2630.0
+    relative_bias_over_R_large: 2.035063067786746
+    sd_of_one_replicate: 146133.16134622644
+    se_of_the_mean_over_R_small: 12916.468668018071
+    fraction_of_replicates_exactly_zero: 0.9264
+    estimate_at_R_small: 0.0
+    relative_error_at_R_small: -1.0
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_inversion:
+    mean_over_R_large: -769.9999999999998
+    relative_bias_over_R_large: -0.11140739080007839
+    sd_of_one_replicate: 14253.675258084073
+    se_of_the_mean_over_R_small: 1259.85880397777
+    fraction_of_replicates_exactly_zero: 0.92495
+    estimate_at_R_small: 390.62499999999994
+    relative_error_at_R_small: -1.4507876467126226
+    sample_sd_at_R_small_is_exactly_zero: false
+- h: 1.0e-06
+  exact_derivative_of_the_mean: -866.5388013469055
+  lognormal:
+    mean_over_R_large: -866.6816829718299
+    relative_bias_over_R_large: 0.00016488774040156396
+    sd_of_one_replicate: 101.15680605479997
+    se_of_the_mean_over_R_small: 8.941082940565183
+    fraction_of_replicates_exactly_zero: 0.0
+    estimate_at_R_small: -859.3986259199937
+    relative_error_at_R_small: -0.008239879640488655
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_numpy:
+    mean_over_R_large: -4325.0
+    relative_bias_over_R_large: 3.9911209899400135
+    sd_of_one_replicate: 346409.8647046851
+    se_of_the_mean_over_R_small: 30618.595550324662
+    fraction_of_replicates_exactly_zero: 0.9934
+    estimate_at_R_small: -3906.25
+    relative_error_at_R_small: 3.507876616636573
+    sample_sd_at_R_small_is_exactly_zero: false
+  poisson_inversion:
+    mean_over_R_large: -600.0
+    relative_bias_over_R_large: -0.3075901516846224
+    sd_of_one_replicate: 44997.12476438748
+    se_of_the_mean_over_R_small: 3977.2215068494393
+    fraction_of_replicates_exactly_zero: 0.99245
+    estimate_at_R_small: -3906.25
+    relative_error_at_R_small: 3.507876616636573
+    sample_sd_at_R_small_is_exactly_zero: false

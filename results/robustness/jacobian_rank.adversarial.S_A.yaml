@@ -1,0 +1,238 @@
+provenance:
+  script: src/diagnostics/run_family_check.py
+  commit: 26cfbaf23bee62c2f2feea0fbf75cec2ebddf6bd
+  dirty: false
+  dirty_paths: []
+  untracked_paths: []
+  command: python -m src.diagnostics.run_family_check --families adversarial --label adversarial --seed
+    20260820 --replicates 128 --norm-replicates 2000
+  seed: 20260820
+  started: '2026-08-20T18:15:24+05:30'
+  finished: '2026-08-20T18:44:47+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+what_this_is: ROBUSTNESS RE-RUN, session G4. NOT a replacement for results/jacobian_rank.S_A.yaml, which
+  records what session G3 ran and is untouched. Same diagnostic code, same pre-registered thresholds,
+  same h sweep, same normalisation rule, same replicate count; only the distortion family set and/or the
+  seed differ. See audit/G3_ADVERSARIAL_REVIEW.md.
+run_label: adversarial
+family_set: adversarial
+summary_set: S_A
+summary_coordinate_labels:
+- peak_height
+- peak_time
+- final_size
+- growth_rate
+component_labels:
+- transmission
+- progression
+- observation
+distortion_families:
+  transmission: beta -> beta*exp(eta_1)   [constant rate multiplier; TARGETS progression via the beta/gamma
+    aliasing]
+  progression: gamma -> gamma*exp(-eta_2)   [constant rate multiplier, sign-aligned so eta_1 and eta_2
+    move R0 the same way; TARGETS transmission]
+  observation: rho -> rho*exp(eta_3*(t/T - 0.5))   [mean-centred log-linear reporting trend; TARGETS both,
+    via the observed growth rate]
+distortion_identity_at_zero: delta_k(.;0) == base simulator exactly for BOTH family sets, tested in tests/test_sir3.py
+p_ref_peak_prevalence_fraction: 0.2335235106521953
+normalisation:
+  rule: each summary coordinate divided by its prior-predictive sd at eta = 0
+  n_replicates_R_norm: 2000
+  seed0: 21160820
+  prior_predictive_sd:
+  - 182.67676332644606
+  - 2.091297770353305
+  - 933.2578128117411
+  - 0.006007470674698982
+  prior_predictive_mean:
+  - 1909.4968036607652
+  - 42.80043535095383
+  - 35708.90078961138
+  - 0.2082503466000218
+  note: The prior-predictive normalisation is estimated at eta = 0, where every distortion family is the
+    identity, so it does NOT depend on which family set is selected. It is re-estimated here anyway rather
+    than reused, so this file stands on its own run.
+estimator:
+  scheme: central differences, J[:,k] = mean_r [s(+h e_k; seed_r) - s(-h e_k; seed_r)] / (2h) / sd
+  common_random_numbers: true
+  n_replicates_R: 128
+  seed0: 20260820
+  n_simulator_runs: 1536
+  noise_model: lognormal
+thresholds_pre_registered:
+  source: docs/THRESHOLDS.md, unchanged; identical to the G3 run
+  tau_rank_tolerance: 0.01
+  kappa_max: 100.0
+  colnorm_invisible: 0.1
+  coherence_flag: 0.98
+  vk_min_equivalence_class: 0.3
+  resolve_factor: 2.0
+  h_values:
+  - 0.1
+  - 0.01
+  - 0.001
+  - 0.0001
+  - 1.0e-05
+  - 1.0e-06
+  plateau_rel_tol: 0.05
+results:
+  dimensions:
+    d: 4
+    K: 3
+  h_sweep:
+  - h: 0.1
+    singular_values:
+    - 7.568823638752625
+    - 0.9389023403881118
+    - 0.11997254693529942
+  - h: 0.01
+    singular_values:
+    - 8.235360103674433
+    - 1.8452846119645538
+    - 0.4626340183864546
+  - h: 0.001
+    singular_values:
+    - 6.689290344052389
+    - 0.9094108468712347
+    - 0.04893717583375571
+  - h: 0.0001
+    singular_values:
+    - 6.689290543181791
+    - 0.9094108083601989
+    - 0.04893730451863469
+  - h: 1.0e-05
+    singular_values:
+    - 6.689290544143859
+    - 0.9094108006557582
+    - 0.048937304570008305
+  - h: 1.0e-06
+    singular_values:
+    - 6.689290539254929
+    - 0.9094107793866545
+    - 0.04893731270158491
+  relative_frobenius_change_between_adjacent_h:
+  - 0.2728622209177726
+  - 0.5854781773923122
+  - 8.95422169413942e-08
+  - 2.0494034421104223e-09
+  - 6.805398670248595e-09
+  plateau:
+    rule: longest contiguous run of h with ||J(h_{i+1})-J(h_i)||_F / ||J(h_i)||_F < plateau_rel_tol
+    plateau_rel_tol: 0.05
+    found: true
+    h_range:
+    - 0.001
+    - 1.0e-06
+    h_indices:
+    - 2
+    - 5
+    n_h_in_plateau: 4
+    representative_h: 1.0e-05
+    censored_at_large_h: false
+    censored_at_small_h: true
+  singular_values_at_representative_h:
+  - 6.689290544143859
+  - 0.9094108006557582
+  - 0.048937304570008305
+  singular_value_range_across_plateau:
+  - - 6.689290344052389
+    - 6.689290544143859
+  - - 0.9094107793866545
+    - 0.9094108468712347
+  - - 0.04893717583375571
+    - 0.04893731270158491
+  singular_value_variation_factor:
+  - 1.0000000299122118
+  - 1.000000074206928
+  - 1.0000027968068625
+  resolved:
+  - true
+  - true
+  - true
+  resolve_factor: 2.0
+  numerical_rank:
+    tau: 0.01
+    rule: 'rank = #{ i : sigma_i >= tau * sigma_1 }, with unresolved sigma counted in neither direction'
+    rank_certain: 2
+    rank_possible: 2
+    determined: true
+    full_column_rank: false
+  condition_number: 136.6910295309451
+  kappa_max: 100.0
+  column_norms:
+  - 6.096091308254063
+  - 2.85198133860724
+  - 0.529059593775306
+  colnorm_invisible_threshold: 0.1
+  invisible_components: []
+  pairwise_coherence:
+  - - 1.0000000000000002
+    - 0.9581395713061271
+    - 0.07276127623251058
+  - - 0.9581395713061271
+    - 0.9999999999999998
+    - 0.3534179455759299
+  - - 0.07276127623251058
+    - 0.3534179455759299
+    - 1.0
+  coherence_flag_threshold: 0.98
+  coherence_flagged_pairs: []
+  right_singular_vectors_at_representative_h:
+  - - -0.9101197618217595
+    - -0.4142300724655797
+    - 0.009770680972405682
+  - - 0.34384894982777703
+    - -0.741905268841388
+    - 0.5756252876374727
+  - - 0.2311923849174943
+    - -0.5272475880746622
+    - -0.8176552219766059
+  near_null_directions:
+  - index: 2
+    singular_value: 0.048937304570008305
+    sigma_ratio_to_sigma1: 0.007315769026186265
+    right_singular_vector_at_representative_h:
+    - 0.2311923849174943
+    - -0.5272475880746622
+    - -0.8176552219766059
+    abs_vk_range_across_plateau:
+    - - 0.23119238322061997
+      - 0.23119238861581035
+    - - 0.5272475667953888
+      - 0.5272476010271124
+    - - 0.8176552125787928
+      - 0.8176552355668695
+    equivalence_class_members:
+    - 1
+    - 2
+    borderline_members: []
+    degeneracy_kind: near
+  vk_min: 0.3
+  inseparable: true
+  inseparable_reason: rank deficient at tau
+leakage_check:
+  what_is_checked: 'component-label equivariance: permuting the K columns must leave the singular values,
+    the numerical rank and the condition number unchanged, and must permute the column norms, the coherence
+    matrix and the near-null right singular vectors (up to sign) correspondingly'
+  why_this_is_the_testable_content_of_the_leakage_claim: 'the diagnostic is given no component index and
+    no ground-truth label, so it must treat the K columns symmetrically. Any component-indexed special
+    case breaks equivariance and is caught here. Necessary, not sufficient: a leak that treated all components
+    symmetrically would survive this.'
+  n_permutations_tested: 5
+  tolerance: 1.0e-10
+  worst_discrepancy:
+    singular_values: 2.6645352591003757e-15
+    condition_number: 1.1084466677857563e-12
+    column_norms: 0.0
+    coherence: 0.0
+    near_null_vectors: 1.3322676295501878e-15
+  failures: []
+  passes: true
+adversarial_intent: 'This family set was designed to FAIL. Each family was chosen against a named target
+  component before the run, on the reasoning recorded in the sir3.py module docstring: all three columns
+  perturb the same dominant feature of an epidemic curve (its observed exponential growth rate), where
+  the base set perturbs three qualitatively different features. If the pass verdict survives this, that
+  is evidence the base verdict was not an artefact of a favourable family choice. If it does not survive,
+  the base verdict is a statement about three chosen families and must be written as one.'

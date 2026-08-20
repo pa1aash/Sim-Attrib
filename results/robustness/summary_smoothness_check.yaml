@@ -1,0 +1,223 @@
+provenance:
+  script: src/diagnostics/summary_smoothness_check.py
+  commit: 26cfbaf23bee62c2f2feea0fbf75cec2ebddf6bd
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/robustness/crn_count_check.yaml
+  - results/robustness/jacobian_rank.adversarial.S_A.yaml
+  - results/robustness/jacobian_rank.adversarial.S_B.yaml
+  - results/robustness/jacobian_rank.adversarial.S_C.yaml
+  - results/robustness/wide_spectrum_check.yaml
+  command: python -m src.diagnostics.summary_smoothness_check
+  seed: 20260820
+  started: '2026-08-20T18:14:53+05:30'
+  finished: '2026-08-20T18:48:12+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+what_this_is: Session G4 adversarial pass, finding 4. Tests whether the argmax inside S_A's peak statistics
+  contaminates the Jacobian that results/jacobian_rank.S_A.yaml reports. Does not modify anything in results/.
+  See audit/G3_ADVERSARIAL_REVIEW.md.
+the_claim_under_test: 'src/simulators/summaries.py asserts that the parabolic interpolation leaves both
+  peak statistics continuous across a change of the discrete argmax. Algebraically the LOCATION is continuous
+  (both parabolas put the vertex midway between the tied bins) and the HEIGHT is not: from the left it
+  is m + (m-a)/8 and from the right m + (m-c)/8, equal only if the outer neighbours a and c are equal.'
+settings:
+  seed: 20260820
+  n_replicates_R: 128
+  n_replicates_R_norm: 2000
+  representative_h: 0.0001
+  eta_scale: 0.1
+  tau: 0.01
+  kappa_max: 100.0
+  resolve_factor: 2.0
+fine_eta_sweeps:
+  transmission:
+    component_k: 0
+    eta_range:
+    - -0.6
+    - 0.6
+    n_points: 121
+    n_points_outside_the_family_domain_and_skipped: 22
+    skipped:
+    - eta: -0.6
+      reason: transmission distortion eta_1=np.float64(-0.6) drives the saturation denominator non-positive
+        (denom=np.float64(-0.143382185337813))
+    - eta: -0.59
+      reason: transmission distortion eta_1=np.float64(-0.59) drives the saturation denominator non-positive
+        (denom=np.float64(-0.04534542387679208))
+    - eta: -0.58
+      reason: transmission distortion eta_1=np.float64(-0.58) drives the saturation denominator non-positive
+        (denom=np.float64(-0.16656765962073372))
+    - eta: -0.57
+      reason: transmission distortion eta_1=np.float64(-0.57) drives the saturation denominator non-positive
+        (denom=np.float64(-0.002791408814658114))
+    - eta: -0.5599999999999999
+      reason: transmission distortion eta_1=np.float64(-0.5599999999999999) drives the saturation denominator
+        non-positive (denom=np.float64(-0.0015434659922806127))
+    eta_step: 0.010000000000000009
+    n_argmax_switches: 1
+    switches:
+    - eta_before: -0.38
+      eta_after: -0.37
+      argmax_before: 42
+      argmax_after: 43
+      eta_gap: 0.010000000000000009
+      peak_time_jump: 0.2353196563822948
+      peak_height_jump: -159.2674735145929
+      peak_time_jump_per_eta_gap: 23.531965638229458
+      peak_height_jump_per_eta_gap: -15926.747351459275
+    largest_step_in_peak_time: 0.2353196563822948
+    largest_step_in_peak_height: 170.1546317954344
+    median_step_in_peak_time: 0.0012956263251631128
+    median_step_in_peak_height: 19.26455413350436
+  progression:
+    component_k: 1
+    eta_range:
+    - -0.6
+    - 0.6
+    n_points: 121
+    n_points_outside_the_family_domain_and_skipped: 0
+    skipped: []
+    eta_step: 0.010000000000000009
+    n_argmax_switches: 2
+    switches:
+    - eta_before: -0.33999999999999997
+      eta_after: -0.32999999999999996
+      argmax_before: 46
+      argmax_after: 43
+      eta_gap: 0.010000000000000009
+      peak_time_jump: -2.8952062155016662
+      peak_height_jump: 17.256187822196125
+      peak_time_jump_per_eta_gap: -289.52062155016637
+      peak_height_jump_per_eta_gap: 1725.618782219611
+    - eta_before: 0.5500000000000002
+      eta_after: 0.5599999999999999
+      argmax_before: 43
+      argmax_after: 40
+      eta_gap: 0.009999999999999787
+      peak_time_jump: -3.1686952532264456
+      peak_height_jump: 24.679400398617645
+      peak_time_jump_per_eta_gap: -316.8695253226513
+      peak_height_jump_per_eta_gap: 2467.9400398618172
+    largest_step_in_peak_time: 3.1686952532264456
+    largest_step_in_peak_height: 24.679400398617645
+    median_step_in_peak_time: 0.005059463859776514
+    median_step_in_peak_height: 4.341574545481194
+  observation:
+    component_k: 2
+    eta_range:
+    - -0.6
+    - 0.6
+    n_points: 121
+    n_points_outside_the_family_domain_and_skipped: 0
+    skipped: []
+    eta_step: 0.010000000000000009
+    n_argmax_switches: 0
+    switches: []
+    largest_step_in_peak_time: 0.0
+    largest_step_in_peak_height: 36.88441111481825
+    median_step_in_peak_time: 0.0
+    median_step_in_peak_height: 20.344314736298543
+argmax_switch_census:
+- h: 0.1
+  component_k: 0
+  n_replicates: 128
+  n_replicates_straddling_an_argmax_switch: 1
+  n_replicates_with_a_boundary_argmax_fallback: 0
+  peak_height_difference_quotient_mean: -233.09343103796877
+  peak_height_difference_quotient_sd: 33.95163454694634
+  peak_height_difference_quotient_max_abs: 304.7463947876554
+- h: 0.1
+  component_k: 1
+  n_replicates: 128
+  n_replicates_straddling_an_argmax_switch: 5
+  n_replicates_with_a_boundary_argmax_fallback: 0
+  peak_height_difference_quotient_mean: 41.84849276998625
+  peak_height_difference_quotient_sd: 58.41199638135639
+  peak_height_difference_quotient_max_abs: 185.33537755371526
+- h: 0.1
+  component_k: 2
+  n_replicates: 128
+  n_replicates_straddling_an_argmax_switch: 0
+  n_replicates_with_a_boundary_argmax_fallback: 0
+  peak_height_difference_quotient_mean: 190.1048954503314
+  peak_height_difference_quotient_sd: 16.815940955996304
+  peak_height_difference_quotient_max_abs: 237.50444266785735
+- h: 0.0001
+  component_k: 0
+  n_replicates: 128
+  n_replicates_straddling_an_argmax_switch: 0
+  n_replicates_with_a_boundary_argmax_fallback: 0
+  peak_height_difference_quotient_mean: -232.69354419558573
+  peak_height_difference_quotient_sd: 33.93496806186252
+  peak_height_difference_quotient_max_abs: 304.67063884543677
+- h: 0.0001
+  component_k: 1
+  n_replicates: 128
+  n_replicates_straddling_an_argmax_switch: 0
+  n_replicates_with_a_boundary_argmax_fallback: 0
+  peak_height_difference_quotient_mean: 41.41877957017037
+  peak_height_difference_quotient_sd: 58.399423150403884
+  peak_height_difference_quotient_max_abs: 185.34145736452956
+- h: 0.0001
+  component_k: 2
+  n_replicates: 128
+  n_replicates_straddling_an_argmax_switch: 0
+  n_replicates_with_a_boundary_argmax_fallback: 0
+  peak_height_difference_quotient_mean: 190.10172707391249
+  peak_height_difference_quotient_sd: 16.815660693751926
+  peak_height_difference_quotient_max_abs: 237.50048430883908
+leave_one_coordinate_out_S_A:
+  all_four_coordinates:
+    singular_values:
+    - 4.155946909997309
+    - 1.042675574063193
+    - 0.7727321482770891
+    rank_at_tau: 3
+    condition_number: 5.378250302208281
+    verdict: separable
+  dropping_peak_height:
+    singular_values:
+    - 3.9275781787815833
+    - 0.8794231484368256
+    - 0.0033701171454173363
+    rank_at_tau: 2
+    condition_number: 1165.4129543010927
+    verdict: INSEPARABLE
+  dropping_peak_time:
+    singular_values:
+    - 4.155946155746436
+    - 1.0425742647703184
+    - 0.7726690346346331
+    rank_at_tau: 3
+    condition_number: 5.3786886356998
+    verdict: separable
+  dropping_final_size:
+    singular_values:
+    - 1.6753734041835726
+    - 0.8520760739901172
+    - 0.002223826574116375
+    rank_at_tau: 2
+    condition_number: 753.3741271390611
+    verdict: INSEPARABLE
+  dropping_growth_rate:
+    singular_values:
+    - 4.155330313125268
+    - 0.9557627726745537
+    - 0.015660573578234322
+    rank_at_tau: 2
+    condition_number: 265.3370448002306
+    verdict: INSEPARABLE
+  dropping_both_peak_statistics:
+    singular_values:
+    - 3.9275777525501048
+    - 0.8792523639285215
+    - 0.0
+    rank_at_tau: 2
+    condition_number: .inf
+    verdict: INSEPARABLE
+leave_one_out_note: Computed at the single representative h of the recorded run, not across the whole
+  sweep, because the question is whether the reported verdict depends on the two suspect coordinates --
+  and the reported verdict is read off the representative h.

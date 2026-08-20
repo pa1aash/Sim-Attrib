@@ -285,3 +285,45 @@ leakage_how: The diagnostic never receives a component index, a ground-truth lab
   distortion basis (that there are K one-parameter families and that perturbing family k means setting
   eta_k), and the resulting summary vectors. It computes a property of the map s(eta), not a guess about
   a hidden truth, so there is no hidden truth available to leak.
+g4_adversarial_review:
+  what_this_is: 'Session G4 ran the first adversarial pass in this project''s history against these numbers.
+    NOTHING IN THIS FILE WAS RECOMPUTED OR EDITED: every number above is exactly what session G3 produced,
+    and this block was appended afterwards so that the file does not read as though it had never been
+    checked. Full account: audit/G3_ADVERSARIAL_REVIEW.md. Supporting numbers: results/robustness/.'
+  overall_verdict: THE TWO SUMMARY SETS COME APART. S_B stands under both distortion family sets; S_A's
+    result does not generalise -- it flips to INSEPARABLE under an adversarially constructed family triple.
+    No number in this file is wrong; what changes is what it licenses.
+  qualifications_that_travel_with_these_numbers:
+  - THE VERDICT IS CONDITIONAL ON THE DISTORTION FAMILIES, AND THE CONDITION IS LOAD-BEARING. An alternative
+    triple of families -- one attempt, no search over candidates, each family designed against a named
+    target component -- was run through this identical diagnostic at these identical thresholds; see results/robustness/jacobian_rank.adversarial.*.yaml.
+    G3 raised this as Q-12 and left it unmeasured; the live question is now Q-13, which is BLOCKING for
+    the paper's separability sentence.
+  - TAU AND KAPPA_MAX ARE ONE CRITERION, NOT TWO. docs/THRESHOLDS.md 1.3 says so; nothing downstream of
+    it does. 'full_column_rank' and 'condition_number <= kappa_max' are the same test here, exactly and
+    including at the boundary, because kappa_max was defined as 1/tau. The inseparable_reason string naming
+    the condition number is unreachable at these thresholds. Read the verdict as ONE check passing, not
+    two.
+  - HOW FAR THE TOLERANCE CAN MOVE BEFORE THE VERDICT DOES IS RECORDED, AND IT IS NOT THE SAME FOR EVERY
+    SET. See results/robustness/threshold_sensitivity.yaml, which gives the exact flip point tau* = sigma_K/sigma_1
+    = 1/kappa for each set rather than a sampled table. Halving or doubling tau changes no verdict; one
+    order of magnitude does change one of them.
+  - THE CRN PLATEAU IS EVIDENCE THE ESTIMATOR CONVERGED, NOT EVIDENCE THE SUMMARY MAP IS SMOOTH. Smoothness
+    of the sample path in eta is the ASSUMPTION under which the plateau means anything (L'Ecuyer & Perron
+    1994, Oper. Res. 42(4) 643-656), and it has to be argued per summary coordinate. See results/robustness/crn_count_check.yaml.
+  - 'leakage_checked: true IN THIS FILE IS A HARD-CODED LITERAL. Nothing computed it and no condition
+    could have made it read false. The prose in leakage_how is a sound argument; the field was not a check.
+    jacobian_rank.leakage_check now tests the argument''s mechanically checkable content (component-label
+    equivariance) and run_diagnostic.py records it -- but THIS FILE PREDATES THAT and was deliberately
+    not regenerated, because re-running the diagnostic to change a metadata field would overwrite what
+    G3 recorded.'
+  - THIS SET'S MARGIN IS THE SMALLER OF THE TWO. Its condition number sits close to the 'comfortable'
+    row of docs/THRESHOLDS.md 1.2's own compute-budget table -- the row that table labels ~10^2 replicates
+    -- while the pre-registered line was drawn at the row below. S_B is separable at the registered threshold
+    and is not comfortably separable, and those are different sentences. audit/MMC_COMPOSITION_SPEC.md
+    5 currently names S_B as the natural choice for the composition; that recommendation is STRENGTHENED
+    by the G4 review (S_B survives the adversarial family set and S_A does not) but its stated reason
+    -- that S_A is better conditioned -- is false outside the base family set. Under the adversarial triple
+    this set's kappa rises to 64.62, so separation costs about kappa^2 ~ 4e3 replicates rather than ~1e2.
+    The cost gate of audit/MMC_COMPOSITION_SPEC.md 4 should be evaluated against both figures.
+  nothing_above_this_key_was_modified: true

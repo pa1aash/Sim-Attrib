@@ -366,6 +366,32 @@ the parabolic interpolation described in `src/simulators/summaries.py`, which th
 sampler must then evaluate on every replicate. **This choice is not made here** — it depends
 on the `p_sel` measurement of §4, which has not been run.
 
+> #### Correction, session G4 (2026-08-20) — the paragraph above is left unedited and one of its
+> #### sentences is now known to be false
+>
+> **"`S_A` … is the better-conditioned option" is true of one distortion family set and was
+> written as though it were a property of the summary set.** Under the adversarial family triple
+> of `audit/G3_ADVERSARIAL_REVIEW.md` finding 2 the ordering **reverses**: `S_A` becomes
+> INSEPARABLE while `S_B` remains separable. Numbers in `results/robustness/`.
+>
+> **This strengthens `S_B` as the recommendation and removes `S_A` as the alternative**, so the
+> paragraph's conclusion survives while its reason does not. Two things a reader planning the
+> next session needs:
+>
+> - **`S_B`'s separation cost under the adversarial families is about forty times the base
+>   figure** (`κ` rises from 10.12 to 64.62, and §1.2 of `docs/THRESHOLDS.md` prices separation
+>   at `~κ²` replicates). The cost gate pre-registered in §4 above should be evaluated against
+>   both numbers, not just the favourable one.
+> - **`S_A`'s peak-height coordinate is not a continuous function of `η`**
+>   (`audit/G3_ADVERSARIAL_REVIEW.md` finding 4), which is an additional reason not to build the
+>   rejection sampler around `S_A` — the sampler would evaluate that coordinate on every
+>   replicate.
+>
+> **Nothing in this specification was implemented, and none of it is implemented now.** This
+> block is a factual correction to a statement about existing results, added because leaving a
+> known-false sentence in a specification the next session is meant to build from is the failure
+> mode `audit/CLAIM_GRAPH.md` has been flagged for since G2.
+
 **The caveat that must not be dropped.** Separability was established for **this simulator,
 these three distortion families, and this closed list of summary sets**. The observation
 distortion in particular is a pure reporting-fraction multiplier; a different observation

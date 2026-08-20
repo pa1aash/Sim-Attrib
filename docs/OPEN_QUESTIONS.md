@@ -197,6 +197,46 @@ picked over.
 **This question blocks everything.** No further claim should be adopted, and no code written
 against a claim, until it is answered.
 
+### Q-13 — The separability verdict is conditional on the distortion families. What may be claimed from it? **(BLOCKING — new, G4)**
+
+**Raised 2026-08-20 by `audit/G3_ADVERSARIAL_REVIEW.md` finding 2.**
+
+`S_A` and `S_B` separate the three components under the three distortion families `sir3.py`
+declares. Session G4 built **one** alternative triple, designed against a named target component
+per family, ran it through the identical diagnostic at the identical pre-registered thresholds,
+and reports the outcome in `results/robustness/`. **No second candidate set was tried and none
+was discarded** — there was no search over families.
+
+**Why this is the operator's question and not a session's.** It is not a correctness question:
+both verdicts are correct statements about their own family sets, and nothing in `results/`
+needs withdrawing. It is a question about **what sentence the paper is allowed to write**, and
+the two available sentences differ in what a reviewer would do with them:
+
+- **(a) The narrow sentence.** *"Under these three distortion families the components separate;
+  under an adversarially chosen alternative triple built from the same simulator, they do not."*
+  Defensible, and it is what the evidence supports. It also concedes, in the paper, that the
+  precondition for the composition holds conditionally — and `audit/MMC_COMPOSITION_SPEC.md` §5
+  makes that precondition load-bearing for whether the composition is worth building.
+- **(b) Establish which side the typical case falls on.** Run the diagnostic across a
+  *designed set* of family triples — not one favourable and one adversarial — and report the
+  distribution of verdicts. This converts a conditional claim into a characterised one and is
+  the only route to a sentence stronger than (a). It costs a session, and the set would have to
+  be specified before any of it is run, or it becomes the leakage failure `LEDGER_DESIGN.md` D3
+  names, pointed at whichever conclusion is wanted.
+
+**Recommendation, offered as such: (a) now, and (b) only if the paper needs the stronger
+sentence.** (a) requires no further compute and is honest. (b) is a real experiment with a real
+design problem attached — "which family triples are representative" has no obvious answer, and
+answering it badly is worse than conceding (a).
+
+**What must not happen:** the base result being quoted without its condition. `results/` and
+`docs/THRESHOLDS.md` now carry the qualification inline so that a future session cannot pick up
+the number without it.
+
+**This question is BLOCKING in one specific sense only:** it blocks writing the separability
+claim into `paper/main.tex`. It does **not** block the `p_sel`/cost-gate measurement (**P-3**),
+which measures a different quantity and would be informative under either answer.
+
 ### Q-11 — Should the project occupy the noise-calibrated rank-tolerance seam? *(new, G3; not blocking)*
 
 **Raised 2026-08-20 by `audit/R2_THREAT_CHECK.md` §2.**
@@ -224,7 +264,7 @@ noise level. So there are exactly two options and both have a cost:
 **Recommendation, offered as such:** (b). The pre-registration's value is that it is
 provable from `git log`; the seam's value is one sentence.
 
-### Q-12 — The observation distortion probes reporting fraction only. Is that enough? *(new, G3; scope call)*
+### Q-12 — The observation distortion probes reporting fraction only. Is that enough? **ANSWERED 2026-08-20 (G4) — and the answer is larger than the question**
 
 **Raised 2026-08-20 by the Phase 2 build.**
 
@@ -247,6 +287,26 @@ a correctness one. Adding a fourth distortion family is **not** governed by THRE
 which closes the list of *summary sets*, not of distortion families — but the same reasoning
 applies and any addition should be logged in `DEVIATIONS.md` with whether the existing results
 were known at the time.
+
+> #### Answer, session G4 (2026-08-20)
+>
+> **The question was posed too narrowly.** It asks whether a second *observation* distortion is
+> in scope. G4 built an alternative triple in which **all three** families were replaced, each
+> designed against a named target component, and ran it through the identical diagnostic:
+> `audit/G3_ADVERSARIAL_REVIEW.md` finding 2, numbers in `results/robustness/`.
+>
+> The observation family G4 used is **strictly harder than the delay perturbation Q-12
+> proposes**: a delay *shifts* the reported curve, while a mean-centred log-linear reporting
+> trend *tilts* it, and tilt is what the other two columns do. But the finding is not about the
+> observation family at all — it is that **the verdict is conditional on the family set as a
+> whole**, and that the conditioning is load-bearing rather than decorative.
+>
+> Q-12 is therefore **closed as answered**, and the live question it opens is **Q-13**, which is
+> about what may be claimed rather than about which families are in scope.
+>
+> The addition is logged in `DEVIATIONS.md` **D-9**, including the part Q-12 asked for and that
+> reflects badly on the timing: **the existing results were known when the adversarial set was
+> designed.** D-9 states what was done about that and why it is weaker than pre-registration.
 
 ## Answered
 

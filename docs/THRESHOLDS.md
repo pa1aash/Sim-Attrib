@@ -15,6 +15,19 @@ Revising anything here after results exist requires a logged entry in `DEVIATION
 stating what changed, what the result was that prompted it, and why the change is not
 motivated by the result.
 
+> ### Session G4 (2026-08-20) — checked, and **nothing in this file was revised**
+>
+> The thresholds below were attacked in `audit/G3_ADVERSARIAL_REVIEW.md`. **No number here has
+> been changed**, and the annotations added at §1.2, §1.3 and §1.4 qualify how the results may
+> be *described*; they do not move a threshold. That distinction is the whole point: the value
+> of this file is that it predates every singular value, which `git log` establishes, and a
+> threshold re-derived after the numbers exist would forfeit it (`LEDGER_DESIGN.md` D3,
+> **Q-11**).
+>
+> Read the annotations at **§1.2** (how far the tolerance can move before the verdict does),
+> **§1.3** (the two criteria are one criterion) and **§1.4** (what the h-plateau does and does
+> not certify) before quoting any number from `results/`.
+
 ---
 
 ## 0. The normalisation these numbers presuppose
@@ -99,6 +112,26 @@ than chosen to make a matrix look full-rank.
 `τ` is **a parameter of the function, not a constant in it** (Phase 3.4), and results files
 record the singular values in full so any reader can re-apply their own tolerance.
 
+> #### G4 annotation — the margin, measured
+>
+> A reader *has now* re-applied their own tolerance. `results/robustness/ROBUSTNESS_TABLE.md`
+> §1 tabulates the verdict across a range of alternatives and, more usefully, gives the **exact**
+> tolerance at which each set flips: since the rule is `σ_K ≥ τ·σ₁`, the flip point is
+> `τ* = σ_K/σ₁ = 1/κ`.
+>
+> **Halving or doubling `τ` changes nothing for either `S_A` or `S_B`. At one order of
+> magnitude, `S_B` flips to INSEPARABLE and `S_A` does not.**
+>
+> **And a sharper point that needs no disagreement with `τ` at all.** The table above is this
+> file's own derivation, and it labels `κ = 10` *comfortable* and `κ = 100` *affordable but
+> expensive*. The line was drawn at the third row. **`S_B`'s measured `κ` sits just outside the
+> first row** — it is separable at the registered threshold and it is not *comfortably*
+> separable, and those are different sentences. `S_A` is inside on either reading.
+>
+> This is not a case for revising `τ`. It is a constraint on description: reporting "both sets
+> are separable" without the distinction reports a threshold decision as a structural finding.
+> See `audit/G3_ADVERSARIAL_REVIEW.md` finding 1.
+
 ### 1.3 The condition-number ceiling for the D4 STOP condition
 
 **`κ_max = 100`.** A summary set is **"inseparable"** if **either**:
@@ -109,6 +142,28 @@ record the singular values in full so any reader can re-apply their own toleranc
 These are the same criterion stated two ways for `K = 3`, and both are recorded because the
 second degrades gracefully in a way the first does not: `κ = 98` and `κ = 102` are nearly
 the same situation, while `rank = 3` and `rank = 2` are not.
+
+> #### G4 annotation — this sentence is correct and it did not propagate
+>
+> "The same criterion stated two ways" is exact, not approximate. With `d ≥ K = 3` and every
+> singular value resolved, `rank = 3 ⟺ σ₃ ≥ τσ₁ ⟺ κ ≤ 1/τ = κ_max`, boundary included, because
+> `κ_max` was *defined* as `1/τ`. **The second criterion cannot fail unless the first already
+> has.**
+>
+> **Everything downstream of this file reports them as two checks.**
+> `results/jacobian_rank.*.yaml` carries `full_column_rank` and `condition_number` as separate
+> fields; `results/SUMMARY_TABLE.md` prints them as separate columns; the verdict string reads
+> *"full column rank at tau **and** condition number within ceiling"*; `audit/S3_REPORT.md` §3.2
+> reproduces all of it. A reader who has not returned to this section sees a conjunction of two
+> independent tests passing, when one test passed twice. In
+> `src/diagnostics/jacobian_rank.py` the `inseparable_reason` branch naming the condition number
+> is **unreachable at the pre-registered pair** for the same reason (it is reachable if a caller
+> passes a non-reciprocal `τ` and `κ_max`, which the function permits).
+>
+> **Under `DEVIATIONS.md` D-8's rule — under what condition would "condition number within
+> ceiling" read FALSE while "full column rank" read TRUE? — there is none.** The design is sound
+> and disclosed here; the reporting is what needs fixing, and the fix is to describe one
+> criterion once. `audit/G3_ADVERSARIAL_REVIEW.md` finding 1.4.
 
 ### 1.4 The h-plateau, and unresolved singular values
 
@@ -132,6 +187,29 @@ both are small. If no plateau exists, **R2 is dead** and no rank call is defensi
 (same seed for both). Without them the finite difference is contaminated by simulation noise
 that is indistinguishable from the signal being measured, and the `O(ε/h)` term swamps the
 plateau.
+
+> #### G4 annotation — what the CRN construction rests on, named
+>
+> The plateau exists because the common-random-numbers difference estimates a **pathwise**
+> derivative, and that requires the simulator's sample path to be a smooth function of `η` at a
+> fixed seed. This is the standing precondition of the whole finite-difference-with-common-
+> random-numbers literature, not a property of this simulator: **L'Ecuyer & Perron (1994)**,
+> *"On the Convergence Rates of IPA and FDC Derivative Estimators"*, Operations Research 42(4)
+> 643–656, DOI `10.1287/opre.42.4.643`, prove that FDC matches IPA's `O(n^{-1/2})` rate
+> *"under the (sufficient) conditions usually given for infinitesimal perturbation analysis
+> (IPA) to apply"*, and state that their developments *"are based on continuity and
+> smoothness."*
+>
+> **Where the sample path is not smooth, the guarantee is void and no plateau exists.** A
+> count-valued observation layer is exactly that case, and
+> `results/robustness/crn_count_check.yaml` measures it under two different couplings to show
+> the failure is the discreteness rather than any particular sampler. `audit/G3_ADVERSARIAL_
+> REVIEW.md` finding 3.
+>
+> **Consequence for this section:** a plateau is evidence that the estimator has converged. It
+> is **not** evidence that the summary map is smooth — the smoothness is the *assumption* under
+> which the plateau means anything, and it has to be argued separately for each summary
+> coordinate. `S_A`'s peak statistics are where that argument was wrong; see finding 4.
 
 ### 1.5 Invisible components — a different failure, kept separate
 

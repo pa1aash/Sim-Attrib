@@ -576,3 +576,120 @@ conditions:  None beyond normal review. G3 is signed as met on all twenty-one cr
              this gate. If G4 OVERTURNS one, that is a decision point for the operator and
              not something a signed gate absorbs quietly.
 ```
+
+
+## G4 — Does G3's own result survive being attacked?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-20, session G4. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **The first adversarial pass in this project's history, and the first run against its own
+> output.** Four prior sessions produced verdicts, every one single-pass; the two times the
+> missing critic was paid for by accident, it changed the answer.
+>
+> **The two summary sets came apart.** `S_B` separates under both the base distortion family set
+> and an adversarially constructed one. `S_A` does not: its condition number rises 25-fold past
+> the pre-registered ceiling and the verdict flips. G3 quoted them as a pair — *"two of the three
+> summary sets separate the components"* — and they should not be quoted as a pair again.
+>
+> **No number G3 computed is wrong.** All of it reproduces, at the recorded seed and at two
+> further seeds, with the pre-registered thresholds unrevised. What moved is what the numbers
+> license.
+>
+> **Three validity flags in this repository could not have failed**, including one added to
+> repair an earlier flag that could not have failed. All three are the defect class
+> `DEVIATIONS.md` D-8 was written about, found by applying D-8's own rule to D-8's own repairs.
+
+### What G4 was judged against
+
+The gate's criteria were fixed by the session brief before any check ran. The first three are
+the brief's own test of whether this was a critic pass or a confirmation pass.
+
+| # | Criterion | Result |
+|---|---|---|
+| **G4.1** | **Did the pass attack the result rather than confirm it?** | **met.** Every one of the four checks was constructed so that the informative outcome is the one against the project: the family set was designed to fail, the six-column spectrum test is set up so that a *wide* spectrum is the finding, the count-CRN check includes the coupling that would have exonerated the code, and the leave-one-out asks whether the verdict rests on the suspect coordinate. Two checks came back favourable anyway and are reported as such (S10). |
+| **G4.2** | **Were 1.1–1.4 all completed?** | **met**, and two checks were added that the brief did not ask for (validity flags, seed stability). 1.1 `results/robustness/threshold_sensitivity.yaml` + `wide_spectrum_check.yaml`; 1.2 `jacobian_rank.adversarial.*.yaml`; 1.3 `crn_count_check.yaml` + derivation + one targeted literature check; 1.4 `summary_smoothness_check.yaml`. |
+| **G4.3** | **Is the verdict stated plainly, at the top?** | **met.** `audit/G3_ADVERSARIAL_REVIEW.md` opens with it, before the findings, per the pattern set by `R1_THREAT_CHECK.md`. |
+| G4.4 | The gapless-spectrum objection tested numerically, not argued | **met** — full spectra, exact flip points `τ* = σ_K/σ₁`, verdicts at five alternative tolerances, and the six-column spectrum of the same simulator |
+| G4.5 | An adversarial distortion family built by deliberate construction, not by search | **met** — one triple, each family with a named target written into `sir3.py` before the run; **no second candidate tried, none discarded**; `DEVIATIONS.md` D-9 records that the base results were known at the time, which is the part that reflects badly |
+| G4.6 | The adversarial re-run used the same code, thresholds and normalisation | **met** — same `estimate_jacobian`/`analyse`, same `τ`, `κ_max`, `h` sweep, `R`, and normalisation rule; only the family set differs, and `run_family_check.py` writes to `results/robustness/`, never over `results/` |
+| G4.7 | The count-CRN claim derived independently on paper, not re-run | **met** — `audit/G3_ADVERSARIAL_REVIEW.md` §3.1, with the pathwise-vs-difference-quotient distinction that G3's wording elides |
+| G4.8 | Genuine degeneracy vs numerical artefact **discriminated**, not asserted | **met** — a monotone inversion coupling was implemented specifically because it would have repaired a sampler artefact. It does not repair it. |
+| G4.9 | One targeted literature check on the corrected instrument (S4), with the control re-validated | **met** — control returned exactly arXiv:2405.07026 before the batch; four full-text queries, all non-zero; canonical reference located via OpenAlex and quoted (L'Ecuyer & Perron 1994) |
+| G4.10 | The argmax concern checked against the reported numbers, not noted as a caveat | **met** — census at the estimator's own settings plus a leave-one-coordinate-out recomputation of the verdict |
+| G4.11 | Every threshold and flag this session wrote tested against S3 ("under what condition would this read FALSE?") | **met** — and applied to G3's flags too, which is where findings 5.1–5.3 came from |
+| G4.12 | No pre-registered threshold revised | **met** — `docs/THRESHOLDS.md` carries four annotations and **not one changed number**; the drift test in `tests/test_jacobian_rank.py` still passes |
+| G4.13 | `results/` not overwritten, and not left reading as though unchecked | **met** — the three G3 files carry an appended `g4_adversarial_review` block; the append is textual, so the original bytes are byte-for-byte intact and `git diff` shows it |
+| G4.14 | Seed stability of the verdict computed (**O-18**, open since G3) | **met** — two further seeds through the identical diagnostic; `κ` agrees to about 0.15% and no verdict moves |
+| G4.15 | Gate sign-offs and the visibility trigger recorded per the operator's decisions | **met** — `GATES.md` G0–G3 signed; `docs/DECISIONS.md` **D-7**; visibility **measured** via the unauthenticated GitHub API rather than assumed |
+| G4.16 | Scope boundary held: no `p_sel`, no cost gate, no MMC implementation, no `paper/main.tex` | **met** — `p_sel` is not measured anywhere in this repository; the one edit to `audit/MMC_COMPOSITION_SPEC.md` is a factual correction to a statement about existing results, changing no specification |
+| G4.17 | No number hand-typed into a markdown file (S11) | **met** — `results/robustness/ROBUSTNESS_TABLE.md` is generated by `src/diagnostics/report_robustness.py` and reproduced verbatim in the review's appendix |
+| G4.18 | The test suite still passes, including the threshold-drift test | **met** — 84 tests pass (65 at the end of G3; 19 added this session, of which one injects a leak and requires the leakage check to catch it) |
+| G4.19 | No reference to any authoring agent in commit metadata or file contents | verified before each push |
+
+### What G4 explicitly does not certify
+
+- **That this was an independent review. It was not.** The same project attacked its own output,
+  with its own code, inside the session that wrote the attack, and the same judgement chose both
+  what to build and what counted as a fair attack on it. **This is a real limitation and it does
+  not shrink because the pass found things.** A critic who wanted the result to survive and a
+  critic who wanted it to fail would both have found *something* here; what neither can supply
+  from inside is the check on which things were looked for. The four prior sessions were
+  single-pass; this one is single-pass about its own single pass.
+- **That the adversarial family set is the hardest one available**, or a fair one. It is one
+  triple, built to fail, and the first thing tried. Each family's target is stated so a reader
+  can disagree specifically rather than generally.
+- **That the checks are exhaustive.** Four things were attacked because the brief named four.
+  Untouched: whether the base parameter point is representative (everything linearises about one
+  `θ`); whether `S_B`'s ten bins is a choice the verdict depends on; whether `R = 128` suffices
+  for the columns rather than the plateau.
+- **That `S_B` surviving means `S_B` is safe.** It survives with a margin of 1.55× where the base
+  run suggested 9.88×, and its separation cost rises about forty-fold. One adversarial triple is
+  one data point.
+- **That the corrected `leakage_check` proves there is no leakage.** Component-label equivariance
+  is necessary, not sufficient; a leak treating all three components symmetrically would pass it.
+- **That `results/` now carries a real leakage check.** It does not. The literal is still there
+  in all five files, deliberately — regenerating them would overwrite G3's numbers. **O-22.**
+- **That the numbers reproduce on other hardware.** They reproduce from the recorded seed and
+  commit on this machine, at three seeds. Nobody has run them anywhere else.
+- **That any of this bears on whether the project has a paper.** It does not touch R2's novelty
+  verdict, the MMC composition, or `p_sel`. The composition remains a composition of two
+  published techniques that **nobody has yet tried to refute** — which is what **O-17** still
+  tracks, and it is the older half of the debt this session paid only half of.
+
+### Process caveats — what this session did badly or not at all
+
+- **Runs were invalidated by edits made while they were in flight, again.** Three checks were
+  launched, then the tree was edited, then they were killed and restarted from a clean commit —
+  the same mistake that cost G3 three production runs, repeated within one session of reading
+  `DEVIATIONS.md` D-8 about it. The restarted runs are the ones reported; all record
+  `dirty: false`.
+- **A defect was found in this session's own first output.** `dirty_paths` printed a path that
+  does not exist. Fixed and recorded as **D-10**, with the tests the module had never had.
+- **The adversarial family set was designed with the base results already known.** Unavoidable
+  given when the session ran, and weaker than pre-registration. `DEVIATIONS.md` **D-9** says so
+  and says what was done instead. **It should have been specified in G3**, alongside the base
+  set and before either was run — G3's own §4.4 had already identified the weakness it probes.
+- **The literature check was one targeted pass**, per the brief. It establishes that the count-CRN
+  failure is known; it does not establish that nothing else relevant exists.
+- **Google Scholar still not searched.** Fifth session, same gap. **O-7.**
+- **`audit/CLAIM_GRAPH.md` is still stale.** Fourth session in which it has been flagged rather
+  than rewritten.
+- **`p_sel` still not measured**, by instruction. The one number that decides whether the next
+  session's work is affordable still does not exist — and finding 2 has now changed the
+  multiplier it will be assessed against.
+- **The machine was heavily loaded and thermally throttled throughout**, so the runs were
+  serialised by hand. This affects nothing about the numbers and is recorded because the next
+  session is compute-bound: profiling puts ~87% of a simulator run in the pure-Python RK4 loop,
+  at roughly 0.14 s per run, and the cost gate will be priced in units of that.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

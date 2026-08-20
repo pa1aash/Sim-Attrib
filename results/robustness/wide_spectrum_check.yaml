@@ -1,0 +1,284 @@
+provenance:
+  script: src/diagnostics/wide_spectrum_check.py
+  commit: 26cfbaf23bee62c2f2feea0fbf75cec2ebddf6bd
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - results/robustness/crn_count_check.yaml
+  - results/robustness/jacobian_rank.adversarial.S_A.yaml
+  - results/robustness/jacobian_rank.adversarial.S_B.yaml
+  - results/robustness/jacobian_rank.adversarial.S_C.yaml
+  command: python -m src.diagnostics.wide_spectrum_check
+  seed: 20260820
+  started: '2026-08-20T18:14:54+05:30'
+  finished: '2026-08-20T18:47:16+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+what_this_is: Session G4 adversarial pass, finding 1, second half. Places the base and adversarial distortion
+  columns side by side to see what the spectrum does when the component list is longer than three. Does
+  not modify anything in results/. See audit/G3_ADVERSARIAL_REVIEW.md.
+why_the_columns_are_comparable: Both family sets are exactly the identity at eta = 0, so both Jacobians
+  are linearisations about the SAME point; both are divided by the SAME prior-predictive standard deviations;
+  and both use the same common eta_scale, so one normalised unit means the same fractional deformation
+  in every column.
+what_this_cannot_show: Six columns is not the dozens of parameters the sloppy-models literature studies,
+  and this is one simulator. A still-narrow six-column spectrum is weak evidence. A wide, smoothly decaying
+  one is strong evidence that the three-column narrowness was a property of K = 3 rather than of the simulator.
+settings:
+  seed: 20260820
+  R: 128
+  R_norm: 2000
+  representative_h: 0.0001
+  eta_scale: 0.1
+  tau: 0.01
+  kappa_max: 100.0
+column_labels_for_the_six_column_jacobian:
+- base:transmission (saturating incidence)
+- base:progression (mean-centred hazard drift)
+- base:observation (reporting-fraction multiplier)
+- adv:transmission (constant beta multiplier)
+- adv:progression (constant gamma multiplier)
+- adv:observation (reporting trend)
+summary_sets:
+  S_A:
+    d: 4
+    coordinate_labels:
+    - peak_height
+    - peak_time
+    - final_size
+    - growth_rate
+    three_columns_base:
+      n_columns: 3
+      singular_values:
+      - 4.155946909997309
+      - 1.042675574063193
+      - 0.7727321482770891
+      n_structurally_zero: 0
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.2508876067581595
+      - 0.18593407591859482
+      adjacent_ratios:
+      - 3.985848535611165
+      - 1.3493363468673838
+      spread_decades_over_positive_singular_values: 0.7306410102967805
+      largest_adjacent_ratio: 3.985848535611165
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 3
+      condition_number: 5.378250302208281
+      full_column_rank: true
+      verdict_at_pre_registered_thresholds: separable
+    three_columns_adversarial:
+      n_columns: 3
+      singular_values:
+      - 6.689290543181791
+      - 0.9094108083601989
+      - 0.04893730451863469
+      n_structurally_zero: 0
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.1359502629598196
+      - 0.007315769019558454
+      adjacent_ratios:
+      - 7.355631230338644
+      - 18.583181425816107
+      spread_decades_over_positive_singular_values: 2.1357400149390284
+      largest_adjacent_ratio: 18.583181425816107
+      largest_adjacent_ratio_falls_after_index: 2
+      rank_at_tau: 2
+      condition_number: 136.69102965478197
+      full_column_rank: false
+      verdict_at_pre_registered_thresholds: INSEPARABLE
+    six_columns_both_family_sets:
+      n_columns: 6
+      singular_values:
+      - 7.01966354878989
+      - 3.8031861158634963
+      - 0.8900897492916136
+      - 0.007222311401574127
+      - 0.0
+      - 0.0
+      n_structurally_zero: 2
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.5417903706395047
+      - 0.12679948876539174
+      - 0.0010288685990967716
+      - 0.0
+      - 0.0
+      adjacent_ratios:
+      - 1.845732324145306
+      - 4.272811948334759
+      - 123.24167427862713
+      - .inf
+      - .inf
+      spread_decades_over_positive_singular_values: 2.987640087172592
+      largest_adjacent_ratio: 123.24167427862713
+      largest_adjacent_ratio_falls_after_index: 3
+      rank_at_tau: 3
+      condition_number: .inf
+      full_column_rank: false
+      verdict_at_pre_registered_thresholds: INSEPARABLE
+  S_B:
+    d: 10
+    coordinate_labels:
+    - binned_incidence_00
+    - binned_incidence_01
+    - binned_incidence_02
+    - binned_incidence_03
+    - binned_incidence_04
+    - binned_incidence_05
+    - binned_incidence_06
+    - binned_incidence_07
+    - binned_incidence_08
+    - binned_incidence_09
+    three_columns_base:
+      n_columns: 3
+      singular_values:
+      - 27.801215370514683
+      - 5.208396026313991
+      - 2.747076714481247
+      n_structurally_zero: 0
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.18734418466603778
+      - 0.09881138928173377
+      adjacent_ratios:
+      - 5.33776910013307
+      - 1.895977640106616
+      spread_decades_over_positive_singular_values: 1.0051929945101812
+      largest_adjacent_ratio: 5.33776910013307
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 3
+      condition_number: 10.120290861904312
+      full_column_rank: true
+      verdict_at_pre_registered_thresholds: separable
+    three_columns_adversarial:
+      n_columns: 3
+      singular_values:
+      - 63.10048613212563
+      - 3.6385668616983553
+      - 0.9764639220121429
+      n_structurally_zero: 0
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.0576630559403233
+      - 0.015474744837425381
+      adjacent_ratios:
+      - 17.342126318017566
+      - 3.726268610314419
+      spread_decades_over_positive_singular_values: 1.8103765033166819
+      largest_adjacent_ratio: 17.342126318017566
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 3
+      condition_number: 64.62142093493644
+      full_column_rank: true
+      verdict_at_pre_registered_thresholds: separable
+    six_columns_both_family_sets:
+      n_columns: 6
+      singular_values:
+      - 68.13249012843455
+      - 11.495022518989437
+      - 4.678604519692823
+      - 2.6423332064107026
+      - 0.6250114234046922
+      - 0.1083434836395899
+      n_structurally_zero: 0
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.16871572574729776
+      - 0.06866921362881825
+      - 0.038782278490478155
+      - 0.009173471015465624
+      - 0.0015901882264299277
+      adjacent_ratios:
+      - 5.927129765590428
+      - 2.456934000428006
+      - 1.7706338127007661
+      - 4.227655859499072
+      - 5.768795707952537
+      spread_decades_over_positive_singular_values: 2.798551466332591
+      largest_adjacent_ratio: 5.927129765590428
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 4
+      condition_number: 628.856372710709
+      full_column_rank: false
+      verdict_at_pre_registered_thresholds: INSEPARABLE
+  S_C:
+    d: 2
+    coordinate_labels:
+    - final_size
+    - peak_height
+    three_columns_base:
+      n_columns: 3
+      singular_values:
+      - 4.155329597270701
+      - 0.955729365501694
+      - 0.0
+      n_structurally_zero: 1
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.2300008562809157
+      - 0.0
+      adjacent_ratios:
+      - 4.347809900231988
+      - .inf
+      spread_decades_over_positive_singular_values: 0.638270547124214
+      largest_adjacent_ratio: 4.347809900231988
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 2
+      condition_number: .inf
+      full_column_rank: false
+      verdict_at_pre_registered_thresholds: INSEPARABLE
+    three_columns_adversarial:
+      n_columns: 3
+      singular_values:
+      - 3.0488841275712986
+      - 0.5322845515628212
+      - 0.0
+      n_structurally_zero: 1
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.1745833981519108
+      - 0.0
+      adjacent_ratios:
+      - 5.727921501045976
+      - .inf
+      spread_decades_over_positive_singular_values: 0.7579970575022829
+      largest_adjacent_ratio: 5.727921501045976
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 2
+      condition_number: .inf
+      full_column_rank: false
+      verdict_at_pre_registered_thresholds: INSEPARABLE
+    six_columns_both_family_sets:
+      n_columns: 6
+      singular_values:
+      - 5.013400566494173
+      - 1.6201909483454977
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      n_structurally_zero: 4
+      sigma_i_over_sigma_1:
+      - 1.0
+      - 0.32317205195484366
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      adjacent_ratios:
+      - 3.0943269814053362
+      - .inf
+      - .inf
+      - .inf
+      - .inf
+      spread_decades_over_positive_singular_values: 0.49056620422979047
+      largest_adjacent_ratio: 3.0943269814053362
+      largest_adjacent_ratio_falls_after_index: 1
+      rank_at_tau: 2
+      condition_number: .inf
+      full_column_rank: false
+      verdict_at_pre_registered_thresholds: INSEPARABLE
