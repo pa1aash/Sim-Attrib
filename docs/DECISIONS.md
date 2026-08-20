@@ -297,10 +297,38 @@ from an unresolved item, and the difference is the reason this entry exists.
 
 ---
 
-## D-12 — PROPOSED, NOT DECIDED: which of two paths the project takes after G5's split verdict.
+## D-12 — DECIDED: Path 1. Measure the cost gate before building the composition.
 
-**Date:** 2026-08-20 · **Proposed by session G5** · **Status: PROPOSED. The operator decides.**
-· **Evidence:** `audit/K6_SPECTRUM_CHECK.md`, `audit/S5_REPORT.md` · **Action:** P-2
+**Date proposed:** 2026-08-20 (session G5) · **Date decided:** 2026-08-20 (operator, at the
+start of session G6) · **Status: DECIDED — Path 1 ADOPTED.** · **Evidence:**
+`audit/K6_SPECTRUM_CHECK.md`, `audit/S5_REPORT.md` · **Closes:** P-2, `OUTSTANDING.md` O-24
+
+> ### The decision, recorded above the reasoning it was taken on
+>
+> **Path 1 is adopted. The cost gate is measured before the composition is built.** Session
+> G6 is commissioned to take that measurement **and no more**: the MMC composition is not to
+> be implemented in the same session that prices it, whatever the price turns out to be, so
+> that a favourable number cannot be converted into a build inside the session that produced
+> it. Building is G7's scope and is gated on G6's result.
+>
+> **What this forecloses.** It forecloses spending a session on the diagnostic-only paper of
+> `audit/PIVOT.md` *before* the affordability of the composition is known. It does **not**
+> foreclose Path 2 itself: every artefact Path 2 needs already exists, none of it is consumed
+> by measuring the cost gate, and a failed gate is the evidence on which Path 2 would be
+> chosen deliberately rather than out of fatigue.
+>
+> **What it does not decide.** It does not decide that the composition will be built. It
+> decides only the order: price first, then decide. If the gate fails, the choice returns to
+> the operator with one measurement in hand instead of none — which is the reason for the
+> ordering.
+>
+> **The argument against, which the operator has weighed and overridden.** Six sessions of
+> history say attack before you build, and the composition has still never been attacked by
+> anyone (`OUTSTANDING.md` **O-17**, older half). Measuring the cost gate is not an attack on
+> the composition and does not discharge that debt. It remains outstanding.
+
+**The body below is session G5's proposal exactly as it wrote it, unedited.** It is kept
+because the decision above is only legible next to the case that was actually put.
 
 **This entry exists because the G5 brief requires the diagnostic-only pivot to be written down
 as a proposed path whenever the session halts. It halted. But the brief anticipated a halt
@@ -377,6 +405,76 @@ reasonably conclude that the next thing to do is attack the composition, not imp
 that would be Path 1 with its first two steps swapped.
 
 **This is a decision, not a calculation, and it is the operator's.** **P-2.**
+
+---
+
+## D-14 — DECIDED: the paper's scope is restricted to single-mechanism-per-component misspecification.
+
+**Date:** 2026-08-20 · **Decided by the operator** at the start of session G6 · **Answers:**
+Q-14 (blocking since G5) · **Evidence:** `audit/K6_SPECTRUM_CHECK.md`,
+`results/robustness/k6_spectrum.yaml` · **Closes:** `OUTSTANDING.md` O-23, P-3 of G5
+
+### The decision
+
+**Every claim this project makes about component separability, component attribution, and the
+composition that rests on them is scoped to a distortion model that assigns AT MOST ONE
+one-parameter distortion family to each component.** Inside that scope the separability
+precondition holds and is well supported: `S_B` separates the simulator's three components
+under **all eight** component-wise assignments the two declared family sets permit, `κ` from
+6.628 to 65.64, every singular value resolved.
+
+**Outside that scope the project's own measurement is a counterexample and the claim is not
+available.** With two distortion parameters on a component — the six-column union of the two
+declared sets — `S_B` is INSEPARABLE at `κ = 628.9`, rank 4 of 6, with both near-null
+directions confounding **progression with observation**. It is not an estimator artefact
+(every singular value resolved to within 2.3% across the h-plateau), not a threshold artefact
+(INSEPARABLE across `τ` from 0.005 to 1.0), and not structural (`d = 10 ≥ 6`).
+
+### This is a limitation to be stated alongside the positive result, not after it
+
+**The operator's instruction is explicit on placement and it is recorded here so that a later
+session cannot demote it.** The single-mechanism restriction is not an audit footnote. It is a
+condition on the result, and a reader who is told the eight-assignment finding without it has
+been told something the evidence does not support.
+
+Concretely, this requires all four of:
+
+1. **`paper/main.tex`, when it is drafted, must state the restriction in the scope or
+   limitations section**, and must state the six-column counterexample rather than omit it.
+   No session has drafted `paper/main.tex` as of this decision; the requirement is recorded
+   now precisely because the drafting session will be several sessions away from the
+   measurement that produced it.
+2. **Any results file this project writes from here on carries the restriction inline**, in
+   the same way `results/` already carries the distortion-family qualification.
+3. **`audit/MMC_COMPOSITION_SPEC.md` states it**, because the composition's implementation
+   must include a precondition check that refuses to run outside the scope rather than
+   running and reporting a number.
+4. **The sentence the paper writes is Q-14's option (a)** — *"under a distortion model that
+   assigns one one-parameter family to each component, the three components separate for
+   `S_B` under every one of the eight assignments our two declared family sets permit"* — and
+   not any sentence implying that component-level misspecification is identifiable
+   irrespective of how richly a component is parameterised. That stronger sentence is refuted
+   by this project's own `results/robustness/k6_spectrum.yaml`.
+
+### What it forecloses
+
+It forecloses the general identifiability claim, permanently, on this project's own evidence.
+It also forecloses quoting the eight-assignment result on its own: **eight separable
+assignments establish separability of a three-dimensional distortion space, eight times over,
+and nothing wider.**
+
+### What it does NOT do
+
+- **It does not close Q-13.** Q-13 asks what may be claimed from a verdict conditional on the
+  *distortion families*; D-14 answers the different question of how many parameters a
+  component may carry. The two are jointly, not severally, binding on the paper's separability
+  sentence, and **Q-13 remains open and blocking**.
+- **It does not make the restriction true.** It records the operator's ruling that the project
+  will work inside a scope where the evidence supports the claim. Whether a component's
+  misspecification is one-dimensional in any real application is a modelling question, and the
+  honest answer — already written into `docs/OPEN_QUESTIONS.md` Q-14 — is that it need not be.
+- **It does not bear on the cost gate.** `p_sel` and affordability are a different quantity;
+  D-14 neither blocks nor licenses that measurement.
 
 ---
 

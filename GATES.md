@@ -712,7 +712,7 @@ conditions:  Signed unconditionally, together with G0, G1, G2 and G3, as of this
 
 ## G5 — Does `S_B` survive a longer component list?
 
-**status: ready for review — UNSIGNED**
+**status: SIGNED 2026-08-20**
 
 Prepared 2026-08-20, session G5. Signature block below is for the operator.
 
@@ -824,7 +824,26 @@ The criteria were fixed by the session brief before any check ran.
 ### Operator sign-off
 
 ```
-signed:      ____________________
-date:        ____________________
-conditions:  ____________________
+signed:      Palaash Gang
+date:        2026-08-20
+conditions:  Signed as an accurate record of the session, INCLUDING the "does not
+             certify" section and INCLUDING the split verdict.
+
+             The WEAKENED classification stands, on one condition: the paper's scope is
+             restricted to single-mechanism-per-component misspecification. That
+             restriction is a real limitation to be stated alongside the positive result,
+             not after it. It is recorded as `docs/DECISIONS.md` **D-14**, DECIDED.
+
+             D-13's refinement is accepted as read. The operator has taken the reading
+             the session recommended and not the alternative; both remain on the record
+             in `audit/K6_SPECTRUM_CHECK.md` §0.
+
+             Signing G5 does NOT close Q-13, which stays open and blocking for the
+             paper's separability sentence. It does close Q-14, in the direction of that
+             question's option (a).
+
+             `docs/DECISIONS.md` **D-12** is decided in favour of **Path 1**: measure the
+             cost gate before building the composition. Session G6 is commissioned to
+             take that measurement and no more — the composition is not to be built
+             until the gate has reported.
 ```

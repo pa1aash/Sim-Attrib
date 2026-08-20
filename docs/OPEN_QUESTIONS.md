@@ -266,7 +266,7 @@ the number without it.
 claim into `paper/main.tex`. It does **not** block the `p_sel`/cost-gate measurement (**P-3**),
 which measures a different quantity and would be informative under either answer.
 
-### Q-14 — Separability holds one distortion parameter per component and fails at two. Which does the paper claim? **(BLOCKING — new, G5)**
+### Q-14 — Separability holds one distortion parameter per component and fails at two. Which does the paper claim? **ANSWERED 2026-08-20 (operator, at the start of G6)**
 
 **Raised 2026-08-20 by `audit/K6_SPECTRUM_CHECK.md`.**
 
@@ -317,6 +317,26 @@ sentence, jointly with **Q-13**, which it narrows but does not close. It does **
 `p_sel`/cost-gate measurement (**O-16**), which measures a different quantity and would be
 informative under either answer — and which this session did **not** reach, because the G5
 brief halts on any verdict other than a clean pass.
+
+> #### ANSWERED — operator, 2026-08-20, at the start of session G6. Recorded as `docs/DECISIONS.md` D-14.
+>
+> **Option (a).** The paper's scope is restricted to **single-mechanism-per-component**
+> misspecification: at most one one-parameter distortion family per component. Inside that
+> scope the eight-assignment result stands as the paper's separability claim. **Option (b) is
+> not taken and is not available** — this project's own six-column measurement refutes it.
+>
+> **The condition attached to the answer is about placement, not content.** The restriction is
+> to be stated **alongside** the positive result rather than after it, and the six-column
+> counterexample is to be conceded in the paper rather than omitted. `docs/DECISIONS.md` D-14
+> lists the four places that obligation lands, including `paper/main.tex`, which no session has
+> yet drafted.
+>
+> **Q-13 is untouched by this.** It asks a different question — conditionality on the
+> *distortion families* rather than on the number of parameters per component — and it stays
+> **open and blocking** for the paper's separability sentence. The two are jointly binding.
+>
+> This answer is what G5's `audit/K6_SPECTRUM_CHECK.md` and `audit/S5_REPORT.md` recommended,
+> and the operator took the recommendation.
 
 ### Q-15 — The intermediate component counts between 3 and 6 were not measured *(new, G5; not blocking)*
 
