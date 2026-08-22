@@ -1,0 +1,47 @@
+% Full eight-assignment tables for S_B and S_A. Every number reproduced verbatim from
+% audit/K6_SPECTRUM_CHECK.md Section 3 (generated from results/robustness/k6_spectrum.yaml,
+% commit 2efb4ae9232c, seed 20260820), which is itself generated rather than typed (S10).
+
+\begin{table}[h]
+  \centering
+  \caption{$S_B$ under all eight component-wise family assignments. B: base family,
+  A: adversarial family, in order (transmission, progression, observation). $\tau^*$ is the
+  exact flip point as a multiple of the registered $\tau=10^{-2}$.}
+  \label{tab:sb-eight}
+  \begin{tabular}{lccccc}
+    \toprule
+    Code & Declared? & $\kappa$ & Rank at $\tau$ & $\tau^*/\tau$ & Verdict \\
+    \midrule
+    BBB & yes & 10.12 & 3/3 & 9.881$\times$ & separable \\
+    BBA & no  & 30.98 & 3/3 & 3.228$\times$ & separable \\
+    BAB & no  & 6.628 & 3/3 & 15.09$\times$ & separable \\
+    BAA & no  & 27.40 & 3/3 & 3.650$\times$ & separable \\
+    ABB & no  & 25.64 & 3/3 & 3.901$\times$ & separable \\
+    ABA & no  & 65.64 & 3/3 & 1.523$\times$ & separable \\
+    AAB & no  & 20.76 & 3/3 & 4.818$\times$ & separable \\
+    AAA & yes & 64.62 & 3/3 & 1.547$\times$ & separable \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \caption{$S_A$ under all eight component-wise family assignments, shown as a control. Every
+  assignment carrying the adversarial transmission family is inseparable; every one carrying
+  the base transmission family is separable.}
+  \label{tab:sa-eight}
+  \begin{tabular}{lccl}
+    \toprule
+    Code & Declared? & $\kappa$ & Verdict (equivalence class) \\
+    \midrule
+    BBB & yes & 5.378 & separable \\
+    BBA & no  & 5.902 & separable \\
+    BAB & no  & 5.186 & separable \\
+    BAA & no  & 9.531 & separable \\
+    ABB & no  & 100.9 & INSEPARABLE (\{progression\}) \\
+    ABA & no  & 123.3 & INSEPARABLE (\{progression\}) \\
+    AAB & no  & 875.2 & INSEPARABLE (\{transmission, progression\}) \\
+    AAA & yes & 136.7 & INSEPARABLE (\{progression, observation\}) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
