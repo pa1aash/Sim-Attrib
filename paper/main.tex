@@ -81,8 +81,9 @@ the same measurement locates exactly where this breaks, once a single component 
 distortion parameters at once, on a specific and interpretable confound rather than an
 estimator, threshold, or structural artifact (Section~\ref{sec:experiments}). \textbf{Where a
 natural selective-inference construction on top of this fails}: composing established
-exact-inference tools gives a procedure that is, in principle, exactly calibrated for testing
-which component is responsible; we evaluate it directly and find it comfortably affordable at
+exact-inference tools gives a procedure that controls the selective type-I error at the
+nominal level, conservatively, without characterizing the selection event analytically; we
+evaluate it directly and find it comfortably affordable at
 a known parameter but unable to terminate once the nuisance parameters are only known within a
 realistic neighborhood (Section~\ref{sec:negative-result}). \textbf{Why, in a form that
 transports}: the nuisance-to-noise ratio governing that failure is predicted before it is
@@ -272,12 +273,14 @@ sweep, are reproduced in Appendix~\ref{sec:appendix}.
 \label{sec:negative-result}
 
 Composing Dufour's maximized Monte Carlo with rejection-sampling calibration
-(Section~\ref{sec:background}) gives, on paper, exact conditional inference on which
-component is attributed, without ever characterizing the selection event analytically. The
-composition's only theorem is a short exchangeability argument requiring the selection rule
-to be a fixed, deterministic function of the data, and it holds only if every admissible
-nuisance value keeps the observed selection event reachable at all. We evaluate this
-construction on our own simulator rather than propose it.
+(Section~\ref{sec:background}) gives, on paper, conditional inference on which component is
+attributed that controls the selective type-I error at the nominal level -- conservatively
+rather than exactly, since the composition inherits both the supremum-over-nuisance-space and
+the discrete-Monte-Carlo sources of conservativeness -- without ever characterizing the
+selection event analytically. The composition's only theorem is a short exchangeability
+argument requiring the selection rule to be a fixed, deterministic function of the data, and
+it holds only if every admissible nuisance value keeps the observed selection event reachable
+at all. We evaluate this construction on our own simulator rather than propose it.
 
 \paragraph{Affordable at a known parameter, unbounded over the nuisance set.}
 At the true parameter the composition is comfortably affordable: the worst selection cell
