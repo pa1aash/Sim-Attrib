@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage[dblblindworkshop]{neurips_2026}
+\workshoptitle{Sim2Science}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+% Title as operator-confirmed. FLAGGED (not silently kept, not silently changed) in
+% audit/S8_REPORT.md P-2: the C1 amendment removes any selective-inference METHOD
+% claim, and whether "Selective Inference" as the lead term still fits the
+% diagnostics-and-limits reframing is an open question for the operator, not a
+% session. See the report for the alternative proposed there.
+\title{Selective Inference for Component-Level Simulator Misspecification}
+
+\author{%
+  Anonymous Author(s) \\
+  Anonymous Institution \\
+  Anonymous Address \\
+  \texttt{anonymous@example.com} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+TODO -- drafted last, Phase 5, after every section below exists to preview accurately.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+TODO -- drafted last among body sections (Phase 3), once the actual content exists to
+preview. Must motivate the attribution problem and preview the four findings under the
+diagnostics-and-limits framing of the C1 amendment (\texttt{audit/FINAL\_CLAIMS.md}), not
+as a methods paper.
+
+\section{Background and related work}
+\label{sec:background}
+TODO -- Phase 2. From \texttt{audit/BIBLIOGRAPHY.bib}. Cites, as established: the
+rank/condition-number screen (Cintr\'on-Arias et al. 2009), finite differencing under
+simulation noise (Mor\'e \& Wild 2011/2012), the identifiability precondition (Kahl et al.
+2019 via Sain \& Massey 1969, with Catchpole \& Morgan 1997 and Brynjarsd\'ottir \&
+O'Hagan 2014), maximized Monte Carlo (Dufour 2006), and the sloppy-models spectrum
+literature (Gutenkunst et al. 2007). The SBI-misspecification literature and Montel et al.
+as the marginal-testing baseline, per \texttt{audit/BIBLIOGRAPHY.bib} \S1.
+
+\section{Method}
+\label{sec:method}
+TODO -- Phase 2. The rank/coherence diagnostic, stated as adapted from cited prior work,
+not as new. The D-14 single-mechanism scope assumption stated explicitly and early, not
+as a footnote. The distortion-family construction.
+
+\section{Experiments}
+\label{sec:experiments}
+TODO -- Phase 2. The 3-component SIR simulator (Fig.~\ref{fig:simulator}), $S_A$/$S_B$,
+the 8-assignment sweep (Fig.~\ref{fig:assignments}), the $K=6$ confound
+(Fig.~\ref{fig:spectrum}, Fig.~\ref{fig:confound}), threshold sensitivity
+(Fig.~\ref{fig:threshold}). Every numeric claim traces to
+\texttt{audit/FINAL\_CLAIMS.md} or a \texttt{results/*.yaml} path (S4).
+
+\section{The MMC negative result}
+\label{sec:negative-result}
+TODO -- Phase 3. The boundary sweep (Fig.~\ref{fig:nontermination}), the nuisance-to-noise
+ratio predicted before measurement and confirmed by it. Stated as a genuine finding, not
+an apology for an unbuilt experiment.
+
+\section{Limitations}
+\label{sec:limitations}
+TODO -- Phase 3. D-14's scope assumption and what it excludes; R2's NARROW-CONDITIONAL
+status where load-bearing; single-simulator generalization; the three hand-annotated
+figures' annotations outside the automated provenance check.
+
+\section*{Reproducibility checklist}
+\input{checklist.tex}
+
+\bibliographystyle{plainnat}
+\bibliography{../audit/BIBLIOGRAPHY}
+
+\appendix
+\section{Appendix}
+\label{sec:appendix}
+TODO -- Phase 2--4, as needed. Full 8-assignment table, threshold-sensitivity sweep
+detail, \texttt{audit/FINAL\_CLAIMS.md}'s generated-numbers appendix reproduced verbatim
+(S11).
+
+\end{document}

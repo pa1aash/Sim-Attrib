@@ -27,3 +27,20 @@ __pycache__/
 research_state/
 *.egg-info/
 .ipynb_checkpoints/
+
+# LaTeX build artifacts under paper/ -- paper/main.pdf is a build product of
+# paper/main.tex, not a tracked deliverable; paper/figures/*.pdf (none yet;
+# figures live at repo-root figures/) would NOT be covered by this pattern
+# since it's scoped to paper/. Rebuilt by `TEXINPUTS=".:neurips_2026_template:"
+# latexmk -pdf main.tex` from paper/.
+paper/main.pdf
+paper/*.aux
+paper/*.bbl
+paper/*.bcf
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.run.xml
+paper/*.synctex.gz
