@@ -20,7 +20,7 @@ S11.
 
 | | claim | kind | evidence | figure |
 |---|---|---|---|---|
-| **C1** | A pre-inference diagnostic that decides whether component-level misspecification attribution is well posed for a given simulator and summary set | method | `src/diagnostics/jacobian_rank.py`, `docs/THRESHOLDS.md`, `results/jacobian_rank.*.yaml`, `results/floor_check.yaml` | **Fig. 1**, **Fig. 2** |
+| **C1** | Using established diagnostic tools (rank/condition-number screening; maximized Monte Carlo), we find where component-level misspecification attribution is and is not identifiable for a canonical epidemic simulator under a realistic adversarial threat model, and give a quantitative, predictive account of why a natural selective-inference construction fails | empirical finding (case study) | `src/diagnostics/jacobian_rank.py`, `docs/THRESHOLDS.md`, `results/jacobian_rank.*.yaml`, `results/floor_check.yaml` | **Fig. 1**, **Fig. 2** |
 | **C2** | `S_B` separates the simulator's three components under **all eight** component-wise family assignments the two declared sets permit | positive | `results/robustness/k6_spectrum.yaml`, `audit/K6_SPECTRUM_CHECK.md` | **Fig. 3**, **Fig. 4**, **Fig. 5** |
 | **C3** | At two distortion parameters per component the same summary set is **inseparable**, and both near-null directions confound **progression with observation** | boundary | `results/robustness/k6_spectrum.yaml`, `audit/K6_SPECTRUM_CHECK.md` | **Fig. 3**, **Fig. 7** |
 | **C4** | Rejection-sampling-based exact conditional inference **does not terminate** for this class of simulator once the nuisance parameters are unknown, and the width at which it stops is measured | cautionary | `results/p_sel.yaml`, `results/cost_gate.yaml`, `results/boundary_sweep.yaml`, `audit/MMC_COMPOSITION_SPEC.md` §4.1–4.2 | **Fig. 6** |
@@ -31,19 +31,42 @@ support.
 
 ---
 
-## C1 — the diagnostic
+## C1 — the empirical finding, using established diagnostic tools
+
+> ### ✅ RESOLVED 2026-08-21 — operator ruling on the tension flagged below (P-2)
+>
+> **C1 is not a method-novelty claim.** The rank/coherence diagnostic and its composition into
+> a pre-inference gate are not claimed as a contribution: D-6 already forecloses the estimator
+> and the rank rule, and the gating composition has never been threat-checked — and this
+> project's track record (R1, C2-original, R2-standalone all died under threat-checking) means
+> an untested novelty claim should not be introduced this late rather than checked in a ninth
+> session. **The reconciled reading G7 wrote below — "what is offered is the composition into a
+> decision procedure" — is superseded by this ruling.** What C1 claims instead is the **finding**
+> produced by applying these established tools: where component-level misspecification
+> attribution is and is not identifiable for this simulator under a realistic adversarial threat
+> model (the `S_A`/`S_B` split of C2, the `K=6` confound of C3), plus a quantitative, predictive
+> account of why a natural selective-inference construction fails (the nuisance-to-noise ratio
+> of C4, predicted before the measurement that confirmed it). This is a strictly safer and
+> equally real contribution, and requires no further novelty check before the paper is written.
+> This makes the paper a **diagnostics-and-limits** paper — matching Sim2Science's CFP language
+> on "simulator diagnostics" and "degeneracy, simplifications, and identifiability" — not a
+> methods paper, and every section drafted from this file must reflect that framing.
 
 ### The claim, as it goes in the paper
 
-> Before any inference is attempted, decide whether component-level misspecification
-> attribution is **well posed** for a given simulator and summary set. Declare the simulator
-> as `K` components, give each one a one-parameter distortion family that is the base
-> simulator exactly at zero, estimate the summary Jacobian `J = ∂s/∂η` at `η = 0` by central
-> differences under common random numbers across an `h`-sweep, normalise summaries by their
-> prior-predictive standard deviation and each `η_k` by a common relative scale, and call the
-> numerical rank at a pre-registered tolerance together with the condition number against a
-> pre-registered ceiling. Where the call fails, report the **equivalence class** of components
-> the near-null right singular vectors name, rather than a component.
+> We apply established diagnostic tools — rank/condition-number screening on a simulation-based
+> Jacobian (Cintrón-Arias et al. 2009; Moré & Wild 2010/2012) and maximized Monte Carlo (Dufour
+> 2006) — as **cited infrastructure**, and report what they find. Declare the simulator as `K`
+> components, give each one a one-parameter distortion family that is the base simulator exactly
+> at zero, estimate the summary Jacobian `J = ∂s/∂η` at `η = 0` by central differences under
+> common random numbers across an `h`-sweep, normalise summaries by their prior-predictive
+> standard deviation and each `η_k` by a common relative scale, and call the numerical rank at a
+> pre-registered tolerance together with the condition number against a pre-registered ceiling.
+> Where the call fails, report the **equivalence class** of components the near-null right
+> singular vectors name, rather than a component. **The contribution is not this procedure — it
+> is what the procedure finds** when run against this simulator under an adversarial threat
+> model, and the predictive account of where a natural selective-inference construction on top
+> of it fails.
 
 ### The sentence about novelty, which is not optional
 
@@ -56,7 +79,14 @@ Jacobian has full column rank — is **Kahl, Wendland, Neidhardt, Weber & Kschis
 **Sain & Massey (1969)**, with **Catchpole & Morgan (1997)** and **Brynjarsdóttir & O'Hagan
 (2014)**.
 
-> ### ⚠️ A TENSION BETWEEN TWO OPERATOR DECISIONS, FLAGGED RATHER THAN RESOLVED HERE — **P-2**
+> ### ⚠️ SUPERSEDED 2026-08-21 — the tension below is resolved by the operator ruling at the top of C1
+>
+> **This callout is kept, not deleted, as the record of what P-2 actually asked and how G7 first
+> tried to answer it.** G7 wrote the composition-into-a-decision-procedure reading below as a
+> reconciliation between D-6 and D-16, and flagged that a session may not decide it was the right
+> reading. **The operator has now decided it was not.** D-6 wins outright: neither the estimator,
+> the rank rule, nor their composition into a gate is claimed as new. See the ✅ RESOLVED box at
+> the top of this section for the reading that replaces the one below.
 >
 > **`docs/DECISIONS.md` D-6 forecloses claiming either the estimator or the rank rule as new**,
 > in those words: *"'We contribute a simulation-based rank estimator' and 'we contribute a rule
@@ -64,20 +94,17 @@ Jacobian has full column rank — is **Kahl, Wendland, Neidhardt, Weber & Kschis
 > reappear as such."*
 >
 > **`docs/DECISIONS.md` D-16 names "the rank/coherence diagnostic itself (method)" as the
-> paper's first contribution.**
->
-> These are reconcilable, and the claim above is written to satisfy both: what is offered is
-> the **composition into a decision procedure applied before inference**, together with the
+> paper's first contribution.** *(Superseded reading, kept for the record:)* ~~These are
+> reconcilable, and the claim above is written to satisfy both: what is offered is the
+> **composition into a decision procedure applied before inference**, together with the
 > pre-registration protocol and the equivalence-class output — not the estimator and not the
-> rank rule. **A session may not decide that this is the right reading.** It is exactly what
-> operator point **P-2** asks the operator to confirm, and if the reading is wrong the whole of
-> C1 needs rewording before anything is drafted.
+> rank rule.~~ **A session may not decide that this is the right reading. It was not.**
 >
 > D-6 also names the one seam it found unoccupied — carrying an estimated noise level forward
 > into the rank tolerance — and requires that a paper claiming it must first re-derive `τ` from
 > a noise level. **This project has not done that**, and `docs/THRESHOLDS.md` derives `τ` from
 > a compute budget instead. So the seam must be **named and disclaimed** in the paper, not
-> claimed.
+> claimed — this still applies under the resolved reading, since the diagnostic is still used.
 
 ### What makes it a procedure rather than a calculation
 
