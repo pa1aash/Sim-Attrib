@@ -580,3 +580,45 @@ check once in a state where it should give the opposite answer) **would have cau
 and was not applied to this flag**. The smoke run did exercise it, at 400 draws, and it read
 FALSE there too; that was read as "expected at 400 draws" rather than as a reason to check the
 arithmetic.
+
+---
+
+## D-18 — Four citations named throughout `docs/DECISIONS.md` and `audit/FINAL_CLAIMS.md` as prior art were never fetched into the bibliography that claims to be their source of truth
+
+**Session G8, 2026-08-22.** Found while writing the Background section of `paper/main.tex`,
+which cannot cite a paper that is not in `audit/BIBLIOGRAPHY.bib`.
+
+**What was missing.** Cintrón-Arias, Banks, Capaldi & Lloyd (2009) — the rank/condition-number
+screen D-6 names as R2's prior art. Moré & Wild (2011/2012) — the finite-differencing-under-noise
+results D-6 and Q-11 name. Dufour (2006) — the maximized Monte Carlo repair Q-9 answers with and
+the only theorem `audit/MMC_COMPOSITION_SPEC.md` §3.4 rests on. Gutenkunst et al. (2007) — the
+sloppy-models literature `audit/K6_SPECTRUM_CHECK.md` §2.4 and D-6 both cite by name. All four are
+referenced by author and year, repeatedly, across three sessions of decisions and the final claim
+set, and **none had ever actually been fetched.** `audit/BIBLIOGRAPHY.bib` calls itself the
+"SOURCE OF TRUTH for every reference this project cites" and until this session it did not contain
+the four references its own governing decisions cite most.
+
+**Also found in the same pass: `Catchpole_1997`'s incomplete-author defect, documented by
+`audit/LEDGER_CITATIONS.md` and by a comment in the bibliography file itself, was never actually
+fixed anywhere citable.** The comment says the fetched entry is left exactly as fetched (so it
+stays diffable against Crossref/OpenAlex's own defective record) and that "any use of it must set
+author = {Catchpole, E. A. and Morgan, B. J. T.}" — but nothing in the repository had done that. A
+`\cite{Catchpole_1997}` in `paper/main.tex` would have rendered the exact incomplete byline this
+project's own audit trail exists to catch.
+
+**What was done.** All four missing papers were fetched the same way as every other entry in the
+file — DOI content negotiation via `https://doi.org/<DOI>` with `Accept: application/x-bibtex`,
+cross-checked against Crossref's structured JSON record first — and added in a new Section 2a,
+with a comment on each explaining why this project cites it. A corrected, citable
+`CatchpoleMorgan_1997` entry was added alongside the untouched original, rather than editing
+`Catchpole_1997` in place, preserving the "diffable against origin" property the file's own header
+asks for. `paper/main.tex` cites `CatchpoleMorgan_1997`, not `Catchpole_1997`.
+
+**Why this is a deviation and not just a fix.** This project has caught the same class of failure
+before — a check, a citation, or a claim that a document *describes* as done without it having
+actually been executed (D-8, D-15, D-17 for flags; `LEDGER_CITATIONS.md` for the Catchpole byline
+itself, whose comment recorded the correct fix six sessions ago and was never applied). The
+pattern is broader than flags: **a file that documents what should be true is not the same as the
+file being true**, and this is the fourth time in this project that gap specifically caused a
+near-miss rather than an incident, only because a downstream session needed the artefact to
+actually work and checked before using it.

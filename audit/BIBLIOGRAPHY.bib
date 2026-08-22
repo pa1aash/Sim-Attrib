@@ -10,10 +10,18 @@
 %%   - journal entries from https://doi.org/<DOI> via BibTeX content negotiation
 %%     (Accept: application/x-bibtex), i.e. the publisher's own record via Crossref.
 %% Assembled 2026-08-20, session G1. 52 entries fetched, 0 fetch failures.
+%% EXTENDED 2026-08-22, session G8: 5 entries added in Section 2a. Four papers
+%% (Cintron-Arias 2009, More & Wild 2011/2012, Dufour 2006, Gutenkunst 2007) were
+%% named repeatedly throughout docs/DECISIONS.md and audit/FINAL_CLAIMS.md as
+%% established prior art the diagnostic and the MMC negative result cite, but had
+%% never actually been fetched into this "source of truth" file -- found while
+%% drafting paper/main.tex's Background section, which cannot cite what is not
+%% here. Same fetch method, 0 fetch failures. See DEVIATIONS.md.
 %%
 %% THREE DEFECTS IN THE FETCHED RECORDS ARE FLAGGED IN PLACE BELOW. Read them before
 %% using this file: Catchpole_1997 (incomplete author list in BOTH Crossref and
-%% OpenAlex), Arendt_2012 (metadata only -- full text never retrieved), and the
+%% OpenAlex -- corrected, citable entry added as CatchpoleMorgan_1997 in Section 2a),
+%% Arendt_2012 (metadata only -- full text never retrieved), and the
 %% unresolvable "Presanis et al. (2017)" cited in audit/S0_REPORT.md.
 %%
 %% Entry keys are as the source supplied them and have NOT been renamed, so that any
@@ -212,8 +220,49 @@
       archivePrefix={arXiv},
       primaryClass={stat.AP},
       doi={https://doi.org/10.1016/j.jcp.2019.06.032},
-      url={https://arxiv.org/abs/1801.10309}, 
+      url={https://arxiv.org/abs/1801.10309},
 }
+
+%%============================================================================
+%% 2a. DIAGNOSTIC TOOLING THIS PROJECT'S METHOD USES, CITED AS ESTABLISHED
+%% Added session G8, executing the operator's C1 amendment (audit/FINAL_CLAIMS.md):
+%% C1 is not a method-novelty claim, so every ingredient the diagnostic composes
+%% must be cited as prior art rather than left uncited. These four were referenced
+%% by name throughout docs/DECISIONS.md D-6 and audit/FINAL_CLAIMS.md but were
+%% never actually fetched into this file -- a gap this session found and closes.
+%% Fetched the same way as every other entry: DOI content negotiation via
+%% https://doi.org/<DOI> with Accept: application/x-bibtex, verified against
+%% Crossref's structured record first. 0 fetch failures.
+%%============================================================================
+%% The rank-and-condition-number screen on a simulation-based sensitivity matrix,
+%% worked on an epidemic model. D-6's basis for foreclosing R2 as a method claim.
+@article{Cintr_n_Arias_2009, title={A sensitivity matrix based methodology for inverse problem formulation}, volume={17}, ISSN={1569-3945}, url={http://dx.doi.org/10.1515/jiip.2009.034}, DOI={10.1515/jiip.2009.034}, number={6}, journal={Journal of Inverse and Ill-posed Problems}, publisher={Walter de Gruyter GmbH}, author={Cintrón-Arias, A. and Banks, H. T. and Capaldi, A. and Lloyd, A. L.}, year={2009}, month=Jan }
+
+%% Finite differencing under simulation noise, with a provably near-optimal
+%% difference parameter -- a stronger result than this project's own h-sweep.
+@article{Mor__2012, title={Estimating Derivatives of Noisy Simulations}, volume={38}, ISSN={1557-7295}, url={http://dx.doi.org/10.1145/2168773.2168777}, DOI={10.1145/2168773.2168777}, number={3}, journal={ACM Transactions on Mathematical Software}, publisher={Association for Computing Machinery (ACM)}, author={Moré, Jorge J. and Wild, Stefan M.}, year={2012}, month=Apr, pages={1–21} }
+
+%% Companion paper: the noise-level estimator D-6/Q-11 name as the one seam
+%% nobody occupies by carrying it forward into a rank tolerance. Not occupied here.
+@article{Mor__2011, title={Estimating Computational Noise}, volume={33}, ISSN={1095-7197}, url={http://dx.doi.org/10.1137/100786125}, DOI={10.1137/100786125}, number={3}, journal={SIAM Journal on Scientific Computing}, publisher={Society for Industrial \& Applied Mathematics (SIAM)}, author={Moré, Jorge J. and Wild, Stefan M.}, year={2011}, pages={1292--1314} }
+
+%% Maximized Monte Carlo -- the composite-null repair Q-9 answers with, and the
+%% only theorem the non-terminating composition in C4 rests on (MMC_COMPOSITION_SPEC
+%% Section 3.4). 'Provably exact level, irrespective of the sample size.'
+@article{Dufour_2006, title={Monte Carlo tests with nuisance parameters: A general approach to finite-sample inference and nonstandard asymptotics}, volume={133}, ISSN={0304-4076}, url={http://dx.doi.org/10.1016/j.jeconom.2005.06.007}, DOI={10.1016/j.jeconom.2005.06.007}, number={2}, journal={Journal of Econometrics}, publisher={Elsevier BV}, author={Dufour, Jean-Marie}, year={2006}, month=Aug, pages={443--477} }
+
+%% Sloppy-models literature: near-geometric, gapless singular-value spectra in
+%% systems-biology sensitivity matrices. Referenced in K6_SPECTRUM_CHECK Section 2.4
+%% and D-6's second threat -- the objection C3's Gutenkunst comparison concedes.
+@article{Gutenkunst_2007, title={Universally Sloppy Parameter Sensitivities in Systems Biology Models}, volume={3}, ISSN={1553-7358}, url={http://dx.doi.org/10.1371/journal.pcbi.0030189}, DOI={10.1371/journal.pcbi.0030189}, number={10}, journal={PLoS Computational Biology}, publisher={Public Library of Science (PLoS)}, author={Gutenkunst, Ryan N and Waterfall, Joshua J and Casey, Fergal P and Brown, Kevin S and Myers, Christopher R and Sethna, James P}, editor={Arkin, Adam P}, year={2007}, month=Oct, pages={e189} }
+
+%% CORRECTED CITABLE ENTRY for Catchpole & Morgan (1997) -- see the note above
+%% Catchpole_1997 in Section 2: that entry is left exactly as fetched (both
+%% Crossref and OpenAlex omit Morgan) so it stays diffable against its origin, and
+%% its own comment requires that any USE of it supply the corrected author field.
+%% This is that corrected, citable entry. Same DOI, same paper, complete authorship,
+%% verified against the publisher's own article page (Biometrika 84(1):187-196).
+@article{CatchpoleMorgan_1997, title={Detecting parameter redundancy}, volume={84}, ISSN={1464-3510}, url={http://dx.doi.org/10.1093/biomet/84.1.187}, DOI={10.1093/biomet/84.1.187}, number={1}, journal={Biometrika}, publisher={Oxford University Press (OUP)}, author={Catchpole, E. A. and Morgan, B. J. T.}, year={1997}, month=Mar, pages={187--196} }
 
 
 %%============================================================================
