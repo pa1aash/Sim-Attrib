@@ -132,12 +132,14 @@ def build() -> None:
             transform=("energy of transmission, progression, observation in that order",
                        lambda e: [e[m] for m in mechanisms]))
         left = 0.0
+        short = {"transmission": "trans.", "progression": "progr.", "observation": "obs."}
         for m, share in zip(mechanisms, energy):
             axc.barh(panel, share, left=left, height=0.5, color=style.COMPONENT[m],
                      edgecolor=style.PANEL, linewidth=0.6, zorder=2)
             if share > 0.12:
-                axc.text(left + share / 2, panel, f"{share:.2f}", ha="center", va="center",
-                         fontsize=style.SIZE_SMALL, color=style.PANEL)
+                axc.text(left + share / 2, panel, f"{short[m]}\n{share:.2f}", ha="center",
+                         va="center", fontsize=style.SIZE_SMALL, color=style.PANEL,
+                         linespacing=1.1)
             left += share
         axc.text(0.0, panel - 0.30, c["kind"], ha="left", va="bottom",
                  fontsize=style.SIZE_SMALL, color=style.INK)

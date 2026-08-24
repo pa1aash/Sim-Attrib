@@ -51,9 +51,9 @@ STEM = "figures/fig5_threshold"
 SCRIPT = "src/viz/fig5_threshold.py"
 
 LANES = (
-    ("base", "base", "base families, $K=3$"),
-    ("adversarial", "adversarial", "adversarial families, $K=3$"),
-    ("six_columns", "union", "six-column union, $K=6$"),
+    ("base", "base", "BBB, base families, three columns"),
+    ("adversarial", "adversarial", "AAA, adversarial families, three columns"),
+    ("six_columns", "union", "union, six columns"),
 )
 
 CAPTION = (

@@ -1,40 +1,36 @@
-"""Figure 6 -- the MMC composition's acceptance probability collapsing to zero.
+"""Figure -- the MMC composition's acceptance probability collapsing to zero.
+
+REDESIGNED session G11 (T2-8), split into two panels per an external adversarial review
+------------------------------------------------------------------------------------------
+The prior single-panel version carried four series (two family assignments x two
+studentisation variants) plus a secondary top axis for the shift-to-noise ratio on the same
+plot. The review found this asked one panel to do two jobs -- "does the gate pass" and "why
+does the gate stop passing" -- and asked for them separated:
+
+* **Left panel: $p_{\\min}(w)$ for the primary case only** (AAA, studentised), with Wilson
+  interval bars and the pre-registered cost gate as reference lines. The plain-vs-studentised
+  comparison this drops is not lost -- it moves to a companion appendix figure
+  (``fig6b_nontermination_variants.pdf``), which is where a reader who wants the robustness
+  check across studentisation choices looks, rather than crowding the headline panel.
+* **Right panel: the mechanism**, the measured nuisance-shift-to-noise ratio against $w$
+  directly (no longer a secondary axis squeezed onto the left panel), with a horizontal
+  reference line at ratio $=1$ and a vertical dashed line at the width where the measured
+  ratio first crosses it -- which is also where the gate (left panel) stops passing.
+
+Upper-bound points (zero acceptances in 100,000 draws) are open triangles with their own
+explicit legend entry, joined to nothing, per the review's request that no line imply
+continuity where nothing was measured. Every text element on this figure is set at 8pt or
+larger -- the venue's general floor is 6pt (``style.SIZE_SMALL``), but this figure's own
+density earned a stricter one from the review, so ``style.SIZE_LABEL`` (8pt) is the smallest
+size used anywhere below.
 
 WHAT THIS FIGURE HAS TO SAY, AND WHAT IT MUST NOT
 ---------------------------------------------------
-It is the paper's negative-result figure. It has to make one thing unambiguous: **at a known
+Unchanged from the single-panel version. It has to make one thing unambiguous: at a known
 parameter point the composition is comfortably affordable, and it stops being affordable at a
-nuisance perturbation far smaller than anyone would call a nuisance.** Everything else on the
-page is in service of that.
-
-What it must NOT do is read as a cost curve with a budget caption. The obstruction is not
-compute: at a relative half-width of 0.05 the acceptance probability is **zero acceptances in
-100,000 draws**, so the rejection sampler does not terminate and no machine changes that.
-The `p = 0` points are therefore drawn as **upper-bound markers, not as data points**, and
-the axis is cut off below them rather than pretending the curve continues.
-
-THE THREE THINGS MARKED ON IT
-------------------------------
-1. **The known-`theta` point**, `w = 0`, where the worst selection cell holds 23% of null
-   draws. This is the PASS, and it is the only one in the whole analysis.
-2. **The pre-registered cost gate.** `audit/MMC_COMPOSITION_SPEC.md` §4 registered
-   `M x N / p_sel <= 1e8` before `p_sel` existed, with `M` and `N` given as *ranges*. So the
-   gate is not one line but a **band**: above it every declared `(M, N)` corner passes, below
-   it every corner fails, and inside it the gate is undecided by the specification's own
-   declared numbers. Drawing it as a single line would hide that, and the SPLIT verdict is a
-   fact about the specification worth showing.
-3. **The measured upper bound at ±5%**, which is the number the cost floor of 2.6e9 draws is
-   computed from.
-
-THE SECOND AXIS IS THE MECHANISM
----------------------------------
-The top axis carries the **measured** nuisance-shift-to-noise ratio at each swept width --
-median `||E[z]||` over the design divided by `sqrt(d)`, the magnitude of a single null draw's
-normalised discrepancy. It is not a rescaling of the bottom axis: the values are read from the
-results file at the widths they were measured at. It is on the page because it is the
-transportable part of the finding. The gate stops passing where that ratio crosses one, and
-**that crossing is a one-line check anybody holding a different simulator can run before
-attempting this composition on it.**
+nuisance perturbation far smaller than anyone would call a nuisance. The `p = 0` points are
+upper-bound markers, not data points, and the left axis is not extended below them to imply a
+value that was not measured.
 
 Sources: ``results/boundary_sweep.yaml`` for the sweep and ``results/cost_gate.yaml`` for the
 gate's own corner flip points. Nothing is computed here.
@@ -58,32 +54,27 @@ STEM = "figures/fig6_nontermination"
 SCRIPT = "src/viz/fig6_nontermination.py"
 
 PRIMARY = "AAA|studentised"
-SERIES = (
-    ("AAA|studentised", "adversarial", 0, 1.5, "AAA, studentised  (primary)"),
-    ("BBB|studentised", "base", 0, 1.5, "BBB, studentised"),
-    ("AAA|plain", "adversarial", 2, 0.9, "AAA, plain"),
-    ("BBB|plain", "base", 2, 0.9, "BBB, plain"),
-)
 
 CAPTION = (
-    "Acceptance probability of the composition's rejection sampler as a function of "
-    "nuisance-parameter distortion magnitude. The plotted quantity is $p_{\\min}(w)$, the "
-    "minimum over a 42-point design on a relative box of half-width $w$ about $\\theta_0$ and "
-    "over the $K$ selection cells -- the quantity the specification's own cost model is "
-    "governed by. Error bars are 95\\% Wilson intervals; downward triangles are widths at "
-    "which no draw in 100{,}000 entered the observed cell, plotted at the interval's upper "
-    "limit because they are bounds and not measurements. The shaded band is the "
-    "pre-registered cost gate of $10^8$ simulator draws, which is a band rather than a line "
-    "because the specification declares $M$ and $N$ as ranges: above it every declared "
-    "$(M,N)$ corner passes, below it every corner fails, and inside it the gate is undecided "
-    "by the specification's own numbers. At a known $\\theta$ the worst cell holds 23\\% of "
-    "null draws and one test costs $4.2\\times10^5$ to $4.3\\times10^7$ draws -- a "
-    "comfortable pass. The gate still passes at every corner only out to a $\\pm 0.5\\%$ box, "
-    "and at $\\pm 5\\%$ the acceptance probability is zero to a 95\\% upper bound of "
-    "$3.84\\times10^{-5}$: the sampler does not terminate, and the cost is unbounded rather "
-    "than large. The top axis gives the measured ratio of nuisance shift to observation "
-    "noise at each width; the gate stops passing where it crosses one, which is the "
-    "transportable form of the finding."
+    "Left: acceptance probability $p_{\\min}(w)$ of the composition's rejection sampler for "
+    "the primary case (AAA, studentised) as a function of nuisance-parameter distortion "
+    "magnitude, minimised over the pre-registered 42-point design (32 corners plus 10 axis "
+    "endpoints of the relative box of half-width $w$ about $\\theta_0$) and over the $K=3$ "
+    "selection cells. Error bars are 95\\% Wilson intervals; the open triangle at $w=0.05$ is "
+    "an upper bound (95\\% Wilson limit), not a measurement -- zero draws in 100{,}000 entered "
+    "the observed cell there, so the true value could be anywhere at or below the plotted "
+    "point, and it is joined to nothing. The shaded band is the pre-registered cost gate "
+    "$M \\times N / p \\leq 10^8$ simulator draws, drawn as a band rather than a line because "
+    "the specification declares $M \\in \\{10^3, 10^4\\}$ and $N \\in \\{99, 999\\}$ as ranges "
+    "rather than single values: above the band every declared $(M,N)$ corner passes, below it "
+    "every corner fails, inside it the gate is undecided by the specification's own numbers. "
+    "The plain-studentisation variant and the BBB assignment are reported in "
+    "Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}), not here. "
+    "Right: the mechanism governing the left panel, on the same $w$ axis -- the measured ratio "
+    "of nuisance-induced shift to a single draw's observation-noise magnitude, "
+    "median $\\|E[z]\\|/\\sqrt{d}$ over the design. The horizontal line marks ratio $=1$; the "
+    "vertical dashed line marks the swept width at which the measured ratio first exceeds it, "
+    "which coincides with where the left panel's gate stops passing."
 )
 
 
@@ -106,7 +97,6 @@ def build() -> None:
                    lambda rs: [r["nuisance_shift_norm_of_mean_z"]["median_over_noise"]
                                for r in rs]))
 
-    # The gate band: the p_sel at which the cheapest and dearest declared (M, N) corners flip.
     corners = gate["cost_floor_theta_known"][PRIMARY]["corners"]
     flips = prov.plotted(
         "gate corner flip points", [c["p_sel_at_which_this_corner_flips"] for c in corners],
@@ -115,120 +105,115 @@ def build() -> None:
                    lambda cs: [c["p_sel_at_which_this_corner_flips"] for c in cs]))
     gate_lo, gate_hi = min(flips), max(flips)
 
-    fig, ax = plt.subplots(figsize=(style.FIG_FULL, 3.05))
+    p0 = prov.plotted(f"{PRIMARY} p at theta_0",
+                      [doc["anchor_theta0"][PRIMARY]["reported_min"]["p_sel"]], SRC,
+                      f"anchor_theta0.{PRIMARY}.reported_min.p_sel")[0]
+    ps = prov.plotted(
+        f"{PRIMARY} p_min per width",
+        [e["by_key"][PRIMARY]["reported_min"]["p_sel"] for e in doc["per_width"]], SRC,
+        "per_width",
+        transform=(f"reported_min.p_sel for {PRIMARY} of each swept row",
+                   lambda rs: [r["by_key"][PRIMARY]["reported_min"]["p_sel"] for r in rs]))
+    hi_ci = [doc["anchor_theta0"][PRIMARY]["reported_min"]["ci95"][1]] + [
+        e["by_key"][PRIMARY]["reported_min"]["ci95"][1] for e in doc["per_width"]]
+    lo_ci = [doc["anchor_theta0"][PRIMARY]["reported_min"]["ci95"][0]] + [
+        e["by_key"][PRIMARY]["reported_min"]["ci95"][0] for e in doc["per_width"]]
+    xs = np.array([0.0] + list(widths))
+    vals = np.array([p0] + list(ps))
+    live = vals > 0
+    c = style.FAMILY["adversarial"]
+
+    fig, (axL, axR) = plt.subplots(1, 2, figsize=(style.FIG_FULL, 2.85))
+
+    # ---- left panel: p_min(w), primary case only ------------------------------------------
     ylo, yhi = 1.2e-6, 1.4
+    axL.axhspan(gate_lo, gate_hi, color=style.FAINT, alpha=0.34, linewidth=0, zorder=0)
+    axL.axhline(gate_lo, color=style.RULE, linewidth=0.7, linestyle=(0, (4, 1.6)), zorder=1.2)
+    axL.axhline(gate_hi, color=style.RULE, linewidth=0.7, linestyle=(0, (4, 1.6)), zorder=1.2)
+    axL.plot(xs[live], vals[live], color=c, linewidth=1.5, marker="o", markersize=3.6,
+             markeredgewidth=0, label="$p_{\\min}(w)$, measured", zorder=4)
+    axL.errorbar(xs[live], vals[live],
+                yerr=[vals[live] - np.array(lo_ci)[live], np.array(hi_ci)[live] - vals[live]],
+                fmt="none", ecolor=c, elinewidth=0.9, capsize=1.8, zorder=4)
+    first_bound = True
+    for x, hi in zip(xs[~live], np.array(hi_ci)[~live]):
+        axL.plot([x], [hi], marker="v", markersize=5.2, markerfacecolor=style.PANEL,
+                 markeredgecolor=c, markeredgewidth=1.0, zorder=5,
+                 label="upper bound (0 acceptances in 100,000)" if first_bound else None)
+        first_bound = False
 
-    ax.axhspan(gate_lo, gate_hi, color=style.FAINT, alpha=0.34, linewidth=0, zorder=0)
-    ax.axhline(gate_lo, color=style.RULE, linewidth=0.7, linestyle=(0, (4, 1.6)), zorder=1.2)
-    ax.axhline(gate_hi, color=style.RULE, linewidth=0.7, linestyle=(0, (4, 1.6)), zorder=1.2)
-
-    for key, colour_key, dash_i, lw, label in SERIES:
-        p0 = prov.plotted(f"{key} p at theta_0",
-                          [doc["anchor_theta0"][key]["reported_min"]["p_sel"]], SRC,
-                          f"anchor_theta0.{key}.reported_min.p_sel")[0]
-        ps = prov.plotted(
-            f"{key} p_min per width",
-            [e["by_key"][key]["reported_min"]["p_sel"] for e in doc["per_width"]], SRC,
-            "per_width",
-            transform=(f"reported_min.p_sel for {key} of each swept row",
-                       lambda rs, k=key: [r["by_key"][k]["reported_min"]["p_sel"]
-                                          for r in rs]))
-        hi_ci = [doc["anchor_theta0"][key]["reported_min"]["ci95"][1]] + [
-            e["by_key"][key]["reported_min"]["ci95"][1] for e in doc["per_width"]]
-        lo_ci = [doc["anchor_theta0"][key]["reported_min"]["ci95"][0]] + [
-            e["by_key"][key]["reported_min"]["ci95"][0] for e in doc["per_width"]]
-        xs = np.array([0.0] + list(widths))
-        vals = np.array([p0] + list(ps))
-        live = vals > 0
-        c = style.FAMILY[colour_key]
-
-        ax.plot(xs[live], vals[live], color=c, linewidth=lw,
-                dashes=style.DASHES[dash_i][1] or (), marker="o", markersize=3.2,
-                markeredgewidth=0, label=label, zorder=4 if lw > 1 else 3,
-                alpha=1.0 if lw > 1 else 0.75)
-        if key == PRIMARY:
-            ax.errorbar(xs[live], vals[live],
-                        yerr=[vals[live] - np.array(lo_ci)[live],
-                              np.array(hi_ci)[live] - vals[live]],
-                        fmt="none", ecolor=c, elinewidth=0.8, capsize=1.6, zorder=4)
-        for x, hi in zip(xs[~live], np.array(hi_ci)[~live]):
-            ax.plot([x], [hi], marker="v", markersize=4.2, markerfacecolor=style.PANEL,
-                    markeredgecolor=c, markeredgewidth=0.9, zorder=5)
-
-    # ---- the three marks -----------------------------------------------------------------
     p_known = doc["anchor_theta0"][PRIMARY]["reported_min"]["p_sel"]
-    ax.annotate(f"known $\\theta$: $p={p_known:.4g}$\n(the only PASS)",
-                xy=(0.0, p_known), xytext=(0.0035, 0.62),
-                fontsize=style.SIZE_SMALL, color=style.INK, ha="left", va="center",
+    axL.annotate(f"known $\\theta$: $p={p_known:.3g}$\n(the only PASS)",
+                xy=(0.0, p_known), xytext=(0.004, 0.5),
+                fontsize=style.SIZE_LABEL, color=style.INK, ha="left", va="center",
                 arrowprops=dict(arrowstyle="-", lw=0.5, color=style.INK, shrinkA=1, shrinkB=3))
     w005 = next(e for e in doc["per_width"] if e["width"] == 0.05)
     bound = w005["by_key"][PRIMARY]["reported_min"]["ci95"][1]
-    ax.annotate(f"$\\pm5\\%$: 0 acceptances in 100,000 draws.\n"
-                f"The triangles are bounds ($\\leq${bound:.2e}), not values.",
-                xy=(0.05, bound), xytext=(0.0505, 1.6e-6),
-                fontsize=style.SIZE_SMALL, color=style.INK, ha="right", va="bottom",
+    axL.annotate(f"$\\leq${bound:.1e}",
+                xy=(0.05, bound), xytext=(0.0345, bound * 4.2),
+                fontsize=style.SIZE_LABEL, color=style.INK, ha="left", va="center",
                 arrowprops=dict(arrowstyle="-", lw=0.5, color=style.INK, shrinkA=1, shrinkB=4))
-    ax.annotate("pre-registered gate: $M\\!\\times\\!N/p \\leq 10^{8}$\n"
-                "(band: undecided by the declared $M$, $N$)",
-                xy=(0.0335, np.sqrt(gate_lo * gate_hi)), ha="center", va="center",
-                fontsize=style.SIZE_SMALL, color=style.RULE)
-    ax.text(0.0505, gate_hi * 1.6, "every declared corner PASSES", ha="right", va="bottom",
-            fontsize=style.SIZE_SMALL, color=style.RULE)
-    ax.text(0.0505, gate_lo / 1.8, "every declared corner FAILS", ha="right", va="top",
-            fontsize=style.SIZE_SMALL, color=style.RULE)
+    axL.text(0.051, gate_hi * 1.7, "PASSES", ha="right", va="bottom",
+             fontsize=style.SIZE_LABEL, color=style.RULE)
+    axL.text(0.051, gate_lo / 2.0, "FAILS", ha="right", va="top",
+             fontsize=style.SIZE_LABEL, color=style.RULE)
+    axL.text(0.0018, np.sqrt(gate_lo * gate_hi), "gate:\n$MN/p\\!\\leq\\!10^8$",
+             ha="left", va="center", fontsize=style.SIZE_LABEL, color=style.RULE, linespacing=1.2)
 
-    ax.set_yscale("log")
-    ax.set_xlim(-0.0018, 0.0525)
-    ax.set_ylim(ylo, yhi)
-    ax.set_xlabel("relative nuisance half-width $w$ on all five coordinates "
-                  r"($\beta,\gamma,\rho,I_0,\sigma_{\mathrm{obs}}$)")
-    ax.set_ylabel("acceptance probability $p_{\\min}(w)$\n(worst cell, worst design point)")
-    handles, labels = ax.get_legend_handles_labels()
+    axL.set_yscale("log")
+    axL.set_xlim(-0.0018, 0.0535)
+    axL.set_ylim(ylo, yhi)
+    axL.set_xlabel("relative nuisance half-width $w$", fontsize=style.SIZE_LABEL)
+    axL.set_ylabel("$p_{\\min}(w)$  (worst cell, worst design point)",
+                   fontsize=style.SIZE_LABEL)
+    axL.set_title("(a)  acceptance probability, primary case", fontsize=style.SIZE_TITLE, pad=3)
+    axL.tick_params(labelsize=style.SIZE_LABEL)
+    axL.legend(loc="lower left", fontsize=style.SIZE_LABEL, borderpad=0.3, handlelength=1.6,
+              bbox_to_anchor=(-0.02, -0.03))
 
-    # The first measured width at which the nuisance shift exceeds the observation noise.
-    # Measured, not interpolated: it is a swept width and its ratio is a recorded number.
+    # ---- right panel: the mechanism ---------------------------------------------------------
+    axR.plot(widths, shift, color=style.INK, linewidth=1.3, marker="s", markersize=3.6,
+             markeredgewidth=0, zorder=3)
+    axR.axhline(1.0, color=style.RULE, linewidth=0.9, linestyle=(0, (4, 1.6)), zorder=1)
+    axR.text(0.0505, 1.35, "shift $=$ noise", ha="right", va="bottom",
+             fontsize=style.SIZE_LABEL, color=style.RULE)
     cross_i = next(i for i, s in enumerate(shift) if s > 1.0)
-    ax.axvline(widths[cross_i], color=style.RULE, linewidth=0.7, linestyle=(0, (1, 1.4)),
+    axR.axvline(widths[cross_i], color=style.RULE, linewidth=0.7, linestyle=(0, (1, 1.4)),
                zorder=1.1)
-    ax.annotate("nuisance shift first exceeds\nobservation noise",
-                xy=(widths[cross_i], 1.6e-6), xytext=(3, 0), textcoords="offset points",
-                ha="left", va="bottom", fontsize=style.SIZE_SMALL, color=style.RULE)
+    axR.annotate("measured crossing --\ngate stops passing here",
+                xy=(widths[cross_i], max(shift) * 0.55),
+                xytext=(widths[cross_i] + 0.004, max(shift) * 0.42),
+                fontsize=style.SIZE_LABEL, color=style.RULE, ha="left", va="center",
+                arrowprops=dict(arrowstyle="-", lw=0.5, color=style.RULE, shrinkA=1, shrinkB=3))
+    axR.set_xlim(-0.0018, 0.0535)
+    axR.set_ylim(0, max(shift) * 1.12)
+    axR.set_xlabel("relative nuisance half-width $w$", fontsize=style.SIZE_LABEL)
+    axR.set_ylabel("shift $\\div$ noise,  median $\\|E[z]\\|/\\sqrt{d}$",
+                   fontsize=style.SIZE_LABEL)
+    axR.set_title("(b)  why: nuisance shift vs.\\ observation noise",
+                  fontsize=style.SIZE_TITLE, pad=3)
+    axR.tick_params(labelsize=style.SIZE_LABEL)
 
-    top = ax.secondary_xaxis("top")
-    # Only the widths far enough apart to carry a legible label; the omitted ones are the
-    # three smallest, where the ratio is well under 1 and nothing turns on its exact value.
-    shown = [i for i, w in enumerate(widths) if w >= 0.005]
-    top.set_xticks([widths[i] for i in shown])
-    top.set_xticklabels([f"{shift[i]:.2g}" for i in shown], fontsize=style.SIZE_SMALL)
-    top.set_xlabel(r"measured nuisance shift $\div$ observation noise, "
-                   r"median $\|E[z]\|/\sqrt{d}$", fontsize=style.SIZE_SMALL, labelpad=2)
-    top.tick_params(length=2)
-
-    fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=style.SIZE_TICK,
-               handlelength=1.8, columnspacing=1.5, bbox_to_anchor=(0.5, 0.0))
-    fig.subplots_adjust(left=0.115, right=0.995, bottom=0.235, top=0.855)
+    fig.subplots_adjust(left=0.09, right=0.98, bottom=0.19, top=0.90, wspace=0.32)
 
     out = style.save(fig, REPO / STEM, script=SCRIPT)
     plt.close(fig)
     prov.note(
-        "The top axis is NOT a rescaling of the bottom one. Its tick positions are the swept "
-        "widths and its labels are the shift-to-noise ratios measured at those widths, read "
-        "from the results file. The relation is close to linear but not exactly so (about 153 "
-        "per unit width at the bottom of the range and 168 at the top), and a linear "
-        "secondary axis would have been wrong at the top end.")
+        "Split into two panels in session G11 (T2-8): the prior single-panel version's "
+        "plain-vs-studentised comparison and secondary top axis are separated out, the former "
+        "to fig6b_nontermination_variants (appendix), the latter to this figure's own right "
+        "panel with its own primary x-axis rather than a rescaled secondary one.")
     prov.note(
-        "Widths at which the acceptance probability is exactly zero are drawn as downward "
-        "triangles at the 95% Wilson upper limit and are joined to nothing. They are bounds. "
-        "Joining them into the curve would draw a cost where the finding is non-termination.")
+        "Widths at which the acceptance probability is exactly zero are drawn as an open "
+        "downward triangle at the 95% Wilson upper limit, with its own legend entry, and are "
+        "joined to nothing. They are bounds, not measurements.")
     prov.note(
         "The gate band's edges are the p_sel at which the cheapest and dearest declared (M,N) "
         f"corners flip, {min(flips):.5g} and {max(flips):.5g}, read from "
         f"{SRC_GATE} rather than recomputed here.")
     prov.note(
         "docs/DECISIONS.md D-16 dropped the composition before the sweep behind this figure "
-        "was designed. Nothing on this page re-prices that decision, and the widths at which "
-        "the gate would have passed are drawn because they make the negative result specific, "
-        "not because they reopen it.")
+        "was designed. Nothing on this page re-prices that decision.")
     prov.write(REPO / STEM, caption=CAPTION, style_facts=facts, outputs=out)
     print(f"wrote {STEM}.pdf")
 

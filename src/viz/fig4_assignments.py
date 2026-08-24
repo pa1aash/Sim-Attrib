@@ -118,7 +118,7 @@ def build() -> None:
         ax.annotate(r"registered $\kappa_{\max}=100$", xy=(kmax, 1.0),
                     xycoords=("data", "axes fraction"), xytext=(3, -1),
                     textcoords="offset points", ha="left", va="top",
-                    fontsize=style.SIZE_SMALL, color=style.RULE)
+                    fontsize=style.SIZE_LABEL, color=style.RULE)
         ax.spines["left"].set_visible(False)
         ax.tick_params(axis="y", length=0)
 

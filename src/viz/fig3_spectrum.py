@@ -110,7 +110,9 @@ def build() -> None:
     ncol = sb["six_columns"]["n_columns"]
     ax.text(0.985, 0.97,
             f"union: rank {rank} of {ncol}\n"
-            r"($\sigma_5,\sigma_6$ fall below $\tau$)",
+            r"$\tau$ falls between $\sigma_4$ and $\sigma_5$"
+            "\n"
+            r"($\sigma_5,\sigma_6$ below $\tau$)",
             transform=ax.transAxes, ha="right", va="top",
             fontsize=style.SIZE_TICK, color=style.FAMILY["union"], linespacing=1.25)
     fig.tight_layout(pad=0.2)

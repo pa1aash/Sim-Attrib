@@ -292,9 +292,11 @@ $8.0$ for BBB, both still rank $3$ of $3$).
   \includegraphics[width=0.62\linewidth]{../figures/fig4_assignments.pdf}
   \caption{Condition number $\kappa$ under all eight component-wise family assignments
   (three-letter code: transmission/progression/observation, B~base, A~adversarial), for $S_B$
-  (left) and $S_A$ (right), against the pre-registered ceiling $\kappa_{\max}=100$ (dashed).
-  $S_B$ separates under all eight; $S_A$ splits exactly on the transmission family, shown as a
-  control rather than a result -- it rules out an instrument that always reports separable.}
+  (left) and $S_A$ (right), on a shared $\kappa$ axis, against the pre-registered ceiling
+  $\kappa_{\max}=100$ (dashed). $S_B$ separates under all eight, $\kappa$ from $6.628$ to
+  $65.64$; $S_A$ splits exactly on the transmission family ($\kappa$ from $5.186$ when
+  separable to $875.2$ at its worst), shown as a control rather than a result -- it rules out
+  an instrument that always reports separable.}
   \label{fig:assignments}
 \end{figure}
 
@@ -331,9 +333,12 @@ conflated.)
   \caption{Normalised singular-value spectrum of $S_B$'s summary Jacobian under the base and
   adversarial three-column families and their six-column union, against the pre-registered
   tolerance $\tau=10^{-2}$ (dashed). Both three-column spectra clear $\tau$ by an order of
-  magnitude; the six-column union's $\tau$ falls inside the spectrum, between $\sigma_4$ and
-  $\sigma_5$ (rank 4 of 6, $\kappa=629$). Every value shown is resolved to within 2.3\% across
-  the step-size plateau, so this is a property of the matrix, not the estimator.}
+  magnitude; the six-column union's $\tau$ falls inside the spectrum, between $\sigma_4$
+  (above $\tau$, counted toward the rank) and $\sigma_5$ (below $\tau$, the first of the two
+  near-null directions) -- rank 4 of 6, $\kappa=629$. Every value shown is \emph{resolved}:
+  the ratio of its largest to smallest estimate across the six swept step sizes is at most
+  $1.023$ (within $2.3\%$), so the rank deficiency is a property of the matrix, not of the
+  estimator.}
   \label{fig:spectrum}
 \end{figure}
 
@@ -397,13 +402,22 @@ most transportable part of this result.
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.58\linewidth]{../figures/fig6_nontermination.pdf}
-  \caption{Minimum acceptance probability $p_{\min}(w)$ of the composition's rejection sampler
-  over a 42-point nuisance design at relative half-width $w$, with 95\% Wilson intervals;
-  downward triangles mark widths where zero draws in 100{,}000 entered the observed cell
-  (bounds, not measurements, and joined to nothing). The shaded band is the pre-registered
-  $10^8$-draw cost gate. The top axis gives the measured nuisance-shift-to-noise ratio; the
-  gate stops passing where that ratio crosses one.}
+  \includegraphics[width=\linewidth]{../figures/fig6_nontermination.pdf}
+  \caption{Left: acceptance probability $p_{\min}(w)$ of the composition's rejection sampler
+  for the primary case (AAA, studentised) as a function of nuisance-parameter distortion
+  magnitude, minimised over the pre-registered 42-point design (32 corners plus 10 axis
+  endpoints of the relative box of half-width $w$ about $\theta_0$) and over the $K=3$
+  selection cells. Error bars are 95\% Wilson intervals; the open triangle at $w=0.05$ is an
+  upper bound (95\% Wilson limit), not a measurement, joined to nothing. The shaded band is
+  the pre-registered cost gate $M \times N / p \leq 10^8$ simulator draws, a band rather than
+  a line because the specification declares $M \in \{10^3, 10^4\}$ and $N \in \{99, 999\}$ as
+  ranges: above it every declared $(M,N)$ corner passes, below it every corner fails. The
+  plain-studentisation variant and the BBB assignment are in
+  Figure~\ref{fig:nontermination-variants} (Appendix~\ref{sec:appendix}), not here. Right: the
+  mechanism, on the same $w$ axis -- the measured ratio of nuisance-induced shift to a single
+  draw's observation-noise magnitude. The horizontal line marks ratio $=1$; the vertical
+  dashed line marks the width at which the measured ratio first exceeds it, which coincides
+  with where the left panel's gate stops passing.}
   \label{fig:nontermination}
 \end{figure}
 
@@ -451,11 +465,13 @@ untested.
 \section{Appendix}
 \label{sec:appendix}
 
-\subsection{The threshold-sensitivity sweep and the six-column confound, in full}
+\subsection{The threshold-sensitivity sweep, the six-column confound, and the MMC variant
+comparison, in full}
 
-Moved here from the main text for space; both are referenced from
+The first two are moved here from the main text for space; both are referenced from
 Section~\ref{sec:experiments} and neither carries a claim not already stated in the main
-text's prose.
+text's prose. The third is the plain-studentisation and BBB-assignment comparison
+Figure~\ref{fig:nontermination}'s main-text panel omits in favour of the primary case alone.
 
 \begin{figure}[h]
   \centering
@@ -479,6 +495,18 @@ text's prose.
   energy in either -- a drifting removal hazard is nearly indistinguishable from a constant
   hazard change combined with a drifting reporting rate.}
   \label{fig:confound}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.62\linewidth]{../figures/fig6b_nontermination_variants.pdf}
+  \caption{Acceptance probability $p_{\min}(w)$ across all four (family assignment,
+  studentisation variant) combinations the composition was measured under, on the same
+  42-point design and axes as Figure~\ref{fig:nontermination}'s left panel. The primary case
+  (AAA, studentised) is reproduced here for comparison; the other three collapse the same
+  way, generally sooner. Open triangles are 95\% Wilson upper bounds at zero measured
+  acceptances, not values, and are joined to nothing.}
+  \label{fig:nontermination-variants}
 \end{figure}
 
 \FloatBarrier
