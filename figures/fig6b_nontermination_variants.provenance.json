@@ -2,24 +2,11 @@
   "figure": "fig6b_nontermination_variants",
   "generated_by": {
     "script": "src/viz/fig6b_nontermination_variants.py",
-    "commit": "457397b00f5b72705ec7fdcf72b526da8cda4d9b",
-    "dirty": true,
-    "dirty_paths": [
-      "figures/fig3_spectrum.pdf",
-      "figures/fig3_spectrum.preview.png",
-      "figures/fig3_spectrum.provenance.json",
-      "figures/fig4_assignments.pdf",
-      "figures/fig4_assignments.preview.png",
-      "figures/fig4_assignments.provenance.json",
-      "figures/fig5_threshold.pdf",
-      "figures/fig5_threshold.preview.png",
-      "figures/fig5_threshold.provenance.json",
-      "figures/fig6_nontermination.pdf",
-      "figures/fig6_nontermination.preview.png",
-      "figures/fig6_nontermination.provenance.json"
-    ],
-    "started": "2026-08-25T00:58:17+05:30",
-    "finished": "2026-08-25T00:58:21+05:30"
+    "commit": "375b994873b16d8707f653d2efd2761079ac0450",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-25T01:01:41+05:30",
+    "finished": "2026-08-25T01:01:45+05:30"
   },
   "caption": "Acceptance probability $p_{\\min}(w)$ across all four (family assignment, studentisation variant) combinations the composition was measured under, on the same 42-point design and axes as Figure~\\ref{fig:nontermination}'s left panel. The primary case (AAA, studentised) is reproduced here for comparison; the other three collapse the same way, generally sooner. Open triangles are 95\\% Wilson upper bounds at zero measured acceptances, not values, and are joined to nothing.",
   "sources": [
