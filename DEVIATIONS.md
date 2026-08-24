@@ -622,3 +622,48 @@ pattern is broader than flags: **a file that documents what should be true is no
 file being true**, and this is the fourth time in this project that gap specifically caused a
 near-miss rather than an incident, only because a downstream session needed the artefact to
 actually work and checked before using it.
+
+---
+
+## D-19 — A documented byline correction was recorded but never enforced at the BibTeX level, and the paper rendered the wrong name for one session before anyone read the compiled output
+
+**Session G9, 2026-08-24.** Found during Phase 1's adversarial review of `paper/main.tex` as an
+argument (`audit/G9_PAPER_ADVERSARIAL_REVIEW.md` §1.5), specifically by compiling the paper and
+reading the rendered citations rather than trusting `audit/BIBLIOGRAPHY.bib`'s source text.
+
+**What was wrong.** `audit/BIBLIOGRAPHY.bib`'s comment above the
+`montel2025testsmodelmisspecificationsimulationbased` entry, six sessions old, already states:
+*"CORRECTED: 'Anau Montel' is a compound surname and must not be split."* The full name `Noemi
+Anau Montel` was entered correctly in the `author` field. **The comment's own correction was
+never enforced.** BibTeX's default name-parsing splits unprotected multi-word surnames on
+whitespace and keeps only the last token for short-form citations (`\citet`, the `bibitem`
+label); the full reference-list entry rendered `Noemi Anau Montel` correctly, but every in-text
+citation in `paper/main.tex` (drafted in G8, unnoticed through G8's own verification pass and
+this session's Phase 0) rendered as **"Montel et al. [2025]"**, silently dropping "Anau."
+
+**Why this is the same class of defect as D-18, one layer down.** D-18 found citations that
+were named as correct but never actually fetched. This is a citation that was fetched
+correctly, corrected accurately in a comment, and then not enforced at the level that actually
+determines what a reader sees. Three sessions now (G3's plan-level bylines, G8's Catchpole
+fix, this one) have caught a version of "the record says the right thing and the rendered
+output doesn't" — and in every case, the gap was found only because a downstream task (drafting
+prose, checking citations, or in this case reading the compiled PDF rather than the `.bib`
+source) needed the artefact to actually be right.
+
+**What was done.** `author={Noemi Anau Montel and ...}` changed to
+`author={Noemi {Anau Montel} and ...}`, protecting the compound surname as one token for
+BibTeX's parser without altering the recorded name. Verified by recompiling: in-text now reads
+"Anau Montel et al. [2025]"; the `bibitem` short-form label now reads `{Anau Montel} et~al.`.
+Every other citation in the paper was then spot-checked against its actual rendered form
+(not just its `.bib` source) — Kahl, Sain and Massey, Catchpole and Morgan, Brynjarsdóttir and
+O'Hagan, Cintrón-Arias, Moré and Wild, Dufour, Gutenkunst, Freidling — and all render correctly.
+Montel was the only compound (space-containing) surname in the bibliography, consistent with
+it being the only instance of this specific failure mode.
+
+**The countermeasure, stated so it can be checked next time.** A `.bib` file can be internally
+correct and still render wrong; the only check that actually catches this is compiling the
+document and reading the output, not reading the source. This project has now been burned by
+"the source looks right" three times. The standing habit this suggests — check every check in a
+state where it is expected to give the opposite answer (D-8's rule) — has an analogue here that
+was not yet formalized before this session: **before trusting a bibliography entry, render it
+and read the rendering**, not the field.
