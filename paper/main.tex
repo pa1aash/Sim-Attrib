@@ -23,6 +23,7 @@
 \usepackage{microtype}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{enumitem}
 
 % Title decided by the operator, G9 (audit/S8_REPORT.md P-2 resolved): the
 % diagnostics-and-limits alternative G8 drafted and did not substitute. No
@@ -74,77 +75,71 @@ without checking it first is reporting a number the data may not support.
 
 This paper checks that precondition, using established tools rather than proposing new ones,
 on a canonical case -- a three-component compartmental epidemic simulator, with transmission,
-progression, and observation as the components -- and reports four findings. \textbf{Where
-attribution is identifiable}: a rank-and-condition-number screen on this simulator's summary
-Jacobian, under a realistic adversarial threat model rather than only a favorable one, shows
-one natural summary set separates all three components under every one of eight distortion
-assignments tried (Section~\ref{sec:experiments}). \textbf{Where it stops being identifiable}:
-the same measurement locates exactly where this breaks, once a single component carries two
-distortion parameters at once, on a specific and interpretable confound rather than an
+progression, and observation as the components -- and reports four findings, none a claim about
+a new method (Section~\ref{sec:background}). \textbf{Where attribution is identifiable}: a
+rank-and-condition-number screen, under a realistic adversarial threat model rather than only a
+favorable one, shows one summary set separates all three components under every one of eight
+distortion assignments tried (Section~\ref{sec:experiments}). \textbf{Where it stops being
+identifiable}: the same measurement locates exactly where this breaks, once a component carries
+two distortion parameters at once, on a specific, interpretable confound rather than an
 estimator, threshold, or structural artifact (Section~\ref{sec:experiments}). \textbf{Where a
-natural selective-inference construction on top of this fails}: composing established
-exact-inference tools gives a procedure that controls the selective type-I error at the
-nominal level, conservatively, without characterizing the selection event analytically; we
-evaluate it directly and find it comfortably affordable at
-a known parameter but unable to terminate once the nuisance parameters are only known within a
-realistic neighborhood (Section~\ref{sec:negative-result}). \textbf{Why, in a form that
-transports}: the nuisance-to-noise ratio governing that failure is predicted before it is
-measured, and the prediction holds, giving a check a reader with a different simulator can run
-before attempting the same construction (Section~\ref{sec:negative-result}).
+natural selective-inference construction on this fails}: composing established exact-inference
+tools gives a procedure controlling the selective type-I error at the nominal level,
+conservatively; we find it comfortably affordable at a known parameter but unable to terminate
+once the nuisance parameters are only known within a realistic neighborhood
+(Section~\ref{sec:negative-result}). \textbf{Why, transportably}: the nuisance-to-noise ratio
+governing that failure is predicted before it is measured, and the prediction holds
+(Section~\ref{sec:negative-result}).
 
-None of these four findings is a claim about a new method (Section~\ref{sec:background}). This
-is a paper about where component-level misspecification attribution is, and is not,
-identifiable for a canonical simulator under a realistic threat model, and about why a natural
-construction for the identifiable case has a boundary that can be predicted rather than only
-discovered.
+This is a paper about where component-level misspecification attribution is, and is not,
+identifiable under a realistic threat model, and why a natural construction for the
+identifiable case has a boundary that can be predicted rather than only discovered.
 
 \section{Background and related work}
 \label{sec:background}
 
-\paragraph{Detecting misspecification versus attributing it.}
-SBI has moved from asking whether a simulator is misspecified to asking where.
+\begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=*]
+\item \textbf{Detecting misspecification versus attributing it.} SBI has moved from asking
+whether a simulator is misspecified to asking where.
 \citet{montel2025testsmodelmisspecificationsimulationbased} give a family of tests, from local
 distortions to global model checks, for detecting misspecification of an SBI posterior; their
 global test corrects for multiplicity via a trials-corrected $p$-value on the \emph{minimum} of
 per-summary statistics, controlling the global null that the simulator is correctly specified
-\emph{somewhere} rather than the identity of the arg\,min, and their own presentation is framed
-as detection rather than component-level attribution. We take this as the baseline our
-diagnostic sits downstream of: before any attribution procedure runs at all, it is worth asking
-whether the summaries in hand can distinguish the components being attributed to.
-
-\paragraph{The identifiability precondition.}
-That question has an exact answer in a closely related setting. \citet{Kahl_2019} show that
-per-component input reconstruction in a dynamic system is identifiable if and only if a
-structural sensitivity map has full column rank, resting on the invertibility condition of
-\citet{Sain_1969}; \citet{CatchpoleMorgan_1997} give the general parameter-redundancy
-detection framework this instantiates, and \citet{Brynjarsd_ttir_2014} frame the broader
-identifiability problem for model discrepancy in computer-model calibration. We treat all four
-as an established precondition, not a result of this paper: our diagnostic decides whether the
-precondition holds for a given simulator and summary set, not whether it is the right one.
-
-\paragraph{Diagnostic tooling, applied rather than proposed.}
-Screening a sensitivity matrix's rank and condition number to decide whether parameters are
-jointly recoverable is not new; \citet{Cintr_n_Arias_2009} apply exactly this screen to a
-compartmental epidemic model, the class we use in Section~\ref{sec:experiments}. Because our
-sensitivity matrix is simulation-estimated rather than symbolic, we also need to know how far
-a finite-difference estimate can be trusted under simulation noise; \citet{Mor__2011} and
-\citet{Mor__2012} give the relevant noise-estimation and near-optimal-step-size results, of
-which our step-size sweep (Section~\ref{sec:method}) is a coarser, pre-registered substitute.
-Whether the resulting spectrum has a clean gap or decays smoothly across many decades -- in
-which case any rank tolerance is partly a statement about where the analyst put it -- is the
-objection \citet{Gutenkunst_2007} raise for sensitivity spectra in systems-biology models
-generally; Section~\ref{sec:experiments} measures rather than assumes an answer.
-
-\paragraph{Exact inference under a composite, simulation-only null.}
+\emph{somewhere} rather than the identity of the arg\,min, and their presentation is framed as
+detection rather than component-level attribution. We take this as the baseline our diagnostic
+sits downstream of: before any attribution procedure runs, it is worth asking whether the
+summaries in hand can distinguish the components being attributed to.
+\item \textbf{The identifiability precondition.} That question has an exact answer in a closely
+related setting. \citet{Kahl_2019} show per-component input reconstruction in a dynamic system
+is identifiable iff a structural sensitivity map has full column rank, resting on the
+invertibility condition of \citet{Sain_1969}; \citet{CatchpoleMorgan_1997} give the general
+parameter-redundancy framework this instantiates, and \citet{Brynjarsd_ttir_2014} frame the
+broader identifiability problem for model discrepancy in computer-model calibration. We treat
+all four as an established precondition, not a result of this paper: our diagnostic decides
+whether the precondition holds for a given simulator and summary set, not whether it is right.
+\item \textbf{Diagnostic tooling, applied rather than proposed.} Screening a sensitivity
+matrix's rank and condition number to decide whether parameters are jointly recoverable is not
+new; \citet{Cintr_n_Arias_2009} apply exactly this screen to a compartmental epidemic model,
+the class we use in Section~\ref{sec:experiments}. Because our sensitivity matrix is
+simulation-estimated rather than symbolic, we also need to know how far a finite-difference
+estimate can be trusted under simulation noise; \citet{Mor__2011} and \citet{Mor__2012} give
+the relevant noise-estimation and near-optimal-step-size results, of which our step-size sweep
+(Section~\ref{sec:method}) is a coarser, pre-registered substitute. Whether the resulting
+spectrum has a clean gap or decays smoothly across many decades -- where any rank tolerance is
+partly a statement about where the analyst put it -- is the objection
+\citet{Gutenkunst_2007} raise for sensitivity spectra in systems-biology models generally;
+Section~\ref{sec:experiments} measures rather than assumes an answer.
+\item \textbf{Exact inference under a composite, simulation-only null.}
 Section~\ref{sec:negative-result} evaluates a natural construction for turning the diagnostic's
 output into a calibrated test: exact finite-sample inference under a null depending on unknown
 nuisance parameters, by maximizing a simulated $p$-value over the nuisance set, is
 \citet{Dufour_2006}'s maximized Monte Carlo test; calibrating a selection event with no
-analytic description, by rejection-sampling the simulator's own null until a replicate lands
-in the observed cell, is available for arbitrary conditioning events following
+analytic description, by rejection-sampling the simulator's own null until a replicate lands in
+the observed cell, is available for arbitrary conditioning events following
 \citet{freidling2026selectiverandomizationinferenceadaptive}. Composing the two lets a
 simulator supply everything both need without further modelling assumptions; we cite both as
 established and evaluate the composition, rather than propose either as new.
+\end{itemize}
 
 \section{Method}
 \label{sec:method}
@@ -154,54 +149,41 @@ Figure~\ref{fig:method} (Appendix~\ref{sec:appendix}) summarizes the procedure b
 \paragraph{Scope assumption, stated first.}
 Throughout this paper we assume each simulator component is misspecified by at most one
 mechanism at a time: every component carries a single one-parameter distortion family, never
-two at once. This is load-bearing rather than a footnote -- Section~\ref{sec:experiments}
-shows what happens once it is dropped -- so we state it before the diagnostic's machinery.
+two at once. This is load-bearing rather than a footnote (Section~\ref{sec:experiments} shows
+what happens once it is dropped), so we state it before the diagnostic's machinery.
 
 \paragraph{The diagnostic.}
 Every ingredient below is prior art, applied rather than proposed (Section~\ref{sec:background}).
 Declare the simulator as $K$ components, each carrying a one-parameter distortion family
 $\delta_k(\cdot\,;\eta_k)$ bit-identical to the base simulator at $\eta_k = 0$. Estimate the
 summary Jacobian $J = \partial s/\partial\eta$ at $\eta=0$ by central differences under common
-random numbers, swept over six decades of step size $h$; without common random numbers the
-finite difference is dominated by simulation noise of order $\sigma/h$ and no stable range of
-$h$ exists, confirmed by a negative control. Summaries are divided by their prior-predictive
-standard deviation and each $\eta_k$ by a fixed relative perturbation scale -- both
-normalizations, and every tolerance below, fixed before any singular value in this paper
-existed. Components are \emph{separable} under a summary set if $J$ has full column rank at
-tolerance $\tau$ and condition number $\kappa \le \kappa_{\max}$; we use $\tau=10^{-2}$ and
-$\kappa_{\max}=1/\tau=100$, chosen from a compute budget -- resolving components to $\kappa$
-costs on the order of $\kappa^2$ replicates, and $\kappa=100$ exhausts this study's budget. A
-singular value varying by more than a factor of two across the step-size plateau is
-\emph{unresolved} and counted toward the rank in neither direction, so the diagnostic can
-report ``not determined at this precision'' as a third outcome.
+random numbers, swept over six decades of step size $h$ (without common random numbers the
+finite difference is dominated by noise of order $\sigma/h$ and no stable range exists,
+confirmed by a negative control). Summaries are divided by their prior-predictive standard
+deviation and each $\eta_k$ by a fixed relative perturbation scale -- both, and every tolerance
+below, fixed before any singular value existed. Components are \emph{separable} if $J$ has full
+column rank at tolerance $\tau$ and condition number $\kappa \le \kappa_{\max}$; we use
+$\tau=10^{-2}$, $\kappa_{\max}=1/\tau=100$, from a compute budget -- resolving components to
+$\kappa$ costs order $\kappa^2$ replicates, and $\kappa=100$ exhausts this study's budget. A
+singular value varying by more than a factor of two across the plateau is \emph{unresolved} and
+counted toward the rank in neither direction, a third outcome distinct from separable/not.
 
 \paragraph{Where separability fails.}
 When the rank condition fails, we report the \emph{equivalence class} named by each near-null
 right singular vector $v$ ($\sigma \le \tau\sigma_1$) rather than a single culprit: component
 $k$ joins if $|v_k|\ge 0.3$, comfortably below both the two-component ($\approx 0.707$) and
-three-component ($\approx 0.577$) confound values. Pairwise coherence is reported for
-interpretation but is not the decision rule -- the coherence consistent with
-$\kappa_{\max}=100$ is $\mu\approx0.9998$, too close to one to be estimable, so we use it only
-to point at which column pair is responsible for a flagged direction. No arrow leaves the
-verdict: the diagnostic decides whether attribution is well posed, and nothing further.
+three-component ($\approx 0.577$) confound values. Coherence is reported for interpretation but
+is not the decision rule -- the coherence consistent with $\kappa_{\max}=100$ is
+$\mu\approx0.9998$, too close to one to estimate, so we use it only to point at which column
+pair is responsible. No arrow leaves the verdict: the diagnostic decides whether attribution is
+well posed, and nothing further.
 
 \section{Experiments}
 \label{sec:experiments}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.74\linewidth]{../figures/fig2_simulator.pdf}
-  \caption{Structure of the three-component compartmental simulator and the point at which
-  each distortion family acts: a deterministic SIR core, an observation chain applying a
-  reporting-delay kernel, a reporting fraction $\rho$, and multiplicative lognormal noise. Each
-  component carries one one-parameter distortion family, bit-identical to the base simulator at
-  $\eta_k=0$; the base and adversarial family sets are shown side by side, the latter designed
-  so all three perturb the epidemic curve's observed growth rate.}
-  \label{fig:simulator}
-\end{figure}
-
 \paragraph{Simulator and summary sets.}
-We apply the diagnostic to a $K=3$ compartmental epidemic simulator (Figure~\ref{fig:simulator}):
+We apply the diagnostic to a $K=3$ compartmental epidemic simulator (Figure~\ref{fig:simulator},
+Appendix~\ref{sec:appendix}):
 transmission, progression, and observation, each carrying one declared distortion family that
 is the base simulator exactly at $\eta_k=0$, under two declared family sets (base and
 adversarial, the latter designed so all three columns perturb the epidemic curve's growth
@@ -227,9 +209,9 @@ $9.881\times$ under the base assignment but only $1.523\times$ under the tightes
 (Figure~\ref{fig:threshold}, Appendix~\ref{sec:appendix}), so doubling $\tau$ -- this project's
 own coarse robustness check -- flips it.
 
-\begin{figure}[t]
+\begin{figure}[tb]
   \centering
-  \includegraphics[width=0.74\linewidth]{../figures/fig4_assignments.pdf}
+  \includegraphics[width=0.62\linewidth]{../figures/fig4_assignments.pdf}
   \caption{Condition number $\kappa$ under all eight component-wise family assignments
   (three-letter code: transmission/progression/observation, B~base, A~adversarial), for $S_B$
   (left) and $S_A$ (right), against the pre-registered ceiling $\kappa_{\max}=100$ (dashed).
@@ -256,9 +238,9 @@ literature describes \citep{Gutenkunst_2007} (spread $2.80$ decades, gap promine
 $\tau\sigma_1$ falling inside the spectrum); at $K=3$ it does not. The reassurance a $K=3$
 threshold offers is a fact about $K=3$, not about the simulator.
 
-\begin{figure}[t]
+\begin{figure}[tb]
   \centering
-  \includegraphics[width=0.74\linewidth]{../figures/fig3_spectrum.pdf}
+  \includegraphics[width=0.62\linewidth]{../figures/fig3_spectrum.pdf}
   \caption{Normalised singular-value spectrum of $S_B$'s summary Jacobian under the base and
   adversarial three-column families and their six-column union, against the pre-registered
   tolerance $\tau=10^{-2}$ (dashed). Both three-column spectra clear $\tau$ by an order of
@@ -312,9 +294,9 @@ half-width of $0.5\%$ and $0.75\%$, exactly where the gate stops passing. The ra
 nuisance shift to observation noise is a one-line check a reader with a different simulator
 can run before attempting this composition, and it is the most transportable result here.
 
-\begin{figure}[t]
+\begin{figure}[tb]
   \centering
-  \includegraphics[width=0.68\linewidth]{../figures/fig6_nontermination.pdf}
+  \includegraphics[width=0.58\linewidth]{../figures/fig6_nontermination.pdf}
   \caption{Minimum acceptance probability $p_{\min}(w)$ of the composition's rejection sampler
   over a 42-point nuisance design at relative half-width $w$, with 95\% Wilson intervals;
   downward triangles mark widths where zero draws in 100{,}000 entered the observed cell
@@ -327,38 +309,28 @@ can run before attempting this composition, and it is the most transportable res
 \section{Limitations}
 \label{sec:limitations}
 
-\paragraph{The scope assumption is not a formality.}
-Every positive result here holds under the assumption, stated in Section~\ref{sec:method},
-that each component carries at most one distortion parameter. Section~\ref{sec:experiments}
-shows it is load-bearing rather than conservative: the moment one component carries two
-distortion parameters at once, the same summary set that separated all three components under
-every one-parameter assignment we tried becomes inseparable on a real, interpretable confound.
-We have not tested compound misspecification within a single mechanism -- two distortions of
-the \emph{same} component rather than of two different ones.
-
-\paragraph{The diagnostic's own status.}
-The screen we apply (Section~\ref{sec:method}) is prior art, and the one seam in that
-literature this paper does not occupy is carrying an estimated simulation noise level forward
-into the rank tolerance; we derive our tolerance from a compute budget instead and disclose,
-rather than fill, that gap. Nothing here depends on occupying it -- the tolerance is fixed
-before any singular value in this paper existed -- but a reader adapting the diagnostic where
-the noise level is the binding constraint should not assume this paper solved that seam.
-
-\paragraph{One simulator, one scope of family sets.}
-Every result here is measured on a single simulator, under two distortion family sets chosen
-by us -- one deliberately adversarial. The eight assignments in
-Section~\ref{sec:experiments} are every combination those two sets permit, not a sample of
-distortion families in general, and whether these findings transport to other simulator
-classes is untested.
-
-\paragraph{Two figures carry hand-placed annotations outside the automated check.}
-Every plotted series in this paper's figures is checked against its declared path in the
-underlying results file at generation time. Two figures also carry short text annotations
-placed by hand: the rank stated on the spectrum figure (Figure~\ref{fig:spectrum}) and the
-``all eight separable'' / ``hatched: inseparable'' labels on the assignment figure
-(Figure~\ref{fig:assignments}). Each was verified against the same source file the automated
-check reads and restates a number already in the text above -- legibility, not an independent
-claim -- but the automated check does not cover them.
+\begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=*]
+\item \textbf{The scope assumption is not a formality.} Every positive result here holds under
+the assumption, stated in Section~\ref{sec:method}, that each component carries at most one
+distortion parameter -- load-bearing rather than conservative (Section~\ref{sec:experiments}):
+the moment one component carries two, the same summary set that separated all three under
+every one-parameter assignment we tried becomes inseparable on a real confound. We have not
+tested compound misspecification within a single mechanism -- two distortions of the
+\emph{same} component rather than of two different ones.
+\item \textbf{The diagnostic's own status.} The screen we apply (Section~\ref{sec:method}) is
+prior art, and the one seam it leaves unoccupied -- carrying an estimated simulation noise
+level forward into the rank tolerance -- is disclosed rather than filled; we derive our
+tolerance from a compute budget instead. Nothing here depends on occupying it, since the
+tolerance is fixed before any singular value in this paper existed, but a reader adapting the
+diagnostic where the noise level binds should not assume this paper solved that seam.
+\item \textbf{One simulator, one scope of family sets, two hand-placed annotations.} Every
+result here is measured on a single simulator under two distortion family sets chosen by us --
+one deliberately adversarial; the eight assignments (Section~\ref{sec:experiments}) are every
+combination those sets permit, not a sample of families in general, and transport to other
+simulator classes is untested. Two figures also carry hand-placed annotations outside the
+automated check -- the rank on Figure~\ref{fig:spectrum}, the separability labels on
+Figure~\ref{fig:assignments} -- both verified restatements, not independent claims.
+\end{itemize}
 
 \clearpage
 \section*{Reproducibility checklist}
@@ -371,11 +343,23 @@ claim -- but the automated check does not cover them.
 \section{Appendix}
 \label{sec:appendix}
 
-\subsection{The diagnostic and the threshold-sensitivity sweep, in full}
+\subsection{The simulator, the diagnostic, and the threshold-sensitivity sweep, in full}
 
-Moved here from the main text for space; both are referenced from
-Section~\ref{sec:method}/\ref{sec:experiments} and neither carries a claim not already stated
-in the main text's prose.
+Moved here from the main text for space; all three are referenced from
+Section~\ref{sec:method}/\ref{sec:experiments} and none carries a claim not already stated in
+the main text's prose.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.85\linewidth]{../figures/fig2_simulator.pdf}
+  \caption{Structure of the three-component compartmental simulator and the point at which
+  each distortion family acts: a deterministic SIR core, an observation chain applying a
+  reporting-delay kernel, a reporting fraction $\rho$, and multiplicative lognormal noise. Each
+  component carries one one-parameter distortion family, bit-identical to the base simulator at
+  $\eta_k=0$; the base and adversarial family sets are shown side by side, the latter designed
+  so all three perturb the epidemic curve's observed growth rate.}
+  \label{fig:simulator}
+\end{figure}
 
 \begin{figure}[h]
   \centering
