@@ -2,11 +2,17 @@
   "figure": "fig4_assignments",
   "generated_by": {
     "script": "src/viz/fig4_assignments.py",
-    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-21T00:59:21+05:30",
-    "finished": "2026-08-21T00:59:26+05:30"
+    "commit": "457397b00f5b72705ec7fdcf72b526da8cda4d9b",
+    "dirty": true,
+    "dirty_paths": [
+      "figures/fig3_spectrum.pdf",
+      "figures/fig3_spectrum.preview.png",
+      "figures/fig3_spectrum.provenance.json",
+      "figures/fig4_assignments.pdf",
+      "figures/fig4_assignments.preview.png"
+    ],
+    "started": "2026-08-25T00:57:54+05:30",
+    "finished": "2026-08-25T00:58:06+05:30"
   },
   "caption": "Condition number $\\kappa$ of the summary Jacobian under all eight component-wise assignments of a distortion family to a component that the two declared family sets permit, for the ten-dimensional summary set $S_B$ (left) and the four-dimensional $S_A$ (right). Each three-letter code gives the family chosen for transmission, progression and observation in that order; B is the base family, A the adversarial one. Bars are coloured by the transmission choice. The dashed line is the pre-registered ceiling $\\kappa_{\\max} = 100$ from docs/THRESHOLDS.md, equivalent at the registered pair to the rank tolerance $\\tau = 10^{-2}$. $S_B$ separates under all eight assignments, $\\kappa$ from 6.6 to 65.6, every singular value resolved -- six of the eight had never been tested before. $S_A$ splits exactly on the transmission family: all four assignments carrying the adversarial transmission family are inseparable and all four carrying the base one are separable, with ABB failing by 0.9\\%. $S_A$ is shown as a control, not as a result: it establishes that the eight $S_B$ passes are a measurement rather than a property of an instrument that always says separable. Under DECISIONS.md D-14 these eight points establish separability of a three-dimensional distortion space eight times over, and nothing wider: they are every combination of two family sets this project chose, not a sample of distortion families in general.",
   "sources": [
@@ -107,8 +113,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig4_assignments.pdf": "0f2fed9a1d61de903493d708e8e7857df713a77b97a2b59aa7a0643ef6494255",
-    "figures/fig4_assignments.preview.png": "afa43749dca93e841694bc7ebc5c50a3023a0062ee579580fb08a653402e0e5c"
+    "figures/fig4_assignments.pdf": "a96347fd726a0c875f8728320176c28df955600f787b7768af9daa5a81e5291a",
+    "figures/fig4_assignments.preview.png": "e6efe0fe2e1821a50d123453361b8668db4f2aad206988b65712aa979b4cf66a"
   },
   "notes": [
     "Bars are ordered by kappa within each panel, so the vertical position of a code differs between panels. The codes are on the axis for exactly that reason: the ordering is the point, and a shared ordering would hide S_A's split on the transmission family.",

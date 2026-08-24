@@ -2,11 +2,26 @@
   "figure": "fig7_confound",
   "generated_by": {
     "script": "src/viz/fig7_confound.py",
-    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-21T00:59:37+05:30",
-    "finished": "2026-08-21T00:59:41+05:30"
+    "commit": "457397b00f5b72705ec7fdcf72b526da8cda4d9b",
+    "dirty": true,
+    "dirty_paths": [
+      "figures/fig3_spectrum.pdf",
+      "figures/fig3_spectrum.preview.png",
+      "figures/fig3_spectrum.provenance.json",
+      "figures/fig4_assignments.pdf",
+      "figures/fig4_assignments.preview.png",
+      "figures/fig4_assignments.provenance.json",
+      "figures/fig5_threshold.pdf",
+      "figures/fig5_threshold.preview.png",
+      "figures/fig5_threshold.provenance.json",
+      "figures/fig6_nontermination.pdf",
+      "figures/fig6_nontermination.preview.png",
+      "figures/fig6_nontermination.provenance.json",
+      "figures/fig7_confound.pdf",
+      "figures/fig7_confound.preview.png"
+    ],
+    "started": "2026-08-25T00:58:21+05:30",
+    "finished": "2026-08-25T00:58:26+05:30"
   },
   "caption": "The two near-null directions of the six-column summary Jacobian for $S_B$, the object that is inseparable at $\\kappa = 629$. (a, b) Right singular vectors $v_5$ and $v_6$, one bar per distortion column, coloured by the mechanism the column deforms and hatched where the column comes from the adversarial family set. Dashed lines mark the pre-registered equivalence-class threshold $|v_k| = 0.3$ from docs/THRESHOLDS.md \\S2.1. (c) The same two directions as mechanism energy: the share of squared loading falling on each mechanism. Both directions are cross-mechanism and both name the same pair -- progression together with observation -- with transmission carrying under 5\\% of the energy in either. Read as modelling rather than as linear algebra: a drifting removal hazard is nearly indistinguishable from a constant hazard change combined with a drifting reporting rate. The confound requires the progression component to carry two distortion parameters at once, which is why it cannot arise in any three-column model the declared families permit, and why the scope restriction of DECISIONS.md D-14 is stated as one parameter per component rather than as a bound on $\\kappa$. Every loading is stable to three decimal places across the h-plateau.",
   "sources": [
@@ -179,8 +194,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig7_confound.pdf": "f2394070b5f296260ad94c843fb934be8e1f546cc7ab3672227d0d7edd3c9a2a",
-    "figures/fig7_confound.preview.png": "1eb790591362d7c6f82df28448f1e3a9b7615d719cd203bebebc1197f8cce894"
+    "figures/fig7_confound.pdf": "6c15db259dd3dd3e11f95f4dede41d5eaa78318799aef26f3ad2a79b7f880434",
+    "figures/fig7_confound.preview.png": "7cccfe1a3f9d1d5f93071ecf4692f3527f0e307fd4ac73e394b1a6d1212b113c"
   },
   "notes": [
     "The column labels on panel (a) are abbreviated for width; the recorded labels are ['base:transmission', 'base:progression', 'base:observation', 'adversarial:transmission', 'adversarial:progression', 'adversarial:observation'] in that order, and the bars are in that order.",

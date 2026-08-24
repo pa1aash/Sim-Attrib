@@ -2,11 +2,14 @@
   "figure": "fig3_spectrum",
   "generated_by": {
     "script": "src/viz/fig3_spectrum.py",
-    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-21T00:59:15+05:30",
-    "finished": "2026-08-21T00:59:20+05:30"
+    "commit": "457397b00f5b72705ec7fdcf72b526da8cda4d9b",
+    "dirty": true,
+    "dirty_paths": [
+      "figures/fig3_spectrum.pdf",
+      "figures/fig3_spectrum.preview.png"
+    ],
+    "started": "2026-08-25T00:57:40+05:30",
+    "finished": "2026-08-25T00:57:52+05:30"
   },
   "caption": "Singular-value spectrum of the summary Jacobian for summary set $S_B$, normalised by the leading singular value, under three distortion column sets: the base families ($K=3$), the adversarial families ($K=3$), and their six-column union ($K=6$, two one-parameter families per component). The dashed line is the pre-registered rank tolerance $\\tau = 10^{-2}$, fixed in docs/THRESHOLDS.md before any singular value existed; a component set is called separable when every $\\sigma_i/\\sigma_1$ lies above it. Under either three-column set the whole spectrum clears $\\tau$ by an order of magnitude, so the verdict is not a threshold decision -- including under the adversarial set, which was designed to fail and does not. Under the six-column union $\\tau$ falls inside the spectrum, between $\\sigma_4$ and $\\sigma_5$: the rank is 4 of 6 and the set is inseparable at $\\kappa = 629$. Every singular value shown is resolved under the pre-registered h-plateau criterion (largest variation factor 1.023 against an admissible 2), so the rank deficiency is a property of the matrix and not of the estimator. The contrast between the two panels' worth of evidence is the scope restriction of DECISIONS.md D-14: the positive result holds at one distortion parameter per component and fails at two.",
   "sources": [
@@ -155,8 +158,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig3_spectrum.pdf": "453f6aeeeb366cb1f6d61fbe06908a3f470047ad5e3e9515337c8fd40bbf1c36",
-    "figures/fig3_spectrum.preview.png": "0d04bff1936b61d215f165ad5eccd0ba47819603492b1d71ef6fc19b5e921ed7"
+    "figures/fig3_spectrum.pdf": "cc781af825badd607547875327cf89295d43f0c23ff0abdcf2dca2c264f81e59",
+    "figures/fig3_spectrum.preview.png": "3567c05d0d8b9ec68e219e2ecffebd574af9c0894c2c76ce16f668ab8b742a8c"
   },
   "notes": [
     "sigma_i/sigma_1 is a recorded field, not computed here; the decision rule sigma_i >= tau*sigma_1 acts on exactly this ratio, which is why the threshold is one horizontal line across three series of different absolute scale.",

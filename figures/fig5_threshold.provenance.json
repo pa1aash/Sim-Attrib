@@ -2,11 +2,20 @@
   "figure": "fig5_threshold",
   "generated_by": {
     "script": "src/viz/fig5_threshold.py",
-    "commit": "8a83904d224aaed2c1740a06f18af596455768b7",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-21T00:59:27+05:30",
-    "finished": "2026-08-21T00:59:32+05:30"
+    "commit": "457397b00f5b72705ec7fdcf72b526da8cda4d9b",
+    "dirty": true,
+    "dirty_paths": [
+      "figures/fig3_spectrum.pdf",
+      "figures/fig3_spectrum.preview.png",
+      "figures/fig3_spectrum.provenance.json",
+      "figures/fig4_assignments.pdf",
+      "figures/fig4_assignments.preview.png",
+      "figures/fig4_assignments.provenance.json",
+      "figures/fig5_threshold.pdf",
+      "figures/fig5_threshold.preview.png"
+    ],
+    "started": "2026-08-25T00:58:07+05:30",
+    "finished": "2026-08-25T00:58:12+05:30"
   },
   "caption": "Separability verdict for summary set $S_B$ as a function of the rank tolerance $\\tau$, with $\\kappa_{\\max}$ held at $1/\\tau$ as docs/THRESHOLDS.md derives it. Filled circles are the nine tolerances actually run through the production analysis; the vertical tick on each lane is the exact flip point $\\tau^* = \\sigma_K/\\sigma_1 = 1/\\kappa$, which is closed-form rather than sampled. The vertical dashed line is the registered $\\tau = 10^{-2}$ and the shaded band is the halve-and-double grid the project itself proposed for testing it. Under the base families the verdict survives $\\tau$ moving by a factor of 9.88; under the adversarial families the margin is only 1.547, so the flip point falls inside the project's own coarse grid and doubling $\\tau$ turns the verdict over. The six-column union is inseparable across $\\tau$ from 0.005 to 1.0 and becomes separable only at $\\tau \\le 10^{-3}$, a tenfold loosening at which $\\kappa_{\\max}$ rises to 1000 while the measured $\\kappa$ is 629 -- so there is no tolerance at which the six-column object is both separable and cheap. The lower end of each lane is censored by the sweep's own grid: at $\\tau = 10^{-4}$ every three-column verdict is still separable, so the sweep stopped rather than the stability doing so.",
   "sources": [
@@ -174,8 +183,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig5_threshold.pdf": "ebf477cc7a4013b0c8998617eaea05df19227f81d1fb7f31972bc91bfb640db7",
-    "figures/fig5_threshold.preview.png": "ad744f74a9a1431b8d82719f95da5c507107286718c8fa779eb5c1c782459551"
+    "figures/fig5_threshold.pdf": "650ae0cf366610e3199e8cdd48446ddefcc81b0faac99521423f2a9798952555",
+    "figures/fig5_threshold.preview.png": "260e35130cc6092af4d628a819c8c07b4e86592d014dd7bfc9693f1518fa69ce"
   },
   "notes": [
     "Cross-check between two sessions' recorded sweeps PASSED: G4's results/robustness/threshold_sensitivity.yaml and G5's results/robustness/k6_spectrum.yaml agree on S_B base's exact flip point to within 1e-12 and on the verdict at all 5 shared tolerances. The figure raises rather than draws if they disagree, because a disagreement between two files recording the same quantity is transcription drift and it must not be averaged over.",
