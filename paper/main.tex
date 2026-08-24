@@ -11,6 +11,10 @@
 \DeclareUnicodeCharacter{02BC}{\textquoteright}
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
+% pdfinfo showed Title/Author both empty before this (pre-existing since G8, not
+% introduced here) -- \title{} alone doesn't populate PDF metadata in this class.
+% Setting pdftitle explicitly; pdfauthor deliberately left unset for anonymity.
+\hypersetup{pdftitle={Diagnostics and Limits for Component-Level Simulator Misspecification}}
 \usepackage{url}
 \usepackage{booktabs}
 \usepackage{amsfonts}
@@ -20,12 +24,10 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 
-% Title as operator-confirmed. FLAGGED (not silently kept, not silently changed) in
-% audit/S8_REPORT.md P-2: the C1 amendment removes any selective-inference METHOD
-% claim, and whether "Selective Inference" as the lead term still fits the
-% diagnostics-and-limits reframing is an open question for the operator, not a
-% session. See the report for the alternative proposed there.
-\title{Selective Inference for Component-Level Simulator Misspecification}
+% Title decided by the operator, G9 (audit/S8_REPORT.md P-2 resolved): the
+% diagnostics-and-limits alternative G8 drafted and did not substitute. No
+% em-dash, no colon, per the operator's standing stylistic preference.
+\title{Diagnostics and Limits for Component-Level Simulator Misspecification}
 
 \author{%
   Anonymous Author(s) \\
