@@ -28,6 +28,11 @@ research_state/
 *.egg-info/
 .ipynb_checkpoints/
 
+# build/ holds derived packaging artifacts (Overleaf submission zips) built by
+# scripts/build_overleaf_package.sh. It is a build product, not source, and is
+# never committed -- same discipline as paper/main.pdf below.
+build/
+
 # LaTeX build artifacts under paper/ -- paper/main.pdf is a build product of
 # paper/main.tex, not a tracked deliverable; paper/figures/*.pdf (none yet;
 # figures live at repo-root figures/) would NOT be covered by this pattern
