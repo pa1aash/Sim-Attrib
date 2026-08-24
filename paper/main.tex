@@ -279,7 +279,13 @@ adversarial transmission distortion. An instrument that always reported ``separa
 not produce that contrast. The margin is not uniform: $S_B$'s verdict survives $\tau$ moving by
 $9.881\times$ under the base assignment but only $1.523\times$ under the tightest one
 (Figure~\ref{fig:threshold}, Appendix~\ref{sec:appendix}), so doubling $\tau$ -- this project's
-own coarse robustness check -- flips it.
+own coarse robustness check -- flips it. The verdict is also not an artifact of the flat
+$10\%$-per-column unit ETA\_SCALE fixes $\eta$ in: rescaling each column by the relative
+standard error the confidence-set fit of Section~\ref{sec:negative-result} gives its
+corresponding native parameter -- $0.9\%$, $2.7\%$, $2.4\%$ for transmission, progression,
+observation, rather than a common $10\%$ -- separability survives for both declared
+assignments under this unrelated, data-motivated scaling ($\kappa$ falls to $31.9$ for AAA and
+$8.0$ for BBB, both still rank $3$ of $3$).
 
 \begin{figure}[tb]
   \centering
@@ -305,7 +311,12 @@ a drifting removal hazard is nearly indistinguishable from a constant hazard cha
 with a drifting reporting rate. The confound needs the progression component to carry two
 distortion parameters at once, exactly why it cannot arise under our one-parameter-per-component
 scope, and exactly why that restriction -- not a bound on $\kappa$ -- is what the assumption
-has to be. In the six-column case the spectrum matches the gapless, no-clean-break picture the
+has to be. This verdict is also not an artifact of the flat-$10\%$ scaling: under the
+data-motivated per-component scaling above, $\kappa$ falls to $344.9$ but stays two orders of
+magnitude past $\kappa_{\max}=100$, so the object remains inseparable; the numerical rank reads
+$5$ of $6$ rather than $4$ of $6$ under that scaling, i.e.\ one of the two near-null directions
+resolves while the other does not -- a real difference in \emph{which} margin is tight, not in
+the verdict itself. In the six-column case the spectrum matches the gapless, no-clean-break picture the
 sloppy-models literature describes \citep{Gutenkunst_2007} (spread $2.80$ decades, gap
 prominence $1.40$, $\tau\sigma_1$ falling inside the spectrum); in the three-column case it does
 not. The reassurance a three-column threshold offers is a fact about having three columns, not

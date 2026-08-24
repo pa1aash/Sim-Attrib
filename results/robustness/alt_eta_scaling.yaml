@@ -1,0 +1,86 @@
+provenance:
+  script: src/diagnostics/alt_eta_scaling.py
+  commit: 26b66a3ac5ec6deae8e290ae9beff8107729ed73
+  dirty: true
+  dirty_paths:
+  - paper/main.tex
+  untracked_paths:
+  - src/diagnostics/alt_eta_scaling.py
+  command: python -m src.diagnostics.alt_eta_scaling
+  seed: 0
+  started: '2026-08-25T00:43:07+05:30'
+  finished: '2026-08-25T00:43:10+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.14.2
+  deps: numpy==2.4.0, scipy==1.16.3, pyyaml==6.0.3
+what_this_is: 'Session G11, T2-3. Re-derives condition number and rank under a second, data-motivated
+  per-column eta scaling (relative standard error of the corresponding native parameter''s MLE, from results/confidence_set_mmc.yaml)
+  instead of the flat 10% ETA_SCALE convention, to check the separability verdicts are not an artifact
+  of one arbitrary unit choice. No new simulator draws: derived from the Jacobian columns results/robustness/k6_spectrum.yaml
+  already stores at every swept step size.'
+eta_scale_primary: 0.1
+alt_relative_scale_source: results/confidence_set_mmc.yaml fisher_information.standard_errors / mle_fit.theta_hat,
+  commit a91131a
+tau: 0.01
+kappa_max: 100.0
+eight_assignment_triples:
+  AAA:
+    columns:
+    - adversarial:transmission
+    - adversarial:progression
+    - adversarial:observation
+    representative_h: 0.0001
+    flat_10pct:
+      kappa: 64.62142093493642
+      rank_at_tau: 3
+      separable: true
+    mle_se_based:
+      per_column_relative_scale:
+        transmission: 0.09115798814904848
+        progression: 0.2711531944196953
+        observation: 0.2351768411252335
+      kappa: 31.883475982061412
+      rank_at_tau: 3
+      separable: true
+  BBB:
+    columns:
+    - base:transmission
+    - base:progression
+    - base:observation
+    representative_h: 0.0001
+    flat_10pct:
+      kappa: 10.120290861904317
+      rank_at_tau: 3
+      separable: true
+    mle_se_based:
+      per_column_relative_scale:
+        transmission: 0.09115798814904848
+        progression: 0.2711531944196953
+        observation: 0.2351768411252335
+      kappa: 8.026824208483042
+      rank_at_tau: 3
+      separable: true
+six_column:
+  columns:
+  - base:transmission
+  - base:progression
+  - base:observation
+  - adversarial:transmission
+  - adversarial:progression
+  - adversarial:observation
+  representative_h: 0.0001
+  flat_10pct:
+    kappa: 628.8563727107088
+    rank_at_tau: 4
+    separable: false
+  mle_se_based:
+    per_column_relative_scale:
+      base:transmission: 0.09115798814904848
+      base:progression: 0.2711531944196953
+      base:observation: 0.2351768411252335
+      adversarial:transmission: 0.09115798814904848
+      adversarial:progression: 0.2711531944196953
+      adversarial:observation: 0.2351768411252335
+    kappa: 344.8572981708267
+    rank_at_tau: 5
+    separable: false

@@ -34,6 +34,7 @@ JAC_C = "results/jacobian_rank.S_C.yaml"
 NOCRN = "results/jacobian_rank.S_A.no_crn_control.yaml"
 FLOOR = "results/floor_check.yaml"
 K6 = "results/robustness/k6_spectrum.yaml"
+ALTSCALE = "results/robustness/alt_eta_scaling.yaml"
 PSEL = "results/p_sel.yaml"
 GATE = "results/cost_gate.yaml"
 BOUND = "results/boundary_sweep.yaml"
@@ -132,6 +133,14 @@ ROWS: tuple[tuple[str, str, str, str, Callable[[Any], Any] | None], ...] = (
      "summary_sets.S_A.mixed_triples.ABB.condition_number", None),
     ("C2", "replicates per Jacobian column R", K6, "settings.R", None),
     ("C2", "replicates for the normalisation R_norm", K6, "settings.R_norm", None),
+    ("C2", "AAA under MLE-SE-based scaling (T2-3): κ", ALTSCALE,
+     "eight_assignment_triples.AAA.mle_se_based.kappa", None),
+    ("C2", "AAA under MLE-SE-based scaling: separable", ALTSCALE,
+     "eight_assignment_triples.AAA.mle_se_based.separable", None),
+    ("C2", "BBB under MLE-SE-based scaling (T2-3): κ", ALTSCALE,
+     "eight_assignment_triples.BBB.mle_se_based.kappa", None),
+    ("C2", "BBB under MLE-SE-based scaling: separable", ALTSCALE,
+     "eight_assignment_triples.BBB.mle_se_based.separable", None),
     # --- C3: the K = 6 boundary ----------------------------------------------------------
     ("C3", "S_B six-column κ", K6, "summary_sets.S_B.six_columns.condition_number", None),
     ("C3", "S_B six-column rank at τ", K6, "summary_sets.S_B.six_columns.numerical_rank.rank_certain", None),
@@ -168,6 +177,12 @@ ROWS: tuple[tuple[str, str, str, str, Callable[[Any], Any] | None], ...] = (
      "summary_sets.S_B.six_columns.near_null_classification[1].kind", None),
     ("C3", "near-null direction 2: transmission energy", K6,
      "summary_sets.S_B.six_columns.near_null_classification[1].mechanism_energy.transmission", None),
+    ("C3", "six-column under MLE-SE-based scaling (T2-3): κ", ALTSCALE,
+     "six_column.mle_se_based.kappa", None),
+    ("C3", "six-column under MLE-SE-based scaling: rank at τ", ALTSCALE,
+     "six_column.mle_se_based.rank_at_tau", None),
+    ("C3", "six-column under MLE-SE-based scaling: separable", ALTSCALE,
+     "six_column.mle_se_based.separable", None),
     # --- C4: the MMC non-termination result ----------------------------------------------
     ("C4", "null draws taken to measure p_sel", PSEL, "settings.n_simulator_runs", None),
     ("C4", "p_sel at θ₀, worst cell, AAA studentised", PSEL,
