@@ -1,0 +1,4248 @@
+provenance:
+  script: src/diagnostics/confidence_set_check.py
+  commit: a91131ab4ced705beea96a2774baa9b53864f150
+  dirty: false
+  dirty_paths: []
+  untracked_paths: []
+  command: python -m src.diagnostics.confidence_set_check --seed 20260824 --workers 4 --theta0-draws 100000
+    --screen-draws 10000 --refine-draws 100000 --out results/confidence_set_mmc.yaml
+  seed: 20260824
+  started: '2026-08-24T23:56:28+05:30'
+  finished: '2026-08-24T23:59:27+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.14.2
+  deps: numpy==2.4.0, scipy==1.16.3, pyyaml==6.0.3
+what_this_is: 'Session G11, Phase 1. T1-3 of the external adversarial review: the MMC cost gate, re-measured
+  inside a confidence set for the five nuisance parameters BUILT FROM DATA (a maximum-likelihood fit plus
+  a Bonferroni-corrected asymptotic-normal box at alpha1=0.05), rather than inside the fixed +/-w boxes
+  results/p_sel.yaml and results/boundary_sweep.yaml assumed. See the module docstring for the full construction
+  and the correction to the session brief''s description of Dufour (2006).'
+alpha1: 0.05
+bonferroni_alpha_per_coordinate: 0.01
+z_bonferroni: 2.5758293035489004
+observed_data:
+  seed: 9000000000
+  n_days: 120
+mle_fit:
+  theta_hat:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  theta_0:
+    beta: 0.35
+    gamma: 0.14
+    rho: 0.4
+    I0: 10.0
+    obs_sigma: 0.15
+  start_point:
+    beta: 0.40249999999999997
+    gamma: 0.11900000000000001
+    rho: 0.48
+    I0: 7.0
+    obs_sigma: 0.2025
+  converged: true
+  message: Optimization terminated successfully.
+  n_function_evals: 655
+  gradient_at_optimum:
+    beta: -0.00231778726421534
+    gamma: 0.0033451578290738535
+    rho: -0.00022198540427949596
+    I0: -1.0575654337529834e-05
+    obs_sigma: 0.00014661486812641954
+  gradient_max_abs: 0.0033451578290738535
+  gradient_near_zero: true
+  gradient_tolerance: 0.01
+  any_bound_active:
+    beta: false
+    gamma: false
+    rho: false
+    I0: false
+    obs_sigma: false
+  offset_from_theta0_in_standard_errors:
+    beta: 1.5731772130119028
+    gamma: 1.8857903540516687
+    rho: 0.5242040673843267
+    I0: 0.66088210626556
+    obs_sigma: 0.6755356188853406
+fisher_information:
+  hessian_eigenvalues:
+  - 3.1528492152725622
+  - 9671.900123748484
+  - 16774.945997203507
+  - 58293.39340279823
+  - 5301600.786793706
+  hessian_is_positive_definite: true
+  min_eigenvalue_tolerance: 1.0e-12
+  standard_errors:
+    beta: 0.0032369499298674615
+    gamma: 0.004000716595537015
+    rho: 0.009524492210426639
+    I0: 0.563146592816904
+    obs_sigma: 0.010123919309786676
+  correlation_matrix:
+    beta:
+      beta: 1.0000000000000002
+      gamma: 0.8845416224944431
+      rho: 0.5815022353000391
+      I0: -0.3458686013214466
+      obs_sigma: -1.5546862306983593e-06
+    gamma:
+      beta: 0.8845416224944431
+      gamma: 1.0000000000000002
+      rho: 0.26482443619329743
+      I0: 0.09035253443853472
+      obs_sigma: -1.086693766510183e-06
+    rho:
+      beta: 0.5815022353000391
+      gamma: 0.26482443619329743
+      rho: 1.0000000000000002
+      I0: -0.6468279906544084
+      obs_sigma: 0.06751488859021591
+    I0:
+      beta: -0.3458686013214466
+      gamma: 0.09035253443853482
+      rho: -0.6468279906544084
+      I0: 0.9999999999999998
+      obs_sigma: 9.270429254749529e-07
+    obs_sigma:
+      beta: -1.5546862307268442e-06
+      gamma: -1.0866937665523199e-06
+      rho: 0.06751488859021591
+      I0: 9.27042925454698e-07
+      obs_sigma: 1.0000000000000002
+confidence_set_box:
+  beta:
+    se: 0.0032369499298674615
+    z: 2.5758293035489004
+    relative_half_width: 0.023480741712688248
+    interval:
+    - 0.3467544653858548
+    - 0.36343012635280114
+  gamma:
+    se: 0.004000716595537015
+    z: 2.5758293035489004
+    relative_half_width: 0.06984443439371435
+    interval:
+    - 0.1372393497231795
+    - 0.1578496758071368
+  rho:
+    se: 0.009524492210426639
+    z: 2.5758293035489004
+    relative_half_width: 0.060577539888644054
+    interval:
+    - 0.38045931141943584
+    - 0.4295262436935162
+  I0:
+    se: 0.563146592816904
+    z: 2.5758293035489004
+    relative_half_width: 0.13985202764655386
+    interval:
+    - 8.921604010425607
+    - 11.822743002368611
+  obs_sigma:
+    se: 0.010123919309786676
+    z: 2.5758293035489004
+    relative_half_width: 0.1662690829613391
+    interval:
+    - 0.1307615800715689
+    - 0.18291655612139507
+settings:
+  summary_set: S_B
+  family_codes:
+  - AAA
+  - BBB
+  variants:
+  - studentised
+  - plain
+  primary_key: AAA|studentised
+  nuisance_coordinates:
+  - beta
+  - gamma
+  - rho
+  - I0
+  - obs_sigma
+  n_design_points: 42
+  design: 32 corners + 10 axis endpoints of the Bonferroni box, centred at theta_hat -- src.diagnostics.confidence_set_check.hetero_grid,
+    generalising p_sel.nuisance_grid to unequal per-coordinate half-widths
+  n_draws_theta_hat_anchor: 100000
+  n_draws_screen: 10000
+  n_draws_refine: 100000
+  n_points_refined: 2
+  seeds:
+    obs: 9000000000
+    anchor: 10020260824
+    screen: 11020260824
+    refine: 12020260824
+  seed_spans_used:
+    obs:
+    - 9000000000
+    - 9000000001
+    anchor:
+    - 10020260824
+    - 10020360824
+    screen:
+    - 11020260824
+    - 11062260824
+    refine:
+    - 12020260824
+    - 12024260824
+  seed_spans_checked_disjoint_against:
+    G6_theta0:
+    - 30260820
+    - 30360820
+    G6_screen:
+    - 60260820
+    - 228260820
+    G6_refine:
+    - 520260820
+    - 540260820
+    G7_anchor:
+    - 1020260821
+    - 1020360821
+    G7_screen:
+    - 2020260821
+    - 2440260821
+    G7_refine:
+    - 3520260821
+    - 3560260821
+    normalisation:
+    - 21160820
+    - 21162820
+  workers: 4
+  n_simulator_runs: 722000
+  wall_clock_seconds: 178.10539775000143
+checks:
+  normalisation_reproduces: true
+  jacobian_reproduces:
+    AAA: true
+    BBB: true
+  family_sets_agree_at_zero: true
+  seed_spans_disjoint_from_prior_sessions: true
+  hessian_is_positive_definite: true
+  mle_gradient_near_zero: true
+anchor_theta_hat:
+  AAA|plain:
+    cells:
+      n_draws: 100000
+      counts:
+      - 31
+      - 16884
+      - 83085
+      p_sel:
+      - 0.00031
+      - 0.16884
+      - 0.83085
+      ci95_lower:
+      - 0.00021841194235080693
+      - 0.16653091313404178
+      - 0.8285137862995282
+      ci95_upper:
+      - 0.0004399773541024312
+      - 0.1711745286386842
+      - 0.8331607957438756
+    reported_min:
+      p_sel: 0.00031
+      ci95:
+      - 0.00021841194235080693
+      - 0.0004399773541024312
+      cell: transmission
+      at_point: theta_hat
+      source: anchor
+      n_draws: 100000
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: 319354838.7096774
+        expected_draws_ci95_lower: 225011580.88457388
+        expected_draws_ci95_upper: 453271917.89260805
+        passes: false
+      - M: 1000
+        N: 999
+        expected_draws: 3222580645.16129
+        expected_draws_ci95_lower: 2270571407.1079726
+        expected_draws_ci95_upper: 4573925716.916318
+        passes: false
+      - M: 10000
+        N: 99
+        expected_draws: 3193548387.096774
+        expected_draws_ci95_lower: 2250115808.845739
+        expected_draws_ci95_upper: 4532719178.926081
+        passes: false
+      - M: 10000
+        N: 999
+        expected_draws: 32225806451.612904
+        expected_draws_ci95_lower: 22705714071.079727
+        expected_draws_ci95_upper: 45739257169.16318
+        passes: false
+      verdict: FAIL
+  AAA|studentised:
+    cells:
+      n_draws: 100000
+      counts:
+      - 11605
+      - 37944
+      - 50451
+      p_sel:
+      - 0.11605
+      - 0.37944
+      - 0.50451
+      ci95_lower:
+      - 0.11407962234358945
+      - 0.3764371444260584
+      - 0.5014110371787815
+      ci95_upper:
+      - 0.11804987508556308
+      - 0.3824521177436477
+      - 0.507608616334943
+    reported_min:
+      p_sel: 0.11605
+      ci95:
+      - 0.11407962234358945
+      - 0.11804987508556308
+      cell: transmission
+      at_point: theta_hat
+      source: anchor
+      n_draws: 100000
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: 853080.5687203791
+        expected_draws_ci95_lower: 838628.5875206928
+        expected_draws_ci95_upper: 867814.9345711186
+        passes: true
+      - M: 1000
+        N: 999
+        expected_draws: 8608358.46617837
+        expected_draws_ci95_lower: 8462524.83770881
+        expected_draws_ci95_upper: 8757041.612490378
+        passes: true
+      - M: 10000
+        N: 99
+        expected_draws: 8530805.687203791
+        expected_draws_ci95_lower: 8386285.875206929
+        expected_draws_ci95_upper: 8678149.345711187
+        passes: true
+      - M: 10000
+        N: 999
+        expected_draws: 86083584.66178371
+        expected_draws_ci95_lower: 84625248.3770881
+        expected_draws_ci95_upper: 87570416.12490378
+        passes: true
+      verdict: PASS
+  BBB|plain:
+    cells:
+      n_draws: 100000
+      counts:
+      - 2509
+      - 58416
+      - 39075
+      p_sel:
+      - 0.02509
+      - 0.58416
+      - 0.39075
+      ci95_lower:
+      - 0.024138739585177336
+      - 0.5811020638694999
+      - 0.38773015733858707
+      ci95_upper:
+      - 0.02607774595741629
+      - 0.5872114704353901
+      - 0.3937782359265124
+    reported_min:
+      p_sel: 0.02509
+      ci95:
+      - 0.024138739585177336
+      - 0.02607774595741629
+      cell: transmission
+      at_point: theta_hat
+      source: anchor
+      n_draws: 100000
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: 3945795.137504982
+        expected_draws_ci95_lower: 3796340.380095053
+        expected_draws_ci95_upper: 4101291.1900666123
+        passes: true
+      - M: 1000
+        N: 999
+        expected_draws: 39816660.023913905
+        expected_draws_ci95_lower: 38308525.65368645
+        expected_draws_ci95_upper: 41385756.55430854
+        passes: true
+      - M: 10000
+        N: 99
+        expected_draws: 39457951.37504982
+        expected_draws_ci95_lower: 37963403.800950535
+        expected_draws_ci95_upper: 41012911.900666125
+        passes: true
+      - M: 10000
+        N: 999
+        expected_draws: 398166600.2391391
+        expected_draws_ci95_lower: 383085256.53686446
+        expected_draws_ci95_upper: 413857565.5430854
+        passes: false
+      verdict: SPLIT
+  BBB|studentised:
+    cells:
+      n_draws: 100000
+      counts:
+      - 22094
+      - 32925
+      - 44981
+      p_sel:
+      - 0.22094
+      - 0.32925
+      - 0.44981
+      ci95_lower:
+      - 0.21837934021566385
+      - 0.3263439373227156
+      - 0.4467286637997775
+      ci95_upper:
+      - 0.223522098910731
+      - 0.3321691807552316
+      - 0.45289519210846363
+    reported_min:
+      p_sel: 0.22094
+      ci95:
+      - 0.21837934021566385
+      - 0.223522098910731
+      cell: transmission
+      at_point: theta_hat
+      source: anchor
+      n_draws: 100000
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: 448085.4530641803
+        expected_draws_ci95_lower: 442909.22679434065
+        expected_draws_ci95_upper: 453339.5874455479
+        passes: true
+      - M: 1000
+        N: 999
+        expected_draws: 4521589.571829456
+        expected_draws_ci95_lower: 4469356.743106528
+        expected_draws_ci95_upper: 4574608.564223256
+        passes: true
+      - M: 10000
+        N: 99
+        expected_draws: 4480854.5306418035
+        expected_draws_ci95_lower: 4429092.2679434065
+        expected_draws_ci95_upper: 4533395.874455479
+        passes: true
+      - M: 10000
+        N: 999
+        expected_draws: 45215895.71829456
+        expected_draws_ci95_lower: 44693567.43106528
+        expected_draws_ci95_upper: 45746085.64223256
+        passes: true
+      verdict: PASS
+by_key:
+  AAA|plain:
+    screened_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 0.00038399837067659573
+      cell: transmission
+      at_point: confset|corner|-----
+      n_draws: 10000
+    own_argmin_was_re_measured: true
+    reported_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      cell: transmission
+      at_point: confset|corner|++---
+      source: refined
+      n_draws: 100000
+      de_biased: true
+    n_design_points_with_a_dead_cell: 19
+    fraction_of_design_points_with_a_dead_cell: 0.4523809523809524
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 1000
+        N: 999
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 10000
+        N: 99
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 10000
+        N: 999
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+      verdict: FAIL
+  AAA|studentised:
+    screened_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 0.00038399837067659573
+      cell: observation
+      at_point: confset|corner|++---
+      n_draws: 10000
+    own_argmin_was_re_measured: true
+    reported_min:
+      p_sel: 1.0e-05
+      ci95:
+      - 1.7652477303783126e-06
+      - 5.664709659040966e-05
+      cell: observation
+      at_point: confset|corner|++---
+      source: refined
+      n_draws: 100000
+      de_biased: true
+    n_design_points_with_a_dead_cell: 8
+    fraction_of_design_points_with_a_dead_cell: 0.19047619047619047
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: 9900000000.0
+        expected_draws_ci95_lower: 1747662386.2265286
+        expected_draws_ci95_upper: 56082779938.64531
+        passes: false
+      - M: 1000
+        N: 999
+        expected_draws: 99899999999.99998
+        expected_draws_ci95_lower: 17635502261.013153
+        expected_draws_ci95_upper: 565926233926.33
+        passes: false
+      - M: 10000
+        N: 99
+        expected_draws: 98999999999.99998
+        expected_draws_ci95_lower: 17476623862.265285
+        expected_draws_ci95_upper: 560827799386.4531
+        passes: false
+      - M: 10000
+        N: 999
+        expected_draws: 998999999999.9999
+        expected_draws_ci95_lower: 176355022610.1315
+        expected_draws_ci95_upper: 5659262339263.3
+        passes: false
+      verdict: FAIL
+  BBB|plain:
+    screened_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 0.00038399837067659573
+      cell: transmission
+      at_point: confset|corner|-----
+      n_draws: 10000
+    own_argmin_was_re_measured: true
+    reported_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      cell: transmission
+      at_point: confset|corner|++---
+      source: refined
+      n_draws: 100000
+      de_biased: true
+    n_design_points_with_a_dead_cell: 22
+    fraction_of_design_points_with_a_dead_cell: 0.5238095238095238
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 1000
+        N: 999
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 10000
+        N: 99
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 10000
+        N: 999
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+      verdict: FAIL
+  BBB|studentised:
+    screened_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 0.00038399837067659573
+      cell: transmission
+      at_point: confset|corner|-----
+      n_draws: 10000
+    own_argmin_was_re_measured: true
+    reported_min:
+      p_sel: 0.0
+      ci95:
+      - 0.0
+      - 3.841311258303963e-05
+      cell: transmission
+      at_point: confset|corner|-----
+      source: refined
+      n_draws: 100000
+      de_biased: true
+    n_design_points_with_a_dead_cell: 16
+    fraction_of_design_points_with_a_dead_cell: 0.38095238095238093
+    gate:
+      gate_draws_threshold: 100000000.0
+      corners:
+      - M: 1000
+        N: 99
+        expected_draws: .inf
+        expected_draws_ci95_lower: 2577244939.1073565
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 1000
+        N: 999
+        expected_draws: .inf
+        expected_draws_ci95_lower: 26006744385.53787
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 10000
+        N: 99
+        expected_draws: .inf
+        expected_draws_ci95_lower: 25772449391.073563
+        expected_draws_ci95_upper: .inf
+        passes: false
+      - M: 10000
+        N: 999
+        expected_draws: .inf
+        expected_draws_ci95_lower: 260067443855.3787
+        expected_draws_ci95_upper: .inf
+        passes: false
+      verdict: FAIL
+primary_case:
+  key: AAA|studentised
+  p_sel_min: 1.0e-05
+  gate_verdict: FAIL
+session_verdict:
+  verdict: FAIL
+  is_a_pass: false
+  rule: PASS only if the primary assignment AAA passes under BOTH studentisation variants inside the confidence-set
+    box, matching cost_gate.py's convention for the fixed-box measurement.
+design_points:
+- key: confset|corner|-----
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 1
+      - 9999
+      p_sel:
+      - 0.0
+      - 0.0001
+      - 0.9999
+      ci95_lower:
+      - 0.0
+      - 1.765267360112231e-05
+      - 0.9994337311025987
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.0005662688974013381
+      - 0.9999823473263989
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 6
+      - 1331
+      - 8663
+      p_sel:
+      - 0.0006
+      - 0.1331
+      - 0.8663
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.12658301640861294
+      - 0.859488799352325
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.13989876159578954
+      - 0.8728298834413171
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 8388
+      - 1612
+      p_sel:
+      - 0.0
+      - 0.8388
+      - 0.1612
+      ci95_lower:
+      - 0.0
+      - 0.8314630229438577
+      - 0.15412322023982816
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.8458767797601717
+      - 0.1685369770561423
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 6105
+      - 3895
+      p_sel:
+      - 0.0
+      - 0.6105
+      - 0.3895
+      ci95_lower:
+      - 0.0
+      - 0.600901801490604
+      - 0.3799866651305234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.6200133348694765
+      - 0.39909819850939604
+  refined:
+    AAA|plain:
+      n_draws: 100000
+      counts:
+      - 0
+      - 17
+      - 99983
+      p_sel:
+      - 0.0
+      - 0.00017
+      - 0.99983
+      ci95_lower:
+      - 0.0
+      - 0.00010614727173743861
+      - 0.9997277472196127
+      ci95_upper:
+      - 3.841311258303963e-05
+      - 0.0002722527803873228
+      - 0.9998938527282626
+    AAA|studentised:
+      n_draws: 100000
+      counts:
+      - 119
+      - 13363
+      - 86518
+      p_sel:
+      - 0.00119
+      - 0.13363
+      - 0.86518
+      ci95_lower:
+      - 0.0009946279914127421
+      - 0.13153518739537762
+      - 0.8630491730009155
+      ci95_upper:
+      - 0.0014236936979623502
+      - 0.1357529594287365
+      - 0.8672827715981783
+    BBB|plain:
+      n_draws: 100000
+      counts:
+      - 0
+      - 84745
+      - 15255
+      p_sel:
+      - 0.0
+      - 0.84745
+      - 0.15255
+      ci95_lower:
+      - 0.0
+      - 0.8452081633793741
+      - 0.150334856651308
+      ci95_upper:
+      - 3.841311258303963e-05
+      - 0.849665143348692
+      - 0.15479183662062593
+    BBB|studentised:
+      n_draws: 100000
+      counts:
+      - 0
+      - 62131
+      - 37869
+      p_sel:
+      - 0.0
+      - 0.62131
+      - 0.37869
+      ci95_lower:
+      - 0.0
+      - 0.6182990121065999
+      - 0.37568833189597484
+      ci95_upper:
+      - 3.841311258303963e-05
+      - 0.6243116681040253
+      - 0.38170098789340023
+- key: confset|corner|+----
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 2
+      - 6
+      - 9992
+      p_sel:
+      - 0.0002
+      - 0.0006
+      - 0.9992
+      ci95_lower:
+      - 5.484892732085777e-05
+      - 0.0002750134763309977
+      - 0.9984220497466133
+      ci95_upper:
+      - 0.0007289958440074673
+      - 0.001308524096300786
+      - 0.999594566280103
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9992
+      - 5
+      - 3
+      p_sel:
+      - 0.9992
+      - 0.0005
+      - 0.0003
+      ci95_lower:
+      - 0.9984220497466133
+      - 0.00021358842616382576
+      - 0.00010203219941781012
+      ci95_upper:
+      - 0.999594566280103
+      - 0.0011700259461420934
+      - 0.0008817357722363795
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|-+---
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 536
+      - 2971
+      - 6493
+      p_sel:
+      - 0.0536
+      - 0.2971
+      - 0.6493
+      ci95_lower:
+      - 0.049354575868798316
+      - 0.28822263210222443
+      - 0.6398915531918653
+      ci95_upper:
+      - 0.05818825787654174
+      - 0.30613319443659603
+      - 0.6585937848946507
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 8256
+      - 1734
+      - 10
+      p_sel:
+      - 0.8256
+      - 0.1734
+      - 0.001
+      ci95_lower:
+      - 0.8180382033847557
+      - 0.16610549796110544
+      - 0.0005432859864972464
+      ci95_upper:
+      - 0.8329117368762595
+      - 0.1809453297746205
+      - 0.0018399443874379962
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|++---
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 195
+      - 9805
+      p_sel:
+      - 0.0
+      - 0.0195
+      - 0.9805
+      ci95_lower:
+      - 0.0
+      - 0.016968632494305403
+      - 0.9775996100600852
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.022400389939914802
+      - 0.9830313675056945
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 2107
+      - 7893
+      - 0
+      p_sel:
+      - 0.2107
+      - 0.7893
+      - 0.0
+      ci95_lower:
+      - 0.2028190080198224
+      - 0.7811968265625489
+      - 0.0
+      ci95_upper:
+      - 0.2188031734374511
+      - 0.7971809919801776
+      - 0.00038399837067659573
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7372
+      - 2628
+      p_sel:
+      - 0.0
+      - 0.7372
+      - 0.2628
+      ci95_lower:
+      - 0.0
+      - 0.7284832175769503
+      - 0.2542653864039992
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.7457346135960007
+      - 0.27151678242304966
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 8
+      - 4184
+      - 5808
+      p_sel:
+      - 0.0008
+      - 0.4184
+      - 0.5808
+      ci95_lower:
+      - 0.0004054337198968799
+      - 0.4087647061933915
+      - 0.5710997657136099
+      ci95_upper:
+      - 0.0015779502533866333
+      - 0.4280979623407028
+      - 0.5904381801496887
+  refined:
+    AAA|plain:
+      n_draws: 100000
+      counts:
+      - 0
+      - 1705
+      - 98295
+      p_sel:
+      - 0.0
+      - 0.01705
+      - 0.98295
+      ci95_lower:
+      - 0.0
+      - 0.016265980155458052
+      - 0.9821288769300142
+      ci95_upper:
+      - 3.841311258303963e-05
+      - 0.017871123069985905
+      - 0.983734019844542
+    AAA|studentised:
+      n_draws: 100000
+      counts:
+      - 21769
+      - 78230
+      - 1
+      p_sel:
+      - 0.21769
+      - 0.7823
+      - 1.0e-05
+      ci95_lower:
+      - 0.21514312832662477
+      - 0.7797313975030736
+      - 1.7652477303783126e-06
+      ci95_upper:
+      - 0.22025856048500184
+      - 0.784846914453562
+      - 5.664709659040966e-05
+    BBB|plain:
+      n_draws: 100000
+      counts:
+      - 0
+      - 73030
+      - 26970
+      p_sel:
+      - 0.0
+      - 0.7303
+      - 0.2697
+      ci95_lower:
+      - 0.0
+      - 0.7275405174819541
+      - 0.2669582105616099
+      ci95_upper:
+      - 3.841311258303963e-05
+      - 0.7330417894383902
+      - 0.2724594825180459
+    BBB|studentised:
+      n_draws: 100000
+      counts:
+      - 70
+      - 41312
+      - 58618
+      p_sel:
+      - 0.0007
+      - 0.41312
+      - 0.58618
+      ci95_lower:
+      - 0.0005541396234459808
+      - 0.41007156048042753
+      - 0.5831241504165916
+      ci95_upper:
+      - 0.0008842197107794428
+      - 0.41617511418201497
+      - 0.5892292286993237
+- key: confset|corner|--+--
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 10
+      - 350
+      - 9640
+      p_sel:
+      - 0.001
+      - 0.035
+      - 0.964
+      ci95_lower:
+      - 0.0005432859864972464
+      - 0.031572809892695966
+      - 0.9601669614379689
+      ci95_upper:
+      - 0.0018399443874379962
+      - 0.03878430859203326
+      - 0.9674766880740431
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9855
+      - 1
+      - 144
+      p_sel:
+      - 0.9855
+      - 0.0001
+      - 0.0144
+      ci95_lower:
+      - 0.9829636757481404
+      - 1.765267360112231e-05
+      - 0.012244521370558361
+      ci95_upper:
+      - 0.9876634618339326
+      - 0.0005662688974013381
+      - 0.016928417847042746
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 3
+      - 9260
+      - 737
+      p_sel:
+      - 0.0003
+      - 0.926
+      - 0.0737
+      ci95_lower:
+      - 0.00010203219941781012
+      - 0.9207041789901058
+      - 0.06874103152331712
+      ci95_upper:
+      - 0.0008817357722363795
+      - 0.9309686543980777
+      - 0.07898636548752175
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 17
+      - 5862
+      - 4121
+      p_sel:
+      - 0.0017
+      - 0.5862
+      - 0.4121
+      ci95_lower:
+      - 0.0010617073611205116
+      - 0.5765156086770493
+      - 0.40248835024520985
+      ci95_upper:
+      - 0.0027209854150957837
+      - 0.5958181900038462
+      - 0.421779156668355
+  refined: null
+- key: confset|corner|+-+--
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 231
+      - 9769
+      p_sel:
+      - 0.0
+      - 0.0231
+      - 0.9769
+      ci95_lower:
+      - 0.0
+      - 0.020333723262891214
+      - 0.9737674656169398
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.02623253438306012
+      - 0.9796662767371088
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 12
+      - 9426
+      - 562
+      p_sel:
+      - 0.0012
+      - 0.9426
+      - 0.0562
+      ci95_lower:
+      - 0.0006866043187699607
+      - 0.9378687695143805
+      - 0.05185412408045512
+      ci95_upper:
+      - 0.002096472455817011
+      - 0.9469913151278965
+      - 0.0608867128733574
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|-++--
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 10000
+      - 0
+      - 0
+      p_sel:
+      - 1.0
+      - 0.0
+      - 0.0
+      ci95_lower:
+      - 0.9996160016293234
+      - 0.0
+      - 0.0
+      ci95_upper:
+      - 1.0
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|+++--
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 899
+      - 9101
+      p_sel:
+      - 0.0
+      - 0.0899
+      - 0.9101
+      ci95_lower:
+      - 0.0
+      - 0.08445009205861065
+      - 0.9043351365949817
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.09566486340501829
+      - 0.9155499079413894
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 1
+      - 7316
+      - 2683
+      p_sel:
+      - 0.0001
+      - 0.7316
+      - 0.2683
+      ci95_lower:
+      - 1.765267360112231e-05
+      - 0.7228271508301326
+      - 0.2597060812869733
+      ci95_upper:
+      - 0.0005662688974013381
+      - 0.7401949811245699
+      - 0.2770718635579981
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 3
+      - 9840
+      - 157
+      p_sel:
+      - 0.0003
+      - 0.984
+      - 0.0157
+      ci95_lower:
+      - 0.00010203219941781012
+      - 0.9813483360961877
+      - 0.013442876541463032
+      ci95_upper:
+      - 0.0008817357722363795
+      - 0.9862799534809974
+      - 0.018329064280374313
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 7
+      - 8743
+      - 1250
+      p_sel:
+      - 0.0007
+      - 0.8743
+      - 0.125
+      ci95_lower:
+      - 0.0003391263316879597
+      - 0.8676584319803181
+      - 0.11866167283006009
+      ci95_upper:
+      - 0.0014443344412696886
+      - 0.8806541068393933
+      - 0.13162632594794738
+  refined: null
+- key: confset|corner|---+-
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 117
+      - 2195
+      - 7688
+      p_sel:
+      - 0.0117
+      - 0.2195
+      - 0.7688
+      ci95_lower:
+      - 0.00977199841537232
+      - 0.21149610833268326
+      - 0.7604345149903636
+      ci95_upper:
+      - 0.014003014393430442
+      - 0.22771931475326632
+      - 0.7769590474855607
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 2511
+      - 5347
+      - 2142
+      p_sel:
+      - 0.2511
+      - 0.5347
+      - 0.2142
+      ci95_lower:
+      - 0.2426973677378872
+      - 0.5249123516676752
+      - 0.20626947184223182
+      ci95_upper:
+      - 0.2596937866510355
+      - 0.5444609988453997
+      - 0.2223500216264469
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 9957
+      - 43
+      p_sel:
+      - 0.0
+      - 0.9957
+      - 0.0043
+      ci95_lower:
+      - 0.0
+      - 0.9942133784168481
+      - 0.003194074401536842
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.9968059255984631
+      - 0.005786621583151935
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 1
+      - 9693
+      - 306
+      p_sel:
+      - 0.0001
+      - 0.9693
+      - 0.0306
+      ci95_lower:
+      - 1.765267360112231e-05
+      - 0.9657346291317515
+      - 0.02740041465717347
+      ci95_upper:
+      - 0.0005662688974013381
+      - 0.9725049499975316
+      - 0.03416008301321771
+  refined: null
+- key: confset|corner|+--+-
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 1
+      - 672
+      - 9327
+      p_sel:
+      - 0.0001
+      - 0.0672
+      - 0.9327
+      ci95_lower:
+      - 1.765267360112231e-05
+      - 0.062457199086668164
+      - 0.9276214658440161
+      ci95_upper:
+      - 0.0005662688974013381
+      - 0.07227518990298948
+      - 0.9374462219660002
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 242
+      - 9629
+      - 129
+      p_sel:
+      - 0.0242
+      - 0.9629
+      - 0.0129
+      ci95_lower:
+      - 0.021365877393778255
+      - 0.959014229297069
+      - 0.010867887236225882
+      ci95_upper:
+      - 0.02739953545575759
+      - 0.9664302650113584
+      - 0.015306203976487257
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|-+-+-
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 1183
+      - 2709
+      - 6108
+      p_sel:
+      - 0.1183
+      - 0.2709
+      - 0.6108
+      ci95_lower:
+      - 0.11211613177503216
+      - 0.26227864095371833
+      - 0.6012030198125891
+      ci95_upper:
+      - 0.12477701258114235
+      - 0.2796973070997255
+      - 0.6203118861484691
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 8271
+      - 1723
+      - 6
+      p_sel:
+      - 0.8271
+      - 0.1723
+      - 0.0006
+      ci95_lower:
+      - 0.819562937434604
+      - 0.16502456049471667
+      - 0.0002750134763309977
+      ci95_upper:
+      - 0.8343858508312992
+      - 0.17982711203742477
+      - 0.001308524096300786
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 3
+      - 9988
+      - 9
+      p_sel:
+      - 0.0003
+      - 0.9988
+      - 0.0009
+      ci95_lower:
+      - 0.00010203219941781012
+      - 0.997903527544183
+      - 0.00047357706058500574
+      ci95_upper:
+      - 0.0008817357722363795
+      - 0.9993133956812301
+      - 0.0017097301130243718
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 351
+      - 9599
+      - 50
+      p_sel:
+      - 0.0351
+      - 0.9599
+      - 0.005
+      ci95_lower:
+      - 0.03166782524897386
+      - 0.9558747566218158
+      - 0.0037949010708382257
+      ci95_upper:
+      - 0.038889216436081224
+      - 0.9635720416768359
+      - 0.006585257316131604
+  refined: null
+- key: confset|corner|++-+-
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7102
+      - 2898
+      p_sel:
+      - 0.0
+      - 0.7102
+      - 0.2898
+      ci95_lower:
+      - 0.0
+      - 0.7012288668792586
+      - 0.2809902997942909
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.719009700205709
+      - 0.29877113312074144
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9991
+      - 1
+      - 8
+      p_sel:
+      - 0.9991
+      - 0.0001
+      - 0.0008
+      ci95_lower:
+      - 0.9982902698869756
+      - 1.765267360112231e-05
+      - 0.0004054337198968799
+      ci95_upper:
+      - 0.999526422939415
+      - 0.0005662688974013381
+      - 0.0015779502533866333
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 12
+      - 9602
+      - 386
+      p_sel:
+      - 0.0012
+      - 0.9602
+      - 0.0386
+      ci95_lower:
+      - 0.0006866043187699607
+      - 0.9561884312882075
+      - 0.03499807820817167
+      ci95_upper:
+      - 0.002096472455817011
+      - 0.9638581366114217
+      - 0.042556275488288685
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 35
+      - 7990
+      - 1975
+      p_sel:
+      - 0.0035
+      - 0.799
+      - 0.1975
+      ci95_lower:
+      - 0.0025177785056224875
+      - 0.7910313359443018
+      - 0.18981392682708734
+      ci95_upper:
+      - 0.004863531876459371
+      - 0.8067390330300337
+      - 0.20541839218717198
+  refined: null
+- key: confset|corner|--++-
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 7060
+      - 293
+      - 2647
+      p_sel:
+      - 0.706
+      - 0.0293
+      - 0.2647
+      ci95_lower:
+      - 0.6969928229039963
+      - 0.026171040591166105
+      - 0.2561447045628046
+      ci95_upper:
+      - 0.7148489697672848
+      - 0.032790455474988836
+      - 0.27343600507043575
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7232
+      - 2768
+      p_sel:
+      - 0.0
+      - 0.7232
+      - 0.2768
+      ci95_lower:
+      - 0.0
+      - 0.7143463490675469
+      - 0.26811776594021697
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.7318822340597829
+      - 0.285653650932453
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 3466
+      - 6534
+      p_sel:
+      - 0.0
+      - 0.3466
+      - 0.6534
+      ci95_lower:
+      - 0.0
+      - 0.3373332964257107
+      - 0.6440154857255871
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.35598451427441286
+      - 0.6626667035742893
+  refined: null
+- key: confset|corner|+-++-
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 8447
+      - 1553
+      p_sel:
+      - 0.0
+      - 0.8447
+      - 0.1553
+      ci95_lower:
+      - 0.0
+      - 0.8374689626466123
+      - 0.1483336911233567
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.8516663088766432
+      - 0.1625310373533877
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|-+++-
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9991
+      - 0
+      - 9
+      p_sel:
+      - 0.9991
+      - 0.0
+      - 0.0009
+      ci95_lower:
+      - 0.9982902698869756
+      - 0.0
+      - 0.00047357706058500574
+      ci95_upper:
+      - 0.999526422939415
+      - 0.00038399837067659573
+      - 0.0017097301130243718
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 5
+      - 9994
+      - 1
+      p_sel:
+      - 0.0005
+      - 0.9994
+      - 0.0001
+      ci95_lower:
+      - 0.00021358842616382576
+      - 0.9986914759036991
+      - 1.765267360112231e-05
+      ci95_upper:
+      - 0.0011700259461420934
+      - 0.999724986523669
+      - 0.0005662688974013381
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 352
+      - 9490
+      - 158
+      p_sel:
+      - 0.0352
+      - 0.949
+      - 0.0158
+      ci95_lower:
+      - 0.031762848433424355
+      - 0.94451309007203
+      - 0.013535241574453728
+      ci95_upper:
+      - 0.0389941164519566
+      - 0.9531420793911023
+      - 0.01843662244770949
+  refined: null
+- key: confset|corner|++++-
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7950
+      - 2050
+      p_sel:
+      - 0.0
+      - 0.795
+      - 0.205
+      ci95_lower:
+      - 0.0
+      - 0.7869750223879195
+      - 0.19720158142661864
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.8027984185733814
+      - 0.2130249776120805
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 4898
+      - 5102
+      p_sel:
+      - 0.0
+      - 0.4898
+      - 0.5102
+      ci95_lower:
+      - 0.0
+      - 0.4800080167828778
+      - 0.5004001832161161
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.49959981678388393
+      - 0.5199919832171221
+  refined: null
+- key: confset|corner|----+
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 50
+      - 9950
+      p_sel:
+      - 0.0
+      - 0.005
+      - 0.995
+      ci95_lower:
+      - 0.0
+      - 0.0037949010708382257
+      - 0.9934147426838684
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.006585257316131604
+      - 0.9962050989291618
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 94
+      - 2148
+      - 7758
+      p_sel:
+      - 0.0094
+      - 0.2148
+      - 0.7758
+      ci95_lower:
+      - 0.007688088248246492
+      - 0.20686106756151887
+      - 0.7675208608970783
+      ci95_upper:
+      - 0.011488690953061383
+      - 0.222957965109115
+      - 0.7838673256016566
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 2
+      - 7564
+      - 2434
+      p_sel:
+      - 0.0002
+      - 0.7564
+      - 0.2434
+      ci95_lower:
+      - 5.484892732085777e-05
+      - 0.747889357313434
+      - 0.23508868964000332
+      ci95_upper:
+      - 0.0007289958440074673
+      - 0.7647137283220831
+      - 0.25190837832382795
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 3
+      - 5791
+      - 4206
+      p_sel:
+      - 0.0003
+      - 0.5791
+      - 0.4206
+      ci95_lower:
+      - 0.00010203219941781012
+      - 0.5693950244234063
+      - 0.4109568315115755
+      ci95_upper:
+      - 0.0008817357722363795
+      - 0.5887442270343526
+      - 0.43030414742968776
+  refined: null
+- key: confset|corner|+---+
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 50
+      - 74
+      - 9876
+      p_sel:
+      - 0.005
+      - 0.0074
+      - 0.9876
+      ci95_lower:
+      - 0.0037949010708382257
+      - 0.005899086359582839
+      - 0.9852361608857194
+      ci95_upper:
+      - 0.006585257316131604
+      - 0.009279228835207744
+      - 0.9895893639031967
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9842
+      - 65
+      - 93
+      p_sel:
+      - 0.9842
+      - 0.0065
+      - 0.0093
+      ci95_lower:
+      - 0.9815633775522904
+      - 0.005103414629831768
+      - 0.007598063501358216
+      ci95_upper:
+      - 0.9864647584255463
+      - 0.00827559176202603
+      - 0.011378792499623794
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 9984
+      - 16
+      p_sel:
+      - 0.0
+      - 0.9984
+      - 0.0016
+      ci95_lower:
+      - 0.0
+      - 0.997402363083803
+      - 0.0009851326596934777
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.9990148673403064
+      - 0.002597636916196953
+  refined: null
+- key: confset|corner|-+--+
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 703
+      - 2911
+      - 6386
+      p_sel:
+      - 0.0703
+      - 0.2911
+      - 0.6386
+      ci95_lower:
+      - 0.06545256384549218
+      - 0.28227804662881184
+      - 0.6291326484487543
+      ci95_upper:
+      - 0.07547744435426727
+      - 0.3000823878904568
+      - 0.647960907202894
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 7408
+      - 2503
+      - 89
+      p_sel:
+      - 0.7408
+      - 0.2503
+      - 0.0089
+      ci95_lower:
+      - 0.7321202090750506
+      - 0.24190668811114974
+      - 0.007238518896069928
+      ci95_upper:
+      - 0.7492948573096315
+      - 0.2588850806751661
+      - 0.010938644303608623
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 7
+      - 9991
+      - 2
+      p_sel:
+      - 0.0007
+      - 0.9991
+      - 0.0002
+      ci95_lower:
+      - 0.0003391263316879597
+      - 0.9982902698869756
+      - 5.484892732085777e-05
+      ci95_upper:
+      - 0.0014443344412696886
+      - 0.999526422939415
+      - 0.0007289958440074673
+  refined: null
+- key: confset|corner|++--+
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 637
+      - 9363
+      p_sel:
+      - 0.0
+      - 0.0637
+      - 0.9363
+      ci95_lower:
+      - 0.0
+      - 0.05907894589748436
+      - 0.9313438689192319
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.06865613108076804
+      - 0.9409210541025157
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 2867
+      - 7123
+      - 10
+      p_sel:
+      - 0.2867
+      - 0.7123
+      - 0.001
+      ci95_lower:
+      - 0.27791987718817407
+      - 0.7033472350276563
+      - 0.0005432859864972464
+      ci95_upper:
+      - 0.2956439365167565
+      - 0.7210897192641544
+      - 0.0018399443874379962
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 6734
+      - 3266
+      p_sel:
+      - 0.0
+      - 0.6734
+      - 0.3266
+      ci95_lower:
+      - 0.0
+      - 0.6641433041160825
+      - 0.31747647475103313
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.6825235252489668
+      - 0.3358566958839174
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 90
+      - 4301
+      - 5609
+      p_sel:
+      - 0.009
+      - 0.4301
+      - 0.5609
+      ci95_lower:
+      - 0.007328320093401381
+      - 0.42042508426097747
+      - 0.551151597144298
+      ci95_upper:
+      - 0.011048766306603034
+      - 0.439828598711243
+      - 0.5706016318541536
+  refined: null
+- key: confset|corner|--+-+
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 31
+      - 899
+      - 9070
+      p_sel:
+      - 0.0031
+      - 0.0899
+      - 0.907
+      ci95_lower:
+      - 0.002184864524503692
+      - 0.08445009205861065
+      - 0.90115028906247
+      ci95_upper:
+      - 0.004396753056274708
+      - 0.09566486340501829
+      - 0.9125371362637994
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9408
+      - 32
+      - 560
+      p_sel:
+      - 0.9408
+      - 0.0032
+      - 0.056
+      ci95_lower:
+      - 0.9360030366141178
+      - 0.0022677138537914978
+      - 0.051661752823658105
+      ci95_upper:
+      - 0.9452584304222936
+      - 0.004513826927312767
+      - 0.060679237729502705
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 72
+      - 8452
+      - 1476
+      p_sel:
+      - 0.0072
+      - 0.8452
+      - 0.1476
+      ci95_lower:
+      - 0.005721693857721179
+      - 0.837978103128759
+      - 0.140783287154509
+      ci95_upper:
+      - 0.009056774936417673
+      - 0.8521567843961257
+      - 0.15468735489714386
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 170
+      - 5631
+      - 4199
+      p_sel:
+      - 0.017
+      - 0.5631
+      - 0.4199
+      ci95_lower:
+      - 0.014645511303266186
+      - 0.5533561376097843
+      - 0.41025931570108154
+      ci95_upper:
+      - 0.019725431122807408
+      - 0.5727954017958364
+      - 0.4296022008379008
+  refined: null
+- key: confset|corner|+-+-+
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 3
+      - 725
+      - 9272
+      p_sel:
+      - 0.0003
+      - 0.0725
+      - 0.9272
+      ci95_lower:
+      - 0.00010203219941781012
+      - 0.06758002331835347
+      - 0.9219421496641167
+      ci95_upper:
+      - 0.0008817357722363795
+      - 0.07774829528857499
+      - 0.9321297621279772
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 124
+      - 8663
+      - 1213
+      p_sel:
+      - 0.0124
+      - 0.8663
+      - 0.1213
+      ci95_lower:
+      - 0.0104106360968032
+      - 0.859488799352325
+      - 0.11504619238533846
+      ci95_upper:
+      - 0.014763839114280615
+      - 0.8728298834413171
+      - 0.127844647980612
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 9953
+      - 47
+      p_sel:
+      - 0.0
+      - 0.9953
+      - 0.0047
+      ci95_lower:
+      - 0.0
+      - 0.9937561129811471
+      - 0.003536501767139378
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.9964634982328605
+      - 0.006243887018852858
+  refined: null
+- key: confset|corner|-++-+
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 6
+      - 11
+      - 9983
+      p_sel:
+      - 0.0006
+      - 0.0011
+      - 0.9983
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.0006143506542303221
+      - 0.9972790145849042
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.0019688029200307855
+      - 0.9989382926388795
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9993
+      - 0
+      - 7
+      p_sel:
+      - 0.9993
+      - 0.0
+      - 0.0007
+      ci95_lower:
+      - 0.9985556655587302
+      - 0.0
+      - 0.0003391263316879597
+      ci95_upper:
+      - 0.9996608736683119
+      - 0.00038399837067659573
+      - 0.0014443344412696886
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 6
+      - 9994
+      - 0
+      p_sel:
+      - 0.0006
+      - 0.9994
+      - 0.0
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.9986914759036991
+      - 0.0
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.999724986523669
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|+++-+
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 8.921604010425607
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 1593
+      - 8407
+      p_sel:
+      - 0.0
+      - 0.1593
+      - 0.8407
+      ci95_lower:
+      - 0.0
+      - 0.15225841403034837
+      - 0.8333967575405693
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.16660324245943062
+      - 0.8477415859696517
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 30
+      - 6763
+      - 3207
+      p_sel:
+      - 0.003
+      - 0.6763
+      - 0.3207
+      ci95_lower:
+      - 0.0021022876940520996
+      - 0.6670633939825801
+      - 0.31162230154009796
+      ci95_upper:
+      - 0.004279406686400436
+      - 0.6854012081919194
+      - 0.3299154002756266
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 28
+      - 9396
+      - 576
+      p_sel:
+      - 0.0028
+      - 0.9396
+      - 0.0576
+      ci95_lower:
+      - 0.001938005730685637
+      - 0.934759887277341
+      - 0.05320116648345306
+      ci95_upper:
+      - 0.004043842249115168
+      - 0.94410250135516
+      - 0.06233859527492157
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 81
+      - 7926
+      - 1993
+      p_sel:
+      - 0.0081
+      - 0.7926
+      - 0.1993
+      ci95_lower:
+      - 0.006522289905863053
+      - 0.7845418074052783
+      - 0.19158657280916336
+      ci95_upper:
+      - 0.010055487691208582
+      - 0.8004334767482015
+      - 0.20724436381096156
+  refined: null
+- key: confset|corner|---++
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 83
+      - 1870
+      - 8047
+      p_sel:
+      - 0.0083
+      - 0.187
+      - 0.8047
+      ci95_lower:
+      - 0.006700968940935741
+      - 0.17947858810548215
+      - 0.796813692549712
+      ci95_upper:
+      - 0.010276655056787622
+      - 0.19476179487456138
+      - 0.8123522988431975
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 2585
+      - 4607
+      - 2808
+      p_sel:
+      - 0.2585
+      - 0.4607
+      - 0.2808
+      ci95_lower:
+      - 0.25001296034211473
+      - 0.450947453818376
+      - 0.27207757956046813
+      ci95_upper:
+      - 0.267172510870922
+      - 0.4704827284535591
+      - 0.28969076532523635
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 27
+      - 9681
+      - 292
+      p_sel:
+      - 0.0027
+      - 0.9681
+      - 0.0292
+      ci95_lower:
+      - 0.0018563306257756151
+      - 0.9644719033130531
+      - 0.02607654313265518
+      ci95_upper:
+      - 0.003925594153699328
+      - 0.9713685974123194
+      - 0.0326850297331739
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 66
+      - 8972
+      - 962
+      p_sel:
+      - 0.0066
+      - 0.8972
+      - 0.0962
+      ci95_lower:
+      - 0.005191478817931517
+      - 0.8910943033499873
+      - 0.09057483393320491
+      ci95_upper:
+      - 0.008387450774252148
+      - 0.9030006483443472
+      - 0.10213528315095348
+  refined: null
+- key: confset|corner|+--++
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 28
+      - 1333
+      - 8639
+      p_sel:
+      - 0.0028
+      - 0.1333
+      - 0.8639
+      ci95_lower:
+      - 0.001938005730685637
+      - 0.12677871147686712
+      - 0.857039487574811
+      ci95_upper:
+      - 0.004043842249115168
+      - 0.14010291292818708
+      - 0.8704810384110105
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 781
+      - 8711
+      - 508
+      p_sel:
+      - 0.0781
+      - 0.8711
+      - 0.0508
+      ci95_lower:
+      - 0.073001374033048
+      - 0.8643895850525483
+      - 0.04666599590665272
+      ci95_upper:
+      - 0.08352264379212891
+      - 0.8775254113567355
+      - 0.05527898822956311
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|-+-++
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 998
+      - 2294
+      - 6708
+      p_sel:
+      - 0.0998
+      - 0.2294
+      - 0.6708
+      ci95_lower:
+      - 0.09407813237565461
+      - 0.22126422822890982
+      - 0.6615256320468428
+      ci95_upper:
+      - 0.10582921992023493
+      - 0.23774359168930034
+      - 0.679943194109734
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 7502
+      - 2394
+      - 104
+      p_sel:
+      - 0.7502
+      - 0.2394
+      - 0.0104
+      ci95_lower:
+      - 0.7416203801275992
+      - 0.23113757207821933
+      - 0.008591159114003776
+      ci95_upper:
+      - 0.7585874670877141
+      - 0.24786256787257727
+      - 0.012584852090562745
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 53
+      - 9826
+      - 121
+      p_sel:
+      - 0.0053
+      - 0.9826
+      - 0.0121
+      ci95_lower:
+      - 0.004054522887776702
+      - 0.9798457030323637
+      - 0.010136711003799979
+      ci95_upper:
+      - 0.006925405100170722
+      - 0.9849836617402592
+      - 0.014437994606306242
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 960
+      - 8823
+      - 217
+      p_sel:
+      - 0.096
+      - 0.8823
+      - 0.0217
+      ci95_lower:
+      - 0.09038027763138
+      - 0.87583667001958
+      - 0.01902260420448802
+      ci95_upper:
+      - 0.1019299930521267
+      - 0.8884697248262007
+      - 0.02474472863690121
+  refined: null
+- key: confset|corner|++-++
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.38045931141943584
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 2
+      - 5480
+      - 4518
+      p_sel:
+      - 0.0002
+      - 0.548
+      - 0.4518
+      ci95_lower:
+      - 5.484892732085777e-05
+      - 0.5382288658804137
+      - 0.4420661851589904
+      ci95_upper:
+      - 0.0007289958440074673
+      - 0.5577342702760013
+      - 0.46157083228394274
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9863
+      - 15
+      - 122
+      p_sel:
+      - 0.9863
+      - 0.0015
+      - 0.0122
+      ci95_lower:
+      - 0.9838277471520065
+      - 0.0009092618255931228
+      - 0.010227982913488937
+      ci95_upper:
+      - 0.9883987760326733
+      - 0.002473584549971443
+      - 0.014546645896943149
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 110
+      - 8938
+      - 952
+      p_sel:
+      - 0.011
+      - 0.8938
+      - 0.0952
+      ci95_lower:
+      - 0.009135269953194405
+      - 0.8876095272298496
+      - 0.08960212917523011
+      ci95_upper:
+      - 0.013240280453327305
+      - 0.8996880356534054
+      - 0.10110875590566967
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 207
+      - 7127
+      - 2666
+      p_sel:
+      - 0.0207
+      - 0.7127
+      - 0.2666
+      ci95_lower:
+      - 0.01808796362357549
+      - 0.7037507600669485
+      - 0.258024228571699
+      ci95_upper:
+      - 0.023680137214555093
+      - 0.7214858870261657
+      - 0.2753550218677328
+  refined: null
+- key: confset|corner|--+++
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 2
+      - 9998
+      p_sel:
+      - 0.0
+      - 0.0002
+      - 0.9998
+      ci95_lower:
+      - 0.0
+      - 5.484892732085777e-05
+      - 0.9992710041559925
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.0007289958440074673
+      - 0.9999451510726791
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 5796
+      - 871
+      - 3333
+      p_sel:
+      - 0.5796
+      - 0.0871
+      - 0.3333
+      ci95_lower:
+      - 0.5698964067034896
+      - 0.08173060321353506
+      - 0.3241264369920278
+      ci95_upper:
+      - 0.5892424607558987
+      - 0.09278650264096966
+      - 0.3426015880647556
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 6578
+      - 3422
+      p_sel:
+      - 0.0
+      - 0.6578
+      - 0.3422
+      ci95_lower:
+      - 0.0
+      - 0.6484420192725023
+      - 0.33296320915828775
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.6670367908417122
+      - 0.3515579807274977
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 20
+      - 3827
+      - 6153
+      p_sel:
+      - 0.002
+      - 0.3827
+      - 0.6153
+      ci95_lower:
+      - 0.0012951117125432855
+      - 0.37322043925858545
+      - 0.6057217518367439
+      ci95_upper:
+      - 0.0030873506646506045
+      - 0.39226964675917514
+      - 0.624789698138978
+  refined: null
+- key: confset|corner|+-+++
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1372393497231795
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7655
+      - 2345
+      p_sel:
+      - 0.0
+      - 0.7655
+      - 0.2345
+      ci95_lower:
+      - 0.0
+      - 0.7570949257885037
+      - 0.22629882892333297
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.7737011710766669
+      - 0.24290507421149626
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 10000
+      - 0
+      p_sel:
+      - 0.0
+      - 1.0
+      - 0.0
+      ci95_lower:
+      - 0.0
+      - 0.9996160016293234
+      - 0.0
+      ci95_upper:
+      - 0.00038399837067659573
+      - 1.0
+      - 0.00038399837067659573
+  refined: null
+- key: confset|corner|-++++
+  kind: corner
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9855
+      - 0
+      - 145
+      p_sel:
+      - 0.9855
+      - 0.0
+      - 0.0145
+      ci95_lower:
+      - 0.9829636757481404
+      - 0.0
+      - 0.012336538166067392
+      ci95_upper:
+      - 0.9876634618339326
+      - 0.00038399837067659573
+      - 0.017036324251859584
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 104
+      - 9869
+      - 27
+      p_sel:
+      - 0.0104
+      - 0.9869
+      - 0.0027
+      ci95_lower:
+      - 0.008591159114003776
+      - 0.9844770888796288
+      - 0.0018563306257756151
+      ci95_upper:
+      - 0.012584852090562745
+      - 0.9889489735070063
+      - 0.003925594153699328
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 1000
+      - 8481
+      - 519
+      p_sel:
+      - 0.1
+      - 0.8481
+      - 0.0519
+      ci95_lower:
+      - 0.09427283017063046
+      - 0.8409316310631291
+      - 0.04772180742973848
+      ci95_upper:
+      - 0.10603436852591083
+      - 0.8550010292712057
+      - 0.05642233191006187
+  refined: null
+- key: confset|corner|+++++
+  kind: corner
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.1578496758071368
+    rho: 0.4295262436935162
+    I0: 11.822743002368611
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 0
+      - 10000
+      p_sel:
+      - 0.0
+      - 0.0
+      - 1.0
+      ci95_lower:
+      - 0.0
+      - 0.0
+      - 0.9996160016293234
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.00038399837067659573
+      - 1.0
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 3
+      - 5
+      - 9992
+      p_sel:
+      - 0.0003
+      - 0.0005
+      - 0.9992
+      ci95_lower:
+      - 0.00010203219941781012
+      - 0.00021358842616382576
+      - 0.9984220497466133
+      ci95_upper:
+      - 0.0008817357722363795
+      - 0.0011700259461420934
+      - 0.999594566280103
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7196
+      - 2804
+      p_sel:
+      - 0.0
+      - 0.7196
+      - 0.2804
+      ci95_lower:
+      - 0.0
+      - 0.7107129070812263
+      - 0.2716815591656273
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.7283184408343727
+      - 0.28928709291877375
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 4910
+      - 5090
+      p_sel:
+      - 0.0
+      - 0.491
+      - 0.509
+      ci95_lower:
+      - 0.0
+      - 0.4812071045857098
+      - 0.4992001926150377
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.5007998073849622
+      - 0.5187928954142901
+  refined: null
+- key: confset|axis|beta-
+  kind: axis
+  theta:
+    beta: 0.3467544653858548
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 491
+      - 553
+      - 8956
+      p_sel:
+      - 0.0491
+      - 0.0553
+      - 0.8956
+      ci95_lower:
+      - 0.045035391683213966
+      - 0.050988580601897746
+      - 0.8894541624846506
+      ci95_upper:
+      - 0.053510898047462174
+      - 0.059952947548982005
+      - 0.90144201800447
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 8808
+      - 680
+      - 512
+      p_sel:
+      - 0.8808
+      - 0.068
+      - 0.0512
+      ci95_lower:
+      - 0.8743025614583333
+      - 0.06322991734737674
+      - 0.04704986366401762
+      ci95_upper:
+      - 0.8870049853825595
+      - 0.07310185724488785
+      - 0.05569481327350168
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 25
+      - 9972
+      - 3
+      p_sel:
+      - 0.0025
+      - 0.9972
+      - 0.0003
+      ci95_lower:
+      - 0.0016939976111583195
+      - 0.9959561577508849
+      - 0.00010203219941781012
+      ci95_upper:
+      - 0.0036880807676648924
+      - 0.9980619942693143
+      - 0.0008817357722363795
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 162
+      - 9831
+      - 7
+      p_sel:
+      - 0.0162
+      - 0.9831
+      - 0.0007
+      ci95_lower:
+      - 0.01390494978185447
+      - 0.9803818410813093
+      - 0.0003391263316879597
+      ci95_upper:
+      - 0.0188666070416122
+      - 0.9854471396929428
+      - 0.0014443344412696886
+  refined: null
+- key: confset|axis|beta+
+  kind: axis
+  theta:
+    beta: 0.36343012635280114
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 520
+      - 517
+      - 8963
+      p_sel:
+      - 0.052
+      - 0.0517
+      - 0.8963
+      ci95_lower:
+      - 0.04781781739856426
+      - 0.04752980093219833
+      - 0.8901716696811628
+      ci95_upper:
+      - 0.05652624514156195
+      - 0.05621449200695029
+      - 0.9021239732102388
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 6086
+      - 362
+      - 3552
+      p_sel:
+      - 0.6086
+      - 0.0362
+      - 0.3552
+      ci95_lower:
+      - 0.598994173649732
+      - 0.03271350388973501
+      - 0.34587736351517673
+      ci95_upper:
+      - 0.6181224219041572
+      - 0.04004269299890459
+      - 0.36463384241297114
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 9998
+      - 2
+      p_sel:
+      - 0.0
+      - 0.9998
+      - 0.0002
+      ci95_lower:
+      - 0.0
+      - 0.9992710041559925
+      - 5.484892732085777e-05
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.9999451510726791
+      - 0.0007289958440074673
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 4
+      - 9980
+      - 16
+      p_sel:
+      - 0.0004
+      - 0.998
+      - 0.0016
+      ci95_lower:
+      - 0.00015556283662307484
+      - 0.9969126493353494
+      - 0.0009851326596934777
+      ci95_upper:
+      - 0.0010281283353569795
+      - 0.9987048882874566
+      - 0.002597636916196953
+  refined: null
+- key: confset|axis|gamma-
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.1372393497231795
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 54
+      - 1569
+      - 8377
+      p_sel:
+      - 0.0054
+      - 0.1569
+      - 0.8377
+      ci95_lower:
+      - 0.0041413174551035775
+      - 0.14990338535466083
+      - 0.8303436551505807
+      ci95_upper:
+      - 0.007038533733169711
+      - 0.16416011432729746
+      - 0.8447969923498642
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 854
+      - 7309
+      - 1837
+      p_sel:
+      - 0.0854
+      - 0.7309
+      - 0.1837
+      ci95_lower:
+      - 0.08008031480008865
+      - 0.7221202672918262
+      - 0.17623219238756405
+      ci95_upper:
+      - 0.09103809664887638
+      - 0.7395024022605953
+      - 0.19141072498172595
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 9998
+      - 2
+      p_sel:
+      - 0.0
+      - 0.9998
+      - 0.0002
+      ci95_lower:
+      - 0.0
+      - 0.9992710041559925
+      - 5.484892732085777e-05
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.9999451510726791
+      - 0.0007289958440074673
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 0
+      - 9988
+      - 12
+      p_sel:
+      - 0.0
+      - 0.9988
+      - 0.0012
+      ci95_lower:
+      - 0.0
+      - 0.997903527544183
+      - 0.0006866043187699607
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.9993133956812301
+      - 0.002096472455817011
+  refined: null
+- key: confset|axis|gamma+
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.1578496758071368
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 14
+      - 2520
+      - 7466
+      p_sel:
+      - 0.0014
+      - 0.252
+      - 0.7466
+      ci95_lower:
+      - 0.000834162028874972
+      - 0.24358692824355965
+      - 0.7379813972936842
+      ci95_upper:
+      - 0.002348761146363729
+      - 0.2606035349482959
+      - 0.7550292147098983
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 1132
+      - 7456
+      - 1412
+      p_sel:
+      - 0.1132
+      - 0.7456
+      - 0.1412
+      ci95_lower:
+      - 0.10713805316386998
+      - 0.7369707060467521
+      - 0.13451256005399473
+      ci95_upper:
+      - 0.11955900797568542
+      - 0.7540406739535717
+      - 0.14816299717680279
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 12
+      - 9982
+      - 6
+      p_sel:
+      - 0.0012
+      - 0.9982
+      - 0.0006
+      ci95_lower:
+      - 0.0006866043187699607
+      - 0.9971563120149708
+      - 0.0002750134763309977
+      ci95_upper:
+      - 0.002096472455817011
+      - 0.9988610720084868
+      - 0.001308524096300786
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 89
+      - 9886
+      - 25
+      p_sel:
+      - 0.0089
+      - 0.9886
+      - 0.0025
+      ci95_lower:
+      - 0.007238518896069928
+      - 0.9863236278452282
+      - 0.0016939976111583195
+      ci95_upper:
+      - 0.010938644303608623
+      - 0.9905011289469466
+      - 0.0036880807676648924
+  refined: null
+- key: confset|axis|rho-
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.38045931141943584
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 1291
+      - 8709
+      p_sel:
+      - 0.0
+      - 0.1291
+      - 0.8709
+      ci95_lower:
+      - 0.0
+      - 0.12267017677689551
+      - 0.8641853267855276
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.13581467321447238
+      - 0.8773298232231045
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 9109
+      - 597
+      - 294
+      p_sel:
+      - 0.9109
+      - 0.0597
+      - 0.0294
+      ci95_lower:
+      - 0.9051573551064757
+      - 0.05522314248169482
+      - 0.026265548213677284
+      ci95_upper:
+      - 0.9163270750325024
+      - 0.06451500648352297
+      - 0.032895871052803526
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 128
+      - 1560
+      - 8312
+      p_sel:
+      - 0.0128
+      - 0.156
+      - 0.8312
+      ci95_lower:
+      - 0.010776367996168325
+      - 0.14902040009438558
+      - 0.8237315892396501
+      ci95_upper:
+      - 0.015197800016218949
+      - 0.16324379078463988
+      - 0.8384140502396139
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 852
+      - 283
+      - 8865
+      p_sel:
+      - 0.0852
+      - 0.0283
+      - 0.8865
+      ci95_lower:
+      - 0.0798862054580565
+      - 0.025226531864319626
+      - 0.8801339420553105
+      ci95_upper:
+      - 0.09083235959025679
+      - 0.03173573219857667
+      - 0.8925692272041563
+  refined: null
+- key: confset|axis|rho+
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.4295262436935162
+    I0: 10.37217350639711
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 0
+      - 7
+      - 9993
+      p_sel:
+      - 0.0
+      - 0.0007
+      - 0.9993
+      ci95_lower:
+      - 0.0
+      - 0.0003391263316879597
+      - 0.9985556655587302
+      ci95_upper:
+      - 0.00038399837067659573
+      - 0.0014443344412696886
+      - 0.9996608736683119
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 939
+      - 9
+      - 9052
+      p_sel:
+      - 0.0939
+      - 0.0009
+      - 0.9052
+      ci95_lower:
+      - 0.08833790268998898
+      - 0.00047357706058500574
+      - 0.8993019090207043
+      ci95_upper:
+      - 0.09977398078667454
+      - 0.0017097301130243718
+      - 0.9107868986996993
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 6
+      - 1002
+      - 8992
+      p_sel:
+      - 0.0006
+      - 0.1002
+      - 0.8992
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.09446753521313658
+      - 0.8931451093345752
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.10623950988405642
+      - 0.9049483063662764
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 209
+      - 276
+      - 9515
+      p_sel:
+      - 0.0209
+      - 0.0276
+      - 0.9515
+      ci95_lower:
+      - 0.01827476057807914
+      - 0.024566008678008976
+      - 0.9471134644262419
+      ci95_upper:
+      - 0.02389318666070317
+      - 0.03099679298260627
+      - 0.955539785045037
+  refined: null
+- key: confset|axis|I0-
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 8.921604010425607
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 10
+      - 4323
+      - 5667
+      p_sel:
+      - 0.001
+      - 0.4323
+      - 0.5667
+      ci95_lower:
+      - 0.0005432859864972464
+      - 0.4226182527393897
+      - 0.5569639865873983
+      ci95_upper:
+      - 0.0018399443874379962
+      - 0.4420337406399999
+      - 0.5763847880299533
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 127
+      - 9250
+      - 623
+      p_sel:
+      - 0.0127
+      - 0.925
+      - 0.0623
+      ci95_lower:
+      - 0.010684882862923493
+      - 0.9196728370036213
+      - 0.05772877877310782
+      ci95_upper:
+      - 0.015089361949137917
+      - 0.9300007643813035
+      - 0.06720737340058246
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 6
+      - 9814
+      - 180
+      p_sel:
+      - 0.0006
+      - 0.9814
+      - 0.018
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.9785611473929966
+      - 0.015573227249600538
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.983869138975716
+      - 0.020796947179731698
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 10
+      - 9573
+      - 417
+      p_sel:
+      - 0.001
+      - 0.9573
+      - 0.0417
+      ci95_lower:
+      - 0.0005432859864972464
+      - 0.95315861562209
+      - 0.037954765678807054
+      ci95_upper:
+      - 0.0018399443874379962
+      - 0.9610901794680892
+      - 0.0457972072277551
+  refined: null
+- key: confset|axis|I0+
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 11.822743002368611
+    obs_sigma: 0.156839068096482
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 6
+      - 50
+      - 9944
+      p_sel:
+      - 0.0006
+      - 0.005
+      - 0.9944
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.0037949010708382257
+      - 0.9927355694846269
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.006585257316131604
+      - 0.995684732926448
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 305
+      - 453
+      - 9242
+      p_sel:
+      - 0.0305
+      - 0.0453
+      - 0.9242
+      ci95_lower:
+      - 0.027305788856246564
+      - 0.04139568097178173
+      - 0.9188479563287247
+      ci95_upper:
+      - 0.03405478561381876
+      - 0.04955352714651155
+      - 0.9292262594535933
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 2
+      - 9615
+      - 383
+      p_sel:
+      - 0.0002
+      - 0.9615
+      - 0.0383
+      ci95_lower:
+      - 5.484892732085777e-05
+      - 0.9575483760657594
+      - 0.034712283854238454
+      ci95_upper:
+      - 0.0007289958440074673
+      - 0.9650971934381062
+      - 0.0422423002412443
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 10
+      - 9114
+      - 876
+      p_sel:
+      - 0.001
+      - 0.9114
+      - 0.0876
+      ci95_lower:
+      - 0.0005432859864972464
+      - 0.9056713103239501
+      - 0.08221610289384984
+      ci95_upper:
+      - 0.0018399443874379962
+      - 0.9168127358166572
+      - 0.0933006189622842
+  refined: null
+- key: confset|axis|obs_sigma-
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.1307615800715689
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 1
+      - 1532
+      - 8467
+      p_sel:
+      - 0.0001
+      - 0.1532
+      - 0.8467
+      ci95_lower:
+      - 1.765267360112231e-05
+      - 0.1462738681987124
+      - 0.8395056801206372
+      ci95_upper:
+      - 0.0005662688974013381
+      - 0.16039247307118887
+      - 0.8536280554091357
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 841
+      - 3886
+      - 5273
+      p_sel:
+      - 0.0841
+      - 0.3886
+      - 0.5273
+      ci95_lower:
+      - 0.07881876556228841
+      - 0.3790910227023943
+      - 0.5175061885549864
+      ci95_upper:
+      - 0.08970064428244036
+      - 0.3981945321345924
+      - 0.5370728451339747
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 271
+      - 5738
+      - 3991
+      p_sel:
+      - 0.0271
+      - 0.5738
+      - 0.3991
+      ci95_lower:
+      - 0.024094537831905
+      - 0.5640809967692891
+      - 0.3895423044585639
+      ci95_upper:
+      - 0.030468647827080923
+      - 0.5834623250711989
+      - 0.40873518641263856
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 2119
+      - 3357
+      - 4524
+      p_sel:
+      - 0.2119
+      - 0.3357
+      - 0.4524
+      ci95_lower:
+      - 0.20400192537572429
+      - 0.3265090251794753
+      - 0.4426648236207564
+      ci95_upper:
+      - 0.22001933448545954
+      - 0.34501715668512895
+      - 0.462171733024132
+  refined: null
+- key: confset|axis|obs_sigma+
+  kind: axis
+  theta:
+    beta: 0.35509229586932795
+    gamma: 0.14754451276515815
+    rho: 0.404992777556476
+    I0: 10.37217350639711
+    obs_sigma: 0.18291655612139507
+  screen:
+    AAA|plain:
+      n_draws: 10000
+      counts:
+      - 6
+      - 1747
+      - 8247
+      p_sel:
+      - 0.0006
+      - 0.1747
+      - 0.8247
+      ci95_lower:
+      - 0.0002750134763309977
+      - 0.16738311017113308
+      - 0.8171234598490416
+      ci95_upper:
+      - 0.001308524096300786
+      - 0.1822667191688291
+      - 0.832027171609041
+    AAA|studentised:
+      n_draws: 10000
+      counts:
+      - 1467
+      - 3639
+      - 4894
+      p_sel:
+      - 0.1467
+      - 0.3639
+      - 0.4894
+      ci95_lower:
+      - 0.1399011890149282
+      - 0.35452414245347236
+      - 0.4796083333925769
+      ci95_upper:
+      - 0.15377014423379187
+      - 0.37338038190302575
+      - 0.4991998073728813
+    BBB|plain:
+      n_draws: 10000
+      counts:
+      - 226
+      - 5958
+      - 3816
+      p_sel:
+      - 0.0226
+      - 0.5958
+      - 0.3816
+      ci95_lower:
+      - 0.019865129825443677
+      - 0.5861467298593904
+      - 0.3721260875086559
+      ci95_upper:
+      - 0.025701511818878333
+      - 0.6053796960527879
+      - 0.3911648433055202
+    BBB|studentised:
+      n_draws: 10000
+      counts:
+      - 2353
+      - 3272
+      - 4375
+      p_sel:
+      - 0.2353
+      - 0.3272
+      - 0.4375
+      ci95_lower:
+      - 0.22708872311039013
+      - 0.31807190736921487
+      - 0.4278028798480493
+      ci95_upper:
+      - 0.24371456562704608
+      - 0.33646080246769083
+      - 0.4472451199482852
+  refined: null
