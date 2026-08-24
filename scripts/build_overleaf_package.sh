@@ -31,6 +31,7 @@ ALLOWLIST=(
   "paper/main.tex"
   "paper/checklist.tex"
   "paper/appendix_tables.tex"
+  "paper/appendix_claims_table.tex"
   "paper/neurips_2026_template/neurips_2026.sty"
   "audit/BIBLIOGRAPHY.bib"
 )
