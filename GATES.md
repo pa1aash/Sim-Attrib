@@ -1231,3 +1231,105 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+---
+
+## G9 — Does the paper hold together as an argument, and is it submittable?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-24, session G9. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **All three of this session's mechanical fixes are applied and verified.** Title changed to
+> *"Diagnostics and Limits for Component-Level Simulator Misspecification"*, resolving G8's P-2.
+> The simulator schematic (rendered as Figure 1 before this session, confirmed against the
+> compiled PDF rather than assumed from the filename) moved to the appendix, with every in-text
+> reference updated and no dangling pointer left behind. The AI-use disclosure placeholder
+> replaces G8's own answer to that checklist item with an unmissable operator-completed block,
+> per operator instruction, not filled in by this session.
+>
+> **The adversarial review found real things.** A second, independent drift-hunt against the C1
+> ruling found nothing new — the amendment holds. But reading the paper as an argument rather
+> than as a checklist caught a genuine citation-rendering bug (a compound surname, documented as
+> needing protection six sessions ago, never actually protected at the BibTeX level, silently
+> rendering "Montel et al." instead of "Anau Montel et al." in every in-text citation) and a
+> genuine readability problem this session's own page-limit compression introduced (the
+> introduction's four-finding preview compressed into four dense, hard-to-parse sentences in a
+> row). Both are fixed. One initial concern from the cold read — bulleted Background/Limitations
+> reading as inconsistent formatting — was reclassified as not a problem on reflection, disclosed
+> rather than silently dropped.
+>
+> **The page limit is narrowed dramatically and not closed.** From 6 pages with 150-240 words of
+> overflow per page (G8's end state) to, at the tightest point this session reached, 20 words —
+> a single clause — before the readability fix above traded roughly 90-100 of those words back
+> for a real quality improvement. Current state: approximately 116 words over, under a fifth of
+> a page. Closing the rest would mean cutting real content or further readability, and this
+> session declined to do either unilaterally.
+
+| # | Criterion | Result |
+|---|---|---|
+| G9.1 | Title fix applied, checked against operator's no-em-dash/no-colon preference, including PDF metadata | **met.** `\title{}` and a newly-added `\hypersetup{pdftitle=...}` both updated; PDF metadata was empty before this session (pre-existing since G8) and now correctly set; `pdfauthor` deliberately left unset |
+| **G9.2** | Figure move applied, numbering confirmed against the actual compiled PDF rather than the filename convention | **met.** The operator's brief itself flagged the filename-vs-rendered-number ambiguity; checked by compiling and reading `pdftotext` output before editing, not assumed. The simulator schematic was Figure 1, not "Figure 2," before this session |
+| G9.3 | No dangling figure references after the move | **met.** Grepped for `ref{fig:simulator}` and any hardcoded "Figure 2" text; one reference found, updated with an Appendix pointer |
+| **G9.4** | AI-use disclosure placeholder inserted correctly, without characterizing the project's AI use | **met.** G8's own `\answerNA{}` answer to the checklist's LLM-usage item, with a session-authored justification, was replaced with `\answerTODO{}` and an unmissable bold placeholder. Located by checking the template files (no separate in-body section is called for by any of them) rather than guessing |
+| **G9.5** | Adversarial review completed with a genuine cold-read pass before cross-checking the audit trail | **met.** `audit/G9_PAPER_ADVERSARIAL_REVIEW.md`. Three real findings outside pure mechanical checking: the Montel citation bug, the introduction readability regression, and one reclassified non-issue disclosed per S5 |
+| G9.6 | Second independent C1-drift check | **met, clean.** No sentence found implying the diagnostic or the composition is a novel method, checked without reusing G8's own drift-hunt as a template |
+| G9.7 | The four standard reviewer objections checked against actual text | **met.** All four have direct textual answers; three stand cleanly, the fourth (contribution-value) is answered but is the softest of the four and not strengthened further this session, on the judgement that doing so risked overclaiming transportability |
+| G9.8 | Citation accuracy re-checked by reading the compiled output, not just the `.bib` source | **met, and this is where the real finding was.** Every citation spot-checked against its actual rendered form after the Montel bug was found; `DEVIATIONS.md` D-19 |
+| G9.9 | Fixable findings actually fixed in `paper/main.tex` and `audit/BIBLIOGRAPHY.bib`, not just logged | **met** — Montel citation, introduction readability |
+| **G9.10** | Unfixable findings logged rather than patched over | **met.** The page-limit gap is stated as NEEDS FIX in the review document and carried here and to `audit/S9_REPORT.md`, not silently thinned further |
+| G9.11 | Every commit checked against the four-check pre-push checklist, including the compiled PDF's rendered text | **met**, checked before every push this session |
+| G9.12 | No self-approval | **met** — `status: ready for review — UNSIGNED` |
+
+### What G9 explicitly does not certify
+
+- **That the page limit is closed.** It is not — approximately 116 words of body content remain
+  over Sim2Science's 5-page limit, after both this session's and G8's cutting rounds. **P-3.**
+- **That a genuinely independent reviewer would find what this session's adversarial review
+  found, or would stop where it stopped.** One session, reading its own and its predecessor's
+  prose, however deliberately postured as hostile. The same limitation every gate in this
+  project has carried since G4, restated rather than improved on.
+- **That the fourth reviewer objection (contribution value, given no new method) is answered as
+  forcefully as a skeptical reviewer might want.** It is answered; whether it is answered
+  *enough* is a judgement call this session made once and did not revisit under time pressure.
+- **That the Montel fix is the only citation-rendering defect remaining.** It was found by
+  spot-checking every citation's rendered form once, by eye, after finding the first instance.
+  No automated check for this class of defect exists in this repository.
+- **That the reclassified formatting concern (bulleted Background/Limitations) is definitely a
+  non-issue.** It was flagged, reconsidered, and reclassified by the same session in the same
+  sitting — a second reader might reach the opposite conclusion.
+
+### Process caveats — what this session did badly or not at all
+
+- **The page-limit gap, restated because it is the largest open item**: ~116 words over, after
+  substantial narrowing this session did not force shut. **P-3.**
+- **A significant fraction of this session's tool-call budget went to page-fitting mechanics**
+  (figure widths, `enumitem` spacing, placement specifiers) rather than to the adversarial
+  review itself, which is the substantive task the brief asked for. The review that did happen
+  was real and found real things, but a session with a cleaner page-limit starting point would
+  have had more room for it.
+- **An unrelated environmental problem consumed real session time and is worth recording
+  precisely because it is not this project's own defect.** Seven shell processes from a
+  different, days-old session (unrelated working directory, "Thursday" timestamps) were found
+  stuck in a genuine infinite loop — each polling `pgrep -f "diagnostics.run_diag"` to detect
+  when a script finished, but that grep pattern matched the polling processes' own command
+  line, so the exit condition could never be satisfied. This was the actual cause of
+  intermittent multi-minute hangs on ordinary `git` and `grep` commands throughout this session
+  (previously misdiagnosed, in this and prior sessions' reports, as generic "machine load").
+  The seven processes were killed; system load remains elevated from unrelated, legitimate
+  concurrent work on the same machine, which is a real and disclosed condition, not a bug.
+- **The AI-authorship/venue-eligibility tension from G8 remains exactly where G8 left it.** Not
+  this session's scope per the operator's decisions, and not revisited.
+- **No literature check has ever run on the non-termination finding.** Unchanged since G7.
+- **`audit/CLAIM_GRAPH.md` is still superseded rather than rewritten.** Ninth session flagged.
+- **Google Scholar still not searched.** Tenth session. **O-7.**
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
