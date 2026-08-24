@@ -56,25 +56,16 @@ SCRIPT = "src/viz/fig6_nontermination.py"
 PRIMARY = "AAA|studentised"
 
 CAPTION = (
-    "Left: acceptance probability $p_{\\min}(w)$ of the composition's rejection sampler for "
-    "the primary case (AAA, studentised) as a function of nuisance-parameter distortion "
-    "magnitude, minimised over the pre-registered 42-point design (32 corners plus 10 axis "
-    "endpoints of the relative box of half-width $w$ about $\\theta_0$) and over the $K=3$ "
-    "selection cells. Error bars are 95\\% Wilson intervals; the open triangle at $w=0.05$ is "
-    "an upper bound (95\\% Wilson limit), not a measurement -- zero draws in 100{,}000 entered "
-    "the observed cell there, so the true value could be anywhere at or below the plotted "
-    "point, and it is joined to nothing. The shaded band is the pre-registered cost gate "
-    "$M \\times N / p \\leq 10^8$ simulator draws, drawn as a band rather than a line because "
-    "the specification declares $M \\in \\{10^3, 10^4\\}$ and $N \\in \\{99, 999\\}$ as ranges "
-    "rather than single values: above the band every declared $(M,N)$ corner passes, below it "
-    "every corner fails, inside it the gate is undecided by the specification's own numbers. "
-    "The plain-studentisation variant and the BBB assignment are reported in "
-    "Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}), not here. "
-    "Right: the mechanism governing the left panel, on the same $w$ axis -- the measured ratio "
-    "of nuisance-induced shift to a single draw's observation-noise magnitude, "
-    "median $\\|E[z]\\|/\\sqrt{d}$ over the design. The horizontal line marks ratio $=1$; the "
-    "vertical dashed line marks the swept width at which the measured ratio first exceeds it, "
-    "which coincides with where the left panel's gate stops passing."
+    "Left: acceptance probability $p_{\\min}(w)$, primary case (AAA, studentised), over the "
+    "pre-registered 42-point design (32 corners $+$ 10 axis endpoints of the box of "
+    "half-width $w$ about $\\theta_0$) and the $K=3$ cells; 95\\% Wilson bars, open triangle "
+    "at $w=0.05$ an upper bound joined to nothing. Shaded band: cost gate "
+    "$M \\times N / p \\leq 10^8$, a band since $M \\in \\{10^3, 10^4\\}$, "
+    "$N \\in \\{99, 999\\}$ are declared as ranges. Plain and BBB variants: "
+    "Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}). Right: the "
+    "mechanism -- measured shift-to-noise ratio vs. $w$; horizontal line at ratio $=1$, "
+    "vertical dashed line where it is first crossed, coinciding with where the left panel's "
+    "gate stops passing."
 )
 
 
@@ -123,7 +114,7 @@ def build() -> None:
     live = vals > 0
     c = style.FAMILY["adversarial"]
 
-    fig, (axL, axR) = plt.subplots(1, 2, figsize=(style.FIG_FULL, 2.85))
+    fig, (axL, axR) = plt.subplots(1, 2, figsize=(style.FIG_FULL, 2.35))
 
     # ---- left panel: p_min(w), primary case only ------------------------------------------
     ylo, yhi = 1.2e-6, 1.4
