@@ -34,9 +34,17 @@
 %%============================================================================
 %% THE GATEKEEPER. Plan said 'Montel, Alvey & Weniger'.
 %% CORRECTED: 'Anau Montel' is a compound surname and must not be split.
+%% G9: the correction above was recorded but never enforced at the BibTeX level --
+%% the full name "Noemi Anau Montel" was entered without protection, so BibTeX's
+%% short-form name parser (used for \citet and the bibitem label) split on
+%% whitespace and rendered "Montel et al." in-text, silently dropping "Anau" --
+%% exactly the error this comment already warned about, caught by checking the
+%% compiled PDF's actual in-text citation rather than trusting the .bib content
+%% alone. {Anau Montel} braces the compound surname as one token for BibTeX's
+%% parser; the full name string is unchanged.
 @misc{montel2025testsmodelmisspecificationsimulationbased,
-      title={Tests for model misspecification in simulation-based inference: from local distortions to global model checks}, 
-      author={Noemi Anau Montel and James Alvey and Christoph Weniger},
+      title={Tests for model misspecification in simulation-based inference: from local distortions to global model checks},
+      author={Noemi {Anau Montel} and James Alvey and Christoph Weniger},
       year={2025},
       eprint={2412.15100},
       archivePrefix={arXiv},

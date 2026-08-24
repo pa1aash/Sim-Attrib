@@ -75,21 +75,25 @@ without checking it first is reporting a number the data may not support.
 
 This paper checks that precondition, using established tools rather than proposing new ones,
 on a canonical case -- a three-component compartmental epidemic simulator, with transmission,
-progression, and observation as the components -- and reports four findings, none a claim about
-a new method (Section~\ref{sec:background}). \textbf{Where attribution is identifiable}: a
-rank-and-condition-number screen, under a realistic adversarial threat model rather than only a
-favorable one, shows one summary set separates all three components under every one of eight
-distortion assignments tried (Section~\ref{sec:experiments}). \textbf{Where it stops being
-identifiable}: the same measurement locates exactly where this breaks, once a component carries
-two distortion parameters at once, on a specific, interpretable confound rather than an
-estimator, threshold, or structural artifact (Section~\ref{sec:experiments}). \textbf{Where a
-natural selective-inference construction on this fails}: composing established exact-inference
-tools gives a procedure controlling the selective type-I error at the nominal level,
-conservatively; we find it comfortably affordable at a known parameter but unable to terminate
-once the nuisance parameters are only known within a realistic neighborhood
-(Section~\ref{sec:negative-result}). \textbf{Why, transportably}: the nuisance-to-noise ratio
-governing that failure is predicted before it is measured, and the prediction holds
-(Section~\ref{sec:negative-result}).
+progression, and observation as the components -- and reports four findings, none a claim
+about a new method (Section~\ref{sec:background}):
+\begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=*]
+\item \textbf{Where attribution is identifiable.} A rank-and-condition-number screen, under a
+realistic adversarial threat model rather than only a favorable one, shows one summary set
+separates all three components under every one of eight distortion assignments tried
+(Section~\ref{sec:experiments}).
+\item \textbf{Where it stops being identifiable.} The same measurement locates exactly where
+this breaks, once a component carries two distortion parameters at once, on a specific,
+interpretable confound rather than an estimator, threshold, or structural artifact
+(Section~\ref{sec:experiments}).
+\item \textbf{Where a natural selective-inference construction on this fails.} Composing
+established exact-inference tools gives a procedure controlling the selective type-I error at
+the nominal level, conservatively; we find it comfortably affordable at a known parameter but
+unable to terminate once the nuisance parameters are only known within a realistic
+neighborhood (Section~\ref{sec:negative-result}).
+\item \textbf{Why, transportably.} The nuisance-to-noise ratio governing that failure is
+predicted before it is measured, and the prediction holds (Section~\ref{sec:negative-result}).
+\end{itemize}
 
 This is a paper about where component-level misspecification attribution is, and is not,
 identifiable under a realistic threat model, and why a natural construction for the
