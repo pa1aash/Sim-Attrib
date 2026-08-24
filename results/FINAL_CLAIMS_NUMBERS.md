@@ -47,9 +47,9 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | CONTRAST S_A, κ at its knife-edge failure ABB | `100.9` | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_A.mixed_triples.ABB.condition_number` |
 | replicates per Jacobian column R | `128` | `results/robustness/k6_spectrum.yaml` | `settings.R` |
 | replicates for the normalisation R_norm | `2,000` | `results/robustness/k6_spectrum.yaml` | `settings.R_norm` |
-| AAA under MLE-SE-based scaling (T2-3): κ | `31.88` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.AAA.mle_se_based.kappa` |
+| AAA under MLE-SE-based scaling: κ | `31.88` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.AAA.mle_se_based.kappa` |
 | AAA under MLE-SE-based scaling: separable | `True` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.AAA.mle_se_based.separable` |
-| BBB under MLE-SE-based scaling (T2-3): κ | `8.027` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.kappa` |
+| BBB under MLE-SE-based scaling: κ | `8.027` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.kappa` |
 | BBB under MLE-SE-based scaling: separable | `True` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.separable` |
 
 #### C3 — the `K = 6` cross-mechanism confound (boundary)
@@ -75,7 +75,7 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | near-null direction 2: σ/σ₁ | `0.00159` | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_directions[1].sigma_ratio_to_sigma1` |
 | near-null direction 2: kind | `cross-mechanism` | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_classification[1].kind` |
 | near-null direction 2: transmission energy | `0.04463` | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_classification[1].mechanism_energy.transmission` |
-| six-column under MLE-SE-based scaling (T2-3): κ | `344.9` | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.kappa` |
+| six-column under MLE-SE-based scaling: κ | `344.9` | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.kappa` |
 | six-column under MLE-SE-based scaling: rank at τ | `5` | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.rank_at_tau` |
 | six-column under MLE-SE-based scaling: separable | `False` | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.separable` |
 
