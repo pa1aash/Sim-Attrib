@@ -2,23 +2,11 @@
   "figure": "fig6_nontermination",
   "generated_by": {
     "script": "src/viz/fig6_nontermination.py",
-    "commit": "457397b00f5b72705ec7fdcf72b526da8cda4d9b",
-    "dirty": true,
-    "dirty_paths": [
-      "figures/fig3_spectrum.pdf",
-      "figures/fig3_spectrum.preview.png",
-      "figures/fig3_spectrum.provenance.json",
-      "figures/fig4_assignments.pdf",
-      "figures/fig4_assignments.preview.png",
-      "figures/fig4_assignments.provenance.json",
-      "figures/fig5_threshold.pdf",
-      "figures/fig5_threshold.preview.png",
-      "figures/fig5_threshold.provenance.json",
-      "figures/fig6_nontermination.pdf",
-      "figures/fig6_nontermination.preview.png"
-    ],
-    "started": "2026-08-25T00:58:12+05:30",
-    "finished": "2026-08-25T00:58:16+05:30"
+    "commit": "aa3c3de7bffeebd0f35f4a35152d3587b2d2c427",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-25T01:01:27+05:30",
+    "finished": "2026-08-25T01:01:34+05:30"
   },
   "caption": "Left: acceptance probability $p_{\\min}(w)$ of the composition's rejection sampler for the primary case (AAA, studentised) as a function of nuisance-parameter distortion magnitude, minimised over the pre-registered 42-point design (32 corners plus 10 axis endpoints of the relative box of half-width $w$ about $\\theta_0$) and over the $K=3$ selection cells. Error bars are 95\\% Wilson intervals; the open triangle at $w=0.05$ is an upper bound (95\\% Wilson limit), not a measurement -- zero draws in 100{,}000 entered the observed cell there, so the true value could be anywhere at or below the plotted point, and it is joined to nothing. The shaded band is the pre-registered cost gate $M \\times N / p \\leq 10^8$ simulator draws, drawn as a band rather than a line because the specification declares $M \\in \\{10^3, 10^4\\}$ and $N \\in \\{99, 999\\}$ as ranges rather than single values: above the band every declared $(M,N)$ corner passes, below it every corner fails, inside it the gate is undecided by the specification's own numbers. The plain-studentisation variant and the BBB assignment are reported in Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}), not here. Right: the mechanism governing the left panel, on the same $w$ axis -- the measured ratio of nuisance-induced shift to a single draw's observation-noise magnitude, median $\\|E[z]\\|/\\sqrt{d}$ over the design. The horizontal line marks ratio $=1$; the vertical dashed line marks the swept width at which the measured ratio first exceeds it, which coincides with where the left panel's gate stops passing.",
   "sources": [
