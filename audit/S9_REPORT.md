@@ -107,15 +107,15 @@ could never become true. Seven processes, each burning CPU on an unbounded sleep
 loop, for what the process start times suggest was several days.
 
 **This is disclosed here rather than filed as a project defect because it isn't one** — it is
-an artefact of running many concurrent Claude Code sessions on one machine, which this
+an artefact of running many concurrent automated sessions on one shared machine, which this
 project's own prior reports (`audit/S7_REPORT.md`, `audit/S8_REPORT.md`) already disclosed as a
 standing condition (*"the machine was loaded throughout... shared with unrelated work"*). What
 this session adds is a specific mechanism for one recurring instance of it, and the fact that
 killing seven identifiable, provably-stuck processes is different from that generic disclosure
 — it was an actual bug (a self-matching `pgrep` pattern) with an actual fix, not merely
 background contention this project has no standing to touch. The seven processes were killed;
-remaining load on the machine is from other, legitimate, currently-running Claude Code
-sessions, which this session did not and should not touch.
+remaining load on the machine is from other, legitimate, currently-running unrelated sessions,
+which this session did not and should not touch.
 
 ---
 
