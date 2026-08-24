@@ -1333,3 +1333,150 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+---
+
+## G11 — Does the paper survive an independent external reviewer's Weak Reject, and does this session's own verification hold up to more scrutiny than the sessions before it?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-25, session G11. Signature block below is for the operator.
+
+**Note on G10.** No `GATES.md` entry or `audit/S10_REPORT.md` exists for session G10. Its only
+surviving record is `audit/OVERLEAF_PACKAGE_REPORT.md`, which this session found to rest on a
+compromised isolation test (see §T1-3/Phase-4.4 below). This is a pre-existing gap in the
+project's own record, not something this session was asked to backfill, and it is named here so
+a future reader does not mistake G10's absence for nothing having happened between G9 and G11.
+
+> ### The headline, stated before the table
+>
+> **An independent external reviewer with no project history returned Weak Reject, confidence
+> 4/5, with 6 Tier-1 (must-fix) and 15 Tier-2 (should-fix) findings.** This session's mandate was
+> to fix all of them, run the real Dufour-confidence-set-bounded MMC check rather than a cheaper
+> reframe, and then verify its own work more rigorously than G9 or the never-gated G10 did.
+>
+> **T1-3, named the single most important open question, is done and the paper's central claim
+> survives — decisively.** A maximum-likelihood fit of the simulator's five nuisance parameters
+> to one realised dataset, with a Bonferroni-corrected 95% Wald confidence box built from the
+> observed Fisher information, gives relative half-widths from 2.3% to 16.6% on every coordinate
+> — wider, on every one, than the ±0.5% box the paper's existing fixed-box sweep already showed
+> breaks the composition. Re-measuring the cost gate inside this **data-implied** box (not an
+> assumed one): the acceptance probability collapses to 1×10⁻⁵ at the primary case and to
+> exactly zero at the other three declared combinations, and the gate **fails at every corner
+> under all four** — the cheapest declared corner alone needs 9.9×10⁹ draws against a 10⁸
+> budget. Section 5's central claim is now grounded in a real, measured confidence set rather
+> than a round assumed number, and the result is stronger than before, not weaker.
+>
+> **All six Tier-1 findings and 13 of 15 Tier-2 findings are fixed and verified.** T1-1
+> (appendix TODO / anonymity residue), T1-2 (page limit — **not fully closed, see below**), T1-4
+> (simulator figure moved and reduced), T1-5 (full anonymity re-scan), T1-6 (checklist accuracy),
+> and T2-1/2/3/5/7/8/9/10/11/12/13/14/15 are each individually addressed in their own commit,
+> listed in the table below. **T2-4 and T2-6 are not addressed and their content is unknown to
+> this session** — see the dedicated note below the table. This is disclosed as a real gap, not
+> elided.
+>
+> **This session's own re-verification (Phase 4) found and fixed four defects the external
+> review never flagged, three of which this session introduced itself and one of which G10's own
+> "Overleaf-equivalent" test had already missed.** Most consequential: G10's isolation test
+> exported this project's local `TEXINPUTS` build convention into its own "isolated" test
+> environment before compiling, so it never actually tested whether the packaged zip is
+> self-contained — and it is not, on its own local convention. Re-run this session with
+> `TEXINPUTS` genuinely unset, it failed exactly as that description predicts. Fixed by using
+> kpathsea's own relative-path resolution instead of an environment variable. Full detail in
+> `audit/OVERLEAF_PACKAGE_REPORT.md` §0.
+>
+> **The page limit is not closed.** Six pages of body content against Sim2Science's five-page
+> limit — unchanged in page count from G9's end state, despite this session absorbing the
+> external review's full Tier-1/Tier-2 content mandate (a new section, eight new citations, a
+> restructured table, expanded figures) into that same six pages. A genuine width-vs-legibility
+> tradeoff was found, tried, and **reverted**: shrinking `\includegraphics` widths below each
+> figure's designed print size would push effective on-page font size below the venue's stated
+> point-size floor, and this session chose not to ship that. See `audit/S11_REPORT.md` §3.
+
+### What G11 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| **G11.1** | **T1-3: the real confidence-set-bounded MMC check, not a cheaper reframe** | **met.** `src/diagnostics/confidence_set_check.py`, `results/confidence_set_mmc.yaml`, `audit/DUFOUR_CONFIDENCE_SET_CHECK.md`. Dufour's actual published text fetched and full-text-searched to confirm it never uses the word "Bonferroni" (0 occurrences) before attributing the Bonferroni-box construction correctly as this session's own design choice, not Dufour's |
+| G11.2 | T1-1, T1-2, T1-4, T1-5, T1-6 addressed | **met except T1-2.** T1-2 (page limit) is narrowed but not closed — see headline. The other four are individually committed and each independently re-verified this session's own Phase 4, not merely re-asserted |
+| **G11.3** | **T2-1 through T2-15 addressed** | **13 of 15 met** (T2-1,2,3,5,7,8,9,10,11,12,13,14,15). **T2-4 and T2-6 NOT MET — content unknown, no commit in this session's history addresses them.** See the dedicated note below |
+| G11.4 | Every commit follows the raw `git commit -m` / no `/commit` / four-check pre-push discipline | **met**, checked before every push this session, including this one |
+| **G11.5** | **Phase 4 re-verification is more rigorous than G9's or the never-gated G10's own checks, not merely repeated (S11)** | **met, and this is where the session's real findings are.** A full number-trace (~150+ claims, zero mismatches, run by an independent sub-pass rather than trusted from the generated table alone), a citation-target check that caught one real misdirected `\ref` (§ below), an anonymity re-scan independent of the targeted T1-5 fixes that caught one further leak (an internal review-finding label baked into three rendered table rows), and — the largest finding — re-running G10's own Overleaf isolation test with its methodological flaw corrected, which failed where G10 reported PASS |
+| G11.6 | Two-tier isolation compile (strict + Overleaf-equivalent), against the actual rebuilt package, with `TEXINPUTS` genuinely unset in both tiers | **met, after two real fixes.** Both tiers now PASS: exit 0, zero undefined references or citations, byte-identical 22-page/583,171-byte `main.pdf` between the repo working copy and a freshly unzipped, isolated package extraction |
+| G11.7 | Full test suite re-run | **met** — 177 passed |
+| G11.8 | `scripts/build_overleaf_package.sh` re-run and its allowlist corrected | **met.** `paper/appendix_claims_table.tex` (a file this session added via T1-1 that the script's allowlist never picked up, since its discovery loop only parses `\includegraphics`, not `\input`) added; every packaged file re-verified against `main.tex`'s actual `\input`/`\includegraphics`/`\bibliography` calls |
+| G11.9 | A citation pointing to the wrong artifact, found by cross-checking every `\ref{fig:*}`/`\ref{tab:*}` in `main.tex` against what that figure or table actually shows | **met, one real finding.** "1.523× under the tightest one" was cited to Figure 5 (`fig:threshold`), which does not display that number anywhere on the page — it belongs to the ABA row of Table `tab:sb-eight` in the appendix. Retargeted |
+| G11.10 | No self-approval | **met** — `status: ready for review — UNSIGNED` |
+
+### T2-4 and T2-6 — a real gap, disclosed rather than silently dropped
+
+This session's context was compacted partway through, and the external reviewer's original
+Tier-2 finding list survived only in the summary carried forward across that compaction, which
+did not retain T2-4 or T2-6's text. Every other Tier-1 and Tier-2 item's content is independently
+reconstructible from this session's own commit messages (each commit states the finding's
+substance, not just its tag) — cross-checked against `git log` while preparing this gate, not
+assumed. **T2-4 and T2-6 are the exception: no commit in this session's history mentions them,
+under any label, and a full-history grep for their tags found nothing.** This session did not
+invent content for them to close the gap quietly. The honest state is: two of the external
+review's fifteen Tier-2 findings are simply unaddressed, and neither this session nor any
+artifact in this repository knows what they said. **The operator's own copy of the external
+review (wherever it was received) is the only way to close this**, and it should be treated as
+outstanding rather than assumed benign.
+
+### What G11 explicitly does not certify
+
+- **That T2-4 and T2-6 are addressed, minor, or safe to leave.** They are simply unknown to this
+  session. See above.
+- **That the page limit is closed.** It is not — six pages against a five-page limit, unchanged
+  in page count from G9 despite substantially more content now living in it. This session tried
+  and reverted a figure-width reduction that would have closed it at the cost of pushing text
+  below the venue's stated font-size floor on two main-text figures; that reversion is
+  deliberate and should not be re-attempted without solving the underlying tradeoff differently.
+- **That a second external review has been run against this session's fixes.** Everything in
+  this gate verifies that the paper compiles correctly, that its numbers trace to their sources,
+  and that this session's own re-reading of it as a reviewer found what it found. It does not
+  certify that the original external reviewer, presented with the current draft, would upgrade
+  their verdict — that reviewer has not seen it.
+- **That this session's own Phase 4 pass is exhaustive.** It found four real defects the
+  external review and G9/G10 both missed. A fifth reader would very likely find a fifth thing;
+  the project's own history (four consecutive prior gates each finding something the one before
+  it missed) is the strongest evidence for this, not a reason to treat this pass as the last one
+  needed.
+- **That G10's own findings, beyond the isolation-test flaw this session corrected, are reliable
+  without re-checking.** G10 was never gated and has no `audit/S10_REPORT.md`; this session
+  re-verified only what it needed to re-verify for the Overleaf package and the anonymity scan,
+  not every claim G10's own report made.
+- **That the confidence-set box construction is the only reasonable one.** The Bonferroni
+  correction is this session's own choice for realizing a rectangular set compatible with the
+  existing box-based MMC infrastructure; `audit/DUFOUR_CONFIDENCE_SET_CHECK.md` states this
+  plainly and names what a joint (non-marginal) confidence ellipsoid would have to do differently
+  that this check does not attempt.
+
+### Process caveats — what this session did badly or not at all
+
+- **The original external review's verbatim text was not preserved by this session in a durable
+  artifact**, so a mid-session context compaction cost two of its fifteen Tier-2 findings
+  entirely. A future session under the same operating conditions should save any externally
+  supplied review verbatim to a file in the repo (e.g. `audit/`) before starting work against it,
+  specifically so a compaction cannot lose part of the mandate. Recorded here so this is not
+  repeated.
+- **G10 was never gated**, and this session did not attempt to backfill that retroactively — out
+  of this session's own scope, but it means the project's gate register has a real hole between
+  G9 and G11 that a future session or the operator should decide whether to fill.
+- **The `TEXINPUTS` isolation-test flaw survived one full prior session (G10) that specifically
+  set out to test self-containment.** It was caught this session only because Phase 4's
+  standing instruction was to re-run prior checks with the actual failure mode in mind rather
+  than to trust a prior PASS. The general lesson, consistent with this project's own recurring
+  pattern (a flag reading FALSE for the wrong reason, four separate times across G3/G6/G7, per
+  `DEVIATIONS.md` D-8/D-15/D-17): a test that reports PASS is only as good as what it actually
+  varied between "isolated" and "not."
+- **No second external review has been commissioned or run.** P-1 below.
+- **Google Scholar still not searched.** Eleventh session with code. **O-7**, unchanged.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
