@@ -112,7 +112,7 @@
 \item {\bf Experiments compute resources}
     \item[] Question: For each experiment, does the paper provide sufficient information on the computer resources (type of compute workers, memory, time of execution) needed to reproduce the experiments?
     \item[] Answer: \answerNo{}
-    \item[] Justification: Draw counts are reported throughout (e.g., 7.6 million null draws for the boundary sweep, 9{,}216 simulator runs for the eight-assignment sweep) as a compute-amount proxy, but wall-clock time and hardware specifications are not stated in the main text.
+    \item[] Justification: Compute-amount proxies are reported throughout the main text (the $10^8$-draw cost gate, per-test costs from $4.2\times10^5$ to $9.9\times10^9$ simulator draws depending on the case, and the $100{,}000$-draw zero-acceptance bound); the full per-experiment draw counts (e.g.\ 7.6 million null draws for the boundary sweep, 9{,}216 simulator runs for the eight-assignment sweep, 722{,}000 for the confidence-set check) are in the generated claim table, Appendix~\ref{sec:appendix}. Wall-clock time and hardware specifications are not stated.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not include experiments.
@@ -161,8 +161,8 @@
 
 \item {\bf Licenses for existing assets}
     \item[] Question: Are the creators or original owners of assets (e.g., code, data, models), used in the paper, properly credited and are the license and terms of use explicitly mentioned and properly respected?
-    \item[] Answer: \answerNA{}
-    \item[] Justification: No third-party code, dataset, or model is reused in this paper; every diagnostic and inference tool referenced (Section 2) is cited rather than incorporated as a software dependency with a license obligation.
+    \item[] Answer: \answerYes{}
+    \item[] Justification: The implementation depends on standard open-source scientific-computing libraries -- NumPy and SciPy (BSD 3-Clause) for numerical linear algebra, root-finding, and optimization; Matplotlib (Matplotlib License, BSD-compatible) for figures; PyYAML (MIT) for structured I/O -- each used under its stated permissive license and unmodified. No dataset, pretrained model, or other creative asset is reused; the simulator and every distortion family are original to this paper. The diagnostic and inference tools referenced in Section 2 are cited as prior art, not incorporated as software dependencies.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not use existing assets.
@@ -212,14 +212,12 @@
 
 \item {\bf Declaration of LLM usage}
     \item[] Question: Does the paper describe the usage of LLMs if it is an important, original, or non-standard component of the core methods in this research? Note that if the LLM is used only for writing, editing, or formatting purposes and does \emph{not} impact the core methodology, scientific rigor, or originality of the research, declaration is not required.
-    % G9, operator decision 3: G8's own answer to this item (\answerNA with a
-    % session-authored justification) is deliberately replaced with a placeholder.
-    % This is the venue's actual disclosure mechanism -- no template file calls for
-    % a separate in-body disclosure section, confirmed by checking neurips_2026.sty,
-    % neurips_2026.tex, and this file rather than guessing. The operator is writing
-    % the real answer and justification themselves; do not fill this in, do not
-    % characterize the project's AI use, do not draft example language. Remove this
-    % placeholder only when replaced with the operator's own text.
+    % This item is deliberately left as a placeholder rather than answered. This is the
+    % venue's actual disclosure mechanism -- no template file calls for a separate in-body
+    % disclosure section (checked against neurips_2026.sty and neurips_2026.tex directly).
+    % The author is writing the real answer and justification themselves; nothing else
+    % should fill this in, characterize the project's AI use, or draft example language.
+    % Remove this placeholder only when replaced with the author's own text.
     \item[] Answer: \answerTODO{}
     \item[] Justification: \textbf{[AI-USE DISCLOSURE --- OPERATOR TO COMPLETE BEFORE SUBMISSION. Do not submit with this placeholder still present.]}
     \item[] Guidelines:

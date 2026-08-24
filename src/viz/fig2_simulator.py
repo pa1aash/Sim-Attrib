@@ -1,4 +1,25 @@
-"""Figure 2 -- the simulator's structure, and where each distortion family acts.
+"""The simulator's structure, and where each distortion family acts -- main-text figure.
+
+REDUCED FOR THE MAIN TEXT -- session G11, T1-4
+------------------------------------------------
+An external adversarial review of the paper found that the main text uses "the six columns"
+and specific component names (progression, observation) before ever defining them for a
+main-text reader; the only figure that defines them lived in the appendix. This is that
+figure, reduced and moved into Section 4 before its first reference. Two changes from the
+appendix version this replaces:
+
+* **The three-distortion-family section is now a compact 3x2 table** (rows: the three
+  components; columns: base family, adversarial family) instead of the previous six lines of
+  formula-plus-description text. The descriptive annotations ("a prevalence nonlinearity",
+  "a timing distortion", ...) move to the caption's prose, which already carried most of this
+  content, rather than being dropped.
+* **The two footnote-style qualification paragraphs are removed from the figure** and their
+  content folded into Section 3's prose instead (T2-8), which is where a scope qualification
+  belongs rather than in small print under a diagram.
+
+The figure is roughly a third shorter as a result, appropriate for main-text real estate under
+a 5-page limit. Nothing about what it draws is invented for the reduction: every number and
+formula is the same transcription from `src/simulators/sir3.py` the appendix version used.
 
 BUILT FROM THE CODE, NOT FROM A MEMORY OF IT
 ----------------------------------------------
@@ -57,8 +78,11 @@ CAPTION = (
     "count-valued, or the common-random-numbers finite difference the diagnostic depends on "
     "does not exist. Each of the three components carries one one-parameter distortion "
     "family $\\delta_k(\\cdot\\,;\\eta_k)$ with $\\delta_k(\\cdot\\,;0)$ bit-identical to the "
-    "base simulator, and two family sets are declared: a base set of three qualitatively "
-    "different deformations, and an adversarial set designed so that all three columns "
+    "base simulator (asserted bit-for-bit; $\\eta_k$ in units of a fixed 10\\% relative "
+    "deformation), and two family sets are declared: a base set of three qualitatively "
+    "different deformations -- a saturating-incidence nonlinearity on transmission, a "
+    "mean-centred hazard drift (a timing distortion) on progression, and a pure amplitude "
+    "error on observation -- and an adversarial set designed so that all three columns "
     "perturb the same feature of an epidemic curve, its observed exponential growth rate. "
     "Under the observation family only the reporting fraction moves -- the delay kernel and "
     "the noise scale are held at base values, which is a stated limitation of the design and "
@@ -83,116 +107,114 @@ def arrow(ax, xy0, xy1, *, colour=None, style_="-|>", lw=0.8, rad=0.0):
                                  connectionstyle=f"arc3,rad={rad}", zorder=2))
 
 
+#: Reduction scale (T1-4): the appendix version used a 100-unit-tall canvas over 4.00in
+#: (0.04 in/unit). Zones A and B below keep every original coordinate multiplied by this
+#: factor, so their PHYSICAL size on the page -- box heights, gaps, font-to-box ratios -- is
+#: unchanged; what shrinks is how much total canvas the figure spans, because zone D is
+#: dropped and zone C is replaced by a table roughly a third the height of the prose it
+#: replaces. The same 0.04 in/unit scale is kept for the new canvas height, so this factor
+#: is the only number that needed choosing.
+SCALE = 0.625
+
+
 def build() -> None:
     facts = style.apply_style()
     style.assert_scales_do_not_collide(["COMPONENT"])
     prov = vp.FigureProvenance("fig2_simulator", script=SCRIPT)
 
-    fig, ax = plt.subplots(figsize=(style.FIG_FULL, 4.00))
+    ymax = 62.5
+    fig, ax = plt.subplots(figsize=(style.FIG_FULL, ymax * 0.04))
     ax.set_xlim(0, 100)
-    ax.set_ylim(0, 100)
+    ax.set_ylim(0, ymax)
     ax.axis("off")
 
     ct, cp, co = (style.COMPONENT["transmission"], style.COMPONENT["progression"],
                   style.COMPONENT["observation"])
+    s = SCALE
 
-    # ---- zone A: the deterministic core (y 82-99) ----------------------------------------
-    ax.text(0.0, 99.0, "DETERMINISTIC CORE   —   fixed-step RK4, 24 substeps/day, "
-                       "$T=120$ days, $N=10^5$", ha="left", va="top",
+    # ---- zone A: the deterministic core ---------------------------------------------------
+    ax.text(0.0, 99.0 * s, "DETERMINISTIC CORE   —   fixed-step RK4, 24 substeps/day, "
+                           "$T=120$ days, $N=10^5$", ha="left", va="top",
             fontsize=style.SIZE_TICK, color=style.RULE)
-    box(ax, 1, 86, 8, 8, "$S$", ec=style.INK, fs=style.SIZE_LABEL)
-    box(ax, 23, 86, 8, 8, "$I$", ec=style.INK, fs=style.SIZE_LABEL)
-    box(ax, 45, 86, 13, 8, "$C$\ncumulative", ec=style.INK)
-    box(ax, 68, 86, 31, 8, "daily true incidence $=\\mathrm{diff}(C)$\nnever observed",
+    box(ax, 1, 86 * s, 8, 8 * s, "$S$", ec=style.INK, fs=style.SIZE_LABEL)
+    box(ax, 23, 86 * s, 8, 8 * s, "$I$", ec=style.INK, fs=style.SIZE_LABEL)
+    box(ax, 45, 86 * s, 13, 8 * s, "$C$\ncumulative", ec=style.INK)
+    box(ax, 68, 86 * s, 31, 8 * s, "daily true incidence $=\\mathrm{diff}(C)$\nnever observed",
         ec=style.INK)
-    arrow(ax, (9, 90), (23, 90))
-    arrow(ax, (31, 90), (45, 90))
-    arrow(ax, (58, 90), (68, 90))
-    ax.text(16.0, 91.0, "incidence", ha="center", va="bottom", fontsize=style.SIZE_SMALL,
+    arrow(ax, (9, 90 * s), (23, 90 * s))
+    arrow(ax, (31, 90 * s), (45, 90 * s))
+    arrow(ax, (58, 90 * s), (68, 90 * s))
+    ax.text(16.0, 91.0 * s, "incidence", ha="center", va="bottom", fontsize=style.SIZE_SMALL,
             color=ct)
-    ax.text(41.0, 84.8, "the same incidence term", ha="center", va="top",
-            fontsize=style.SIZE_SMALL, color=style.RULE)
-    arrow(ax, (27, 86), (27, 79), colour=cp)
-    ax.text(28.5, 81.5, "removal (not tracked further)", ha="left", va="center",
+    arrow(ax, (27, 86 * s), (27, 79 * s), colour=cp)
+    ax.text(28.5, 81.5 * s, "removal (not tracked further)", ha="left", va="center",
             fontsize=style.SIZE_SMALL, color=cp)
-    ax.plot([16.0], [90.0], marker="o", markersize=4.2, color=ct,
+    ax.plot([16.0], [90.0 * s], marker="o", markersize=4.2, color=ct,
             markeredgecolor=style.PANEL, markeredgewidth=0.6, zorder=6)
-    ax.plot([27.0], [84.0], marker="o", markersize=4.2, color=cp,
+    ax.plot([27.0], [84.0 * s], marker="o", markersize=4.2, color=cp,
             markeredgecolor=style.PANEL, markeredgewidth=0.6, zorder=6)
 
-    # ---- zone B: the observation chain (y 58-74) -----------------------------------------
-    ax.text(0.0, 75.0, "OBSERVATION COMPONENT", ha="left", va="top",
+    # ---- zone B: the observation chain ----------------------------------------------------
+    ax.text(0.0, 75.0 * s, "OBSERVATION COMPONENT", ha="left", va="top",
             fontsize=style.SIZE_TICK, color=style.RULE)
-    box(ax, 1, 62, 21, 8, "delay kernel\ngamma, mean 3 d, shape 3", ec=co)
-    box(ax, 25, 62, 15, 8, "reporting fraction\n$\\rho = 0.4$", ec=co)
-    box(ax, 43, 62, 24, 8, "lognormal noise\n$\\exp(\\sigma z-\\sigma^2/2)$, "
-                           "$\\sigma=0.15$", ec=co)
-    box(ax, 70, 62, 29, 8, "reported series $y_t$\n$\\rightarrow$ summaries $s(y)$",
+    box(ax, 1, 62 * s, 21, 8 * s, "delay kernel\ngamma, mean 3 d, shape 3", ec=co)
+    box(ax, 25, 62 * s, 15, 8 * s, "reporting fraction\n$\\rho = 0.4$", ec=co)
+    box(ax, 43, 62 * s, 24, 8 * s, "lognormal noise\n$\\exp(\\sigma z-\\sigma^2/2)$, "
+                                   "$\\sigma=0.15$", ec=co)
+    box(ax, 70, 62 * s, 29, 8 * s, "reported series $y_t$\n$\\rightarrow$ summaries $s(y)$",
         ec=style.INK)
     for a, b in ((22, 25), (40, 43), (67, 70)):
-        arrow(ax, (a, 66), (b, 66))
-    arrow(ax, (84, 86), (84, 70))
-    ax.plot([32.5], [62.0], marker="o", markersize=4.2, color=co,
+        arrow(ax, (a, 66 * s), (b, 66 * s))
+    arrow(ax, (84, 86 * s), (84, 70 * s))
+    ax.plot([32.5], [62.0 * s], marker="o", markersize=4.2, color=co,
             markeredgecolor=style.PANEL, markeredgewidth=0.6, zorder=6)
-    ax.text(0.0, 59.5,
-            "a CONTINUOUS multiplicative layer is required: a count-valued one is not\n"
-            "differentiable under common random numbers, and is kept as a negative control",
-            ha="left", va="top", fontsize=style.SIZE_SMALL, color=style.RULE,
-            linespacing=1.35)
+    ax.text(0.0, 59.5 * s,
+            "a CONTINUOUS multiplicative layer is required (a count-valued one is not "
+            "differentiable under CRN, kept as a negative control)",
+            ha="left", va="top", fontsize=style.SIZE_SMALL, color=style.RULE)
 
-    ax.text(99.5, 51.5,
-            "$S_A$: peak height, peak time, final size, growth rate   ($d=4$)\n"
-            "$S_B$: 10 equal-width time-binned incidence counts   ($d=10$)\n"
-            "$S_C$: final size, peak height   ($d=2$, impoverished control)",
-            ha="right", va="top", fontsize=style.SIZE_SMALL, color=style.INK,
-            linespacing=1.45)
-
-    # ---- zone C: the three distortion families (y 8-44) -----------------------------------
-    ax.plot([0, 100], [40.5, 40.5], color=style.FAINT, linewidth=0.6, zorder=1)
-    ax.text(0.0, 39.0, "THE THREE DISTORTION FAMILIES   —   one one-parameter family per "
-                       "component, in two declared sets", ha="left", va="top",
-            fontsize=style.SIZE_TICK, color=style.RULE)
+    # ---- zone C: the three distortion families, as a compact 3x2 table --------------------
+    table_top, table_bottom = 26.5, 1.5
+    col_label, col_base, col_adv = 0.0, 29.0, 65.0
+    ax.plot([0, 100], [table_top + 3.0, table_top + 3.0], color=style.FAINT,
+            linewidth=0.6, zorder=1)
+    ax.text(0.0, table_top + 4.3, "THE THREE DISTORTION FAMILIES   —   one one-parameter "
+                                  "family per component, in two declared sets", ha="left",
+            va="bottom", fontsize=style.SIZE_TICK, color=style.RULE)
+    ax.text(col_base, table_top + 1.2, "base family", ha="left", va="bottom",
+            fontsize=style.SIZE_TICK, color=style.INK)
+    ax.text(col_adv, table_top + 1.2, "adversarial family", ha="left", va="bottom",
+            fontsize=style.SIZE_TICK, color=style.INK)
+    ax.plot([0, 100], [table_top, table_top], color=style.FAINT, linewidth=0.6, zorder=1)
+    for x in (col_base - 2.0, col_adv - 2.0):
+        ax.plot([x, x], [table_bottom, table_top], color=style.FAINT, linewidth=0.6, zorder=1)
 
     rows = (
-        (ct, r"$\eta_1$  TRANSMISSION",
-         r"base:  $\beta S I/N \;\div\; [\,1+\eta_1 (I/N)/p_{\mathrm{ref}}\,]$"
-         "\u2003\u2003saturating incidence — a prevalence nonlinearity",
-         r"adv:  $\beta \rightarrow \beta\, e^{\eta_1}$"
-         "\u2003\u2003constant multiplier, aimed at progression through $R_0$"),
-        (cp, r"$\eta_2$  PROGRESSION",
-         r"base:  $\gamma \rightarrow \gamma\, e^{\eta_2 (t/T - 1/2)}$"
-         "\u2003\u2003mean-centred hazard drift — a timing distortion",
-         r"adv:  $\gamma \rightarrow \gamma\, e^{-\eta_2}$"
-         "\u2003\u2003sign-aligned with $\eta_1'$, so both raise $R_0$"),
-        (co, r"$\eta_3$  OBSERVATION",
-         r"base:  $\rho \rightarrow \rho\, e^{\eta_3}$"
-         "\u2003\u2003pure amplitude error",
-         r"adv:  $\rho \rightarrow \rho\, e^{\eta_3 (t/T - 1/2)}$"
-         "\u2003\u2003reporting trend; adds $\eta_3/T$ to the fitted growth rate"),
+        (ct, r"$\eta_1$" "\nTRANSM.",
+         r"$\beta S I/N \,\div\,$" "\n" r"$[1+\eta_1 (I/N)/p_{\mathrm{ref}}]$",
+         r"$\beta \rightarrow \beta\, e^{\eta_1}$"),
+        (cp, r"$\eta_2$" "\nPROGR.",
+         r"$\gamma \rightarrow \gamma\, e^{\eta_2 (t/T - 1/2)}$",
+         r"$\gamma \rightarrow \gamma\, e^{-\eta_2}$"),
+        (co, r"$\eta_3$" "\nOBS.",
+         r"$\rho \rightarrow \rho\, e^{\eta_3}$",
+         r"$\rho \rightarrow \rho\, e^{\eta_3 (t/T - 1/2)}$"),
     )
-    for i, (colour, title, base_txt, adv_txt) in enumerate(rows):
-        y = 34.5 - i * 10.0
-        ax.plot([1.2], [y - 1.4], marker="s", markersize=4.5, color=colour, zorder=5)
-        ax.text(4.0, y, title, ha="left", va="top", fontsize=style.SIZE_SMALL,
-                color=colour, zorder=5)
-        ax.text(24.0, y, base_txt, ha="left", va="top", fontsize=style.SIZE_SMALL,
-                color=style.INK, zorder=5)
-        ax.text(24.0, y - 4.6, adv_txt, ha="left", va="top", fontsize=style.SIZE_SMALL,
+    row_h = (table_top - table_bottom) / 3.0
+    for i, (colour, label, base_txt, adv_txt) in enumerate(rows):
+        y = table_top - row_h * (i + 0.5)
+        if i > 0:
+            ax.plot([0, 100], [table_top - row_h * i] * 2, color=style.FAINT,
+                    linewidth=0.4, zorder=1)
+        ax.plot([1.2], [y], marker="s", markersize=4.5, color=colour, zorder=5)
+        ax.text(4.0, y, label, ha="left", va="center", fontsize=style.SIZE_SMALL,
+                color=colour, zorder=5, linespacing=1.2)
+        ax.text(col_base, y, base_txt, ha="left", va="center", fontsize=style.SIZE_TICK,
+                color=style.INK, zorder=5, linespacing=1.3)
+        ax.text(col_adv, y, adv_txt, ha="left", va="center", fontsize=style.SIZE_TICK,
                 color=style.INK, zorder=5)
 
-    # ---- zone D: the two standing qualifications (y 0-6) ----------------------------------
-    ax.plot([0, 100], [6.3, 6.3], color=style.FAINT, linewidth=0.6, zorder=1)
-    ax.text(0.0, 5.2,
-            r"every family is the base simulator EXACTLY at $\eta_k=0$, asserted "
-            r"bit-for-bit;   $\eta_k$ is in units of $\mathrm{ETA\_SCALE}=0.1$, a 10\% "
-            r"relative deformation",
-            ha="left", va="top", fontsize=style.SIZE_SMALL, color=style.RULE)
-    ax.text(0.0, 1.8,
-            r"under the observation family the delay kernel and $\sigma$ are HELD FIXED and "
-            r"only $\rho$ moves — a stated limitation of the design, not an omission here",
-            ha="left", va="top", fontsize=style.SIZE_SMALL, color=style.RULE)
-
-    fig.subplots_adjust(left=0.005, right=0.995, bottom=0.005, top=0.995)
+    fig.subplots_adjust(left=0.005, right=0.995, bottom=0.01, top=0.99)
     out = style.save(fig, REPO / STEM, script=SCRIPT, svg=True)
     plt.close(fig)
 

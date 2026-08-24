@@ -27,6 +27,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / "results" / "FINAL_CLAIMS_NUMBERS.md"
+TEX_OUT = REPO / "paper" / "appendix_claims_table.tex"
 
 JAC_B = "results/jacobian_rank.S_B.yaml"
 JAC_C = "results/jacobian_rank.S_C.yaml"
@@ -36,6 +37,7 @@ K6 = "results/robustness/k6_spectrum.yaml"
 PSEL = "results/p_sel.yaml"
 GATE = "results/cost_gate.yaml"
 BOUND = "results/boundary_sweep.yaml"
+CONFSET = "results/confidence_set_mmc.yaml"
 
 CODES = ("BBB", "BBA", "BAB", "BAA", "ABB", "ABA", "AAB", "AAA")
 
@@ -204,6 +206,48 @@ ROWS: tuple[tuple[str, str, str, str, Callable[[Any], Any] | None], ...] = (
      "per_width[9].by_key.AAA|studentised.n_design_points_with_a_dead_cell", None),
     ("C4", "θ₀ reproduction: maximum two-proportion |z|", BOUND, "checks.theta0_max_abs_z", None),
     ("C4", "θ₀ reproduction: threshold", BOUND, "checks.theta0_z_threshold", None),
+    # --- C5: the confidence-set-bounded MMC check (session G11, T1-3) ---------------------
+    ("C5", "confidence level α1", CONFSET, "alpha1", None),
+    ("C5", "Bonferroni z (α1/2K per coordinate)", CONFSET, "z_bonferroni", None),
+    ("C5", "θ̂ (MLE), beta", CONFSET, "mle_fit.theta_hat.beta", None),
+    ("C5", "θ̂ (MLE), gamma", CONFSET, "mle_fit.theta_hat.gamma", None),
+    ("C5", "θ̂ (MLE), rho", CONFSET, "mle_fit.theta_hat.rho", None),
+    ("C5", "θ̂ (MLE), I0", CONFSET, "mle_fit.theta_hat.I0", None),
+    ("C5", "θ̂ (MLE), obs_sigma", CONFSET, "mle_fit.theta_hat.obs_sigma", None),
+    ("C5", "MLE gradient converged (scaled max |g| below tolerance)", CONFSET,
+     "checks.mle_gradient_near_zero", None),
+    ("C5", "observed information matrix positive definite", CONFSET,
+     "checks.hessian_is_positive_definite", None),
+    ("C5", "data-implied relative half-width, beta", CONFSET,
+     "confidence_set_box.beta.relative_half_width", None),
+    ("C5", "data-implied relative half-width, gamma", CONFSET,
+     "confidence_set_box.gamma.relative_half_width", None),
+    ("C5", "data-implied relative half-width, rho", CONFSET,
+     "confidence_set_box.rho.relative_half_width", None),
+    ("C5", "data-implied relative half-width, I0", CONFSET,
+     "confidence_set_box.I0.relative_half_width", None),
+    ("C5", "data-implied relative half-width, obs_sigma", CONFSET,
+     "confidence_set_box.obs_sigma.relative_half_width", None),
+    ("C5", "affordable at θ̂: worst cell p_sel (AAA studentised)", CONFSET,
+     "anchor_theta_hat.AAA|studentised.reported_min.p_sel", None),
+    ("C5", "affordable at θ̂: gate verdict", CONFSET,
+     "anchor_theta_hat.AAA|studentised.gate.verdict", None),
+    ("C5", "inside the confidence-set box: worst cell p_sel (AAA studentised)", CONFSET,
+     "by_key.AAA|studentised.reported_min.p_sel", None),
+    ("C5", "inside the confidence-set box: gate verdict (AAA studentised)", CONFSET,
+     "by_key.AAA|studentised.gate.verdict", None),
+    ("C5", "inside the confidence-set box: gate verdict (AAA plain)", CONFSET,
+     "by_key.AAA|plain.gate.verdict", None),
+    ("C5", "inside the confidence-set box: gate verdict (BBB studentised)", CONFSET,
+     "by_key.BBB|studentised.gate.verdict", None),
+    ("C5", "inside the confidence-set box: fraction of design points with a dead cell "
+     "(AAA studentised)", CONFSET,
+     "by_key.AAA|studentised.fraction_of_design_points_with_a_dead_cell", None),
+    ("C5", "session verdict (both variants of the primary assignment)", CONFSET,
+     "session_verdict.verdict", None),
+    ("C5", "simulator draws taken for this check", CONFSET, "settings.n_simulator_runs", None),
+    ("C5", "design points (32 corners + 10 axis endpoints of the data-implied box)", CONFSET,
+     "settings.n_design_points", None),
 )
 
 TITLES = {
@@ -211,6 +255,7 @@ TITLES = {
     "C2": "C2 — the eight-assignment separability result for `S_B` (positive)",
     "C3": "C3 — the `K = 6` cross-mechanism confound (boundary)",
     "C4": "C4 — the MMC non-termination result (cautionary)",
+    "C5": "C5 — the confidence-set-bounded MMC check",
 }
 
 
@@ -225,7 +270,7 @@ def render() -> str:
          "dotted path in the named file, so a reader can check any row without running "
          "anything.",
          ""]
-    for c in ("C1", "C2", "C3", "C4"):
+    for c in ("C1", "C2", "C3", "C4", "C5"):
         L += ["", f"#### {TITLES[c]}", "",
               "| quantity | value | source | path |", "|---|---|---|---|"]
         for contrib, label, src, path, fn in ROWS:
@@ -247,12 +292,115 @@ def render() -> str:
     return "\n".join(L) + "\n"
 
 
+#: Unicode math substrings appearing in ROWS' labels, longest/most-specific first, mapped to
+#: real LaTeX math. plain `pdflatex` + `inputenc[utf8]` does not render Greek letters or math
+#: operators as text glyphs in the venue's font -- they need to be inside `$...$` as macros, or
+#: the compile either errors or drops the character. Compound sequences (a base letter plus a
+#: combining accent or a subscript digit) are listed before the single characters they contain,
+#: so they are matched whole rather than leaving a stray accent or subscript behind.
+MATH_SUBSTITUTIONS: tuple[tuple[str, str], ...] = (
+    ("θ̂", r"$\hat{\theta}$"), ("θ₀", r"$\theta_0$"), ("σ₁", r"$\sigma_1$"),
+    ("√d", r"$\sqrt{d}$"), ("R²", r"R$^2$"),
+    ("α", r"$\alpha$"), ("θ", r"$\theta$"), ("κ", r"$\kappa$"), ("σ", r"$\sigma$"),
+    ("τ", r"$\tau$"), ("‖", r"$\|$"), ("×", r"$\times$"), ("÷", r"$\div$"),
+    ("·", r"$\cdot$"), ("∞", r"$\infty$"), ("²", r"$^2$"), ("₀", r"$_0$"), ("₁", r"$_1$"),
+    ("—", "--"),
+)
+
+
+def tex_escape(s: str) -> str:
+    """Escape a string for use as LaTeX table text, protecting math substitutions first.
+
+    Unicode math substrings are swapped for placeholder tokens before the ordinary LaTeX
+    special characters (``_``, ``%``, ``&``, ...) are escaped, then swapped back in as real
+    (unescaped) LaTeX math -- otherwise, e.g., the underscore inside a substituted
+    ``$\\sigma_1$`` would itself be escaped to ``\\_``, breaking the subscript it was meant to
+    render. Applied to every label, value, and title.
+    """
+    placeholders: list[str] = []
+    out = s
+    for pattern, latex in MATH_SUBSTITUTIONS:
+        if pattern in out:
+            token = f"\x00{len(placeholders)}\x00"
+            placeholders.append(latex)
+            out = out.replace(pattern, token)
+    for a, b in (("\\", r"\textbackslash{}"), ("&", r"\&"), ("%", r"\%"), ("_", r"\_"),
+                ("#", r"\#"), ("$", r"\$"), ("{", r"\{"), ("}", r"\}")):
+        out = out.replace(a, b)
+    for i, latex in enumerate(placeholders):
+        out = out.replace(f"\x00{i}\x00", latex)
+    return out
+
+
+def tex_breakable(s: str) -> str:
+    """As :func:`tex_escape`, plus break opportunities after ``.``/``_``/``|`` in `texttt` text.
+
+    A dotted path like ``by_key.AAA|studentised.fraction_of_design_points_with_a_dead_cell``
+    is one unbroken "word" to (pdf)LaTeX's line breaker -- `cmtt`/`ptm` typewriter text does
+    not hyphenate -- so without an explicit break opportunity at each separator, a long path
+    overflows its table column instead of wrapping. No extra package is required for this.
+    """
+    out = tex_escape(s)
+    for sep in (r"\_", r".", r"|"):
+        out = out.replace(sep, sep + r"\allowbreak{}")
+    return out
+
+
+def render_latex() -> str:
+    """Appendix A.3, as a set of `longtable`s -- one per claim, generated rather than typed.
+
+    This is the object `paper/main.tex`'s Appendix~A.3 `\\input`s. It reuses exactly the same
+    `ROWS`/`dig` machinery as :func:`render`, so the two can never drift: a path that resolves
+    for the markdown table resolves identically here, and a broken path raises in both.
+    """
+    docs: dict[str, Any] = {}
+    # NOTE: this file is generated. It ships as part of the submission source, so -- unlike
+    # the sibling markdown render() above -- nothing in it may name an internal repository
+    # path, script, or session/process identifier; only the measurement files a reader could
+    # plausibly be given (results/*.yaml) are named, in the table body itself.
+    L = [r"% Generated programmatically from the underlying measurement files; not hand-typed.",
+         ""]
+    for c in ("C1", "C2", "C3", "C4", "C5"):
+        title = tex_escape(TITLES[c].replace("`", ""))
+        L += [r"\subsubsection*{" + title + "}",
+              r"\begin{longtable}{p{0.35\linewidth} p{0.14\linewidth} p{0.41\linewidth}}",
+              r"\toprule",
+              r"quantity & value & source (file, path) \\",
+              r"\midrule",
+              r"\endhead"]
+        for contrib, label, src, path, fn in ROWS:
+            if contrib != c:
+                continue
+            if src not in docs:
+                docs[src] = yaml.safe_load((REPO / src).read_text(encoding="utf-8"))
+            raw = dig(docs[src], path, src)
+            val = fn(raw) if fn else raw
+            shown = g(val) if isinstance(val, (int, float)) else str(val)
+            src_short = src.replace("results/", "")
+            L.append(f"{tex_escape(label)} & {tex_escape(shown)} & "
+                     f"\\texttt{{\\footnotesize {tex_breakable(src_short)}}}, "
+                     f"\\texttt{{\\footnotesize {tex_breakable(path)}}} \\\\")
+        L += [r"\bottomrule", r"\end{longtable}", ""]
+    L += [r"\paragraph{Provenance of the source files.}",
+         r"\begin{longtable}{p{0.45\linewidth} p{0.25\linewidth} p{0.20\linewidth}}",
+         r"\toprule", r"file & commit & seed \\", r"\midrule", r"\endhead"]
+    for src in sorted(docs):
+        p = docs[src].get("provenance", {})
+        L.append(f"\\texttt{{\\footnotesize {tex_escape(src.replace('results/', ''))}}} & "
+                 f"\\texttt{{\\footnotesize {tex_escape(str(p.get('commit'))[:7])}}} & "
+                 f"{tex_escape(str(p.get('seed')))} \\\\")
+    L += [r"\bottomrule", r"\end{longtable}", ""]
+    return "\n".join(L) + "\n"
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="generate results/FINAL_CLAIMS_NUMBERS.md")
     ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--tex-out", default=str(TEX_OUT))
     args = ap.parse_args(argv)
     Path(args.out).write_text(render(), encoding="utf-8")
-    print(f"wrote {args.out}  ({len(ROWS)} numbers)")
+    Path(args.tex_out).write_text(render_latex(), encoding="utf-8")
+    print(f"wrote {args.out} and {args.tex_out}  ({len(ROWS)} numbers)")
     return 0
 
 

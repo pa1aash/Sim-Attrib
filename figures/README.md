@@ -3,11 +3,18 @@
 Every figure the paper needs, in vector PDF at the venue's own column width.
 **Generated, never hand-edited.** Each is produced by one script in `src/viz/` and carries a `.provenance.json` sidecar recording the `results/` files it was drawn from, their hashes, the commit that drew it, and its drafted caption.
 
-**`*.preview.png` is a low-resolution preview for quick visual review and is never submitted.** `*.svg` exists only for the two schematics, as an editable source; the `.py` stays canonical and a divergence between them is a defect in the SVG.
+**`*.preview.png` is a low-resolution preview for quick visual review and is never submitted.** `*.svg` exists only for the one remaining schematic, as an editable source; the `.py` stays canonical and a divergence between them is a defect in the SVG.
+
+**`fig1_method` was retired in session G11.** An external adversarial review found the figure
+contained an internal decision-identifier ("D-16") baked into its rendered text and three
+footnote-style paragraphs duplicating content that belongs in prose. Since the same session's
+T2-9 fix lifted the diagnostic's four steps into an actual numbered list in `paper/main.tex`
+Section 3, the figure became redundant with the prose it was meant to summarize rather than
+worth repairing; it is deleted, not merely unreferenced. Its content lives in Section 3's
+numbered list and the moved qualifications now in that section's prose.
 
 | figure | script | sources | data claims checked |
 |---|---|---|---|
-| `fig1_method` | `src/viz/fig1_method.py` | —  *(schematic; no results data)* | 0 |
 | `fig2_simulator` | `src/viz/fig2_simulator.py` | —  *(schematic; no results data)* | 0 |
 | `fig3_spectrum` | `src/viz/fig3_spectrum.py` | `results/robustness/k6_spectrum.yaml` | 7 |
 | `fig4_assignments` | `src/viz/fig4_assignments.py` | `results/robustness/k6_spectrum.yaml` | 3 |
@@ -15,10 +22,17 @@ Every figure the paper needs, in vector PDF at the venue's own column width.
 | `fig6_nontermination` | `src/viz/fig6_nontermination.py` | `results/boundary_sweep.yaml`, `results/cost_gate.yaml` | 11 |
 | `fig7_confound` | `src/viz/fig7_confound.py` | `results/robustness/k6_spectrum.yaml` | 9 |
 
+`fig2_simulator` was reduced in session G11 (T1-4): the three-distortion-family section became
+a compact 3x2 table in place of six lines of formula-plus-description text, and the two
+footnote-style qualification paragraphs were dropped in favor of the paper's caption, which
+already carried the same content. It moved from the appendix into Section 4 of the main text,
+before its first reference, per an external review's finding that the main text used "the six
+columns" and named mechanisms before ever defining them for a main-text reader.
+
 ## Regenerating
 
 ```bash
-for f in fig1_method fig2_simulator fig3_spectrum fig4_assignments \
+for f in fig2_simulator fig3_spectrum fig4_assignments \
          fig5_threshold fig6_nontermination fig7_confound; do
     python -m src.viz.$f
 done

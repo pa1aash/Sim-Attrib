@@ -101,11 +101,41 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | θ₀ reproduction: maximum two-proportion \|z\| | `1.958` | `results/boundary_sweep.yaml` | `checks.theta0_max_abs_z` |
 | θ₀ reproduction: threshold | `3` | `results/boundary_sweep.yaml` | `checks.theta0_z_threshold` |
 
+#### C5 — the confidence-set-bounded MMC check
+
+| quantity | value | source | path |
+|---|---|---|---|
+| confidence level α1 | `0.05` | `results/confidence_set_mmc.yaml` | `alpha1` |
+| Bonferroni z (α1/2K per coordinate) | `2.576` | `results/confidence_set_mmc.yaml` | `z_bonferroni` |
+| θ̂ (MLE), beta | `0.3551` | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.beta` |
+| θ̂ (MLE), gamma | `0.1475` | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.gamma` |
+| θ̂ (MLE), rho | `0.405` | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.rho` |
+| θ̂ (MLE), I0 | `10.37` | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.I0` |
+| θ̂ (MLE), obs_sigma | `0.1568` | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.obs_sigma` |
+| MLE gradient converged (scaled max \|g\| below tolerance) | `True` | `results/confidence_set_mmc.yaml` | `checks.mle_gradient_near_zero` |
+| observed information matrix positive definite | `True` | `results/confidence_set_mmc.yaml` | `checks.hessian_is_positive_definite` |
+| data-implied relative half-width, beta | `0.02348` | `results/confidence_set_mmc.yaml` | `confidence_set_box.beta.relative_half_width` |
+| data-implied relative half-width, gamma | `0.06984` | `results/confidence_set_mmc.yaml` | `confidence_set_box.gamma.relative_half_width` |
+| data-implied relative half-width, rho | `0.06058` | `results/confidence_set_mmc.yaml` | `confidence_set_box.rho.relative_half_width` |
+| data-implied relative half-width, I0 | `0.1399` | `results/confidence_set_mmc.yaml` | `confidence_set_box.I0.relative_half_width` |
+| data-implied relative half-width, obs_sigma | `0.1663` | `results/confidence_set_mmc.yaml` | `confidence_set_box.obs_sigma.relative_half_width` |
+| affordable at θ̂: worst cell p_sel (AAA studentised) | `0.1161` | `results/confidence_set_mmc.yaml` | `anchor_theta_hat.AAA\|studentised.reported_min.p_sel` |
+| affordable at θ̂: gate verdict | `PASS` | `results/confidence_set_mmc.yaml` | `anchor_theta_hat.AAA\|studentised.gate.verdict` |
+| inside the confidence-set box: worst cell p_sel (AAA studentised) | `1.000e-05` | `results/confidence_set_mmc.yaml` | `by_key.AAA\|studentised.reported_min.p_sel` |
+| inside the confidence-set box: gate verdict (AAA studentised) | `FAIL` | `results/confidence_set_mmc.yaml` | `by_key.AAA\|studentised.gate.verdict` |
+| inside the confidence-set box: gate verdict (AAA plain) | `FAIL` | `results/confidence_set_mmc.yaml` | `by_key.AAA\|plain.gate.verdict` |
+| inside the confidence-set box: gate verdict (BBB studentised) | `FAIL` | `results/confidence_set_mmc.yaml` | `by_key.BBB\|studentised.gate.verdict` |
+| inside the confidence-set box: fraction of design points with a dead cell (AAA studentised) | `0.1905` | `results/confidence_set_mmc.yaml` | `by_key.AAA\|studentised.fraction_of_design_points_with_a_dead_cell` |
+| session verdict (both variants of the primary assignment) | `FAIL` | `results/confidence_set_mmc.yaml` | `session_verdict.verdict` |
+| simulator draws taken for this check | `722,000` | `results/confidence_set_mmc.yaml` | `settings.n_simulator_runs` |
+| design points (32 corners + 10 axis endpoints of the data-implied box) | `42` | `results/confidence_set_mmc.yaml` | `settings.n_design_points` |
+
 **Provenance of the source files.**
 
 | file | script | commit | dirty | seed |
 |---|---|---|---|---|
 | `results/boundary_sweep.yaml` | `src/diagnostics/boundary_sweep.py` | `792b7dc` | `False` | `20260821` |
+| `results/confidence_set_mmc.yaml` | `src/diagnostics/confidence_set_check.py` | `a91131a` | `False` | `20260824` |
 | `results/cost_gate.yaml` | `src/diagnostics/cost_gate.py` | `5ba0623` | `False` | `20260820` |
 | `results/floor_check.yaml` | `src/diagnostics/floor_check.py` | `570692c` | `False` | `20260820` |
 | `results/jacobian_rank.S_A.no_crn_control.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
