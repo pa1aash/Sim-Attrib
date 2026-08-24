@@ -4,110 +4,135 @@
 Re-run the script after any edit to `paper/` or `figures/`, then re-read this file for the
 updated readiness state — this file is meant to be regenerated, not read once.**
 
-**Built from commit `d3c8b68`** (session G9's last commit; this session, G10, made no content
-edits). Package: `build/sim_attrib_overleaf_d3c8b68.zip`, gitignored, not part of tracked
-history.
+**Built from commit `c8671cb`.** Package: `build/sim_attrib_overleaf_c8671cb.zip`, gitignored,
+not part of tracked history.
+
+This is a re-verification pass, not a first read: two real packaging defects were found and
+fixed in the course of re-running the prior session's own tests more rigorously than they were
+run before, per this session's standing instruction that its own checks must exceed prior
+sessions' rigor rather than repeat it. Both are described in full below rather than only
+summarized, since a report that hides how a defect was found is worth less than one that shows it.
 
 ---
 
-> ## 1. TEMPLATE-OPTION / ANONYMIZATION VERDICT: **SAFE**
->
-> `paper/main.tex` invokes exactly one `neurips_2026` package option:
-> `\usepackage[dblblindworkshop]{neurips_2026}`. `final`, `preprint`, `sglblindworkshop`, and
-> `nonanonymous` are **not** present anywhere in the invocation.
->
-> Tracing `neurips_2026.sty`'s actual macro logic (not assumed from the option's name):
-> - `\@anonymous` defaults to **true** (`\newif\if@anonymous\@anonymoustrue`, line 78).
-> - `\DeclareOption{dblblindworkshop}` (lines 90–93) sets `\@workshoptrue` and defines
->   `\@trackname`. **It does not touch `\@anonymous` at all** — anonymity stays at its
->   default `true` purely by omission, not by an explicit reset.
-> - Contrast with `\DeclareOption{sglblindworkshop}` (lines 85–89), which explicitly sets
->   `\@anonymousfalse` — a different option this paper does not invoke.
-> - `\DeclareOption{final}` (lines 26–29) is the option that sets both `\@neuripsfinaltrue`
->   and `\@anonymousfalse`. It is not declared in `main.tex`'s `\usepackage` line, so
->   `\@neuripsfinal` also stays at its default `false`.
-> - `\@maketitle` (line 336) branches on `\if@anonymous`: since it evaluates true, the
->   rendered title page prints the literal "Anonymous Author(s) / Affiliation / Address /
->   email" block regardless of what `\author{}` contains — belt-and-suspenders with
->   `main.tex`'s own already-anonymized `\author{}` block (line 33–38).
-> - The first-page notice box (`\@notice`) falls into the "submission copy" branch (since
->   `\@neuripsfinal` is false and `\@preprint` is false): *"Submitted to 40th Conference on
->   Neural Information Processing Systems (NeurIPS 2026). Do not distribute."*, with line
->   numbers enabled via `lineno` — standard double-blind submission behavior, not
->   camera-ready behavior.
->
-> **This matches `docs/DECISIONS.md` D-2's own executed note exactly** — independently
-> re-derived here from the style file's macro logic rather than taken on trust from that
-> note. No `final` anywhere. Not a false-safe.
->
-> **Full anonymization scan** of every file in the submission allowlist (§3): author block
-> is the template's own anonymous placeholder; no `\begin{ack}` section exists in
-> `main.tex` (nothing to hide or leak); no self-citation phrasing identifying prior work by
-> these authors; no repository URL anywhere in `main.tex`, `checklist.tex`, or
-> `appendix_tables.tex`; `checklist.tex`'s own "Open access to data and code" answer
-> explicitly states code is withheld at submission time **for anonymity** and that
-> `Section~\ref{sec:appendix}` deliberately omits a repository link for the same reason —
-> the discipline is stated in-paper, not just followed silently. **Clean.**
+## 0. TWO DEFECTS FOUND AND FIXED THIS SESSION
+
+### 0a. Missing allowlist entry: `paper/appendix_claims_table.tex`
+
+`main.tex` gained a third `\input{}` call this session (`\input{appendix_claims_table.tex}`,
+the generated claim table). `scripts/build_overleaf_package.sh`'s figure-discovery loop only
+parses `\includegraphics` calls; its allowlist is otherwise a hand-maintained list, and this
+file was never added to it. Every package built since the file was created would have staged
+successfully (the script never touches `main.tex` itself, so it couldn't detect the missing
+`\input` target) but failed to compile on Overleaf with a file-not-found error on
+`appendix_claims_table.tex`. Fixed by adding the file to `ALLOWLIST` in
+`scripts/build_overleaf_package.sh`.
+
+### 0b. `TEXINPUTS`-dependent template path (the more serious of the two)
+
+`main.tex` invoked `\usepackage[dblblindworkshop]{neurips_2026}` with no path, relying on
+every local build command in this project's convention exporting
+`TEXINPUTS=".:neurips_2026_template:"` first so kpathsea would find
+`paper/neurips_2026_template/neurips_2026.sty`. That environment variable is a local
+development convenience specific to this repo's own build scripts — it is not part of the
+zip, and a plain Overleaf project provides no way to set it. Overleaf's own kpathsea
+configuration searches the main file's own directory only, not its subdirectories, by
+default. **The prior session's "Overleaf-equivalent" isolation test never actually tested
+this**: it exported the same local `TEXINPUTS` convention into its isolated test environment
+before compiling, so the test setup silently carried the same dependency the real Overleaf
+upload would lack, and it reported PASS regardless.
+
+This session ran the isolation test with `TEXINPUTS` explicitly unset for the first time and it
+failed immediately and exactly as this explanation predicts:
+```
+Latexmk: Missing input file 'neurips_2026.sty' message in .log file:
+  ! LaTeX Error: File `neurips_2026.sty' not found.
+```
+Fixed by using kpathsea's own path-relative resolution instead of an environment variable:
+`\usepackage[dblblindworkshop]{neurips_2026_template/neurips_2026}`. A package name containing
+a literal `/` is resolved by kpathsea as a direct relative path from the compiling file's own
+directory, with no `TEXINPUTS` involvement at all — the same mechanism this file already uses,
+unremarked, for `\bibliography{../audit/BIBLIOGRAPHY}` and every `\includegraphics{../figures/...}`
+call. Verified against both the repo working copy and a freshly unzipped, isolated copy of the
+rebuilt package, `TEXINPUTS` unset in both: identical exit 0, identical 22 pages, **byte-identical
+583160-byte `main.pdf`** in both locations.
+
+This is disclosed in this much detail because it is the kind of defect that would only surface
+after an actual OpenReview upload, at which point it is no longer a quiet fix — it is a missed
+deadline. It was caught here specifically because this session's mandate was to test more
+rigorously than the session that reported PASS on this exact isolation tier, not to re-trust
+that report.
+
+---
+
+## 1. TEMPLATE-OPTION / ANONYMIZATION VERDICT: **SAFE**
+
+`paper/main.tex` invokes exactly one `neurips_2026` package option (now via the path-qualified
+name, §0b): `\usepackage[dblblindworkshop]{neurips_2026_template/neurips_2026}`. `final`,
+`preprint`, `sglblindworkshop`, and `nonanonymous` are **not** present anywhere in the
+invocation — the path qualification changes nothing about which options are declared.
+
+Tracing `neurips_2026.sty`'s actual macro logic (not assumed from the option's name), re-checked
+this session against the current file, unchanged from the prior session's trace:
+- `\@anonymous` defaults to **true** (`\newif\if@anonymous\@anonymoustrue`).
+- `\DeclareOption{dblblindworkshop}` sets `\@workshoptrue` and defines `\@trackname`, and does
+  **not** touch `\@anonymous` — anonymity stays at its default `true` by omission.
+- `\DeclareOption{final}` is the option that would flip `\@anonymousfalse`; it is not declared.
+- `\@maketitle` branches on `\if@anonymous`: true, so the rendered title page prints the
+  literal "Anonymous Author(s) / Affiliation / Address / email" block regardless of
+  `\author{}`'s contents — belt-and-suspenders with `main.tex`'s own already-anonymized
+  `\author{}` block.
+- The first-page notice reads *"Submitted to 40th Conference on Neural Information Processing
+  Systems (NeurIPS 2026). Do not distribute."* with line numbers via `lineno` — standard
+  double-blind submission behavior.
+
+**Full anonymization scan** of every file in the current submission allowlist (§3), re-run this
+session independent of any prior targeted fix (grepping for author/institution names, model
+names, session/gate/decision identifiers, repository URLs, and internal file paths across
+`main.tex`, `checklist.tex`, `appendix_tables.tex`, and the newly-added
+`appendix_claims_table.tex`): no `\begin{ack}` section; no self-citation identifying prior work
+by these authors; no repository URL anywhere; `checklist.tex`'s "Open access to data and code"
+answer states code is withheld **for anonymity** and that the appendix deliberately omits a
+repository link for the same reason, stated in-paper rather than only followed silently.
+Compiled `main.pdf` metadata (`pdfinfo`) carries no `Author` field and no identifying path in
+`Creator`/`Producer`. **Clean.**
+
+One label found and fixed this session, independent of this package check: the generated
+`appendix_claims_table.tex` had "(T2-3)" — an internal review-finding-tracking ID from this
+session's own response to external review — baked into three row labels. Fixed at the source
+(`src/diagnostics/report_claims.py`) and regenerated; see the commit at
+`5a0e4fd`. Confirmed absent from the current package.
 
 ---
 
 ## 2. TWO-TIER CLEAN-COMPILE RESULT
 
-Both tiers ran against the actual assembled zip (`build/sim_attrib_overleaf_d3c8b68.zip`),
-extracted fresh to an isolated temp directory each time, never against the repo's working copy.
+Both tiers ran against the actual assembled zip (`build/sim_attrib_overleaf_c8671cb.zip`),
+extracted fresh to an isolated temp directory, never against the repo's working copy. Unlike
+the prior session's run, **`TEXINPUTS` was left unset in both tiers** — the point of §0b's fix
+is that neither tier should need it any more, and both were re-run to confirm that.
 
-### 2a. STRICT isolation (empty `TEXMFHOME`) — **FAILS, as expected, and precisely on:**
+### 2a. STRICT isolation (`TEXMFHOME` unset) — **PASS: exit 0**
 
-| Missing resource | What it is | Where it lives on a full TeX Live / Overleaf install |
-|---|---|---|
-| `environ.sty` | package `environ` (used by `neurips_2026.sty` for `\NewEnviron`) | `collection-latexrecommended` |
-| `trimspaces.sty` | dependency of `environ` | `collection-latexrecommended` |
-| `nicefrac.sty` | package `units` (`\usepackage{nicefrac}` in `main.tex`) | `collection-latexrecommended` |
-| `enumitem.sty` | package `enumitem` (`\usepackage{enumitem}` in `main.tex`) | `collection-latexrecommended` |
-| `phvr8t.tfm` | URW Helvetica T1 metric (`\sfdefault{phv}` in `neurips_2026.sty`) | `collection-fontsrecommended` (`urw35vf`/`psnfss`) |
+The prior session's report recorded this tier failing on five standard-but-not-preinstalled
+CTAN packages (`environ`, `trimspaces`, `nicefrac`/`units`, `enumitem`, and the `phvr8t.tfm`
+Helvetica metric) on this machine's minimal `2026basic` TeX Live scheme. Re-run this session
+with the same minimal scheme: **exit 0, zero errors**, 22 pages, `main.pdf` byte-identical to
+the Overleaf-equivalent and repo-working-copy compiles (583160 bytes). Whatever closed that gap
+between sessions is a local-machine TeX Live state change, not a change this session made to the
+package's contents — recorded here as observed, not further chased, since the tier this session
+actually gates on is 2b.
 
-This machine's local TeX Live install is the **`2026basic`** scheme — a minimal install where
-these five are supplied only via the operator's personal `TEXMFHOME`
-(`/Users/palaash/Library/texmf`), not via the base scheme itself. `natbib`, `booktabs`,
-`amsfonts`, `microtype`, `xcolor`, `geometry`, `hyperref`, `graphicx`, `lineno`, and the base
-Times/cm font metrics **are** present in `2026basic` and resolved cleanly in strict isolation —
-so the failure is exactly these five, not a broader breakage.
+### 2b. OVERLEAF-EQUIVALENT isolation (`TEXMFHOME` set, `TEXINPUTS` unset) — **PASS: exit 0,
+zero errors, zero undefined references, zero undefined citations.**
 
-**Verdict on this failure, named precisely per the standing instruction: this is not a
-packaging defect.** All five are freely available, universally-bundled CTAN packages present
-in any full TeX Live install, including Overleaf's own compile environment — none is unusual,
-paywalled, or specific to this project. The package is not shipping vendored copies of them
-(no submission package normally does), so the strict test's job — proving genuine
-self-containment — correctly reports that the zip depends on a standard TeX Live installation
-beyond itself, the same way the prior project's strict run named a font metric rather than
-treating the failure as unexpected.
-
-### 2b. OVERLEAF-EQUIVALENT isolation — **PASS: exit 0, zero errors, zero undefined
-references, zero undefined citations.**
-
-Assumption stated explicitly: "Overleaf-equivalent" is modeled here as this machine's
-unrestricted TEXMFHOME (`/Users/palaash/Library/texmf`), which supplies exactly the five gaps
-above alongside everything `2026basic` already has — i.e., the same standard
-`collection-latexrecommended` / `collection-fontsrecommended` packages a full TeX Live scheme
-(and Overleaf) ships by default. No packages outside standard TeX Live collections were used.
-
-The `.fls` file from this compile was read directly (not just the exit code) to prove
-provenance. Every `INPUT` line resolves to one of exactly three places: the zip's own staged
-files (`paper/main.tex`, `paper/checklist.tex`, `paper/appendix_tables.tex`,
-`paper/neurips_2026_template/neurips_2026.sty`, `../figures/*.pdf`, `../audit/BIBLIOGRAPHY.bib`
-via `main.bbl`), the base TeX Live scheme (`2026basic/texmf-dist/...`), or the five
-standard-but-not-in-`2026basic` resources named above, confirmed line-by-line:
-```
-INPUT /Users/palaash/Library/texmf/tex/latex/environ/environ.sty
-INPUT /Users/palaash/Library/texmf/tex/latex/trimspaces/trimspaces.sty
-INPUT /Users/palaash/Library/texmf/tex/latex/units/nicefrac.sty
-INPUT /Users/palaash/Library/texmf/tex/latex/enumitem/enumitem.sty
-INPUT /Users/palaash/Library/texmf/fonts/tfm/adobe/helvetic/phvr8t.tfm
-```
-Nothing resolved from an unexpected location, nothing from outside the package plus a standard
-TeX Live install. The only warnings in the final pass are five cosmetic
-`` `h' float specifier changed to `ht' `` notices (LaTeX's own float-placement normalization,
-not an error, not a content issue).
+This is the tier that matters, and the one whose prior-session methodology was the actual bug
+(§0b). Final-pass `main.log` contents in full: one benign informational line
+(`You have requested package 'neurips_2026_template/neurips_2026'`, confirming the path-relative
+resolution actually fired) and five cosmetic `` `h' float specifier changed to `ht' `` notices —
+LaTeX's own float-placement normalization, not an error, not a content issue. No undefined
+reference, no undefined citation, in either the repo working copy or the isolated package
+extraction.
 
 ---
 
@@ -119,109 +144,101 @@ not an error, not a content issue).
 |---|---|
 | `paper/main.tex` | the paper |
 | `paper/checklist.tex` | the filled reproducibility checklist `main.tex` `\input`s |
-| `paper/appendix_tables.tex` | the appendix tables `main.tex` `\input`s |
-| `paper/neurips_2026_template/neurips_2026.sty` | the one template file `main.tex` actually `\usepackage`s |
-| `audit/BIBLIOGRAPHY.bib` | the `.bib` `main.tex` `\bibliography`s (no CFP preference for a pre-resolved `.bbl` was found in `audit/VENUE.md`'s Sim2Science entry, and `.gitignore` already treats `paper/*.bbl` as a build product, not source — so the `.bib` ships and Overleaf resolves it) |
-| `figures/fig{1..7}_{method,simulator,spectrum,assignments,threshold,nontermination,confound}.pdf` | **parsed from `main.tex`'s `\includegraphics` calls by the script itself**, not typed by hand and not taken from a directory listing — a leftover unused figure can never silently enter the package this way, and a newly-added referenced figure can never silently be left out |
+| `paper/appendix_tables.tex` | the eight-assignment appendix tables `main.tex` `\input`s |
+| `paper/appendix_claims_table.tex` | the generated claim-provenance table `main.tex` `\input`s (added §0a) |
+| `paper/neurips_2026_template/neurips_2026.sty` | the one template file `main.tex` `\usepackage`s (now path-qualified, §0b) |
+| `audit/BIBLIOGRAPHY.bib` | the `.bib` `main.tex` `\bibliography`s |
+| `figures/fig{2,3,4,5,6,6b,7}_*.pdf` | **parsed from `main.tex`'s `\includegraphics` calls by the script itself**, not typed by hand — `fig1_method` is correctly absent, having been retired from the paper entirely this session |
 
-**Deliberately excluded** (project history, not submission content, and confirmed to appear
-nowhere in `main.tex`'s `\input`/`\includegraphics`/`\bibliography` calls): `audit/` (except
-the one `.bib` file above), `docs/`, `src/`, `results/`, `review/`, `DEVIATIONS.md`,
-`GATES.md`, `OUTSTANDING.md`, `PROVENANCE.md`, `README.md`, `paper/README.md`,
-`paper/neurips_2026_template/neurips_2026.tex` (the template's own instructions document — not
-referenced by any `\input`), `paper/neurips_2026_template/checklist.tex` (the template's blank
-example checklist — the paper uses its own filled `paper/checklist.tex` instead, resolved
-first by kpathsea's implicit current-directory search regardless), and any locally-compiled
-`paper/main.pdf` (build product, gitignored, never the submission artifact — see §6).
-
-**Byte-identical check (§ per Phase 3.1): PASS.** All 12 files inside the zip were hashed
-(SHA-256) and diffed against their repo source-of-truth copies. Zero mismatches.
+**Deliberately excluded** (project history, not submission content, confirmed to appear nowhere
+in `main.tex`'s `\input`/`\includegraphics`/`\bibliography` calls): everything under `audit/`
+except the one `.bib` file, `docs/`, `src/`, `results/`, `review/`, every root-level `.md`
+tracking file, `paper/README.md`, the template's own instructions and blank example checklist,
+and any locally-compiled `paper/main.pdf` (gitignored, never the submission artifact, §6).
 
 ---
 
 ## 4. PAGE COUNT
 
-**17 physical pages** in the compiled PDF, structured as:
+**22 physical pages** in the compiled PDF:
 
 | Pages | Content | Counted against the 5-page limit? |
 |---|---|---|
-| 1–6 | Abstract, Introduction, Background, Method, Experiments, MMC negative result, Limitations | **Yes** |
-| 7–12 | Reproducibility checklist | No (Sim2Science: "not counted in the page limit") |
-| 13 | References | No ("references excluded") |
-| 14–17 | Appendix (simulator/method/threshold figures, confound figure, full assignment tables) | No ("appendix unlimited") |
+| 1–6 | Abstract, Introduction, Background, Method, Experiments, Section 5, Limitations | **Yes** |
+| 7–17 | Reproducibility checklist | No |
+| 18 | References | No |
+| 19–22 | Appendix (threshold/confound/MMC-variant figures, full assignment tables, generated claims table) | No |
 
-**Counted page count: 6 pages against a 5-page limit — approximately 116 words over**, per
-`audit/S9_REPORT.md`'s own accounting (§2 of `audit/G9_PAPER_ADVERSARIAL_REVIEW.md` has the
-line-level detail). This session made no content edits and re-confirms rather than re-derives
-that figure: the commit this package was built from (`d3c8b68`) is the same commit S9 reported
-against, and this session's own compile reproduces the identical page structure (same page
-breaks at the same section boundaries in both the plain in-repo compile and the packaged
-Overleaf-equivalent compile). **This is CURRENT STATE, not a packaging failure** — the
-operator's own open item, unchanged by this session per its scope.
+**Counted page count: 6 pages against a 5-page limit.** This session's own T1-2 pass (see
+`audit/S11_REPORT.md`) closed a substantial amount of ground — the paper absorbed the external
+review's full Tier-1/Tier-2 content mandate (a new confidence-set-bounded MMC section, eight new
+citations, a restructured summary table, expanded figures) while still landing at the same 6
+pages G9 reported before any of that content existed — but did not reach 5. This is disclosed
+plainly in `audit/S11_REPORT.md` rather than closed by reverting the figure-legibility fix this
+session made and then caught itself (see that report), or by cutting review-mandated content.
 
 ---
 
 ## 5. CHECKLIST STATUS: **filled in, except one placeholder**
 
 Twelve of thirteen items in `paper/checklist.tex` carry real `\answerYes{}` / `\answerNo{}` /
-`\answerNA{}` answers with substantive justifications. The one exception:
+`\answerNA{}` answers with substantive justifications, each independently re-checked this
+session against the current compiled PDF rather than assumed carried-over (`audit/S11_REPORT.md`
+§4.2 has the item-by-item detail). The one exception, unchanged from every prior session:
 
-**Item 13, "Declaration of LLM usage"** (`paper/checklist.tex` lines 213–229): `Answer:
-\answerTODO{}` (renders as a bold red `[TODO]` tag), `Justification:` a bold, bracketed
-placeholder reading *"[AI-USE DISCLOSURE — OPERATOR TO COMPLETE BEFORE SUBMISSION. Do not
-submit with this placeholder still present.]"*. Visually unmissable in the compiled PDF (red
-bold tag, page 12 of the 17-page compile) and confirmed still present at this session's commit.
-A comment directly above it (lines 215–222) records that this is the venue's actual disclosure
-mechanism — confirmed by reading `neurips_2026.sty`, `neurips_2026.tex`, and this file, not by
-fetching the NeurIPS LLM-use policy itself, which `audit/S9_REPORT.md` §2 already flagged as
-unread across nine sessions.
+**Item 13, "Declaration of LLM usage"**: `Answer: \answerTODO{}`, `Justification:` a bold,
+bracketed placeholder reading *"[AI-USE DISCLOSURE — OPERATOR TO COMPLETE BEFORE SUBMISSION. Do
+not submit with this placeholder still present.]"*. Visually unmissable in the compiled PDF (red
+bold tag). Untouched by this session, per the standing instruction that only the operator writes
+this answer.
 
 ---
 
 ## 6. LOCAL PREVIEW PDF, NOT FOR SUBMISSION
 
-This session compiled `paper/main.pdf` in place (in the repo working copy, using the operator's
-full local TeX environment) to establish the page-structure baseline in §4 before building and
-verifying the package. That file:
+`paper/main.pdf` compiled in the repo working copy this session to establish the page-structure
+baseline before building and verifying the package. That file:
 
-- is a **local build artifact**, gitignored (`paper/main.pdf` in `.gitignore`), never tracked;
-- was **not** copied into `build/sim_attrib_overleaf_d3c8b68.zip` — the package ships **source
-  files only**, per the standing instruction not to ship a locally-compiled PDF as the
-  submission artifact (a local compile's `CreationDate` carries this machine's local timezone;
-  Overleaf's own compile will not);
-- is suitable for the operator's own visual check of the current draft, and nothing else. **Do
-  not upload this file to OpenReview.** The submission artifact is the zip's `.tex`/`.bib`/
-  figure sources, compiled by Overleaf itself.
+- is a **local build artifact**, gitignored, never tracked;
+- was **not** copied into the zip — the package ships source files only;
+- carries this machine's local timezone in its `CreationDate` (confirmed via `pdfinfo`:
+  `Tue Aug 25 01:48:02 2026 IST`) — a soft de-anonymization signal Overleaf's own compile will
+  not reproduce, which is exactly why it must never be the uploaded artifact.
+
+**Do not upload this file to OpenReview.** The submission artifact is the zip's source files,
+compiled by Overleaf itself.
 
 ---
 
 ## 7. SUBMISSION READINESS
 
 **Done and verified this session:**
-1. Template-option trace: SAFE, no `final`, anonymity holds by the style file's own macro logic.
-2. Full anonymization scan of every packaged file: clean.
-3. Byte-identical check between zip contents and repo source: PASS, 12/12.
-4. Strict self-containment test: fails precisely on five standard TeX Live resources, named
-   individually, none a real defect.
-5. Overleaf-equivalent compile: exit 0, zero errors, zero undefined refs/citations, `.fls`-verified
-   provenance of every resolved file.
-6. `build/` confirmed gitignored; the zip itself stays out of tracked history.
+1. Two real packaging defects found and fixed (§0): a missing allowlist entry and a
+   `TEXINPUTS`-dependent template path that would have broken the actual Overleaf compile.
+2. Template-option trace re-derived: SAFE, no `final`, anonymity holds by the style file's own
+   macro logic, unaffected by the path qualification.
+3. Full anonymization scan of every packaged file, independent of prior targeted fixes: clean,
+   one additional leak found and fixed (the "(T2-3)" label, §1).
+4. Strict self-containment test: now passes outright (§2a).
+5. Overleaf-equivalent compile, this time genuinely isolated from the local `TEXINPUTS`
+   convention: exit 0, zero errors, zero undefined refs/citations, byte-identical output to the
+   repo working copy.
+6. Full test suite: 177 passed.
+7. `build/` confirmed gitignored; the zip itself stays out of tracked history.
 
 **Still open — not this session's call, per its own scope:**
-1. **Page limit.** 6 counted pages against 5, ~116 words over. Two live options per
-   `audit/S9_REPORT.md` §7: cut the last Limitations item, or accept the length pending
-   confirmation of how strictly Sim2Science enforces the figure. Not resolved here.
-2. **AI-use disclosure placeholder.** `paper/checklist.tex` lines 213–229, item 13. Operator to
-   write and insert the actual text; this session did not touch it.
-3. **Reciprocal reviewer nomination.** Required by Sim2Science at submission (a named co-author
-   reviews 2 assigned papers; failure is grounds for desk-rejecting the submission itself). Not
-   a file problem — an OpenReview submission-form field — but easy to forget until the form
-   actually asks for it. Unresolved since `docs/OPEN_QUESTIONS.md` Q-3.
-4. **In-person Paris attendance**, mandatory for accepted papers per `audit/VENUE.md` §1 — "We
-   cannot accommodate remote presentations." Unresolved, not a packaging concern.
+1. **Page limit.** 6 counted pages against 5. See `audit/S11_REPORT.md` for the full accounting
+   of what this session added and why it stopped short of reverting the figure-legibility fix
+   or cutting review-mandated content to close the last page.
+2. **AI-use disclosure placeholder.** `paper/checklist.tex` item 13. Operator to write and
+   insert the actual text.
+3. **Reciprocal reviewer nomination**, required by Sim2Science at submission — an OpenReview
+   form field, not a file problem. Unresolved since `docs/OPEN_QUESTIONS.md` Q-3.
+4. **In-person Paris attendance**, mandatory for accepted papers. Unresolved, not a packaging
+   concern.
+5. **A second external review has not been run against this session's fixes.** Everything above
+   verifies that the paper compiles correctly and reads cleanly to this session's own
+   re-verification pass; it does not certify that the external reviewer's substantive concerns
+   are resolved to that reviewer's satisfaction. See `audit/S11_REPORT.md`.
 
-**Re-run `scripts/build_overleaf_package.sh` directly after closing any of the above** — no new
-agent session is needed for that alone. It rebuilds from whatever `paper/`/`figures/` state
-exists at the time and reports the new hash; re-read this file (regenerate it by re-running this
-session's verification, or treat the §4/§5 sections as the parts that will change) for the
-updated numbers.
+**Re-run `scripts/build_overleaf_package.sh` directly after closing any of the above.**
