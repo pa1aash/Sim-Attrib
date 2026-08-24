@@ -6,6 +6,26 @@ decision is worth more later than the decision alone.
 
 ## Open
 
+### Q-17 — What did the external reviewer's T2-4 and T2-6 findings say? *(new, G11; not blocking the gate, blocking full closure of the review)*
+
+**Raised 2026-08-25 by session G11's own preparation of `GATES.md` G11 / `audit/S11_REPORT.md`.**
+
+An independent external reviewer with no project history returned Weak Reject on the paper, with
+6 Tier-1 and 15 Tier-2 findings, all reproduced verbatim in G11's session brief. A mid-session
+context compaction retained every finding's substance in the carried-forward summary except
+two: **T2-4 and T2-6**. Every other Tier-1/Tier-2 item's content was independently
+reconstructible from this session's own commit messages (each states the finding it addresses in
+prose, not only its tag); a full `git log` search for T2-4 and T2-6, under any label, found
+nothing. **This session did not invent plausible content for them.**
+
+**Why this is the operator's question and not a session's.** Nothing in this repository can
+answer it — only the operator's own copy of the external review (wherever it was received) can.
+Guessing at defensible-sounding content to close the gap would be exactly the kind of quiet
+self-approval this project's own standing discipline exists to prevent.
+
+**What must not happen:** a future session treating T2-4/T2-6 as closed, minor, or already
+covered by some other fix, without the original text in hand to check against.
+
 > ### Standing audit debt, carried and non-blocking (noted G3)
 >
 > **Some of G0's and G1's negative findings were made before the `search_classic` fix and are
