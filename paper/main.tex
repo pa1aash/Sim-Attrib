@@ -42,23 +42,19 @@
 \maketitle
 
 \begin{abstract}
-Attributing a simulator's misspecification to one of its components, rather than merely
-detecting that the simulator is misspecified, presupposes that the available summaries can
-tell the components apart -- a precondition that can fail quietly. We check it, using
-established rank-and-condition-number diagnostics rather than proposing new ones, on a
-canonical three-component compartmental epidemic simulator under a realistic adversarial
-threat model. Under a scope assumption of at most one distortion parameter per component, one
-natural summary set separates all three components across every one of eight ways two
-declared distortion families can be assigned to them; the same measurement locates exactly
-where this breaks once a component is allowed two distortion parameters at once, on a real,
-interpretable confound between two mechanisms rather than an estimator or threshold artifact.
-We then evaluate a natural selective-inference construction, composed entirely from
-established exact-inference tools, for turning this diagnostic into a calibrated attribution
-test: it is comfortably affordable at a known parameter and fails to terminate once the
-nuisance parameters are only known within a realistic neighborhood. The boundary of that
-failure is predicted, before it is measured, from the ratio of nuisance-induced shift to
-observation noise, and the prediction holds -- giving a check transportable to other
-simulators of this class. Every tool used is prior art; the contribution is the finding.
+Attributing a simulator's misspecification to one component presupposes that the available
+summaries can tell the components apart -- a precondition that can fail quietly. We check it,
+on a three-component epidemic simulator under an adversarial threat model, using
+rank-and-condition-number diagnostics. One summary set separates all three components under
+every one of eight distortion assignments tried, given at most one distortion parameter per
+component; the same measurement locates exactly where this breaks once a component carries two
+parameters at once ($\kappa=628.9$, rank 4 of 6), on a real, interpretable confound. A
+selective-inference construction for turning this diagnostic into a calibrated attribution test
+is affordable at a known parameter but fails to terminate once the nuisance parameters are only
+known to the precision a maximum-likelihood fit to the data gives them -- a box wider, on every
+coordinate, than one already shown to break it. The boundary is predicted before it is
+measured, from the ratio of nuisance shift to observation noise, and the prediction holds.
+Every tool used is prior art; the contribution is the finding.
 \end{abstract}
 
 \section{Introduction}
@@ -78,10 +74,12 @@ on a canonical case -- a three-component compartmental epidemic simulator, with 
 progression, and observation as the components -- and reports four findings, none a claim
 about a new method (Section~\ref{sec:background}):
 \begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=*]
-\item \textbf{Where attribution is identifiable.} A rank-and-condition-number screen, under a
-realistic adversarial threat model rather than only a favorable one, shows one summary set
-separates all three components under every one of eight distortion assignments tried
-(Section~\ref{sec:experiments}).
+\item \textbf{Where attribution is identifiable.} Under a scope assumption of at most one
+distortion parameter per component, a rank-and-condition-number screen shows one summary set
+separates all three components under every one of eight distortion assignments tried, against a
+realistic adversarial threat model rather than only a favorable one; a second, coarser summary
+set fails on exactly the assignment the adversarial family targets, ruling out an instrument
+that always reports separable (Section~\ref{sec:experiments}).
 \item \textbf{Where it stops being identifiable.} The same measurement locates exactly where
 this breaks, once a component carries two distortion parameters at once, on a specific,
 interpretable confound rather than an estimator, threshold, or structural artifact
@@ -104,23 +102,44 @@ identifiable case has a boundary that can be predicted rather than only discover
 
 \begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=*]
 \item \textbf{Detecting misspecification versus attributing it.} SBI has moved from asking
-whether a simulator is misspecified to asking where.
-\citet{montel2025testsmodelmisspecificationsimulationbased} give a family of tests, from local
-distortions to global model checks, for detecting misspecification of an SBI posterior; their
-global test corrects for multiplicity via a trials-corrected $p$-value on the \emph{minimum} of
-per-summary statistics, controlling the global null that the simulator is correctly specified
-\emph{somewhere} rather than the identity of the arg\,min, and their presentation is framed as
-detection rather than component-level attribution. We take this as the baseline our diagnostic
-sits downstream of: before any attribution procedure runs, it is worth asking whether the
-summaries in hand can distinguish the components being attributed to.
+whether a simulator is misspecified to asking where -- \citet{Cranmer_2020} name summary
+informativeness and misspecification diagnosis among the field's open problems, and several
+routes now answer the detection half. \citet{schmitt2022detectingmodelmisspecificationamortized}
+flag out-of-distribution embeddings with a single discrepancy score; \citet{ward2022robustneuralposteriorestimation}
+model the summary-level error explicitly and use it to make posterior estimation robust to it;
+\citet{Frazier_2020} show ABC posteriors under misspecification concentrate on a pseudo-true
+parameter and give a shrinking-tolerance diagnostic for detecting the concentration failing.
+None resolves component identity: each is a global or per-summary signal that something is
+wrong, not a claim about which of several components caused it -- the question this paper asks
+instead. \citet{montel2025testsmodelmisspecificationsimulationbased} give a family of tests,
+from local distortions to global model checks; their global test corrects for multiplicity via
+a trials-corrected $p$-value on the \emph{minimum} of per-summary statistics, controlling the
+global null that the simulator is correctly specified \emph{somewhere} rather than the identity
+of the arg\,min, and their local tests run one distortion direction at a time without
+cross-distortion disambiguation. We take this cluster as the baseline our diagnostic sits
+downstream of: before any attribution procedure runs, it is worth asking whether the summaries
+in hand can distinguish the components being attributed to. Run on our six-column confound
+(Section~\ref{sec:experiments}), Montel et al.'s global test would correctly reject the global
+null -- the distortion is detectable -- but its arg\,min is exactly the ambiguity our diagnostic
+reports as an equivalence class rather than a component; their local tests would independently
+flag both confounded distortions as significant, since each is tested against the base
+simulator without reference to the other. Neither resolves which of progression or observation
+to name, because resolving it is not the question either construction asks.
 \item \textbf{The identifiability precondition.} That question has an exact answer in a closely
 related setting. \citet{Kahl_2019} show per-component input reconstruction in a dynamic system
 is identifiable iff a structural sensitivity map has full column rank, resting on the
 invertibility condition of \citet{Sain_1969}; \citet{CatchpoleMorgan_1997} give the general
 parameter-redundancy framework this instantiates, and \citet{Brynjarsd_ttir_2014} frame the
-broader identifiability problem for model discrepancy in computer-model calibration. We treat
-all four as an established precondition, not a result of this paper: our diagnostic decides
-whether the precondition holds for a given simulator and summary set, not whether it is right.
+broader identifiability problem for model discrepancy in computer-model calibration.
+\citet{Miao_2011} give the differential-algebra route to the same question directly on
+epidemic-ODE models: two parameters entering only through a fixed combination are structurally
+non-identifiable regardless of design, exactly the failure mode our six-column confound
+exhibits empirically; \citet{Raue_2009}'s profile likelihood is the numerical diagnostic for
+the same failure under noisy, partially observed data -- a flat profile along the confounded
+direction, where our near-null singular vector plays the equivalent role for a
+simulation-estimated sensitivity map rather than a symbolic one. We treat all six as an
+established precondition, not a result of this paper: our diagnostic decides whether the
+precondition holds for a given simulator and summary set, not whether it is right.
 \item \textbf{Diagnostic tooling, applied rather than proposed.} Screening a sensitivity
 matrix's rank and condition number to decide whether parameters are jointly recoverable is not
 new; \citet{Cintr_n_Arias_2009} apply exactly this screen to a compartmental epidemic model,
@@ -142,7 +161,16 @@ analytic description, by rejection-sampling the simulator's own null until a rep
 the observed cell, is available for arbitrary conditioning events following
 \citet{freidling2026selectiverandomizationinferenceadaptive}. Composing the two lets a
 simulator supply everything both need without further modelling assumptions; we cite both as
-established and evaluate the composition, rather than propose either as new.
+established and evaluate the composition, rather than propose either as new. Dufour's is not
+the only route through a composite null: \citet{xie2022reprosamplesmethodfinite}'s repro
+samples profile a nuisance parameter through a data-driven candidate set, and
+\citet{Barber_2022}'s approximate co-sufficient sampling conditions on a perturbed maximum
+likelihood estimate to test a composite null without an exact sufficient statistic. Both
+confirm the same structural point Dufour's construction rests on -- a composite null can be
+discharged by conditioning out or maximizing over the nuisance direction rather than estimating
+it away -- and both would, like Dufour's, absorb our two confounded distortion parameters
+together when conditioning on the confounded direction, giving a valid test of whether the
+six-column model fits without attributing a rejection to either parameter individually.
 \end{itemize}
 
 \section{Method}
@@ -170,10 +198,16 @@ standard deviation and each $\eta_k$ by a fixed relative perturbation scale -- b
 tolerance below, fixed before any singular value existed. The diagnostic's only input is the
 summary vector; it never receives a component identity or a ground-truth label, so there is no
 hidden truth available to leak into its answer.
-\item \textbf{Decide.} Components are \emph{separable} if $J$ has full column rank at tolerance
-$\tau$ and condition number $\kappa \le \kappa_{\max}$; we use $\tau=10^{-2}$,
-$\kappa_{\max}=1/\tau=100$, from a compute budget -- resolving components to $\kappa$ costs
-order $\kappa^2$ replicates, and $\kappa=100$ exhausts this study's budget. A singular value
+\item \textbf{Decide.} Components are \emph{separable} if $J$'s condition number satisfies
+$\kappa \le \kappa_{\max}=1/\tau$ -- equivalently, full column rank at tolerance $\tau$, since
+$\kappa \le 1/\tau$ restates rank deficiency at $\tau$ rather than adding a second, independent
+requirement; we report both quantities because each is the more natural unit in different
+places below. We use $\tau=10^{-2}$, $\kappa_{\max}=100$, from a compute budget: resolving
+components to precision $\kappa$ in a Monte Carlo-estimated Jacobian costs order $\kappa^2$
+replicates, since a singular value as small as $\sigma_1/\kappa$ is distinguishable from
+sampling noise only once the per-entry standard error falls below it, and a
+difference-quotient estimate's standard error falls as $(\text{replicates})^{-1/2}$; at
+$\kappa=100$ this exhausts this study's budget. A singular value
 varying by more than a factor of two across the plateau is \emph{unresolved} and counted toward
 the rank in neither direction, a third outcome distinct from separable/not, so the reported rank
 can be an interval rather than a single number. Resolution is a property of the
@@ -271,10 +305,14 @@ a drifting removal hazard is nearly indistinguishable from a constant hazard cha
 with a drifting reporting rate. The confound needs the progression component to carry two
 distortion parameters at once, exactly why it cannot arise under our one-parameter-per-component
 scope, and exactly why that restriction -- not a bound on $\kappa$ -- is what the assumption
-has to be. At $K=6$ the spectrum matches the gapless, no-clean-break picture the sloppy-models
-literature describes \citep{Gutenkunst_2007} (spread $2.80$ decades, gap prominence $1.40$,
-$\tau\sigma_1$ falling inside the spectrum); at $K=3$ it does not. The reassurance a $K=3$
-threshold offers is a fact about $K=3$, not about the simulator.
+has to be. In the six-column case the spectrum matches the gapless, no-clean-break picture the
+sloppy-models literature describes \citep{Gutenkunst_2007} (spread $2.80$ decades, gap
+prominence $1.40$, $\tau\sigma_1$ falling inside the spectrum); in the three-column case it does
+not. The reassurance a three-column threshold offers is a fact about having three columns, not
+about the simulator. ($K$ denotes the simulator's three components throughout; the number of
+distortion columns is a separate quantity, three or six depending on how many parameters each
+component carries, and is written out in words rather than symbolically to avoid the two being
+conflated.)
 
 \begin{figure}[tb]
   \centering
@@ -364,7 +402,8 @@ most transportable part of this result.
 \begin{itemize}[topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=*]
 \item \textbf{The scope assumption is not a formality.} Every positive result here holds under
 the assumption, stated in Section~\ref{sec:method}, that each component carries at most one
-distortion parameter -- load-bearing rather than conservative (Section~\ref{sec:experiments}):
+distortion parameter -- a real restriction the results depend on, not a conservative formality
+(Section~\ref{sec:experiments}):
 the moment one component carries two, the same summary set that separated all three under
 every one-parameter assignment we tried becomes inseparable on a real confound. We have not
 tested compound misspecification within a single mechanism -- two distortions of the
@@ -373,9 +412,12 @@ tested compound misspecification within a single mechanism -- two distortions of
 (Section~\ref{sec:method}) is prior art; the one seam it leaves unoccupied -- carrying an
 estimated simulation-noise level forward into the rank tolerance -- is left open rather than
 filled, since we derive our tolerance from a compute budget instead. The tolerance is fixed
-before any singular value in this paper existed, so nothing here depends on occupying that
-seam; a reader adapting the diagnostic where the noise level binds needs to occupy it
-themselves.
+before any singular value in this paper existed, so nothing here depends on filling that gap;
+a reader adapting the diagnostic where the noise level binds needs to fill it themselves.
+\item \textbf{A local diagnostic, at one parameter point.} $J$ is a linearization at $\eta=0$
+and at the single parameter point $\theta_0$; separability of the $10\%$ perturbation our scale
+represents is not implied by local linear separability, and we have not measured the diagnostic
+at any other $\theta$. We report this as a stated limitation rather than as a tested one.
 \item \textbf{One simulator, one scope of family sets, two hand-placed annotations.} Every
 result here is measured on a single simulator under two distortion family sets chosen by us --
 one deliberately adversarial; the eight assignments (Section~\ref{sec:experiments}) are every
@@ -383,6 +425,12 @@ combination those sets permit, not a sample of families in general, and transpor
 simulator classes is untested. Two figures also carry hand-placed annotations outside the
 automated check -- the rank on Figure~\ref{fig:spectrum}, the separability labels on
 Figure~\ref{fig:assignments} -- both verified restatements, not independent claims.
+\item \textbf{No learned component.} $S_A$ and $S_B$ are domain-chosen, not learned; a neural
+posterior estimator or a learned summary statistic would sit in exactly the place $s(y)$ sits
+here, and the diagnostic applies unchanged to its Jacobian -- the screen asks whether a summary
+map separates components, and does not care whether a person or a network chose the map.
+Whether a learned map would separate these components better or worse than $S_A$/$S_B$ do is
+untested.
 \end{itemize}
 
 \bibliographystyle{plainnat}
@@ -430,7 +478,7 @@ text's prose.
 
 \FloatBarrier
 
-\subsection{Every load-bearing number, and its source}
+\subsection{Every number this paper's claims rest on, and its source}
 
 Every number the main text's four contributions and the confidence-set check of
 Section~\ref{sec:negative-result} rest on, generated programmatically from the underlying
