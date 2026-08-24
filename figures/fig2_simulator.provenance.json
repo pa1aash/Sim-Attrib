@@ -2,15 +2,11 @@
   "figure": "fig2_simulator",
   "generated_by": {
     "script": "src/viz/fig2_simulator.py",
-    "commit": "c40a51209366585d93f3ee3c1a56f3d54479325f",
-    "dirty": true,
-    "dirty_paths": [
-      "figures/fig2_simulator.pdf",
-      "figures/fig2_simulator.preview.png",
-      "figures/fig2_simulator.svg"
-    ],
-    "started": "2026-08-25T00:23:33+05:30",
-    "finished": "2026-08-25T00:23:34+05:30"
+    "commit": "f18662ef112e18d706d0ba5b6b16ccc6ce0c24d6",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-25T00:25:01+05:30",
+    "finished": "2026-08-25T00:25:02+05:30"
   },
   "caption": "Structure of the three-component compartmental simulator, and the point at which each distortion family acts. The deterministic core integrates $(S, I, C)$ by fixed-step RK4 at 24 substeps per day over a 120-day window; $C$ is cumulative infections, and daily true incidence is its first difference. There is no explicit removed compartment because nothing downstream observes one. The observation chain convolves true incidence with a gamma reporting-delay kernel (mean 3 days, shape 3, support 21 days), scales by the reporting fraction $\\rho$, and applies multiplicative lognormal noise at $\\sigma = 0.15$; the noise must be continuous and multiplicative rather than count-valued, or the common-random-numbers finite difference the diagnostic depends on does not exist. Each of the three components carries one one-parameter distortion family $\\delta_k(\\cdot\\,;\\eta_k)$ with $\\delta_k(\\cdot\\,;0)$ bit-identical to the base simulator (asserted bit-for-bit; $\\eta_k$ in units of a fixed 10\\% relative deformation), and two family sets are declared: a base set of three qualitatively different deformations -- a saturating-incidence nonlinearity on transmission, a mean-centred hazard drift (a timing distortion) on progression, and a pure amplitude error on observation -- and an adversarial set designed so that all three columns perturb the same feature of an epidemic curve, its observed exponential growth rate. Under the observation family only the reporting fraction moves -- the delay kernel and the noise scale are held at base values, which is a stated limitation of the design and not an omission from this diagram.",
   "sources": [],
