@@ -29,14 +29,17 @@
 % Page-limit closure (T1-2/T2-6 carryover, G12): float separation tightened, not font size or
 % figure width -- the reverted G11 fix shrank effective on-page font size below the venue floor
 % by shrinking \includegraphics width; this changes only inter-float whitespace.
-\setlength{\textfloatsep}{4pt plus 2pt minus 2pt}
-\setlength{\floatsep}{4pt plus 2pt minus 1pt}
-\setlength{\intextsep}{4pt plus 2pt minus 1pt}
-\setlength{\abovecaptionskip}{4pt}
-\setlength{\belowcaptionskip}{2pt}
+\setlength{\textfloatsep}{2pt plus 2pt minus 2pt}
+\setlength{\floatsep}{2pt plus 2pt minus 1pt}
+\setlength{\intextsep}{2pt plus 2pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{1pt}
 % Same closure (G13): the template's own \parskip (5.5pt, applied between every paragraph)
 % tightened by 1.5pt -- again pure inter-paragraph whitespace, no font size or content change.
-\setlength{\parskip}{4pt plus 1pt minus 1pt}
+% G14: tightened a further 1.5pt (to 2pt) to offset this session's added findings-list,
+% ellipsoid-computation, and mechanism-naming prose (R14-1/R14-2), same lever, no font size or
+% content change.
+\setlength{\parskip}{1.5pt plus 1pt minus 1pt}
 
 % Title: diagnostics-and-limits framing, matching the paper's own argument. No
 % em-dash, no colon.
@@ -61,10 +64,10 @@ rank-and-condition-number diagnostics. One summary set separates all three compo
 every one of eight distortion assignments tried, given at most one distortion parameter per
 component; the same measurement locates exactly where this breaks once a component carries two
 parameters at once ($\kappa=628.9$, rank 4 of 6), on a real, interpretable confound. A
-selective-inference construction for turning this diagnostic into a calibrated attribution test
-is affordable at a known parameter but fails to terminate once the nuisance parameters are only
-known to the precision a maximum-likelihood fit to the data gives them -- a box wider, on every
-coordinate, than one already shown to break it. The boundary is predicted before it is
+selective-inference construction for a calibrated attribution test is affordable at a known
+parameter but fails to terminate once the nuisance parameters are known only to the precision a
+maximum-likelihood fit gives them, a box wider, on every coordinate, than one already shown to
+break it. The boundary is predicted before it is
 measured, from the ratio of nuisance shift to observation noise, and the prediction holds.
 Every tool used is prior art; the contribution is the finding.
 \end{abstract}
@@ -74,17 +77,19 @@ Every tool used is prior art; the contribution is the finding.
 
 A simulator used for scientific inference is essentially always misspecified somewhere.
 Existing SBI tests ask whether it is misspecified at all; a practitioner who gets a positive
-answer usually wants to know \emph{which part} to fix, not only that something needs fixing.
-Attributing misspecification to a specific component presupposes something the detection
-question does not need: that the available summary statistics can actually tell the components
-apart. That precondition can fail quietly, and a procedure that reports a confident attribution
-without checking it first is reporting a number the data may not support.
+answer usually wants to know \emph{which part} to fix. Attributing misspecification to a
+specific component presupposes something the detection question does not need: that the
+available summary statistics can actually tell the components apart. That precondition can fail
+quietly, and a procedure that reports a confident attribution without checking it first is
+reporting a number the data may not support.
 
-This paper checks that precondition on a canonical case -- a three-component compartmental
-epidemic simulator, with transmission,
-progression, and observation as the components -- and reports four findings, none a claim
-about a new method (Section~\ref{sec:background}; Table~\ref{tab:summary},
-Appendix~\ref{sec:appendix}, gives a compact overview of all four with their evidence
+This paper checks that precondition on a canonical case, a three-component compartmental
+epidemic simulator with transmission, progression, and observation as the components, and
+reports four findings, none a claim about a new method: separability holds under every
+one-parameter-per-component assignment tried; it fails once a component carries two, on a real
+confound; a calibrated attribution test is affordable at a known parameter; and it fails to
+terminate once nuisance parameters are known only to data-implied precision, predicted before
+measured (Table~\ref{tab:summary}, Appendix~\ref{sec:appendix}, gives an overview with evidence
 figures).
 
 \section{Background and related work}
@@ -102,9 +107,10 @@ that something is wrong, not which component caused it -- the question this pape
 \citet{montel2025testsmodelmisspecificationsimulationbased}'s family of tests, our baseline,
 corrects for multiplicity via a trials-corrected $p$-value on the \emph{minimum} of per-summary
 statistics -- the global null that something is misspecified, not the identity of the
-arg\,min. On our six-column confound (Section~\ref{sec:experiments}) their global test would
-correctly reject, but its arg\,min is exactly our equivalence-class ambiguity, which their
-local tests would flag on both sides rather than resolve.
+arg\,min. On our six-column confound (Section~\ref{sec:experiments}) their global test would be
+expected to correctly reject, given its construction; not run here. Its arg\,min is exactly our
+equivalence-class ambiguity, which their local tests would flag on both sides rather than
+resolve.
 \item \textbf{The identifiability precondition.} \citet{Kahl_2019} answer it exactly in a
 closely related setting: per-component input reconstruction in a dynamic system is identifiable
 iff a structural sensitivity map has full column rank, resting on \citet{Sain_1969}'s
@@ -124,7 +130,8 @@ also need to know how far a finite-difference estimate can be trusted under simu
 (Section~\ref{sec:method}) is a coarser, pre-registered substitute. Whether the spectrum has a
 clean gap or decays smoothly -- where any rank tolerance is partly a statement about where the
 analyst put it -- is \citet{Gutenkunst_2007}'s general objection; Section~\ref{sec:experiments}
-measures rather than assumes an answer.
+measures rather than assumes an answer. A learned summary statistic or neural posterior
+estimator's embedding would enter here too, in place of $S_A$/$S_B$.
 \item \textbf{Exact inference under a composite, simulation-only null.}
 Section~\ref{sec:negative-result} evaluates a natural construction for turning the diagnostic's
 output into a calibrated test: exact finite-sample inference under a null depending on unknown
@@ -135,8 +142,7 @@ the observed cell, is available for arbitrary conditioning events following
 \citet{freidling2026selectiverandomizationinferenceadaptive}. Composing the two lets a
 simulator supply everything both need without further modelling assumptions. Dufour's is not
 the only route through a composite null: \citet{xie2022reprosamplesmethodfinite}'s repro
-samples and \citet{Barber_2022}'s approximate co-sufficient sampling both discharge it by
-conditioning out or maximizing over the nuisance direction, and both would, like Dufour's,
+samples and \citet{Barber_2022}'s approximate co-sufficient sampling would, like Dufour's,
 absorb our two confounded distortion parameters together rather than attribute a rejection to
 either individually.
 \end{itemize}
@@ -151,7 +157,7 @@ two at once. This is load-bearing rather than a footnote (Section~\ref{sec:exper
 what happens once it is dropped), so we state it before the diagnostic's machinery.
 
 \paragraph{The diagnostic.}
-In four steps (every ingredient prior art, Section~\ref{sec:background}):
+In four steps:
 \begin{enumerate}[topsep=1pt,itemsep=1pt,parsep=0pt,leftmargin=*]
 \item \textbf{Declare.} The simulator as $K$ components, each carrying a one-parameter distortion
 family $\delta_k(\cdot\,;\eta_k)$ bit-identical to the base simulator at $\eta_k=0$, asserted
@@ -192,14 +198,18 @@ decides whether attribution is well posed, and nothing further.
 \label{sec:experiments}
 
 \paragraph{Simulator and summary sets.}
-We apply the diagnostic to a $K=3$ compartmental epidemic simulator -- transmission,
+Every number below traces to a results file and an exact dotted path, listed in full in
+Appendix~\ref{sec:claims-ledger}. We apply the diagnostic to a $K=3$ compartmental epidemic simulator -- transmission,
 progression, observation (full structure and formulas: Figure~\ref{fig:simulator},
 Appendix~\ref{sec:appendix}). Each component carries one one-parameter distortion family
 $\delta_k(\cdot\,;\eta_k)$, $\eta_k$ in units of a fixed $10\%$ relative deformation: the
 \emph{base} set is three qualitatively different deformations (a prevalence nonlinearity, a
 timing distortion, an amplitude error); the \emph{adversarial} set is designed so all three
-columns perturb the same feature, the epidemic curve's growth rate. Under the observation family
-only the reporting fraction moves. We evaluate three summary sets: $S_A$, epidemic-curve features a
+columns perturb the same feature, the epidemic curve's growth rate. Concretely: transmission's
+base/adversarial pair is a prevalence-saturating nonlinearity and a constant multiplier on the
+transmission rate; progression's is a time-drifting removal hazard and a constant multiplier on
+the recovery rate; observation's is a constant reporting-fraction error and a time-drifting
+reporting fraction; only the reporting fraction moves. We evaluate three summary sets: $S_A$, epidemic-curve features a
 domain modeller would choose (peak height, peak time, final size, growth rate); $S_B$, roughly
 ten time-binned incidence counts an SBI practitioner would choose; and $S_C$, an impoverished
 positive control with two summaries, which \emph{must} fail by construction ($d=2<K=3$) and
@@ -209,17 +219,18 @@ measured $0.3299$) is the baseline any component-attribution accuracy is read ag
 \paragraph{Where attribution is identifiable: $S_B$ under eight family assignments.}
 Combining the two declared families component-wise gives eight three-column distortion models
 (Figure~\ref{fig:assignments}), only two of which -- all-base and all-adversarial -- were
-originally declared; the other six recombine the same columns at no additional simulation cost.
+originally declared; the other six recombine the same columns.
 Under our scope assumption, $S_B$ separates all three components under \emph{all eight}:
-condition number $6.628$ to $65.64$, every singular value resolved, no coherence pair flagged.
+condition number $6.628$ to $65.64$, every singular value resolved.
 $S_A$ is a control, not a result: it splits exactly on the transmission family, failing at
-$\kappa=100.9$ -- $0.9\%$ past the ceiling -- on the assignment that swaps in only the
-adversarial transmission distortion, proof the instrument is not vacuously ``separable.'' The
-margin is not uniform: $S_B$'s verdict survives $\tau$ moving by
+$\kappa=100.9$, $0.9\%$ past the ceiling, proof the instrument is not vacuously ``separable.''
+The margin is not uniform: $S_B$'s verdict survives $\tau$ moving by
 $9.881\times$ under the base assignment but only $1.523\times$ under the tightest one
-(Table~\ref{tab:sb-eight}, Appendix~\ref{sec:appendix}), so doubling $\tau$ -- this project's
-own coarse robustness check -- flips it. Nor is it an artifact of the flat $10\%$ ETA\_SCALE
-unit: rescaling by each parameter's confidence-set standard error instead
+(Table~\ref{tab:sb-eight}, Appendix~\ref{sec:appendix}), so doubling $\tau$ flips it. Nor is it
+an artifact of the flat $10\%$ ETA\_SCALE
+unit: rescaling by each parameter's confidence-set standard error instead, using only the three
+coordinates the eta columns map onto ($\beta,\gamma,\rho$; $I_0$ and the noise scale are not
+columns here)
 (Section~\ref{sec:negative-result}: $0.9$--$2.7\%$, not a common $10\%$) leaves both separable
 ($\kappa=31.9$, $8.0$; rank $3$ of $3$).
 
@@ -253,8 +264,7 @@ six-column case the spectrum matches the gapless, no-clean-break picture
 \citet{Gutenkunst_2007}'s sloppy-models literature describes (spread $2.80$ decades, gap
 prominence $1.40$, $\tau\sigma_1$ falling inside the spectrum); in the three-column case it does
 not. The reassurance a three-column threshold offers is a fact about having three columns, not
-about the simulator. ($K$ denotes the three components; column count is separate, written in
-words to avoid conflating the two.)
+about the simulator.
 
 \begin{figure}[tb]
   \centering
@@ -285,11 +295,10 @@ five nuisance coordinates. The composition controls the selective type-I error c
 rather than exactly (both the supremum over the nuisance space and the discrete Monte Carlo
 p-value are sources of conservativeness), and its only theorem requires the selection rule to
 be a fixed, deterministic function of the data with every admissible nuisance value keeping
-the observed selection event reachable. Every tool composed here is established exact-inference
-machinery (Section~\ref{sec:background}); we measure the composition against our own simulator.
+the observed selection event reachable. We measure the composition against our own simulator.
 
 \paragraph{Affordable at a known parameter, unbounded over a data-implied nuisance set.}
-At the true parameter the composition is comfortably affordable: the worst selection cell
+At the true parameter $\theta_0$ the composition is comfortably affordable: the worst selection cell
 holds $23\%$ of null draws, and one test costs $4.2\times10^5$ to $4.3\times10^7$ simulator
 draws against a pre-registered gate of $10^8$ -- a clear pass. The question is whether that
 affordability survives once the nuisance parameters (transmission and recovery rates, reporting
@@ -299,8 +308,9 @@ a box: fitting the simulator to one realized dataset by maximum likelihood and b
 Bonferroni-corrected $95\%$ confidence box from the Fisher information gives relative
 half-widths from $2.3\%$ to $16.6\%$ -- every one wider than the $\pm0.5\%$ box already known
 to break the composition (below). Re-measuring the gate inside this box, the
-acceptance probability collapses to $10^{-5}$ at the primary case and to exactly zero at the
-other three declared combinations: the gate \textbf{fails at every corner under all four}, the
+acceptance probability collapses to $10^{-5}$ at the primary case and to zero acceptances in
+$100{,}000$ draws at the other three declared combinations: the gate \textbf{fails at every
+corner under all four}, the
 cheapest needing $9.9\times10^9$ draws -- two orders of magnitude over budget. The collapse below
 was measured under a round, assumed $\pm5\%$ box; here it survives, by a wide margin, under the
 data-implied one.
@@ -312,10 +322,16 @@ fixed, and once that shift exceeds the noise, a $\theta$-free rule selects one c
 deterministically and the cell the data selected becomes unreachable. A sweep over ten relative
 half-widths from $0.1\%$ to $5\%$
 (Figure~\ref{fig:nontermination}) locates the shape of this collapse under the earlier,
-round-number box: gradual rather than abrupt (about one decade of acceptance probability lost
-per $0.7\%$ of relative nuisance error, log-linear at $R^2=0.94$), passing at every declared
-corner only inside a $\pm0.5\%$ box -- tighter than the data-implied box above supports. The
-ratio itself is a portable one-line check for other simulators.
+round-number box: gradual rather than abrupt (log-slope ratio against a pre-registered
+threshold of 3; measured $2.265\times$), about one decade of acceptance probability lost per
+$0.7\%$ of relative nuisance error, log-linear at $R^2=0.94$, passing at every declared
+corner only inside a $\pm0.5\%$ box, tighter than the data-implied box above supports. The
+smallest round box at which the gate first fails ($\pm0.75\%$) sits at Mahalanobis radius
+$3.56$ under the Fisher information at $\hat\theta$, against a joint $95\%$ ellipsoid radius
+$\sqrt{\chi^2_{5,0.95}}\approx3.33$; the last fully-passing box ($\pm0.5\%$) sits at $2.71$. The
+failure boundary and a real $95\%$ confidence region coincide almost exactly, sharper than
+failing inside a Bonferroni box that only bounds the ellipsoid from outside. The ratio itself
+is a portable one-line check for other simulators.
 
 \begin{figure}[h!]
   \centering
@@ -338,7 +354,7 @@ ratio itself is a portable one-line check for other simulators.
 (Section~\ref{sec:method}) at most one distortion parameter per component -- a real restriction:
 the moment one component carries two, the same summary set that separated all three becomes
 inseparable on a real confound. We have not tested two distortions of the \emph{same} component.
-\item \textbf{The diagnostic is prior art and a local linearization.} The rank-and-condition-number
+\item \textbf{The diagnostic is a local linearization.} The rank-and-condition-number
 screen (Section~\ref{sec:method}) does not carry an estimated simulation-noise level into the
 rank tolerance, derived instead from a compute budget. $J$ is a linearization at $\eta=0$ and one
 parameter point: separability at $10\%$ is not directly implied by local linear separability. One
@@ -346,9 +362,9 @@ additional $\theta$, drawn $\pm20\%$ relative per coordinate before the check ra
 ($\kappa=10.9$, full rank), matching $\theta_0$'s own verdict under the same harness
 ($\kappa=10.1$) -- one point, not a distribution over $\theta$.
 \item \textbf{One simulator, one scope, no learned component.} Every result is on one simulator
-under two chosen family sets -- the eight assignments are every combination those permit, not a
-general sample -- and transport to other simulator classes or a learned summary statistic
-(where $s(y)$ would sit) is untested. Two figures carry hand-placed annotations outside the
+under two chosen family sets, every combination those two permit rather than a general sample,
+and transport to other simulator classes or a learned summary statistic (where $s(y)$ would
+sit) is untested. Two figures carry hand-placed annotations outside the
 automated check -- verified restatements, not independent claims.
 \end{itemize}
 
@@ -468,6 +484,7 @@ Figure~\ref{fig:nontermination}'s main-text panel omits in favour of the primary
 \FloatBarrier
 
 \subsection{Every number this paper's claims rest on, and its source}
+\label{sec:claims-ledger}
 
 Every number the main text's four contributions and the confidence-set check of
 Section~\ref{sec:negative-result} rest on, generated programmatically from the underlying
