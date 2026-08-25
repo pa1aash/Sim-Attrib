@@ -6,7 +6,32 @@ decision is worth more later than the decision alone.
 
 ## Open
 
-### Q-17 — What did the external reviewer's T2-4 and T2-6 findings say? *(new, G11; not blocking the gate, blocking full closure of the review)*
+### Q-17 — What did the external reviewer's T2-4 and T2-6 findings say? **ANSWERED 2026-08-25 (operator, at the start of G12) — and executed**
+
+> **ANSWER.** The operator supplied both findings' verbatim text in the session brief that
+> commissioned G12, closing the gap G11's context compaction opened. Full text, reproduced for
+> the record: **T2-4** asked for one explicit sentence acknowledging the diagnostic is a local
+> linearization at a single parameter point, with a second-θ test attempted "if compute budget
+> allows... if not, state the limitation explicitly rather than testing." **T2-6** asked for
+> Section 5 to be re-titled to lead with the finding, the predicted-before-measured sentence
+> moved to the first paragraph, four instances of apologetic framing fixed, and the Figure 3
+> (now Figure 4) 8.4-vs-27–65 discrepancy reconciled or explained.
+>
+> **Executed in full, session G12.** T2-4 got the real test, not the fallback:
+> `src/diagnostics/second_theta_check.py`, `results/second_theta_check.yaml`, `κ=10.9` at the
+> drawn `θ₂`, matching `κ=10.1` at `θ₀` under an identical harness — separability reproduces at
+> a second point. T2-6 was found, on inspection against the current text, to be **already
+> substantially applied by G11 before its own compaction hit** — this session's own contribution
+> was one further apologetic-framing instance closed and the 8.4-vs-27–65 reconciliation traced
+> to its source (they are different statistics of the same shift; the paper now states only the
+> more informative one, consistently). Full accounting: `audit/S12_REPORT.md` §2.
+>
+> **This closes the debt `docs/DEVIATIONS.md`'s standing note (below) records**, and the lesson
+> it names — save an externally supplied review verbatim before compaction can cost part of
+> it — remains good advice for whatever review commissions the *next* round of fixes.
+
+Original question follows.
+
 
 **Raised 2026-08-25 by session G11's own preparation of `GATES.md` G11 / `audit/S11_REPORT.md`.**
 

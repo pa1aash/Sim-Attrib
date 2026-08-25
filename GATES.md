@@ -1553,3 +1553,116 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+---
+
+## G12 — Does the paper close G11's two lost Tier-2 findings, the page overflow, and the G10 gap, and does this session's own re-verification hold up in turn?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-25, session G12. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **T2-4 and T2-6, the two Tier-2 findings G11 lost to context compaction, are both closed with
+> honest reporting.** T2-6 was found, on inspection, to be **already substantially applied** by
+> G11 before compaction hit — retitled, the predicted-before-measured sentence already in the
+> first paragraph, the confidence-set result already primary evidence, three of the four named
+> apologetic-framing instances already fixed, and the 8.4-vs-27-65 figure discrepancy already
+> resolved by G11's own T2-8 redesign (they are different statistics of the same underlying
+> shift — a vector-norm ratio versus a raw per-coordinate z-score — and the paper now cites only
+> the norm-based one, consistently, having dropped the raw number from the prose entirely). This
+> session's own contribution to T2-6 was a fourth apologetic-framing instance found and cut
+> (Section 5's background bullet), plus re-verifying every part of the original instruction
+> against the current text rather than assuming G11's partial work was complete.
+>
+> **T2-4 took the real path, not the fallback.** A second parameter point, drawn `±20%`
+> relative per coordinate from a rule fixed in code before the draw, run twice for provenance
+> integrity (the first attempt was discarded for `dirty: true` after this session edited
+> `paper/main.tex` while the diagnostic ran in the background — the exact mistake this
+> project's own `DEVIATIONS.md` D-8/D-9 exist to name, caught by this session's own discipline
+> rather than repeated silently). **`S_B` separates at `θ₂` too** (`κ=10.9`, full rank),
+> matching `θ₀`'s own verdict under an identical harness (`κ=10.1`). One additional point is not
+> a distribution over `θ`, and the paper says so.
+>
+> **The page limit is narrowed, not closed.** The specific overflow that used to leak Section
+> 5's own prose onto a sixth page is gone — that text now fits entirely on page 5, after real
+> cuts (Related Work tightened with every T2-5 citation and its engagement kept, several other
+> phrase-level trims, tighter float spacing, and two figure-width reductions verified safe by
+> rendering the compiled pages at 300dpi and reading the smallest text directly). What remains —
+> Figure 4 plus the complete Limitations section, roughly four-fifths of a page — does not fit
+> in the zero space Section 5 leaves on an already-full page 5 without cutting real content, a
+> larger figure-legibility risk than the two taken here, or restructuring. **Six pages against
+> five, same as G9 and G11 before it, on genuinely less remaining slack than either left.**
+>
+> **This session's own re-verification (Phase 4), applying S6's standing suspicion to its own
+> prior sessions' tooling, found one more thing of the same class G11 found.** The "STRICT
+> isolation" tier's `TEXMFHOME`-unset setting does not isolate from anything — it falls back to
+> this operator's own personal package tree, which happens to carry local installs of exactly
+> the packages that tier's own history says it once failed without. Verified directly by
+> pointing `TEXMFHOME` at a genuinely empty directory and reproducing the original failure.
+> **This does not change the submission-readiness verdict**: the tier the project actually gates
+> on sets `TEXMFHOME` explicitly rather than unsetting it, and re-verifies clean, byte-for-byte,
+> against a freshly rebuilt package. Full detail: `audit/OVERLEAF_PACKAGE_REPORT.md` §0c.
+>
+> **G10, which never had a `GATES.md` entry, has one now.** Written retroactively from the one
+> surviving record rather than from a lost session brief, saying so rather than inventing detail
+> the surviving artifacts do not support, and proposing exactly the amendment this session's
+> brief asked for: criteria 1–2 met and independently re-verified twice since; criterion 3
+> (isolation actually tests self-containment) not met as originally run, fixed in G11, confirmed
+> again in G12.
+
+### What G12 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| **G12.1** | **T2-4 resolved, with honest reporting of which path was taken** | **met.** The real second-θ test was run, not the fallback; `results/second_theta_check.yaml`, `dirty: false`, committed after a discarded `dirty: true` attempt that is disclosed rather than hidden. `paper/main.tex` Limitations bullet 2 states the actual result and its one-point caveat |
+| **G12.2** | **T2-6 fully applied, including the strengthened-result incorporation** | **met.** Found mostly already applied by G11 before compaction (retitle, first-paragraph placement, confidence-set-as-primary already done); this session closed the one remaining apologetic-framing instance and independently re-verified every other part of the instruction against current text rather than assuming G11's partial credit |
+| G12.3 | Page limit closed | **NOT MET.** Narrowed — the specific overflow onto page 6 that used to include Section 5's own prose is closed, but the body remains 6 pages against 5. See headline and `audit/OVERLEAF_PACKAGE_REPORT.md` §4 for the exact accounting of what was and was not cut, and why |
+| **G12.4** | **G10 tooling re-verified or fixed, with the existing prior-tooling suspicion check completed** | **met.** `TEXINPUTS` fix re-verified clean, no regression. One further, lower-severity defect of the same class found in the STRICT tier, disclosed in full (`audit/OVERLEAF_PACKAGE_REPORT.md` §0c), and stated explicitly not to change the submission-readiness verdict rather than left ambiguous |
+| G12.5 | G10 given a `GATES.md` entry and a proposed re-sign, not self-signed | **met.** `GATES.md` G10, `status: ready for re-review — UNSIGNED` |
+| G12.6 | `docs/OPEN_QUESTIONS.md` Q-17 closed | **met.** T2-4 and T2-6's actual content and disposition are now on the record; Q-17 marked ANSWERED with what was found |
+| G12.7 | Full number-trace, extended for this session's own additions | **met, with a disclosed scope limit.** T2-4's new numbers (`κ=10.9`, `κ=10.1`) independently verified against `results/second_theta_check.yaml` directly. A token-level diff of every number touched by the page-limit commit confirms none were altered in value, only in surrounding wording. **This is not a from-scratch re-trace of all ~150+ claims** — G11's own exhaustive pass (`audit/S11_REPORT.md` §3) is relied on for content this session did not touch, which is disclosed here rather than re-claimed as freshly re-verified |
+| G12.8 | Full test suite re-run | **met** — 177 passed, unchanged, no `src/` diagnostic code altered by the paper edits or the tooling investigation |
+| G12.9 | Overleaf package rebuilt from this session's final commit and re-verified | **met** — `build/sim_attrib_overleaf_3ca62db.zip`, two-tier compile re-run, exit 0 both tiers, byte-identical output between the repo working copy and the isolated extraction |
+| G12.10 | No self-approval | **met** — every gate this session touched or added (`G10`, `G12`) is `status: ready for review/re-review — UNSIGNED` |
+
+### What G12 explicitly does not certify
+
+- **That the page limit is closed.** It is not. Six pages against five, after real narrowing.
+  The remaining gap is a load-bearing figure plus a full Limitations section that does not fit
+  in the zero space left on an already-full page 5 without a tradeoff this session declines to
+  take unilaterally, matching G9's and G11's own stopping points on the identical tradeoff.
+- **That the full ~150+-claim number trace was re-run from scratch.** It was not; this session's
+  own additions were independently verified, and G11's exhaustive pass is relied on, disclosed,
+  for everything else.
+- **That a second external review has been run against this session's fixes, or G11's.** None
+  has. This is the natural next step, not this session's job — see `audit/S12_REPORT.md` §5.
+- **That the G10 entry written this session is a complete record of what that session actually
+  did.** It is a reconstruction from surviving artifacts, stated as such, and it cannot certify
+  anything about G10 beyond what those artifacts show.
+- **That every instance of apologetic framing in the paper is gone.** Four were named by the
+  external review; four are fixed (the title, the opening sentence, the "propose it" phrase, and
+  the Background bullet found this session). A fifth reader might find a fifth instance — the
+  same limitation every gate in this project has carried since G4.
+
+### Process caveats — what this session did badly or not at all
+
+- **The first T2-4 run was contaminated by this session's own concurrent edit to
+  `paper/main.tex`**, the exact `DEVIATIONS.md` D-8/D-9 pattern (a run in flight, a tree edited
+  underneath it) recurring in a session that had just re-read those entries while preparing this
+  gate. Caught before the number reached the paper, not after — the discarded run and the clean
+  re-run are both disclosed in the commit history rather than only the clean one being kept.
+- **The page-limit gap, restated because it is the largest open item**: six pages against five,
+  narrowed but not closed, for the reasons given above and in `audit/OVERLEAF_PACKAGE_REPORT.md`
+  §4.
+- **No second external review has been commissioned or run.** See `audit/S12_REPORT.md` §5.
+- **Google Scholar still not searched.** Twelfth session with code. **O-7**, unchanged.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
