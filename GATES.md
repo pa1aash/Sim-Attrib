@@ -1336,6 +1336,79 @@ conditions:  ____________________
 
 ---
 
+## G10 — Overleaf submission package: assembly, template compliance, and isolation
+
+**status: ready for re-review — UNSIGNED**
+
+**This entry did not exist before session G12 (2026-08-25) and is written retroactively.** No
+`GATES.md` entry or `audit/S10_REPORT.md` for session G10 ever existed in this repository — G11
+found the gap, named it explicitly as *"a pre-existing gap in the project's own record, not
+something this session was asked to backfill,"* and left it open. This session's mandate
+includes proposing a corrected G10 given the defect G11 found in G10's own verification method,
+which cannot be done without a G10 entry to correct — so this one is written now, from the one
+surviving record of that session's work, `audit/OVERLEAF_PACKAGE_REPORT.md`'s pre-G11 content
+(the parts of it G11 did not itself rewrite), rather than from a lost original session brief.
+**What this means for how to read it:** this entry can state what the surviving artifacts show
+G10 did and where G10's own verification method failed; it cannot certify that G10's original
+scope, process, or any claim beyond what those artifacts record was sound, because no session
+brief or first-person report from G10 exists to check against.
+
+### What G10 is judged against, from the surviving record
+
+| # | Criterion | Result |
+|---|---|---|
+| G10.1 | The Overleaf submission package assembled from an explicit allowlist, byte-identical between the repo working copy and a fresh package extraction | **met**, independently of the defect below — `scripts/build_overleaf_package.sh`'s allowlist-based assembly is not implicated by the isolation-test flaw, and every session since (G11, G12) has re-verified byte/text identity between the repo working copy and a freshly extracted package |
+| G10.2 | Template-option and anonymization compliance (`dblblindworkshop`, no `final`, anonymized author block, no identifying metadata) | **met**, independently of the defect below — this is a static trace of `neurips_2026.sty`'s macro logic and a grep-based scan, neither of which the isolation test's own methodology touches |
+| **G10.3** | **The "Overleaf-equivalent isolation" compile test actually tests self-containment** | **NOT MET, as originally run.** G11 found that G10's own isolation test exported this project's local `TEXINPUTS=".:neurips_2026_template:"` build convention into its own "isolated" test environment before compiling — so the test never actually removed the one piece of local state a plain Overleaf upload could not replicate, and it reported PASS regardless. Re-run by G11 with `TEXINPUTS` genuinely unset for the first time: immediate failure, `File 'neurips_2026.sty' not found.` **G10's PASS on this criterion was not a false report of a true fact; it was a true report of the wrong test.** |
+
+### What this amendment does and does not do
+
+- **It does not retroactively fail G10 on criteria 1 and 2.** Those checks were never implicated
+  by the `TEXINPUTS` leak — a package-assembly script and a macro-logic trace do not depend on
+  which environment variables happen to be set when `latexmk` runs — and both have since been
+  independently re-verified by two further sessions (G11, G12) using the current package.
+- **It states plainly that criterion 3's original verification was invalid**, for the reason
+  G11's own report gives in full (`audit/OVERLEAF_PACKAGE_REPORT.md` §0b): the isolation test's
+  "isolated" environment silently carried the one piece of local state that made the difference.
+- **The defect is fixed and re-verified twice since.** G11 fixed it by making the template
+  package path explicit via kpathsea's own relative-path resolution
+  (`\usepackage[dblblindworkshop]{neurips_2026_template/neurips_2026}`, no environment variable
+  needed) and re-ran the corrected test to PASS. G12 rebuilt the package from its own final
+  commit and re-ran the same corrected test again: exit 0, 22 pages, textually and
+  byte-identical output to the repo working copy (`audit/OVERLEAF_PACKAGE_REPORT.md` §2b).
+- **G12 additionally found and disclosed a second, lower-severity defect of the same class in
+  the OTHER isolation tier** (the one G11's own report already flagged as suspicious but did not
+  chase down): the "STRICT isolation" tier's `TEXMFHOME`-unset setting does not achieve
+  isolation either — it falls back to this operator's own personal package tree rather than to
+  nothing. Unlike the `TEXINPUTS` defect, this one does not change the submission-readiness
+  verdict, because the tier the project actually gates on (Overleaf-equivalent, criterion 3
+  above) does not depend on it. Full detail: `audit/OVERLEAF_PACKAGE_REPORT.md` §0c. This is
+  recorded here rather than as a fourth G10 criterion, since it was found investigating G10's
+  *sibling* tier, not a criterion G10 itself was ever judged against.
+- **It does not certify that G10's process met this project's other standing disciplines**
+  (commit-before-run ordering, seed disjointness, liveness checks) — those are not applicable to
+  a packaging/compile-test session in the same way they are to a compute session, and no G10
+  report exists to check them against regardless.
+
+### Recommendation, offered as such
+
+Sign as: **criteria 1 and 2 met and independently re-verified since; criterion 3 NOT MET as
+originally run, its verification method corrected in G11 and re-confirmed in G12, and the
+package's actual submission-readiness on this axis unaffected by either defect found.** This is
+not a request to retroactively construct a full G10 record beyond what the surviving artifacts
+support — the honest state is that one never existed, and this entry says so rather than filling
+the gap with invented detail.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
+
+---
+
 ## G11 — Does the paper survive an independent external reviewer's Weak Reject, and does this session's own verification hold up to more scrutiny than the sessions before it?
 
 **status: ready for review — UNSIGNED**
