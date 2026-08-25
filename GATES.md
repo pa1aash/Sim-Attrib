@@ -1794,3 +1794,182 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G14 — Does the paper close the second external review's Path to Acceptance, and does it survive a paper-wide dash-removal and polish pass intact?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-26, session G14. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **Every item on the second review's "Path to Acceptance, Round 2" is now addressed** — R14-1
+> (the one Tier-1 item) and R14-2 through R14-9 (eight of the nine Tier-2 items) fixed; R14-10
+> (promoting $S_A$ to a fifth finding) explicitly declined, per the review's own "optional" framing
+> and this session's own judgment that the page budget the other nine items already spent left no
+> clean room for a fifth finding without diluting the paper's four-finding structure.
+>
+> **R14-2, the review's own "single highest-value remaining item," did not confirm the review's
+> guess.** The review's back-of-envelope estimate put the box at which the MMC gate first fails at
+> Mahalanobis radius "roughly 1.3," comfortably inside the 95% confidence ellipsoid ($\sqrt{\chi^2_{5,0.95}}\approx3.33$).
+> This session recomputed it directly from `results/confidence_set_mmc.yaml`'s Fisher-information
+> covariance (cross-checking its eigenvalues against the file's own stored Hessian eigenvalues
+> before trusting the inversion) and `results/boundary_sweep.yaml`'s round-box sweep, using the
+> actual correlation structure across the five nuisance parameters rather than a diagonal
+> approximation (the mathematically correct comparison against a chi-squared threshold, since the
+> diagonal-only version is not chi-squared distributed when the covariance has off-diagonal
+> terms — and this project's own Fisher information does, strongly, for beta/gamma at
+> $\rho=0.88$). The rigorous number: the last round box that still passes at every corner
+> ($\pm0.5\%$) sits at radius 2.71, comfortably inside; the smallest box at which the gate first
+> fails ($\pm0.75\%$) sits at radius 3.56, **just past** the ellipsoid's edge, not deep inside
+> either the failure region or the confidence region. Reported as the sharper, more precise, and
+> more surprising finding it actually is — the composition's failure boundary and a real analyst's
+> 95% confidence region are essentially the same place — rather than silently corrected to match
+> the review's own looser guess.
+>
+> **P-4's visual sweep found two real, previously-undetected defects neither the first nor the
+> second external review named precisely enough to locate.** Figure 1's value labels and
+> $\kappa_{\max}$ annotation were rendering below the venue's ~6pt legibility floor — root-caused
+> to a silent mismatch between the figure's native matplotlib design width (`style.FIG_FULL`,
+> intended for near-full-linewidth inclusion) and the `\includegraphics` width actually used in
+> `main.tex` (0.62\linewidth, a leftover from visual-consistency copying against a sibling figure
+> with a *different* native design width). This is the same class of defect G11 investigated and
+> reverted a fix for (`audit/S11_REPORT.md` §4) — but G11's check only tested a *further*
+> reduction from the existing 0.62, never the absolute effective font size the existing 0.62 was
+> already producing (~5pt), so it was never caught. Fixed by widening to 0.78\linewidth (~6.2pt
+> effective, verified by a fresh 400dpi render read directly). Table 1 (the compact four-findings
+> overview) was hyphenating mid-word inside its narrow columns ("identifi-able", "nui-sance",
+> "distor-tion") — exactly the illegible-cell defect the review named for the appendix claims
+> table, but present here too, in a table the review evidently didn't inspect at this resolution.
+> Fixed by rebalancing column widths and disabling automatic hyphenation for the table
+> (`\hyphenpenalty=10000`), verified by a fresh render: every cell now wraps at whole words.
+>
+> **Figure 1's fix cost real vertical space and reopened the closed 5-page budget a second time
+> this session** (the first time being this session's own R14-1/R14-2/etc. additions). Recovered
+> by cutting one further non-load-bearing aside (a mention of two alternative composite-null
+> repairs — Xie's repro samples, Barber & Janson's approximate co-sufficient sampling — not used
+> anywhere else in the paper's argument), not by touching anything load-bearing. Final main text:
+> **exactly 5 pages**, confirmed by rendering pages 5–6 directly after every edit round in both
+> page-budget-closing passes, not estimated from a line count.
+>
+> **A connectivity/API failure interrupted this session mid-way through Phase 3 (P-1, dash
+> removal).** On resume, git status and a fresh grep (not the prior turn's own narration) were
+> used to establish what had actually landed on disk: `paper/main.tex` and `paper/checklist.tex`
+> were already fully clean of " -- " instances, but `paper/appendix_claims_table.tex`'s 5 heading
+> dashes (generated from `src/diagnostics/report_claims.py`'s `TITLES` dict, not hand-editable)
+> were not yet fixed — exactly the piece the disconnect cut off mid-task. Fixed at the source and
+> regenerated, rather than hand-patching the generated `.tex` file directly, preserving the
+> project's own "generated, not hand-typed" invariant for that file.
+
+### What G14 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| **G14.1** | **R14-1 (Tier 1): findings list restored to the Introduction, all six family mechanisms named and verified against `src/simulators/sir3.py` directly, K-notation disclaimer and three of four redundant "prior art" restatements cut, page count held at ≤5** | **met.** `paper/main.tex`; mechanism descriptions cross-checked line-by-line against `sir3.py`'s docstring and `_rhs`/`simulate` implementation before writing, not against the review's paraphrase |
+| G14.2 | R14-2: ellipsoid comparison added to Section 5, computed directly from the project's own MLE/Fisher-information results, not asserted from the review's estimate | **met**, and the recomputation corrected the review's own guess rather than confirming it — see headline |
+| G14.3 | R14-3: "exactly zero" replaced with the exact measured draw count | **met.** "zero acceptances in 100,000 draws", confirmed against `confidence_set_mmc.yaml`'s `by_key.*.reported_min.n_draws` for all three non-primary combinations |
+| G14.4 | R14-4: the 0.9–2.7% SE-scaling figure explained by naming which three of five nuisance coordinates it uses | **met.** Traced to `results/robustness/alt_eta_scaling.yaml`'s `per_column_relative_scale` field (itself expressed as a multiple of the flat 10% convention, not an absolute fraction — confirmed by direct arithmetic before writing the explanation) |
+| G14.5 | R14-5: "coherence pair flagged" resolved (definition added or phrase removed) and the gradual/abrupt threshold-of-3 rule stated where first used | **met, via the removal branch for the first half** (page-budget pressure; the review offered removal as an equally valid fix) **and the definition branch for the second** (Section 5 now states the slope-ratio-vs-3 rule and the measured 2.265× inline) |
+| G14.6 | R14-6: both figure-rendering bugs, both bibliography defects, the Table 1 (appendix) column overflow, and $\theta_0$'s pre-figure definition | **met**, all five sub-items, each independently verified (figures re-rendered and read; bib entries checked against arXiv's own submission-history metadata, not guessed; $\theta_0$ now named in Section 5's own prose before Figure 3's caption uses it) |
+| G14.7 | R14-7: Appendix A.5's claim-to-source ledger referenced from the start of Section 4 | **met** — one sentence, merged into the existing "Simulator and summary sets" paragraph opening to avoid a standalone-paragraph space cost |
+| G14.8 | R14-8: Montel et al.'s test either run or the assertion explicitly hedged, with the choice stated plainly | **met, hedge path taken.** Confirmed not implemented anywhere in this project (`grep -rl` across `src/` and `tests/` for "montel"/"anau", zero hits) before choosing the hedge over an under-resourced same-session implementation |
+| G14.9 | R14-9: a positive sentence on where a learned summary statistic/NPE would enter, beyond the existing Limitations hedge | **met** — added to Background's "Diagnostic tooling" bullet |
+| G14.10 | R14-10 (optional): promotion of $S_A$ to a fifth finding, decided and stated either way | **met — declined, reasoning stated** in the headline and in `audit/S14_REPORT.md` |
+| G14.11 | P-1: paper-wide dash removal, each instance read and rewritten individually, zero blind substitutions | **met.** 38 instances across `paper/main.tex` (31), `paper/checklist.tex` (2), and `paper/appendix_claims_table.tex`'s generator (5) — the last completed after this session's own connectivity interruption, verified against disk state rather than assumed done. Final sweep: `grep -rn -- ' -- ' paper/*.tex` and a literal Unicode em/en-dash sweep both return zero matches paper-wide |
+| G14.12 | P-2: title and abstract reconsidered against the paper's current state | **met.** Title unchanged (still the right framing); abstract judged to already earn its place and read at the right confidence level after the P-1 dash pass — no further edit made, a checked-and-confirmed outcome rather than a skipped one |
+| G14.13 | P-3: every figure/table caption ≤3 sentences, nothing lost, only relocated or de-duplicated against main-text prose | **met.** Three captions compressed (`fig:nontermination`, `fig:simulator`, `fig:confound`); five were already within the limit |
+| G14.14 | P-4: visual overlap/legibility sweep on the rendered PDF, particular attention to Figure 1 | **met, and found two real defects** — see headline. Every other figure (2, 3, 5, 6, 7) and the appendix simulator diagram checked at up to 400dpi: clean |
+| G14.15 | All 6 original Tier-1 and 15 original Tier-2 findings (first external review) still hold after this session's rewriting | **met**, verified against `audit/S11_REPORT.md`'s canonical descriptions. Full accounting in §Phase-5 below; the highest-risk overlaps (T2-12 K-notation, T2-11 the $s(y)$ clause, T2-10 abstract, T2-3 alt-eta-scaling, T2-15 the Montel sentence, T1-1/T1-4 the appendix restructuring) individually re-checked against the current text, not merely assumed carried forward |
+| G14.16 | R1/R2 (first-review novelty threat-checks) and the second review's own cross-check items still hold | **R1/R2 met** (still DEAD / NARROW-CONDITIONAL, unchanged in Background's prose). **The second review's specific "R-1/R-2/R-3" cross-check labels could not be independently re-derived** — that review's literal text was in this session's original prompt, not persisted to disk, and was not fully recoverable after the mid-session connectivity interruption. Disclosed rather than guessed at; see "does not certify" below |
+| G14.17 | Full number-trace re-run | **partial, targeted.** Every number this session added or changed (R14-2's Mahalanobis radii, R14-3's exact draw count, R14-4's coordinate mapping) independently recomputed from source `results/*.yaml` files before writing, shown in commit messages. Numbers this session did not touch verified unchanged by diff, not re-derived from scratch — the same method G13.6 used and disclosed, not a silent shortcut |
+| G14.18 | Full anonymization re-scan, independent of the targeted fixes | **met.** Rendered-PDF text, all commit messages this session, and every touched source file re-scanned; the only hits are the pre-existing, deliberate AI-use-disclosure placeholder and pre-existing "session G11" code comments (both an established, previously-disclosed pattern per G13.5, neither introduced this session) |
+| G14.19 | Page count ≤5, confirmed by rendering | **met. Exactly 5 pages**, re-confirmed after both page-budget-closing rounds this session (R14-1's own additions, then again after Figure 1's legibility fix), by rendering pages 5–6 directly each time |
+| G14.20 | Two-tier isolation compile against a freshly rebuilt package | **met, both tiers.** §OVERLEAF-EQUIVALENT (`TEXMFHOME` pointed at this operator's personal package tree, `TEXINPUTS` unset): exit 0, 22 pages, zero undefined references/citations, `pdftotext` output textually identical between the isolated extraction and the repo working copy, both 592KB. §`TEXMFHOME`-unset (this-machine sense only, per G12/G13's own naming correction): exit 0, 22 pages, same narrow caveat as every prior gate |
+| G14.21 | `scripts/build_overleaf_package.sh` re-run against the final commit | **met** — `build/sim_attrib_overleaf_6051978.zip`, 17 files, all current |
+| G14.22 | No self-approval | **met** — `status: ready for review — UNSIGNED` |
+
+### Phase 5 — the full T1/T2 re-verification table
+
+| Item | What it is | Status after this session |
+|---|---|---|
+| T1-1 | Appendix claim-to-source table, generated not hand-typed | **intact.** Only the 5 section-heading dashes changed (P-1); every value cell diff-confirmed unchanged |
+| T1-2 | Page limit ≤5 | **intact**, re-closed twice this session after two separate reopenings (own additions; Figure 1 fix) |
+| T1-3 | Real confidence-set-bounded MMC check (not a cheaper reframe) | **intact**, and its own output (`confidence_set_mmc.yaml`) is now the direct source for R14-2's new ellipsoid claim — strengthened, not just preserved |
+| T1-4 | Simulator schematic relocated, qualitative content restated in main-text prose | **intact and strengthened.** R14-1 added the per-family mechanism sentence this fix's restatement previously lacked in full mechanistic detail |
+| T1-5 | Full anonymity re-scan | **intact**, re-run this session (G14.18) |
+| T1-6 | Checklist answers match the compiled PDF | **intact.** Checklist content untouched this session; only 2 dashes removed (P-1) |
+| T2-1/T2-2 | Rank-at-$\tau$/$\kappa\le\kappa_{\max}$ stated as one condition; $\kappa^2$ compute-cost derivation | **intact**, untouched this session |
+| T2-3 | Data-motivated $\eta$-scaling using confidence-set SEs | **intact and strengthened** — R14-4 named the exact 3 coordinates this fix's numbers use |
+| T2-4 | Second-$\theta$ test run | **intact**, untouched this session |
+| T2-5 | Eight Related Work citations genuinely engaged | **intact.** Two citations (Xie, Barber & Janson) removed this session for page budget, per an explicit, disclosed judgment call (headline) — the other six engaged citations named in T2-5 are untouched |
+| T2-6 | Section 5 retitled, finding-first, apologetic framing fixed | **intact**, untouched this session |
+| T2-7 | Scope restriction stated in the introduction's own first contribution sentence | **intact, and now more prominent** — R14-1's restored findings list states it directly rather than via the table pointer this fix used previously |
+| T2-8 | Two-panel non-termination figure, per-figure font floors | **intact**, and this session's own P-4 sweep found and fixed a *different* figure's font-floor violation (Figure 1) without touching this one |
+| T2-9 | Repeated metaphor reduced; diagnostic's four steps as a numbered list | **intact.** The enumerate structure untouched; only its intro line's redundant "every ingredient prior art" parenthetical cut (R14-1) |
+| T2-10 | Abstract tightened, one concrete number retained | **intact.** $\kappa=628.9$, rank 4/6 still present; P-1/P-2 trimmed one further redundant clause, no number touched |
+| T2-11 | Limitations bullet on where a learned summary statistic would sit | **intact.** The specific protected clause, "(where $s(y)$ would sit)", verified still present verbatim after this session's wording trim of the same bullet's other clauses |
+| T2-12 | K-vs-column-count notation conflict resolved | **intact and resolved more thoroughly** — R14-1 removed the disclaimer parenthetical only after R14-6 fixed the actual root-cause legend bug, so the conflict no longer exists at all rather than being explained away |
+| T2-13 | Appendix table's plateau-stability caption honest about noise | **intact**, untouched this session |
+| T2-14 | Checklist after the appendix | **intact**, untouched (structural position) this session |
+| T2-15 | One sentence on the baseline test's output on the six-column confound | **intact, deliberately reworded** — R14-8 softened "would correctly reject" to an explicitly hedged "would be expected to ... reject", per this session's own review instruction, not a regression |
+| R1 (first-review novelty threat-check) | Rejection-sampling-calibration mechanism is prior art | **intact** — `audit/R1_THREAT_CHECK.md`'s DEAD verdict unchanged in Background's prose |
+| R2 (first-review novelty threat-check) | Noisy-rank estimator, corrected instrument | **intact** — `audit/R2_THREAT_CHECK.md`'s NARROW-CONDITIONAL verdict unchanged |
+| "R-3" (second review's cross-check) | **Not independently recoverable this session** — see G14.16 and "does not certify" below |
+
+### What G14 explicitly does not certify
+
+- **That the second review's own "R-1/R-2/R-3" cross-check items were verified against their
+  literal original wording.** That text lived only in this session's original prompt, which was
+  not persisted to disk, and the session was interrupted by a connectivity failure partway
+  through. What this session *did* verify — the first review's R1/R2 novelty threat-checks, still
+  intact — may or may not be the same items the second review's cross-check labeled R-1/R-2/R-3.
+  Recommend the operator supply the second review's literal cross-check text if this distinction
+  matters before submission.
+- **That the full ~150+-claim number trace was re-run from scratch this session.** It was not.
+  Every number this session touched was independently recomputed from source; every number it did
+  not touch is carried forward on the same diff-based method G13.6 already used and disclosed.
+- **That a third external review has been run against this session's substantial rewriting.**
+  None has. This session touched nearly every paragraph in the document (the dash-removal and
+  caption-compression passes alone), which is more main-text rewriting than any prior single
+  session in this project's history. **A third external review is recommended before submission**,
+  more strongly than G13's recommendation was, given the scope of this session's changes.
+- **That Figure 1's new 0.78\linewidth width is the *only* correct choice.** It is the smallest
+  width this session found that clears the ~6pt floor with a small margin (effective ~6.2pt); a
+  human designer might reasonably choose a different value for visual balance. Not re-litigated
+  further given the page-budget cost of any larger choice.
+- **That the two citations dropped from Related Work (Xie, Barber & Janson) will not be missed
+  by a reviewer who read the pre-G14 draft.** A real, if minor, content reduction, disclosed in
+  the headline and in `audit/S14_REPORT.md`, not buried in a diff.
+
+### Process caveats — what this session did badly or not at all
+
+- **A connectivity/API failure interrupted this session mid-task**, during Phase 3 (P-1). Resumed
+  by checking actual disk state (`git status`, fresh greps) rather than trusting this session's
+  own prior narration, per the resume instruction — and it was the right call: the prior turn's
+  self-report would have said P-1 was "in progress," but disk state showed two of three target
+  files already fully clean and precisely identified the one remaining piece (`appendix_claims_table.tex`'s
+  generator). Recorded here as a demonstration that this project's own standing S6/S8 discipline
+  (verify against artifacts, not narration) generalizes to recovering from an infrastructure
+  failure, not only to catching a session's own reasoning mistakes.
+- **The R14-2 ellipsoid computation did not match the review's own estimate**, and this session
+  reported the discrepancy rather than quietly using whichever framing sounded more confident.
+  Recorded as a case where "verify the review's own numbers, don't just cite them" (this session's
+  own explicit brief) actually changed the paper's claim, not just confirmed it.
+- **Figure 1's font-floor violation was not new** — it existed since whichever earlier session
+  first set `width=0.62\linewidth` for that figure, and neither the first external review nor five
+  prior gates' own re-verification passes caught it, including G11's own font-floor investigation,
+  which checked a *further* reduction from that width rather than the width's own existing effect.
+  This session's P-4 mandate (an explicit visual sweep on the rendered PDF, not a source-code
+  check) is what caught it. Recorded as evidence for keeping P-4-style sweeps in future gates,
+  not as a criticism of any specific prior session.
+- **No second external review of this specific session's output has been run**, and per the
+  operator's own standing instruction this session does not run one itself. See "does not certify"
+  above.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

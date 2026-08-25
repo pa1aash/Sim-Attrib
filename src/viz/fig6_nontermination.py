@@ -171,7 +171,7 @@ def build() -> None:
     cross_i = next(i for i, s in enumerate(shift) if s > 1.0)
     axR.axvline(widths[cross_i], color=style.RULE, linewidth=0.7, linestyle=(0, (1, 1.4)),
                zorder=1.1)
-    axR.annotate("measured crossing --\ngate stops passing here",
+    axR.annotate("measured crossing:\ngate stops passing here",
                 xy=(widths[cross_i], max(shift) * 0.55),
                 xytext=(widths[cross_i] + 0.004, max(shift) * 0.42),
                 fontsize=style.SIZE_LABEL, color=style.RULE, ha="left", va="center",
