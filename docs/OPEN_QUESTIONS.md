@@ -26,9 +26,9 @@ decision is worth more later than the decision alone.
 > to its source (they are different statistics of the same shift; the paper now states only the
 > more informative one, consistently). Full accounting: `audit/S12_REPORT.md` §2.
 >
-> **This closes the debt `docs/DEVIATIONS.md`'s standing note (below) records**, and the lesson
-> it names — save an externally supplied review verbatim before compaction can cost part of
-> it — remains good advice for whatever review commissions the *next* round of fixes.
+> **This closes the debt `audit/S11_REPORT.md` §6 named as a process caveat**: save an
+> externally supplied review verbatim before compaction can cost part of it. That lesson remains
+> good advice for whatever review commissions the *next* round of fixes.
 
 Original question follows.
 
