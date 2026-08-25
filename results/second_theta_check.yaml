@@ -1,0 +1,383 @@
+provenance:
+  script: src/diagnostics/second_theta_check.py
+  commit: 3b90b0cb79d6b4508c09b77df35bd601b92da018
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - .second_theta_check.pid
+  command: python -m src.diagnostics.second_theta_check --dry-run False
+  seed: 60000000000
+  started: '2026-08-25T21:42:07+05:30'
+  finished: '2026-08-25T21:51:47+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.14.2
+  deps: numpy==2.4.0, scipy==1.16.3, pyyaml==6.0.3
+what_this_is: 'T2-4: does the separability diagnostic reproduce at a second parameter point?
+
+
+  WHY THIS SCRIPT EXISTS
+
+  -----------------------
+
+  Every separability result in this project (``results/jacobian_rank.*.yaml``, the
+
+  eight-assignment sweep, the six-column confound) linearizes the summary Jacobian at
+
+  ``eta = 0`` and at exactly one parameter point, ``sir3.BASE``. `paper/main.tex`''s
+
+  Limitations section already concedes this is a local statement: separability of the finite
+
+  (10%) perturbation the diagnostic''s own scale represents is not directly implied by local
+
+  linear separability at one point. This script tests whether the diagnostic''s headline
+
+  verdict -- ``S_B`` separates all three components under the base (AAA) family assignment --
+
+  survives at a SECOND parameter point, drawn from a reasonable prior range rather than
+
+  picked by hand.
+
+
+  THE SAMPLING RULE, FIXED BEFORE THE DRAW (S3 / D3)
+
+  -----------------------------------------------------
+
+  Each of the five nuisance coordinates (beta, gamma, rho, I0, obs_sigma) is independently
+
+  perturbed by a relative factor drawn ``Uniform(-0.20, +0.20)`` about its ``sir3.BASE``
+
+  value: ``theta2_i = theta0_i * (1 + u_i)``, ``u_i ~ Uniform(-0.20, 0.20)``. Twenty percent
+
+  is not arbitrary in this project''s own terms: it is twice the paper''s own ETA_SCALE unit
+
+  (one normalised distortion unit is a 10% relative deformation) and comfortably wider than
+
+  every coordinate of the data-implied 95% confidence box G11 measured (2.3%-16.6%
+
+  half-width, `audit/DUFOUR_CONFIDENCE_SET_CHECK.md`) -- i.e. wide enough to be a real second
+
+  point, not a restatement of the fit''s own uncertainty. The draw uses a seed fixed in this
+
+  docstring before any diagnostic ran against it, so the point cannot have been selected
+
+  because it was favourable.
+
+
+  WHAT THIS DOES NOT DO
+
+  -----------------------
+
+  One additional theta is one additional theta, not a distribution over theta. It answers
+
+  "does the verdict survive at a second point drawn honestly", not "how often does it
+
+  survive". It tests S_B under the all-base (AAA) family assignment only -- the paper''s
+
+  primary, headline case -- not all eight assignments; re-running the full eight-assignment
+
+  sweep at a second theta is a larger task than T2-4 asks for and is not attempted here.
+
+
+  Sources: ``src/simulators/sir3.py`` (BASE, SIR3Params, simulate), ``src/simulators/summaries.py``
+
+  (SUMMARY_SETS, SUMMARY_LABELS), ``src/diagnostics/jacobian_rank.py`` (estimate_jacobian, analyse,
+
+  same pre-registered thresholds as every other diagnostic run). Nothing here changes
+
+  ``docs/THRESHOLDS.md``.
+
+  '
+sampling_rule:
+  rule: theta2_i = theta0_i * (1 + u_i), u_i ~ independent Uniform(-0.20, 0.20)
+  coordinates:
+  - beta
+  - gamma
+  - rho
+  - I0
+  - obs_sigma
+  rel_half_width: 0.2
+  draw_seed: 60000000000
+  relative_offsets_u:
+    beta: 0.015571164321036557
+    gamma: -0.09733355637978712
+    rho: -0.05082521295850948
+    I0: -0.12427597418435009
+    obs_sigma: -0.16576771722466577
+theta0:
+  beta: 0.35
+  gamma: 0.14
+  rho: 0.4
+  I0: 10.0
+  obs_sigma: 0.15
+theta2:
+  beta: 0.3554499075123628
+  gamma: 0.12637330210682982
+  rho: 0.37966991481659623
+  I0: 8.757240258156498
+  obs_sigma: 0.12513484241630013
+seed_spans_used:
+  theta_draw:
+  - 60000000000
+  - 60000000001
+  normalisation:
+  - 60010000000
+  - 60010002000
+  diagnostic:
+  - 60020000000
+  - 60020000128
+seed_spans_disjoint_from_prior_sessions: true
+summary_set: S_B
+family_assignment: AAA (all-base) -- the paper's primary, headline case
+thresholds_pre_registered:
+  source: docs/THRESHOLDS.md, unrevised
+  tau_rank_tolerance: 0.01
+  kappa_max: 100.0
+  colnorm_invisible: 0.1
+  coherence_flag: 0.98
+  vk_min_equivalence_class: 0.3
+  resolve_factor: 2.0
+  h_values:
+  - 0.1
+  - 0.01
+  - 0.001
+  - 0.0001
+  - 1.0e-05
+  - 1.0e-06
+verdict_at_theta2:
+  dimensions:
+    d: 10
+    K: 3
+  h_sweep:
+  - h: 0.1
+    singular_values:
+    - 31.269528032566527
+    - 5.932651544112997
+    - 2.8638290935942936
+  - h: 0.01
+    singular_values:
+    - 31.268094735145276
+    - 5.9325237461493785
+    - 2.864170001592831
+  - h: 0.001
+    singular_values:
+    - 31.268080415949324
+    - 5.93252246927236
+    - 2.8641734162769215
+  - h: 0.0001
+    singular_values:
+    - 31.26808022517846
+    - 5.932522469985687
+    - 2.8641735108866615
+  - h: 1.0e-05
+    singular_values:
+    - 31.268080569775567
+    - 5.932522561939441
+    - 2.8641738313331584
+  - h: 1.0e-06
+    singular_values:
+    - 31.26811051253538
+    - 5.932522526789473
+    - 2.8641655846536174
+  relative_frobenius_change_between_adjacent_h:
+  - 9.59126409164339e-05
+  - 9.585461704998759e-07
+  - 1.7828333939772215e-08
+  - 7.239490743519208e-08
+  - 1.762626523979192e-06
+  plateau:
+    rule: longest contiguous run of h with ||J(h_{i+1})-J(h_i)||_F / ||J(h_i)||_F < plateau_rel_tol
+    plateau_rel_tol: 0.05
+    found: true
+    h_range:
+    - 0.1
+    - 1.0e-06
+    h_indices:
+    - 0
+    - 5
+    n_h_in_plateau: 6
+    representative_h: 0.0001
+    censored_at_large_h: true
+    censored_at_small_h: true
+  singular_values_at_representative_h:
+  - 31.26808022517846
+  - 5.932522469985687
+  - 2.8641735108866615
+  singular_value_range_across_plateau:
+  - - 31.26808022517846
+    - 31.269528032566527
+  - - 5.93252246927236
+    - 5.932651544112997
+  - - 2.8638290935942936
+    - 2.8641738313331584
+  singular_value_variation_factor:
+  - 1.0000463030469937
+  - 1.0000217571600116
+  - 1.00012037650558
+  resolved:
+  - true
+  - true
+  - true
+  resolve_factor: 2.0
+  numerical_rank:
+    tau: 0.01
+    rule: 'rank = #{ i : sigma_i >= tau * sigma_1 }, with unresolved sigma counted in neither direction'
+    rank_certain: 3
+    rank_possible: 3
+    determined: true
+    full_column_rank: true
+  condition_number: 10.916964390016583
+  kappa_max: 100.0
+  column_norms:
+  - 28.692501697474707
+  - 11.643284872005385
+  - 7.890843900071
+  colnorm_invisible_threshold: 0.1
+  invisible_components: []
+  pairwise_coherence:
+  - - 1.0
+    - 0.9530075707353451
+    - 0.6907620335607799
+  - - 0.9530075707353451
+    - 1.0000000000000002
+    - 0.5724836410668582
+  - - 0.6907620335607799
+    - 0.5724836410668582
+    - 1.0
+  coherence_flag_threshold: 0.98
+  coherence_flagged_pairs: []
+  right_singular_vectors_at_representative_h:
+  - - 0.9168711265732705
+    - -0.35770099584135995
+    - 0.17719293109591433
+  - - -0.04404378929942406
+    - 0.35052832134483525
+    - 0.935515922130308
+  - - 0.396746117662681
+    - 0.8655517855733833
+    - -0.3056347895942453
+  near_null_directions: []
+  vk_min: 0.3
+  inseparable: false
+  inseparable_reason: 'separable: full column rank at tau and condition number within ceiling'
+verdict_at_theta0_same_harness:
+  dimensions:
+    d: 10
+    K: 3
+  h_sweep:
+  - h: 0.1
+    singular_values:
+    - 27.76669015135165
+    - 5.241044799604309
+    - 2.755854073719426
+  - h: 0.01
+    singular_values:
+    - 27.76541344026541
+    - 5.24095759174516
+    - 2.756164263794144
+  - h: 0.001
+    singular_values:
+    - 27.765400693956884
+    - 5.240956719425849
+    - 2.7561673646632796
+  - h: 0.0001
+    singular_values:
+    - 27.765400618830967
+    - 5.2409567153837
+    - 2.7561674154792266
+  - h: 1.0e-05
+    singular_values:
+    - 27.765400655370215
+    - 5.240956791839765
+    - 2.756167384534567
+  - h: 1.0e-06
+    singular_values:
+    - 27.765393754948118
+    - 5.240955580112901
+    - 2.7561661067448604
+  relative_frobenius_change_between_adjacent_h:
+  - 0.00011080228487027982
+  - 1.1070174284712157e-06
+  - 1.1197660550520188e-08
+  - 1.195689852713995e-07
+  - 1.1893468092821349e-06
+  plateau:
+    rule: longest contiguous run of h with ||J(h_{i+1})-J(h_i)||_F / ||J(h_i)||_F < plateau_rel_tol
+    plateau_rel_tol: 0.05
+    found: true
+    h_range:
+    - 0.1
+    - 1.0e-06
+    h_indices:
+    - 0
+    - 5
+    n_h_in_plateau: 6
+    representative_h: 0.0001
+    censored_at_large_h: true
+    censored_at_small_h: true
+  singular_values_at_representative_h:
+  - 27.765400618830967
+  - 5.2409567153837
+  - 2.7561674154792266
+  singular_value_range_across_plateau:
+  - - 27.765393754948118
+    - 27.76669015135165
+  - - 5.240955580112901
+    - 5.241044799604309
+  - - 2.755854073719426
+    - 2.7561674154792266
+  singular_value_variation_factor:
+  - 1.0000466910865724
+  - 1.0000170235160446
+  - 1.0001137004178808
+  resolved:
+  - true
+  - true
+  - true
+  resolve_factor: 2.0
+  numerical_rank:
+    tau: 0.01
+    rule: 'rank = #{ i : sigma_i >= tau * sigma_1 }, with unresolved sigma counted in neither direction'
+    rank_certain: 3
+    rank_possible: 3
+    determined: true
+    full_column_rank: true
+  condition_number: 10.073916578105717
+  kappa_max: 100.0
+  column_norms:
+  - 25.330194475038365
+  - 10.987330305523495
+  - 6.606162142493546
+  colnorm_invisible_threshold: 0.1
+  invisible_components: []
+  pairwise_coherence:
+  - - 0.9999999999999998
+    - 0.9506042899656199
+    - 0.6542009882925182
+  - - 0.9506042899656199
+    - 0.9999999999999999
+    - 0.5351167315249202
+  - - 0.6542009882925182
+    - 0.5351167315249202
+    - 1.0
+  coherence_flag_threshold: 0.98
+  coherence_flagged_pairs: []
+  right_singular_vectors_at_representative_h:
+  - - 0.911377896062666
+    - -0.3802463673080072
+    - 0.15748977972380526
+  - - -0.004911200880673686
+    - 0.3725807432574904
+    - 0.9279867832354113
+  - - 0.41154126242006206
+    - 0.8465201060239268
+    - -0.3376943876094798
+  near_null_directions: []
+  vk_min: 0.3
+  inseparable: false
+  inseparable_reason: 'separable: full column rank at tau and condition number within ceiling'
+separable_at_theta2: true
+separable_at_theta0_same_harness: true
+reproduces_headline_verdict: true
+leakage_checked: true
+leakage_statement: The diagnostic never receives a component index or ground-truth label; its input is
+  theta2 (drawn before any diagnostic ran) and the resulting summary vectors.
