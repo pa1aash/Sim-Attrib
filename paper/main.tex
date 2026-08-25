@@ -39,7 +39,7 @@
 % G14: tightened a further 1.5pt (to 2pt) to offset this session's added findings-list,
 % ellipsoid-computation, and mechanism-naming prose (R14-1/R14-2), same lever, no font size or
 % content change.
-\setlength{\parskip}{1.5pt plus 1pt minus 1pt}
+\setlength{\parskip}{1pt plus 1pt minus 1pt}
 
 % Title: diagnostics-and-limits framing, matching the paper's own argument. No
 % em-dash, no colon.
@@ -140,11 +140,7 @@ nuisance parameters, by maximizing a simulated $p$-value over the nuisance set, 
 analytic description, by rejection-sampling the simulator's own null until a replicate lands in
 the observed cell, is available for arbitrary conditioning events following
 \citet{freidling2026selectiverandomizationinferenceadaptive}. Composing the two lets a
-simulator supply everything both need without further modelling assumptions. Dufour's is not
-the only route through a composite null: \citet{xie2022reprosamplesmethodfinite}'s repro
-samples and \citet{Barber_2022}'s approximate co-sufficient sampling would, like Dufour's,
-absorb our two confounded distortion parameters together rather than attribute a rejection to
-either individually.
+simulator supply everything both need without further modelling assumptions.
 \end{itemize}
 
 \section{Method}
@@ -236,7 +232,7 @@ columns here)
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.62\linewidth]{../figures/fig4_assignments.pdf}
+  \includegraphics[width=0.78\linewidth]{../figures/fig4_assignments.pdf}
   \caption{Condition number $\kappa$ under all eight component-wise family assignments
   (three-letter code: transmission/progression/observation, B~base, A~adversarial), for $S_B$
   (left) and $S_A$ (right), on a shared $\kappa$ axis, against the pre-registered ceiling
@@ -340,7 +336,7 @@ is a portable one-line check for other simulators.
   the pre-registered 42-point design (32 corners $+$ 10 axis endpoints of half-width $w$ about
   $\theta_0$) and the $K=3$ cells; 95\% Wilson bars, open triangle at $w=0.05$ an upper bound
   joined to nothing. Shaded band: cost gate $M\!\times\!N/p\leq10^8$ ($M\in\{10^3,10^4\}$,
-  $N\in\{99,999\}$). Plain/BBB variants in Figure~\ref{fig:nontermination-variants}
+  $N\in\{99,999\}$); plain/BBB variants in Figure~\ref{fig:nontermination-variants}
   (Appendix~\ref{sec:appendix}). Right: the mechanism, shift-to-noise ratio vs.\ $w$; line at
   ratio $=1$, dashed where first crossed, where the gate stops passing.}
   \label{fig:nontermination}
@@ -386,7 +382,8 @@ already in the main text.
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{0.9}
-\begin{tabular}{p{0.17\linewidth}p{0.17\linewidth}p{0.15\linewidth}p{0.31\linewidth}c}
+\hyphenpenalty=10000
+\begin{tabular}{p{0.20\linewidth}p{0.13\linewidth}p{0.14\linewidth}p{0.30\linewidth}c}
 \toprule
 finding & object & key number & holds / fails where & fig. \\
 \midrule
@@ -419,13 +416,10 @@ adds is the compartment flow and the exact distortion-family formulas, for repro
   family acts. There is no explicit removed compartment because nothing downstream observes
   one; the observation noise must be continuous and multiplicative rather than count-valued,
   or the common-random-numbers finite difference the diagnostic depends on does not exist.
-  Each component carries one one-parameter distortion family $\delta_k(\cdot\,;\eta_k)$ with
-  $\delta_k(\cdot\,;0)$ bit-identical to the base simulator (asserted bit-for-bit; $\eta_k$ in
-  units of a fixed $10\%$ relative deformation); the base set is three qualitatively different
-  deformations (a prevalence nonlinearity, a timing distortion, an amplitude error), the
-  adversarial set is designed so all three columns perturb the same feature, the epidemic
-  curve's growth rate. Under the observation family only the reporting fraction moves; the
-  delay kernel and noise scale are held at base values, a stated design limitation.}
+  Each component carries one one-parameter distortion family $\delta_k(\cdot\,;\eta_k)$,
+  bit-identical to the base simulator at $\eta_k=0$ (family descriptions:
+  Section~\ref{sec:experiments}); under the observation family only the reporting fraction
+  moves, with the delay kernel and noise scale held at base values, a stated design limitation.}
   \label{fig:simulator}
 \end{figure}
 
@@ -456,7 +450,7 @@ Figure~\ref{fig:nontermination}'s main-text panel omits in favour of the primary
   \includegraphics[width=0.85\linewidth]{../figures/fig7_confound.pdf}
   \caption{The two near-null directions of the six-column $S_B$ Jacobian. (a, b) Right
   singular vectors $v_5,v_6$ by distortion column, dashed line at the equivalence-class
-  threshold $|v_k|=0.3$. (c) Mechanism energy per direction. Both directions are cross-mechanism,
+  threshold $|v_k|=0.3$; (c) mechanism energy per direction. Both directions are cross-mechanism,
   naming progression together with observation, with transmission carrying under 5\% of the
   energy in either: a drifting removal hazard is nearly indistinguishable from a constant
   hazard change combined with a drifting reporting rate.}
