@@ -6,7 +6,7 @@
 One row per number the paper's four claims rest on. The **path** column is the exact dotted path in the named file, so a reader can check any row without running anything.
 
 
-#### C1 — the rank and coherence diagnostic (method)
+#### C1: the rank and coherence diagnostic (method)
 
 | quantity | value | source | path |
 |---|---|---|---|
@@ -29,7 +29,7 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | random-attributor floor, as run | `0.3299` | `results/floor_check.yaml` | `floor_check.accuracy_simulated` |
 | floor check passes | `True` | `results/floor_check.yaml` | `floor_check.passes` |
 
-#### C2 — the eight-assignment separability result for `S_B` (positive)
+#### C2: the eight-assignment separability result for `S_B` (positive)
 
 | quantity | value | source | path |
 |---|---|---|---|
@@ -52,7 +52,7 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | BBB under MLE-SE-based scaling: κ | `8.027` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.kappa` |
 | BBB under MLE-SE-based scaling: separable | `True` | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.separable` |
 
-#### C3 — the `K = 6` cross-mechanism confound (boundary)
+#### C3: the `K = 6` cross-mechanism confound (boundary)
 
 | quantity | value | source | path |
 |---|---|---|---|
@@ -79,7 +79,7 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | six-column under MLE-SE-based scaling: rank at τ | `5` | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.rank_at_tau` |
 | six-column under MLE-SE-based scaling: separable | `False` | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.separable` |
 
-#### C4 — the MMC non-termination result (cautionary)
+#### C4: the MMC non-termination result (cautionary)
 
 | quantity | value | source | path |
 |---|---|---|---|
@@ -108,7 +108,7 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | θ₀ reproduction: maximum two-proportion \|z\| | `1.958` | `results/boundary_sweep.yaml` | `checks.theta0_max_abs_z` |
 | θ₀ reproduction: threshold | `3` | `results/boundary_sweep.yaml` | `checks.theta0_z_threshold` |
 
-#### C5 — the confidence-set-bounded MMC check
+#### C5: the confidence-set-bounded MMC check
 
 | quantity | value | source | path |
 |---|---|---|---|

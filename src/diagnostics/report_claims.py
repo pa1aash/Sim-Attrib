@@ -266,11 +266,11 @@ ROWS: tuple[tuple[str, str, str, str, Callable[[Any], Any] | None], ...] = (
 )
 
 TITLES = {
-    "C1": "C1 — the rank and coherence diagnostic (method)",
-    "C2": "C2 — the eight-assignment separability result for `S_B` (positive)",
-    "C3": "C3 — the `K = 6` cross-mechanism confound (boundary)",
-    "C4": "C4 — the MMC non-termination result (cautionary)",
-    "C5": "C5 — the confidence-set-bounded MMC check",
+    "C1": "C1: the rank and coherence diagnostic (method)",
+    "C2": "C2: the eight-assignment separability result for `S_B` (positive)",
+    "C3": "C3: the `K = 6` cross-mechanism confound (boundary)",
+    "C4": "C4: the MMC non-termination result (cautionary)",
+    "C5": "C5: the confidence-set-bounded MMC check",
 }
 
 
