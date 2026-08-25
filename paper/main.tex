@@ -34,6 +34,9 @@
 \setlength{\intextsep}{4pt plus 2pt minus 1pt}
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{2pt}
+% Same closure (G13): the template's own \parskip (5.5pt, applied between every paragraph)
+% tightened by 1.5pt -- again pure inter-paragraph whitespace, no font size or content change.
+\setlength{\parskip}{4pt plus 1pt minus 1pt}
 
 % Title: diagnostics-and-limits framing, matching the paper's own argument. No
 % em-dash, no colon.
@@ -80,31 +83,9 @@ without checking it first is reporting a number the data may not support.
 This paper checks that precondition on a canonical case -- a three-component compartmental
 epidemic simulator, with transmission,
 progression, and observation as the components -- and reports four findings, none a claim
-about a new method (Section~\ref{sec:background}):
-
-\begin{table}[h]
-\centering
-\small
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{0.9}
-\begin{tabular}{p{0.17\linewidth}p{0.17\linewidth}p{0.15\linewidth}p{0.31\linewidth}c}
-\toprule
-finding & object & key number & holds / fails where & fig. \\
-\midrule
-attribution identifiable & $S_B$, 3 columns & $\kappa$: 6.6--65.6 &
-  all 8 one-parameter-per-component assignments tried & 2 \\
-\dots\ stops being so & $S_B$, 6 columns & $\kappa=629$, rank 4/6 &
-  once a component carries 2 distortion parameters & 3 \\
-selective-inference test affordable & known $\theta$ & worst cell $p=0.23$ &
-  only at a known parameter & 4a \\
-\dots\ fails to terminate & data-implied nuisance box & worst cell $p=10^{-5}$ &
-  once $\theta$ is known only to data-implied precision, predicted before measured & 4 \\
-\bottomrule
-\end{tabular}
-\caption{The paper's four findings. ``Key number'' is the headline statistic; ``fig.''
-points to the evidence figure.}
-\label{tab:summary}
-\end{table}
+about a new method (Section~\ref{sec:background}; Table~\ref{tab:summary},
+Appendix~\ref{sec:appendix}, gives a compact overview of all four with their evidence
+figures).
 
 \section{Background and related work}
 \label{sec:background}
@@ -210,26 +191,15 @@ decides whether attribution is well posed, and nothing further.
 \section{Experiments}
 \label{sec:experiments}
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.92\linewidth]{../figures/fig2_simulator.pdf}
-  \caption{Structure of the three-component compartmental simulator, and where each distortion
-  family acts. There is no explicit removed compartment because nothing downstream observes
-  one; the observation noise must be continuous and multiplicative rather than count-valued,
-  or the common-random-numbers finite difference the diagnostic depends on does not exist.
-  Each component carries one one-parameter distortion family $\delta_k(\cdot\,;\eta_k)$ with
-  $\delta_k(\cdot\,;0)$ bit-identical to the base simulator (asserted bit-for-bit; $\eta_k$ in
-  units of a fixed $10\%$ relative deformation); the base set is three qualitatively different
-  deformations (a prevalence nonlinearity, a timing distortion, an amplitude error), the
-  adversarial set is designed so all three columns perturb the same feature, the epidemic
-  curve's growth rate. Under the observation family only the reporting fraction moves -- the
-  delay kernel and noise scale are held at base values, a stated design limitation.}
-  \label{fig:simulator}
-\end{figure}
-
 \paragraph{Simulator and summary sets.}
-We apply the diagnostic to the $K=3$ compartmental epidemic simulator of
-Figure~\ref{fig:simulator}. We evaluate three summary sets: $S_A$, epidemic-curve features a
+We apply the diagnostic to a $K=3$ compartmental epidemic simulator -- transmission,
+progression, observation (full structure and formulas: Figure~\ref{fig:simulator},
+Appendix~\ref{sec:appendix}). Each component carries one one-parameter distortion family
+$\delta_k(\cdot\,;\eta_k)$, $\eta_k$ in units of a fixed $10\%$ relative deformation: the
+\emph{base} set is three qualitatively different deformations (a prevalence nonlinearity, a
+timing distortion, an amplitude error); the \emph{adversarial} set is designed so all three
+columns perturb the same feature, the epidemic curve's growth rate. Under the observation family
+only the reporting fraction moves. We evaluate three summary sets: $S_A$, epidemic-curve features a
 domain modeller would choose (peak height, peak time, final size, growth rate); $S_B$, roughly
 ten time-binned incidence counts an SBI practitioner would choose; and $S_C$, an impoverished
 positive control with two summaries, which \emph{must} fail by construction ($d=2<K=3$) and
@@ -305,9 +275,9 @@ words to avoid conflating the two.)
 
 Composing Dufour's maximized Monte Carlo with rejection-sampling calibration
 (Section~\ref{sec:background}) turns the diagnostic's identifiable case into a candidate for
-exact conditional inference on which component gets attributed: comfortably affordable at a
+exact conditional inference on which component gets attributed: affordable at a
 known parameter, but unable to terminate once the nuisance parameters are only known within a
-realistic neighborhood. The boundary of that failure is predicted, before it is measured, from
+realistic neighborhood. The boundary is predicted, before it is measured, from
 the ratio of nuisance-induced shift to observation noise, and the prediction holds -- and the
 neighborhood at which it takes over is not an assumption we chose: it is narrower than the
 uncertainty a maximum-likelihood fit to the simulator's own data reports, on every one of the
@@ -324,21 +294,19 @@ holds $23\%$ of null draws, and one test costs $4.2\times10^5$ to $4.3\times10^7
 draws against a pre-registered gate of $10^8$ -- a clear pass. The question is whether that
 affordability survives once the nuisance parameters (transmission and recovery rates, reporting
 fraction, initial infections, observation noise scale) are only known to the precision real
-data give them, not an arbitrary assumed tolerance. We answer this directly rather than assume
+data give them, not an assumed one. We answer this directly rather than assume
 a box: fitting the simulator to one realized dataset by maximum likelihood and building a
 Bonferroni-corrected $95\%$ confidence box from the Fisher information gives relative
 half-widths from $2.3\%$ to $16.6\%$ -- every one wider than the $\pm0.5\%$ box already known
-to break the composition (below). Re-measuring the gate inside this data-implied box, the
+to break the composition (below). Re-measuring the gate inside this box, the
 acceptance probability collapses to $10^{-5}$ at the primary case and to exactly zero at the
-other three declared combinations, and the gate \textbf{fails at every corner under all four}:
-the cheapest declared corner alone needs $9.9\times10^9$ draws, two orders of magnitude over
-budget before the confidence interval is even taken into account. The collapse below was
-measured under a round, assumed $\pm5\%$ box; here it survives, by a wide margin, under the box
-the data themselves
-imply.
+other three declared combinations: the gate \textbf{fails at every corner under all four}, the
+cheapest needing $9.9\times10^9$ draws -- two orders of magnitude over budget. The collapse below
+was measured under a round, assumed $\pm5\%$ box; here it survives, by a wide margin, under the
+data-implied one.
 
 \paragraph{The mechanism, and the shape of the boundary.}
-The selection rule's fixed-function requirement means it cannot track $\theta$: the nuisance
+The selection rule's fixed-function requirement means it cannot track $\theta$: nuisance
 parameters shift the normalized summary vector while a single draw's noise magnitude stays
 fixed, and once that shift exceeds the noise, a $\theta$-free rule selects one component
 deterministically and the cell the data selected becomes unreachable. A sweep over ten relative
@@ -371,18 +339,17 @@ ratio itself is a portable one-line check for other simulators.
 the moment one component carries two, the same summary set that separated all three becomes
 inseparable on a real confound. We have not tested two distortions of the \emph{same} component.
 \item \textbf{The diagnostic is prior art and a local linearization.} The rank-and-condition-number
-screen (Section~\ref{sec:method}) leaves an estimated simulation-noise level uncarried into the
-rank tolerance; we derive our tolerance from a compute budget instead. $J$ is also a
-linearization at $\eta=0$ and at one parameter point: separability of the $10\%$ perturbation our
-scale represents is not directly implied by local linear separability. We checked one additional
-$\theta$, drawn $\pm20\%$ relative per coordinate before the check ran: $S_B$ stays separable
-there too ($\kappa=10.9$, full rank), matching $\theta_0$'s own verdict under the same harness
+screen (Section~\ref{sec:method}) does not carry an estimated simulation-noise level into the
+rank tolerance, derived instead from a compute budget. $J$ is a linearization at $\eta=0$ and one
+parameter point: separability at $10\%$ is not directly implied by local linear separability. One
+additional $\theta$, drawn $\pm20\%$ relative per coordinate before the check ran, stays separable
+($\kappa=10.9$, full rank), matching $\theta_0$'s own verdict under the same harness
 ($\kappa=10.1$) -- one point, not a distribution over $\theta$.
 \item \textbf{One simulator, one scope, no learned component.} Every result is on one simulator
-under two family sets we chose; the eight assignments are every combination those permit, not a
-general sample, and transport to other simulator classes or a learned summary statistic (which
-would sit where $s(y)$ sits here) is untested. Two figures also carry hand-placed
-annotations outside the automated check -- verified restatements, not independent claims.
+under two chosen family sets -- the eight assignments are every combination those permit, not a
+general sample -- and transport to other simulator classes or a learned summary statistic
+(where $s(y)$ would sit) is untested. Two figures carry hand-placed annotations outside the
+automated check -- verified restatements, not independent claims.
 \end{itemize}
 
 \bibliographystyle{plainnat}
@@ -391,6 +358,62 @@ annotations outside the automated check -- verified restatements, not independen
 \appendix
 \section{Appendix}
 \label{sec:appendix}
+
+\subsection{Compact overview of the paper's four findings}
+
+Moved here from Section~\ref{sec:intro} for space; every entry is stated and evidenced in full
+in Sections~\ref{sec:experiments}--\ref{sec:negative-result}, and this table adds no claim not
+already in the main text.
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{p{0.17\linewidth}p{0.17\linewidth}p{0.15\linewidth}p{0.31\linewidth}c}
+\toprule
+finding & object & key number & holds / fails where & fig. \\
+\midrule
+attribution identifiable & $S_B$, 3 columns & $\kappa$: 6.6--65.6 &
+  all 8 one-parameter-per-component assignments tried & 1 \\
+\dots\ stops being so & $S_B$, 6 columns & $\kappa=629$, rank 4/6 &
+  once a component carries 2 distortion parameters & 2 \\
+selective-inference test affordable & known $\theta$ & worst cell $p=0.23$ &
+  only at a known parameter & 3a \\
+\dots\ fails to terminate & data-implied nuisance box & worst cell $p=10^{-5}$ &
+  once $\theta$ is known only to data-implied precision, predicted before measured & 3 \\
+\bottomrule
+\end{tabular}
+\caption{The paper's four findings. ``Key number'' is the headline statistic; ``fig.''
+points to the evidence figure.}
+\label{tab:summary}
+\end{table}
+
+\subsection{Simulator structure}
+
+Moved here from Section~\ref{sec:experiments} for space; the qualitative description of what
+the base and adversarial distortion families do is restated in that section's own prose, so
+nothing about the paper's claims depends on this figure appearing in the main text -- what it
+adds is the compartment flow and the exact distortion-family formulas, for reproducibility.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.85\linewidth]{../figures/fig2_simulator.pdf}
+  \caption{Structure of the three-component compartmental simulator, and where each distortion
+  family acts. There is no explicit removed compartment because nothing downstream observes
+  one; the observation noise must be continuous and multiplicative rather than count-valued,
+  or the common-random-numbers finite difference the diagnostic depends on does not exist.
+  Each component carries one one-parameter distortion family $\delta_k(\cdot\,;\eta_k)$ with
+  $\delta_k(\cdot\,;0)$ bit-identical to the base simulator (asserted bit-for-bit; $\eta_k$ in
+  units of a fixed $10\%$ relative deformation); the base set is three qualitatively different
+  deformations (a prevalence nonlinearity, a timing distortion, an amplitude error), the
+  adversarial set is designed so all three columns perturb the same feature, the epidemic
+  curve's growth rate. Under the observation family only the reporting fraction moves -- the
+  delay kernel and noise scale are held at base values, a stated design limitation.}
+  \label{fig:simulator}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{The threshold-sensitivity sweep, the six-column confound, and the MMC variant
 comparison, in full}
