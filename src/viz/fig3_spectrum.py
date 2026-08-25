@@ -46,7 +46,7 @@ SCRIPT = "src/viz/fig3_spectrum.py"
 CASES = (
     ("base", "base", "base families, $K=3$"),
     ("adversarial", "adversarial", "adversarial families, $K=3$"),
-    ("six_columns", "union", "six-column union, $K=6$"),
+    ("six_columns", "union", "six-column union"),
 )
 
 CAPTION = (

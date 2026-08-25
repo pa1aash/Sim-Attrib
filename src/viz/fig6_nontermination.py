@@ -181,7 +181,7 @@ def build() -> None:
     axR.set_xlabel("relative nuisance half-width $w$", fontsize=style.SIZE_LABEL)
     axR.set_ylabel("shift $\\div$ noise,  median $\\|E[z]\\|/\\sqrt{d}$",
                    fontsize=style.SIZE_LABEL)
-    axR.set_title("(b)  why: nuisance shift vs.\\ observation noise",
+    axR.set_title("(b)  why: nuisance shift vs. observation noise",
                   fontsize=style.SIZE_TITLE, pad=3)
     axR.tick_params(labelsize=style.SIZE_LABEL)
 
