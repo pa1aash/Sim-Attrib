@@ -29,6 +29,11 @@ S11.
 D-14 is explicit: a reader told C2 without C3 has been told something the evidence does not
 support.
 
+**C4 has a strengthening, documented separately as C5 below, and it is not a fifth
+contribution.** Session G11's confidence-set check reinforces C4 with data-grounded evidence and
+is now the paper's primary evidence for it; the count of contributions D-16 closes at four is
+unaffected.
+
 ---
 
 ## C1 — the empirical finding, using established diagnostic tools
@@ -318,6 +323,56 @@ question rather than reopening one.
 - **Must** disclose that `Ω₀` is not specified anywhere in this project; a relative box on the
   five coordinates §1 names is a stand-in, and **a grid understates a minimum**, so every cost
   reported is a lower bound.
+
+---
+
+## C5 — the confidence-set-bounded strengthening of C4 (session G11)
+
+**Not a fifth contribution.** D-16 closes the paper's scope at four contributions and no session
+may widen it without a new decision recorded there; this is not that decision. C5 is additional,
+independent evidence for **contribution 4** (the MMC non-termination finding) — the data-implied
+confidence box, not the assumed `±5%` box, promoted to the paper's **primary** evidence for the
+non-termination claim per the disclosed-reclassification rule, with the original fixed-box sweep
+retained as secondary, broader-context evidence. Full detail:
+`audit/DUFOUR_CONFIDENCE_SET_CHECK.md`. This section was promised in that document's §4
+("adds a fifth claim section (C5) to `audit/FINAL_CLAIMS.md`'s numbering") and not actually
+written until this session — found and closed here rather than left silently unfulfilled.
+
+### The claim, as it goes in the paper
+
+> **C4's non-termination finding holds not only under an assumed `±5%` nuisance box, but under
+> the actual 95% confidence set a maximum-likelihood fit to one realised dataset implies — and
+> every coordinate of that data-implied box is wider than the `±0.5%` box already known to break
+> the composition.** The obstruction is not a property of an arbitrary assumption; it is a
+> property of the uncertainty a real analyst fitting this simulator's own model class would
+> actually report.
+
+### The evidence
+
+| | | |
+|---|---|---|
+| **MLE fit** (`results/confidence_set_mmc.yaml`: `mle_fit`) | Nelder-Mead in log-parametrised space, 655 function evaluations, converged, scaled gradient `3.35×10⁻³` | every coordinate offset from `θ₀` under 2 standard errors |
+| **Bonferroni 95% box** (`confidence_set_box`) | relative half-widths: `β` 2.35%, `γ` 6.98%, `ρ` 6.06%, `I₀` 13.99%, `σ_obs` 16.63% | **every coordinate wider** than the `±0.5%` box `results/boundary_sweep.yaml` already shows collapses the gate |
+| **Gate re-measured inside the box** (`primary_case`, `by_key`) | worst-cell `p_sel = 1×10⁻⁵` (95% CI `1.77×10⁻⁶`–`5.66×10⁻⁵`) at the primary (AAA, studentised) case; exactly `0` at the other three declared `(family, variant)` combinations | **FAIL at every corner, all four combinations**; cheapest declared corner needs `9.90×10⁹` draws, 99× the `10⁸` gate |
+
+722,000 simulator draws, seed `20260824`, commit `a91131a`, `dirty: false`.
+
+### What must not be said
+
+- **Must not** attribute the Bonferroni-box construction to Dufour (2006) itself. Dufour's text
+  never uses the word "Bonferroni" (`grep -i bonferroni`, zero matches, confirmed by fetching and
+  full-text-searching the source directly). The box is this project's own choice for realising
+  Dufour's Wald-ellipsoid confidence-set machinery as a rectangle compatible with the project's
+  existing box-based MMC infrastructure — a design decision, not a citation.
+- **Must not** claim a narrower (ellipsoid) confidence set would fail too. A Bonferroni box can
+  only be wider than the ellipsoid it circumscribes; the FAIL direction is robust to that
+  approximation (a wider box failing implies the tighter true ellipsoid fails too), but a PASS
+  would not have been similarly robust, and did not arise here.
+- **Must not** present this as validated at more than one realised dataset and one true parameter
+  point — the same single-point conditionality every number in this project carries (`DEVIATIONS.md`
+  D-14).
+- **Must not** describe this as reopening or reinterpreting C4's original evidence. Nothing in
+  `results/p_sel.yaml`, `results/cost_gate.yaml`, or `results/boundary_sweep.yaml` is withdrawn.
 
 ---
 

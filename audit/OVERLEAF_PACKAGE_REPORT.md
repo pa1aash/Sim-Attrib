@@ -4,8 +4,16 @@
 Re-run the script after any edit to `paper/` or `figures/`, then re-read this file for the
 updated readiness state — this file is meant to be regenerated, not read once.**
 
-**Built from commit `c8671cb`.** Package: `build/sim_attrib_overleaf_c8671cb.zip`, gitignored,
-not part of tracked history.
+**Built from commit `3ca62db` (session G12).** Package: `build/sim_attrib_overleaf_3ca62db.zip`,
+gitignored, not part of tracked history.
+
+**G12 re-verification summary, added at the top per this session's own standing suspicion of
+prior tooling (S6):** the `TEXINPUTS` fix G11 made still holds and re-verifies clean. A **second,
+lower-severity defect of the same class** was found in the "STRICT isolation" tier specifically —
+see §0c — and is disclosed in full even though it does not change the submission-readiness
+verdict, because the tier this project actually gates on (§2b) is unaffected and re-verifies
+clean, byte-for-byte, against a freshly rebuilt package. Everything below §0c is G11's original
+text, left as the historical record of that session's own findings; G12's additions are marked.
 
 This is a re-verification pass, not a first read: two real packaging defects were found and
 fixed in the course of re-running the prior session's own tests more rigorously than they were
@@ -63,6 +71,52 @@ deadline. It was caught here specifically because this session's mandate was to 
 rigorously than the session that reported PASS on this exact isolation tier, not to re-trust
 that report.
 
+### 0c. **G12 finding.** The "STRICT isolation" tier's own name was never accurate, and this
+session's S6 mandate (treat all prior verification tooling with extra suspicion, specifically
+looking for the same class of defect §0b found) is what caught it.
+
+**What §2a calls "STRICT isolation (`TEXMFHOME` unset)" does not isolate from anything.**
+kpathsea does not treat an unset `TEXMFHOME` as "no personal package tree" — it falls back to
+its own **configured default value**, which on this machine is `~/Library/texmf`: this
+operator's ordinary, general-purpose personal TeX package directory, unrelated to this project,
+populated over time by `tlmgr install`. Confirmed directly: `kpsewhich -var-value TEXMFHOME`
+with the variable unset in the shell still resolves to `/Users/palaash/Library/texmf`, and that
+directory contains local installs of exactly the five packages G10's own report recorded as
+missing on this machine's minimal system TeX Live scheme (`environ`, `enumitem`, `trimspaces`,
+`units`/`nicefrac`, and the `phvr8t.tfm` Helvetica metric, confirmed present under
+`Library/texmf/fonts/`; the first four also carry a `tlpkg/tlpobj/*.tlpobj` install record).
+**§2a's "PASS" has never
+demonstrated self-containment; it has only demonstrated that this one operator's personal
+machine, extra packages included, can compile the paper** — which is a materially weaker claim
+than the tier's own name states, and is exactly the same shape of defect §0b describes: a check
+whose "isolated" setting silently reintroduces the very state it claims to have removed.
+
+**Verified directly, not inferred.** Re-running §2a's compile with `TEXMFHOME` pointed at a
+**genuinely empty** directory (not merely unset) fails immediately and exactly as this
+explanation predicts: `! LaTeX Error: File 'environ.sty' not found.` — the identical failure
+G10's own original report recorded, before this machine's personal package tree happened to
+gain these packages between sessions. G11's own report already surfaced the shadow of this
+without chasing it down: *"Whatever closed that gap between sessions is a local-machine TeX
+Live state change, not a change this session made to the package's contents — recorded here as
+observed, not further chased, since the tier this session actually gates on is 2b."* This
+session chased it.
+
+**Why this does not change the submission-readiness verdict.** `enumitem`, `environ`,
+`trimspaces`, and `units`/`nicefrac` are common LaTeX packages shipped in any full/standard TeX
+Live distribution — which is what Overleaf's own compile environment actually runs, unlike this
+machine's deliberately minimal `2026basic` system scheme. §2b — the tier this project has said
+at every prior session is the one that actually gates submission-readiness — was re-run this
+session with `TEXMFHOME` explicitly pointed at this operator's full personal package tree (a
+correct proxy for "a full TeX Live scheme has these packages natively," which is the actual
+question that matters for Overleaf, not "is this one machine's personal state isolated"), and it
+passes exactly as before: see §2b below, re-verified this session with a freshly rebuilt
+package. **No fix is applied here** — unlike §0b, this is a naming/methodology-precision defect
+in how a local test describes itself, not a defect in the paper or the packaged submission, and
+inventing an actually-isolated "full TeX Live" environment on this machine is out of this
+session's scope. What changes is that §2a's tier is renamed below to describe what it actually
+tests, so a future session does not read "STRICT isolation: PASS" as evidence of anything beyond
+"this operator's own machine, personal packages included, compiles it."
+
 ---
 
 ## 1. TEMPLATE-OPTION / ANONYMIZATION VERDICT: **SAFE**
@@ -107,32 +161,32 @@ session's own response to external review — baked into three row labels. Fixed
 
 ## 2. TWO-TIER CLEAN-COMPILE RESULT
 
-Both tiers ran against the actual assembled zip (`build/sim_attrib_overleaf_c8671cb.zip`),
-extracted fresh to an isolated temp directory, never against the repo's working copy. Unlike
-the prior session's run, **`TEXINPUTS` was left unset in both tiers** — the point of §0b's fix
-is that neither tier should need it any more, and both were re-run to confirm that.
+**Re-run in full this session (G12), against a freshly rebuilt `sim_attrib_overleaf_3ca62db.zip`,
+extracted fresh to an isolated temp directory, never against the repo's working copy.** `TEXINPUTS`
+left unset in both tiers, as established in §0b.
 
-### 2a. STRICT isolation (`TEXMFHOME` unset) — **PASS: exit 0**
+### 2a. `TEXMFHOME` unset — renamed from "STRICT isolation" this session (§0c); it is not
+isolation, and is retained only as a compatibility check against this operator's own machine.
 
-The prior session's report recorded this tier failing on five standard-but-not-preinstalled
-CTAN packages (`environ`, `trimspaces`, `nicefrac`/`units`, `enumitem`, and the `phvr8t.tfm`
-Helvetica metric) on this machine's minimal `2026basic` TeX Live scheme. Re-run this session
-with the same minimal scheme: **exit 0, zero errors**, 22 pages, `main.pdf` byte-identical to
-the Overleaf-equivalent and repo-working-copy compiles (583160 bytes). Whatever closed that gap
-between sessions is a local-machine TeX Live state change, not a change this session made to the
-package's contents — recorded here as observed, not further chased, since the tier this session
-actually gates on is 2b.
+**FAILS when actually isolated (verified §0c); PASSES on this operator's own machine because
+`TEXMFHOME` unset falls back to `~/Library/texmf`, not to nothing.** Run both ways this session:
+with a genuinely empty `TEXMFHOME`, `! LaTeX Error: File 'environ.sty' not found.`, exit 12; with
+`TEXMFHOME` merely unset (falling back to this machine's default), exit 0, zero errors, 22 pages.
+Both outcomes are reported because the second one is the only sense in which this tier has ever
+"passed," and that sense is narrower than its old name claimed. See §0c for the full finding.
 
-### 2b. OVERLEAF-EQUIVALENT isolation (`TEXMFHOME` set, `TEXINPUTS` unset) — **PASS: exit 0,
-zero errors, zero undefined references, zero undefined citations.**
+### 2b. OVERLEAF-EQUIVALENT isolation (`TEXMFHOME` explicitly pointed at this operator's full
+personal package tree — the available proxy on this machine for "a full TeX Live scheme has
+these packages natively," `TEXINPUTS` unset) — **PASS: exit 0, zero errors, zero undefined
+references, zero undefined citations.**
 
 This is the tier that matters, and the one whose prior-session methodology was the actual bug
-(§0b). Final-pass `main.log` contents in full: one benign informational line
-(`You have requested package 'neurips_2026_template/neurips_2026'`, confirming the path-relative
-resolution actually fired) and five cosmetic `` `h' float specifier changed to `ht' `` notices —
-LaTeX's own float-placement normalization, not an error, not a content issue. No undefined
-reference, no undefined citation, in either the repo working copy or the isolated package
-extraction.
+(§0b), re-verified this session with a freshly rebuilt package and a freshly recompiled repo
+working copy: **exit 0 both, 22 pages both, textually identical `pdftotext` output, byte-identical
+582477-byte `main.pdf`** (differing only in embedded `CreationDate`/`ModDate` when the two
+compiles do not land in the same second — expected, and exactly why the local preview PDF is
+never the submission artifact, §6). Final-pass `main.log`: no undefined reference, no undefined
+citation, in either the repo working copy or the isolated package extraction.
 
 ---
 
@@ -160,22 +214,37 @@ and any locally-compiled `paper/main.pdf` (gitignored, never the submission arti
 
 ## 4. PAGE COUNT
 
+**Re-measured this session (G12) against the current compiled PDF, not assumed carried-over —
+the ordering below has changed since this report was last written** (T2-14, applied in G11,
+moved the checklist after the appendix; this section's own table had not been re-checked against
+that change until now):
+
 **22 physical pages** in the compiled PDF:
 
 | Pages | Content | Counted against the 5-page limit? |
 |---|---|---|
 | 1–6 | Abstract, Introduction, Background, Method, Experiments, Section 5, Limitations | **Yes** |
-| 7–17 | Reproducibility checklist | No |
-| 18 | References | No |
-| 19–22 | Appendix (threshold/confound/MMC-variant figures, full assignment tables, generated claims table) | No |
+| 7–8 | References | No |
+| 8–15 | Appendix (threshold/confound/MMC-variant figures, full assignment tables, generated claims table) | No |
+| 16–22 | Reproducibility checklist | No |
 
-**Counted page count: 6 pages against a 5-page limit.** This session's own T1-2 pass (see
-`audit/S11_REPORT.md`) closed a substantial amount of ground — the paper absorbed the external
-review's full Tier-1/Tier-2 content mandate (a new confidence-set-bounded MMC section, eight new
-citations, a restructured summary table, expanded figures) while still landing at the same 6
-pages G9 reported before any of that content existed — but did not reach 5. This is disclosed
-plainly in `audit/S11_REPORT.md` rather than closed by reverting the figure-legibility fix this
-session made and then caught itself (see that report), or by cutting review-mandated content.
+**Counted page count: 6 pages against a 5-page limit — down from 6 pages that used to leak a
+full paragraph of Section 5's own prose onto the sixth page.** This session's page-limit pass
+(Phase 3; commit `3ca62db`) tightened Related Work prose (every T2-5 citation and its engagement
+kept, only framing trimmed), made several other phrase-level cuts, tightened inter-float
+spacing, and applied two figure-width reductions verified safe by rendering the compiled pages
+at 300dpi and reading the smallest text directly rather than trusting a ratio calculation
+(`fig2_simulator` and `fig6_nontermination`, both `SIZE_LABEL`(8pt)-floored with real headroom
+above the venue's 6pt floor — unlike `fig3_spectrum`/`fig4_assignments`, which G11 already found
+have none). **This closed the specific overflow that used to spill Section 5's second paragraph
+onto page 6**, which now fits entirely on page 5. It did not close the full page: Figure 4 plus
+the complete three-bullet Limitations section is roughly four-fifths of a page on its own, and
+page 5 is already full edge-to-edge with Section 5's own two paragraphs — fitting both would
+require cutting real content, a bigger figure-legibility risk than the two taken here, or
+restructuring (e.g. moving Figure 4 to the appendix, which would badly weaken the paper's own
+central evidence in the main text). None of those is taken unilaterally this session, matching
+G9's and G11's own stated stopping point on exactly this tradeoff. See `paper/main.tex`'s commit
+message (`3ca62db`) for the itemised list of what was and was not cut.
 
 ---
 
@@ -212,24 +281,36 @@ compiled by Overleaf itself.
 
 ## 7. SUBMISSION READINESS
 
-**Done and verified this session:**
+**Done and verified session G11 (items 1–3, 6–7 re-confirmed this session, G12):**
 1. Two real packaging defects found and fixed (§0): a missing allowlist entry and a
    `TEXINPUTS`-dependent template path that would have broken the actual Overleaf compile.
 2. Template-option trace re-derived: SAFE, no `final`, anonymity holds by the style file's own
    macro logic, unaffected by the path qualification.
 3. Full anonymization scan of every packaged file, independent of prior targeted fixes: clean,
    one additional leak found and fixed (the "(T2-3)" label, §1).
-4. Strict self-containment test: now passes outright (§2a).
-5. Overleaf-equivalent compile, this time genuinely isolated from the local `TEXINPUTS`
-   convention: exit 0, zero errors, zero undefined refs/citations, byte-identical output to the
-   repo working copy.
-6. Full test suite: 177 passed.
+6. Full test suite: 177 passed (unchanged this session — no `src/` diagnostic code touched by
+   the paper edits or the tooling investigation; the T2-4 second-theta script has its own
+   coverage via a direct smoke test, not a `pytest` file, matching this project's own precedent
+   for `confidence_set_check.py` and other one-off analysis scripts).
 7. `build/` confirmed gitignored; the zip itself stays out of tracked history.
 
+**Done and verified this session (G12):**
+8. **A second, lower-severity defect of the same class as `TEXINPUTS` found and disclosed in the
+   "STRICT isolation" tier (§0c).** It does not change the submission-readiness verdict — the
+   tier this project actually gates on, §2b, is unaffected — but the old tier's name overstated
+   what it tested, and that is corrected here.
+9. Overleaf-equivalent compile (§2b) re-run against a freshly rebuilt package and a freshly
+   recompiled repo working copy: exit 0 both, 22 pages both, textually identical, byte-identical
+   582477-byte `main.pdf`.
+10. Page-limit pass (Phase 3, commit `3ca62db`): closed the specific overflow that used to leak
+    Section 5's own prose onto page 6; did not close the full page. See §4.
+11. `audit/FINAL_CLAIMS.md` gained the C5 section G11's own `audit/DUFOUR_CONFIDENCE_SET_CHECK.md`
+    said it would add and never did — found and closed this session, not a new gap.
+
 **Still open — not this session's call, per its own scope:**
-1. **Page limit.** 6 counted pages against 5. See `audit/S11_REPORT.md` for the full accounting
-   of what this session added and why it stopped short of reverting the figure-legibility fix
-   or cutting review-mandated content to close the last page.
+1. **Page limit.** 6 counted pages against 5, narrowed this session (§4) but not closed. Figure 4
+   plus the full Limitations section does not fit in the space Section 5 leaves on page 5 without
+   cutting real content, a riskier figure reduction than the two taken here, or restructuring.
 2. **AI-use disclosure placeholder.** `paper/checklist.tex` item 13. Operator to write and
    insert the actual text.
 3. **Reciprocal reviewer nomination**, required by Sim2Science at submission — an OpenReview
