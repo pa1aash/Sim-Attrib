@@ -1666,3 +1666,131 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+---
+
+## G13 — Is the page limit closed, with the paper's substance fully intact?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-26, session G13. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **The page limit is closed. 5 counted pages against Sim2Science's 5-page limit, for the first
+> time in this project's history**, confirmed by rendering the compiled PDF's own pages and
+> reading them directly, not by estimating from a line count. G9, G11, and G12 each narrowed the
+> overflow across three prior sessions without closing it; each stopped at the same fork — cut
+> real content, take a riskier figure-legibility reduction than the two already taken, or move
+> Figure 4 to the appendix and weaken the paper's own central evidence in the main text — and
+> each declined to take it unilaterally.
+>
+> **This session closed it without taking any of those three.** Two levers, tried in combination
+> for the first time: relocating two pieces of genuinely secondary main-text content to the
+> (unlimited) appendix — a four-findings overview table that only previews content stated in
+> full elsewhere, and the simulator's structural diagram, whose qualitative content is now
+> restated directly in Section 4's own prose so the main text stays self-contained — and a
+> whitespace/prose tightening pass (the template's own `\parskip`, plus rewording that dropped no
+> clause of substance). **No citation, no sentence stating a finding, and no evidentiary number
+> was cut.** Tier 1.4 (real content cuts) was surveyed and not needed.
+>
+> **One judgment call, disclosed rather than made silently (S8).** Moving the simulator diagram
+> out of the main text is the one relocation in this pass that a reader could reasonably view as
+> reducing main-text self-containedness on a first read: the diagram itself, the compartment-flow
+> detail, and the exact distortion-family formulas now require turning to the appendix, even
+> though every qualitative fact a reader needs to follow Section 4's argument is restated in that
+> section's own prose. Named here rather than folded into "safe" without comment.
+>
+> **This session's own re-verification caught two real cross-reference defects its own edits
+> introduced, both fixed before commit.** Moving two figures shifted main-text figure numbering
+> down by one; the compact-overview table's hard-coded `fig.` column and one sentence in
+> `paper/checklist.tex` that named the simulator figure's old location ("Section 4") both still
+> read as if nothing had moved. Neither would have broken the compile — both would have been a
+> live, undetected inaccuracy in the submitted PDF. Caught by re-reading every cross-reference
+> against the new structure rather than trusting that a content move only affects the content it
+> moved — the same lesson `DEVIATIONS.md` has recorded from this project's other renumbering
+> passes, applied here to a class of edit the project had not made before (relocating figures
+> across the main-text/appendix boundary).
+>
+> **A second, unrelated latent defect found and deliberately left unfixed.** A from-scratch
+> compile (forced by deleting `main.aux`/`main.bbl` rather than relying on latexmk's incremental
+> cache, precisely so a defect hidden by stale build state could not hide from this session either)
+> surfaced a pre-existing `bibtex` warning: `audit/BIBLIOGRAPHY.bib`'s Raue et al. (2009) entry
+> has `month=June`, a bareword bibtex does not resolve as any of its predefined three-letter month
+> macros, so the printed reference silently drops its month (every other dated reference in the
+> bibliography prints one). Confirmed present in every rebuild this session ran, unrelated to any
+> edit this session made, and **not fixed** — `audit/BIBLIOGRAPHY.bib`'s own standing policy
+> (stated in `paper/main.tex`'s own comment on a different Crossref quirk) is that the file "stays
+> exactly as fetched," and this project's established pattern for a fetched-record defect is a
+> compatibility shim in `main.tex`, not an edit to the `.bib` — and no such shim is available for
+> a bibtex string macro from outside the `.bib` file itself. Cosmetic only (one reference prints
+> without its month); disclosed here rather than silently left for a twelfth reader to find, per
+> S8's standard for this project.
+
+### What G13 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| **G13.1** | **Page limit reaches ≤5 pages (excluding references/appendix/checklist, per Sim2Science's own stated convention, re-verified against `audit/VENUE.md`'s CFP-sourced facts rather than assumed)** | **met.** 5 pages exactly — pages 1–5 are Abstract through Limitations; References start page 6. Verified by rendering pages 5–6 of the compiled PDF directly at every step of this session's edits, not by a line-count estimate, and by a final `pdftotext` page-boundary check after the last edit |
+| G13.2 | All 21 external-review findings (6 Tier-1, 15 Tier-2) still verified applied against the current text | **met.** Re-checked item by item against `audit/S11_REPORT.md`'s own list. One regression caught and fixed in-session: an early wording trim of the "no learned component" Limitations bullet dropped the `(where $s(y)$ would sit)` clause that is specifically T2-11's fix; restored before the commit that closed the page limit, so no external-review fix left this session's final state unapplied |
+| G13.3 | All four contributions in `audit/FINAL_CLAIMS.md` remain fully and accurately stated in the main text | **met.** C1–C4's claim sentences (Method's diagnostic framing; "Where attribution is identifiable" and "Where it is not" in Section 4; Section 5's non-termination paragraphs) were not touched beyond phrasing trims that preserved every number and qualifier — verified by reading each claim's "as it goes in the paper" text in `FINAL_CLAIMS.md` against the current section side by side |
+| G13.4 | Section 5's strengthened confidence-set framing (C5, the G11 result) intact, not regressed to the pre-G11 assumed-±5%-box version | **met.** The Bonferroni-box construction, the 2.3%–16.6% half-widths, the $10^{-5}$/exactly-zero acceptance probabilities, and the "fails at every corner under all four" verdict are all still the paragraph's primary claim, with the fixed ±5% sweep still cited as secondary evidence — every number token-for-token unchanged from G11's text, confirmed by diff |
+| G13.5 | Anonymization clean after every cut, re-checked each time rather than once at the end (S3) | **met.** Grepped for session/gate/operator/model-authorship language after each round of edits; the only matches found were inside `%`-comments (never rendered) or the pre-existing operator-facing AI-use-disclosure placeholder, both already an established, deliberate pattern in this file. `pdfinfo` carries no `Author` field and no identifying `Creator`/`Producer` path |
+| G13.6 | Every number in prose still traces to a `results/*.yaml` file or `audit/FINAL_CLAIMS.md` after every move (S4) | **met.** No number moved from main text to appendix without its supporting context moving with it — Table 1's move takes its own numbers with it into the appendix intact; the simulator-figure move relocates formulas and diagram detail that are not themselves numeric claims (the numeric claims that figure supports, e.g. the $10\%$ deformation unit, are restated in the Section 4 prose that replaced it) |
+| G13.7 | STRICT-isolation tooling defect (disclosed, not yet fixed, since G12): fixed if quick, explicitly deferred with reason otherwise | **met, deferred again.** Not quick — a genuine fix needs either a second, actually-isolated TeX Live installation or a containerized build environment, neither available on this machine within this session's scope. This session re-ran both tiers once more (§2a PASSES only in the this-machine sense G12 already characterized: `TEXMFHOME` unset falls back to `~/Library/texmf`, not to nothing; §2b, the tier this project's own submission-readiness verdict rests on, PASSES genuinely) and did not attempt the fix, consistent with G12's own stated reasoning, restated rather than silently re-deferred |
+| G13.8 | This session's own page-count and compile verification states explicitly which isolation tier it rests on (S6) | **met.** Every page-count and compile claim in this gate and in `audit/S13_REPORT.md` rests on **§2b, OVERLEAF-EQUIVALENT** (`TEXMFHOME` pointed explicitly at a real package tree, `TEXINPUTS` unset) — the tier G11 fixed and this project has used as authoritative since. §2a is reported alongside for completeness, not as the basis for any claim here |
+| G13.9 | Two-tier isolation compile against a freshly rebuilt package, `TEXINPUTS` unset in both | **met.** `build/sim_attrib_overleaf_09a107e.zip`, extracted fresh to an isolated temp directory: §2b exit 0, 22 pages, zero undefined references or citations, **byte-identical 584502-byte `main.pdf`** against the freshly recompiled repo working copy (differing only in embedded `CreationDate`/`ModDate`, as in every prior session); §2a exit 0 in the same narrower sense as G12 found |
+| G13.10 | Full test suite re-run | **met** — 177 passed, unchanged. No `src/` diagnostic code touched this session |
+| G13.11 | `scripts/build_overleaf_package.sh` re-run against the final commit and the package re-verified | **met** — `build/sim_attrib_overleaf_09a107e.zip`; the figure-discovery loop correctly picked up `fig2_simulator.pdf` from its new `\includegraphics` call inside the appendix, with no allowlist edit needed |
+| G13.12 | Every Tier-1.4 (real content) cut, if any, listed with its tradeoff named (S8) | **met, vacuously — none were needed.** Tiers 1.1 (appendix moves) and 1.2 (tightening) closed the gap; Tier 1.3 (figure-width reduction) and Tier 1.4 (content cuts) were surveyed and not reached. One Tier-1.4-adjacent trial cut (a single low-value discussion sentence — "the ratio itself is a portable one-line check for other simulators") was made, found unnecessary once the tightening pass's other savings were counted, and **restored** before the final commit, per the standing instruction not to over-cut once the target is reached |
+| G13.13 | No self-approval | **met** — `status: ready for review — UNSIGNED` |
+
+### What G13 explicitly does not certify
+
+- **That the appendix-relocated simulator figure is costless.** It is the one judgment call this
+  session flags rather than buries: a reader who wants the diagram itself, not just the
+  qualitative facts Section 4's prose now states, must turn to the appendix. Named in the
+  headline and here, not only in `audit/S13_REPORT.md`.
+- **That the full ~150+-claim number trace was re-run from scratch.** It was not. This session's
+  own edits touched no evidentiary number (verified by diff, token-for-token), so G11's own
+  exhaustive pass remains the last from-scratch trace, exactly as G12 already disclosed carrying
+  forward.
+- **That a second external review has been run against the now-page-compliant paper.** None has.
+  This is the natural next step this project's own trajectory has pointed to since G11 —
+  `audit/S12_REPORT.md` §5 said so and it remains true.
+- **That the `.bib`'s `month=June` defect is fixed.** It is disclosed, not fixed, per the
+  standing "stays exactly as fetched" policy this project has held since G3's bibliography work —
+  see the headline. Cosmetic only.
+- **That the STRICT-isolation tier now means anything different than G12 left it meaning.**
+  Unchanged: it demonstrates this one operator's own machine, personal package tree included, can
+  compile the package — not genuine isolation. Deferred again, for the same reason G12 gave.
+
+### Process caveats — what this session did badly or not at all
+
+- **The tiered-commit structure Phase 2.6 asked for (a separate commit per tier — appendix moves,
+  tightening, figure adjustment, content cuts) was not achieved cleanly.** An attempt to split the
+  diff via `git add -p` produced ambiguous hunk boundaries this session judged too risky to push
+  through blind (the tool's own hunk-numbering became inconsistent across the interactive
+  session, and forcing it further risked staging a broken intermediate file state). Reset the
+  index and committed the whole page-limit pass as one commit instead, following the same
+  precedent G9/G11/G12 already set for a page-limit pass specifically (each bundled theirs too),
+  with every tier named explicitly in the commit message body rather than left to be inferred
+  from a diff. This is a real departure from what Phase 2.6 asked for, not a silent substitution
+  — recorded here rather than only in the commit message.
+- **The T2-11 regression (above) should not have happened at all.** It was caught by this
+  session's own Phase-3 re-check against `audit/S11_REPORT.md`'s list, not by anything upstream
+  of that check — a session running the same pass with a less thorough Phase 3 would have shipped
+  a genuine, if narrow, T2-11 regression. Recorded as a reason Phase 3's per-item re-check earned
+  its place in this gate's criteria rather than being treated as a formality.
+- **No second external review has been commissioned or run.** Not this session's job — P-2 below
+  — but restated because it is now the single largest remaining gap in this project's own
+  trajectory, with every content and process fix from the original review applied.
+- **Google Scholar still not searched.** Thirteenth session with code. **O-7**, unchanged.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

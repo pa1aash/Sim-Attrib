@@ -4,16 +4,24 @@
 Re-run the script after any edit to `paper/` or `figures/`, then re-read this file for the
 updated readiness state — this file is meant to be regenerated, not read once.**
 
-**Built from commit `3ca62db` (session G12).** Package: `build/sim_attrib_overleaf_3ca62db.zip`,
+**Built from commit `09a107e` (session G13).** Package: `build/sim_attrib_overleaf_09a107e.zip`,
 gitignored, not part of tracked history.
 
-**G12 re-verification summary, added at the top per this session's own standing suspicion of
-prior tooling (S6):** the `TEXINPUTS` fix G11 made still holds and re-verifies clean. A **second,
-lower-severity defect of the same class** was found in the "STRICT isolation" tier specifically —
-see §0c — and is disclosed in full even though it does not change the submission-readiness
-verdict, because the tier this project actually gates on (§2b) is unaffected and re-verifies
-clean, byte-for-byte, against a freshly rebuilt package. Everything below §0c is G11's original
-text, left as the historical record of that session's own findings; G12's additions are marked.
+**G13 update, added at the top.** The page-limit gap this file's own §4 tracked across G9, G11,
+and G12 is closed this session: 5 pages of body content, not 6, confirmed against a freshly
+rebuilt package with both isolation tiers re-run. §4 below is rewritten for this session's
+numbers; §0–§3 and §5–§7 are G11's and G12's text, left as the historical record of those
+sessions' own findings, re-verified rather than rewritten where this session did not change the
+underlying fact.
+
+**G12 re-verification summary, carried forward.** The `TEXINPUTS` fix G11 made still holds and
+re-verifies clean. A **second, lower-severity defect of the same class** was found in the "STRICT
+isolation" tier specifically — see §0c — and is disclosed in full even though it does not change
+the submission-readiness verdict, because the tier this project actually gates on (§2b) is
+unaffected and re-verifies clean, byte-for-byte, against a freshly rebuilt package. This session
+re-confirmed both tiers' behaviour is unchanged (§2b PASS; §2a PASS only in the narrower
+this-machine sense) and did not attempt to fix §0c's underlying limitation — see
+`audit/S13_REPORT.md` for why that is deferred again rather than attempted.
 
 This is a re-verification pass, not a first read: two real packaging defects were found and
 fixed in the course of re-running the prior session's own tests more rigorously than they were
@@ -212,39 +220,33 @@ and any locally-compiled `paper/main.pdf` (gitignored, never the submission arti
 
 ---
 
-## 4. PAGE COUNT
+## 4. PAGE COUNT — CLOSED THIS SESSION (G13)
 
-**Re-measured this session (G12) against the current compiled PDF, not assumed carried-over —
-the ordering below has changed since this report was last written** (T2-14, applied in G11,
-moved the checklist after the appendix; this section's own table had not been re-checked against
-that change until now):
+**Re-measured this session against the current compiled PDF, page-by-page, not estimated from a
+line count** — pages 5 and 6 specifically rendered at 150dpi and read directly before and after
+every edit in this session's own pass, the same discipline G12 used for its figure-width checks.
 
 **22 physical pages** in the compiled PDF:
 
 | Pages | Content | Counted against the 5-page limit? |
 |---|---|---|
-| 1–6 | Abstract, Introduction, Background, Method, Experiments, Section 5, Limitations | **Yes** |
-| 7–8 | References | No |
-| 8–15 | Appendix (threshold/confound/MMC-variant figures, full assignment tables, generated claims table) | No |
+| 1–5 | Abstract, Introduction, Background, Method, Experiments, Section 5, Limitations | **Yes** |
+| 6–7 | References | No |
+| 7–15 | Appendix (compact findings overview, simulator structure, threshold/confound/MMC-variant figures, full assignment tables, generated claims table) | No |
 | 16–22 | Reproducibility checklist | No |
 
-**Counted page count: 6 pages against a 5-page limit — down from 6 pages that used to leak a
-full paragraph of Section 5's own prose onto the sixth page.** This session's page-limit pass
-(Phase 3; commit `3ca62db`) tightened Related Work prose (every T2-5 citation and its engagement
-kept, only framing trimmed), made several other phrase-level cuts, tightened inter-float
-spacing, and applied two figure-width reductions verified safe by rendering the compiled pages
-at 300dpi and reading the smallest text directly rather than trusting a ratio calculation
-(`fig2_simulator` and `fig6_nontermination`, both `SIZE_LABEL`(8pt)-floored with real headroom
-above the venue's 6pt floor — unlike `fig3_spectrum`/`fig4_assignments`, which G11 already found
-have none). **This closed the specific overflow that used to spill Section 5's second paragraph
-onto page 6**, which now fits entirely on page 5. It did not close the full page: Figure 4 plus
-the complete three-bullet Limitations section is roughly four-fifths of a page on its own, and
-page 5 is already full edge-to-edge with Section 5's own two paragraphs — fitting both would
-require cutting real content, a bigger figure-legibility risk than the two taken here, or
-restructuring (e.g. moving Figure 4 to the appendix, which would badly weaken the paper's own
-central evidence in the main text). None of those is taken unilaterally this session, matching
-G9's and G11's own stated stopping point on exactly this tradeoff. See `paper/main.tex`'s commit
-message (`3ca62db`) for the itemised list of what was and was not cut.
+**Counted page count: 5 pages against a 5-page limit — closed, for the first time in this
+project's history.** G9, G11, and G12 each narrowed the overflow (a whole paragraph of Section 5
+leaking onto page 6, then just Figure 4 plus Limitations) without closing it, each declining the
+same tradeoff: cutting real content, a riskier figure reduction than the two already taken, or
+moving Figure 4 to the appendix and weakening the paper's own central evidence in the main text.
+**This session closed it without taking any of those three** — the two safest tiers (appendix
+moves and prose/whitespace tightening) turned out to be sufficient once tried in combination,
+which no prior session had tried together. Full accounting, including the one judgment call
+(moving the simulator schematic to the appendix) flagged per this session's own standing
+honesty requirement: `audit/S13_REPORT.md`. See `paper/main.tex`'s commit message (`09a107e`)
+for the itemised list of what moved and what was reworded — no citation, sentence stating a
+finding, or evidentiary number was cut.
 
 ---
 
@@ -294,32 +296,38 @@ compiled by Overleaf itself.
    for `confidence_set_check.py` and other one-off analysis scripts).
 7. `build/` confirmed gitignored; the zip itself stays out of tracked history.
 
-**Done and verified this session (G12):**
-8. **A second, lower-severity defect of the same class as `TEXINPUTS` found and disclosed in the
-   "STRICT isolation" tier (§0c).** It does not change the submission-readiness verdict — the
-   tier this project actually gates on, §2b, is unaffected — but the old tier's name overstated
-   what it tested, and that is corrected here.
-9. Overleaf-equivalent compile (§2b) re-run against a freshly rebuilt package and a freshly
-   recompiled repo working copy: exit 0 both, 22 pages both, textually identical, byte-identical
-   582477-byte `main.pdf`.
-10. Page-limit pass (Phase 3, commit `3ca62db`): closed the specific overflow that used to leak
-    Section 5's own prose onto page 6; did not close the full page. See §4.
-11. `audit/FINAL_CLAIMS.md` gained the C5 section G11's own `audit/DUFOUR_CONFIDENCE_SET_CHECK.md`
-    said it would add and never did — found and closed this session, not a new gap.
+**Done and verified in G12:**
+8. A second, lower-severity defect of the same class as `TEXINPUTS` found and disclosed in the
+   "STRICT isolation" tier (§0c). Did not change the submission-readiness verdict then and does
+   not now — the tier this project actually gates on, §2b, is unaffected.
+
+**Done and verified this session (G13):**
+9. **Page limit closed.** 5 counted pages against 5, for the first time in this project's
+   history — appendix moves plus a whitespace/prose tightening pass, no content cut. See §4 and
+   `audit/S13_REPORT.md`.
+10. Overleaf-equivalent compile (§2b) re-run against a freshly rebuilt package and a freshly
+    recompiled repo working copy: exit 0 both, 22 pages both, textually identical, byte-identical
+    584502-byte `main.pdf` (differing only in embedded timestamp, as in every prior session).
+    §2a re-run too, unchanged behaviour (PASS only in the this-machine sense, §0c).
+11. Two cross-reference defects introduced by this session's own appendix moves, found and fixed
+    in the same session rather than left for a later pass: the compact-findings table's
+    hard-coded `fig.` column (renumbered for the new figure order) and `paper/checklist.tex`'s
+    one prose reference to the relocated simulator figure (updated to say Appendix, not Section
+    4). Neither would have caused a compile failure — both would have been a real, silent
+    inaccuracy in the submitted PDF had they gone uncaught.
+12. Full test suite: 177 passed, unchanged — no `src/` diagnostic code touched.
 
 **Still open — not this session's call, per its own scope:**
-1. **Page limit.** 6 counted pages against 5, narrowed this session (§4) but not closed. Figure 4
-   plus the full Limitations section does not fit in the space Section 5 leaves on page 5 without
-   cutting real content, a riskier figure reduction than the two taken here, or restructuring.
-2. **AI-use disclosure placeholder.** `paper/checklist.tex` item 13. Operator to write and
+1. **AI-use disclosure placeholder.** `paper/checklist.tex` item 13. Operator to write and
    insert the actual text.
-3. **Reciprocal reviewer nomination**, required by Sim2Science at submission — an OpenReview
+2. **Reciprocal reviewer nomination**, required by Sim2Science at submission — an OpenReview
    form field, not a file problem. Unresolved since `docs/OPEN_QUESTIONS.md` Q-3.
-4. **In-person Paris attendance**, mandatory for accepted papers. Unresolved, not a packaging
+3. **In-person Paris attendance**, mandatory for accepted papers. Unresolved, not a packaging
    concern.
-5. **A second external review has not been run against this session's fixes.** Everything above
+4. **A second external review has not been run against this session's fixes.** Everything above
    verifies that the paper compiles correctly and reads cleanly to this session's own
    re-verification pass; it does not certify that the external reviewer's substantive concerns
-   are resolved to that reviewer's satisfaction. See `audit/S11_REPORT.md`.
+   are resolved to that reviewer's satisfaction, nor that this session's own cuts read well to a
+   reader who has not seen this report. See `audit/S13_REPORT.md`.
 
 **Re-run `scripts/build_overleaf_package.sh` directly after closing any of the above.**
