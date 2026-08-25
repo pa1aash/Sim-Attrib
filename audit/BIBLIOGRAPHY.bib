@@ -413,10 +413,17 @@
 %% selection rule, keep the accepted draws -- for 'arbitrary treatment assignment
 %% schemes and conditioning events'. Same 1/p_0 cost analysis as R1's ~N_alt/alpha.
 %% Controls selective type-I error with 'no modelling assumptions'. Read in full.
+%% G14: the fetched record's year (2026) is this project's every other citation of this
+%% paper (audit/CLAIM_GRAPH.md, audit/MMC_COMPOSITION_SPEC.md, audit/S2-S5_REPORT.md) used
+%% 2024 throughout, matching the arXiv identifier's own month code (2405 = submitted May
+%% 2024, confirmed directly against arxiv.org/abs/2405.07026's submission history: v1
+%% 2024-05-11). The fetched 2026 reflects the identifier of the CURRENT version (v4,
+%% 2026-05-22) rather than the paper's original posting year -- corrected to 2024 for
+%% consistency with both the arXiv ID and this project's own prior usage.
 @misc{freidling2026selectiverandomizationinferenceadaptive,
-      title={Selective Randomization Inference for Adaptive Experiments}, 
+      title={Selective Randomization Inference for Adaptive Experiments},
       author={Tobias Freidling and Qingyuan Zhao and Zijun Gao},
-      year={2026},
+      year={2024},
       eprint={2405.07026},
       archivePrefix={arXiv},
       primaryClass={stat.ME},
@@ -552,9 +559,17 @@
 %% follow-on papers exist, e.g. 10.1214/25-aos2591, which is NOT this paper) --
 %% cited as the arXiv preprint, fetched from https://arxiv.org/bibtex/2206.06421
 %% per this file's own arXiv convention.
+%% G14: the fetched record's author field read "Min-ge Xie" -- a hyphenation artifact from
+%% the arXiv PDF's own line-broken title rendering (the abstract page's submission-history
+%% field gives the unbroken name "Minge Xie"), not the author's actual name. BibTeX's name
+%% parser then split the hyphenated token, rendering as "ge Xie" in-text and "Min ge Xie" in
+%% the reference list. Corrected to the one-word form confirmed directly against
+%% arxiv.org/abs/2206.06421's submission-history metadata, an exception to this file's
+%% general "stays exactly as fetched" policy because the fetched value was a rendering
+%% artifact, not the record itself.
 @misc{xie2022reprosamplesmethodfinite,
       title={Repro Samples Method for Finite- and Large-Sample Inferences},
-      author={Min-ge Xie and Peng Wang},
+      author={Minge Xie and Peng Wang},
       year={2022},
       eprint={2206.06421},
       archivePrefix={arXiv},
