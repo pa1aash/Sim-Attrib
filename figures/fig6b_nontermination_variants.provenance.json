@@ -2,15 +2,11 @@
   "figure": "fig6b_nontermination_variants",
   "generated_by": {
     "script": "src/viz/fig6b_nontermination_variants.py",
-    "commit": "f7e2eba683eb87977505c35202d597d39f3ed896",
-    "dirty": true,
-    "dirty_paths": [
-      "figures/fig6b_nontermination_variants.pdf",
-      "figures/fig6b_nontermination_variants.preview.png",
-      "src/viz/fig6b_nontermination_variants.py"
-    ],
-    "started": "2026-08-26T14:06:32+05:30",
-    "finished": "2026-08-26T14:06:37+05:30"
+    "commit": "492651faebaf48c4f03ee2a5d397f64ddc78667a",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-26T14:28:07+05:30",
+    "finished": "2026-08-26T14:28:13+05:30"
   },
   "caption": "Acceptance probability $p_{\\min}(w)$ across all four (family assignment, studentisation variant) combinations the composition was measured under, on the same 42-point design and axes as Figure~\\ref{fig:nontermination}'s left panel. The primary case (AAA, studentised) is reproduced here for comparison; the other three collapse the same way, generally sooner. Open triangles are 95\\% Wilson upper bounds at zero measured acceptances, not values, and are joined to nothing.",
   "sources": [
