@@ -2,17 +2,14 @@
   "figure": "fig3_spectrum",
   "generated_by": {
     "script": "src/viz/fig3_spectrum.py",
-    "commit": "87489b6c0436b4055e11cc675dbd8d9bc6daa303",
+    "commit": "6d3bdaa56a9a2ca3f15ac2ef66aadbe699819d0f",
     "dirty": true,
     "dirty_paths": [
       "figures/fig3_spectrum.pdf",
-      "figures/fig3_spectrum.preview.png",
-      "paper/main.tex",
-      "src/viz/fig3_spectrum.py",
-      "src/viz/fig6_nontermination.py"
+      "figures/fig3_spectrum.provenance.json"
     ],
-    "started": "2026-08-26T01:43:42+05:30",
-    "finished": "2026-08-26T01:44:00+05:30"
+    "started": "2026-08-26T14:24:58+05:30",
+    "finished": "2026-08-26T14:25:06+05:30"
   },
   "caption": "Singular-value spectrum of the summary Jacobian for summary set $S_B$, normalised by the leading singular value, under three distortion column sets: the base families ($K=3$), the adversarial families ($K=3$), and their six-column union ($K=6$, two one-parameter families per component). The dashed line is the pre-registered rank tolerance $\\tau = 10^{-2}$, fixed in docs/THRESHOLDS.md before any singular value existed; a component set is called separable when every $\\sigma_i/\\sigma_1$ lies above it. Under either three-column set the whole spectrum clears $\\tau$ by an order of magnitude, so the verdict is not a threshold decision -- including under the adversarial set, which was designed to fail and does not. Under the six-column union $\\tau$ falls inside the spectrum, between $\\sigma_4$ and $\\sigma_5$: the rank is 4 of 6 and the set is inseparable at $\\kappa = 629$. Every singular value shown is resolved under the pre-registered h-plateau criterion (largest variation factor 1.023 against an admissible 2), so the rank deficiency is a property of the matrix and not of the estimator. The contrast between the two panels' worth of evidence is the scope restriction of DECISIONS.md D-14: the positive result holds at one distortion parameter per component and fails at two.",
   "sources": [
@@ -161,7 +158,7 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig3_spectrum.pdf": "e916909a61cba94389331d0d32f616f704de40d0df78dfaf14bc5f79101fafa8",
+    "figures/fig3_spectrum.pdf": "1d4c713f06f1c14b4235c1e27698e6ab35484532243384e047dda62172b51945",
     "figures/fig3_spectrum.preview.png": "9ab3e206c97aa5708a69d4bb5a5beb439dd6b2e54625f41de3747661c02d573f"
   },
   "notes": [
