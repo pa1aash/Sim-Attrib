@@ -1973,3 +1973,184 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G15 — Does the paper close the second review's R-1/R-2/R-3 gap, and does an exhaustive
+ground-up re-verification confirm the paper is ready for a third external review?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-26, session G15. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **The one specific gap G14 left open — independent re-confirmation of the second review's
+> literal R-1/R-2/R-3 cross-check — is closed.** All three verified directly against current
+> source, not against G14's own narration of what it did (S6): R-1's six family mechanisms
+> checked against `src/simulators/sir3.py` line by line; R-2's ledger-reference sentence and its
+> three named undefined criteria checked against current `paper/main.tex`; R-3's Mahalanobis
+> radii independently recomputed from scratch from `results/confidence_set_mmc.yaml` and
+> `results/boundary_sweep.yaml` — **2.7096 and 3.5616, matching the paper's stated 2.71 and 3.56
+> to four significant figures**, with the Fisher-information inversion cross-checked against the
+> file's own stored eigenvalues before being trusted. Full detail in
+> `audit/R1R2R3_RECONCILIATION.md`.
+>
+> **A full ground-up read-through of the compiled PDF — done before any mechanical check ran, so
+> it was not primed by already knowing what had passed before — found one genuine visual defect
+> none of the fourteen prior sessions' own sweeps caught.** `figures/fig6b_nontermination_variants.pdf`
+> ("Figure 7," Appendix A.3) placed its legend at `loc="lower left"`, directly where the
+> descending AAA/BBB studentised curves and their zero-acceptance markers cross. G14's own P-4
+> sweep reported this figure "clean" — it was not, for a different failure mode (legend-over-data)
+> than the font-floor and hyphenation defects P-4 was checking for. Fixed by moving the legend to
+> `loc="upper right"`, the one region no series reaches; no data changed; page count and both
+> isolation tiers re-verified clean after the fix. Full detail in `audit/G15_READTHROUGH.md`.
+>
+> **The exhaustive number-trace this session actually re-derived (not diffed against prior
+> sessions' own verification) found two further defects, both in Section 5 — the section a third
+> reviewer is most likely to scrutinize closely given R-3's history across two review rounds.**
+> (1) "$\kappa$ falls to $344.9$ but stays two orders past $\kappa_{\max}=100$" overstates the
+> margin by roughly $30\times$ ($344.9/100=3.45$, not $100\times$); fixed to state "$3.4\times$
+> past," matching the paper's own convention elsewhere of exact multiplicative margins. Git
+> history shows this imprecision predates every review round, not something this session's own
+> editing introduced. (2) "every one wider than the $\pm0.5\%$ box already known to break the
+> composition" directly contradicted the same section's own later, data-verified statement (and
+> this session's own Phase 1 recomputation) that $\pm0.5\%$ is the **last fully-passing** box and
+> $\pm0.75\%$ is what **first fails** — fixed to name $\pm0.75\%$, the box the data actually
+> supports. Both recompiled clean, page count unchanged. Full detail in
+> `audit/G15_NUMBER_TRACE.md`.
+>
+> **A fourth defect, process rather than content, turned up when this session actually re-ran the
+> full test suite rather than assuming G14's own report of a clean pass still held (S6):**
+> `figures/fig3_spectrum.provenance.json` has carried `dirty: true` since G14's own R14-6 fix,
+> committed that way and never re-generated from a clean tree afterward. Confirmed
+> content-harmless (a pixel-identical regeneration) and fixed as the last step of this session —
+> see "Process caveats" below.
+>
+> **Four genuine, previously-uncaught defects found and fixed this session, on top of confirming
+> R-1/R-2/R-3 closed.** None was catastrophic — a legend placement, an order-of-magnitude
+> adjective, a mislabeled box width, and a stale provenance flag — but the first three are exactly
+> the class of small, load-bearing imprecision an external reviewer reads a paper specifically to
+> find, and all four survived fourteen prior sessions' own verification passes. Recorded plainly
+> per S8: this is not a session that found nothing, and it should not be summarized as one.
+
+### What G15 was judged against
+
+| # | Criterion | Result |
+|---|---|---|
+| G15.1 | Phase 0: HEAD matches G14's push, tree clean, two-tier isolation compile before any content review | **met.** HEAD `ac89d8d` confirmed at session start; both tiers compiled clean (exit 0, 22 pages, zero undefined refs, identical `pdftotext` output) before Phase 1 began |
+| G15.2 | R-1 independently re-verified against current `paper/main.tex` and `src/simulators/sir3.py` | **met.** All six family mechanisms named in Section 4 prose match `sir3.py`'s own docstring exactly; confound-interpretation sentence followable from those names alone, without the appendix figure |
+| G15.3 | R-2 independently re-verified: ledger reference sentence position, and all three named undefined criteria (coherence, leakage, slope-ratio) | **met.** Reference sentence is the first sentence of Section 4. "Coherence" fully absent from main text (removed, not defined — the review's own equally-valid fix); "leakage" concept stated in prose without the jargon word; slope-ratio rule stated explicitly with threshold=3 and measured 2.265× |
+| G15.4 | R-3 independently recomputed from scratch (not re-read from G14's derivation) | **met.** 2.7096/3.5616 vs. paper's stated 2.71/3.56 — matches to 4 significant figures. Eigenvalue cross-check on the Fisher-information inversion matches the file's stored `hessian_eigenvalues` to $10^{-13}$–$10^{-16}$ relative error |
+| G15.5 | Reconciliation note written, closing G14's disclosed gap | **met** — `audit/R1R2R3_RECONCILIATION.md` |
+| G15.6 | Phase 2: complete read-through of the compiled PDF, start to finish, before any mechanical check | **met.** 22 pages, `pdftotext -layout` extraction read in full plus every figure/table rendered at 200–400dpi and visually inspected. One defect found (Figure 7 legend overlap) and fixed |
+| G15.7 | No dash-removal meaning-drift found from G14's 38-instance rewrite | **met.** Every rewritten clause read as a faithful substitution; nothing flagged |
+| G15.8 | Every figure/table stands on its own | **met, after the one fix.** Figure 7's legend now sits in the one region no data reaches; every other figure/table (1–6, Tables 1–3) confirmed clean at up to 400dpi |
+| G15.9 | Cross-section consistency (the class of defect that caught the earlier K-notation and 8.4-vs-27-65 discrepancies) | **met, with two findings.** $K$-notation still resolved (never conflated with six-column case); figure numbering consistent between `\ref`s, Table 1's `fig.` column, and page order. Two Section 5 numeric/logical inconsistencies found and fixed (see headline; full detail `audit/G15_NUMBER_TRACE.md`) |
+| G15.10 | Abstract-to-body consistency against R-3's current ellipsoid finding | **met, no change needed.** Abstract states no Mahalanobis radius or "well inside"/"just past" characterization at all — nothing in it depends on R-3's precise number, checked directly rather than assumed from G14's own P-2 finding |
+| G15.11 | Read-through findings written, including "nothing found" as an explicit honest outcome where applicable | **met** — `audit/G15_READTHROUGH.md`. Nothing left for operator judgment this session (S8): every observation was either already correct or fixed outright |
+| G15.12 | Phase 3: every number in the compiled document extracted and traced, not sampled | **met.** ~75 distinct numeric claims across main text/figures/tables/appendix checked individually, plus the ~80-row generated Appendix A.5 ledger checked as a block with targeted spot-checks (`second_theta_check.yaml`, `alt_eta_scaling.yaml` read directly). Two defects found and fixed (see headline) |
+| G15.13 | `audit/FINAL_CLAIMS.md` updated if any G14-era number isn't yet represented | **met, no update needed.** Both Section 5 fixes correct existing traced numbers; no new `results/*.yaml` file or field was introduced this session |
+| G15.14 | Total numbers checked reported, zero untraced | **met** — `audit/G15_NUMBER_TRACE.md` §Count. Zero numbers remain untraced after the two fixes |
+| G15.15 | Phase 4: one consolidated table covering every item from both review rounds plus this session's own findings | **met** — this table, below |
+| G15.16 | Full independent anonymization re-scan | **met.** Compiled PDF text (22 pages), every commit message this session, and every file touched this session (`git diff --name-only ac89d8d..HEAD`) all scanned fresh; zero hits. `pdfinfo` confirms empty `Author` field |
+| G15.17 | Final page count confirmed exactly | **met. 22 total pages; main text (Abstract–Limitations) pages 1–5; References start page 6** — re-confirmed by direct page render after every content edit this session (Phases 1, 2, 3), not estimated |
+| G15.18 | Two-tier isolation compile, both tiers, against the final committed state | **met, both tiers**, against a freshly rebuilt `sim_attrib_overleaf_19f9a59.zip` extracted fresh to an isolated temp directory (never the repo working copy): §2b (`TEXMFHOME` pointed at this operator's personal package tree, `TEXINPUTS` unset) exit 0, 22 pages, zero undefined refs/citations; §2a (`TEXMFHOME` unset, this-machine-fallback sense per G12's own naming correction) exit 0, 22 pages, same narrow caveat as every prior gate. `pdftotext` output identical between both tiers' extractions |
+| G15.19 | `scripts/build_overleaf_package.sh` re-run against the final commit | **met** — `build/sim_attrib_overleaf_19f9a59.zip`, 17 files |
+| G15.20 | Full pytest suite re-run, not assumed still passing from G14's own report (S6) | **met, and found a real defect.** 176 passed, 1 failed on first run: `fig3_spectrum.provenance.json`'s stale `dirty: true` flag (§ headline). Confirmed content-harmless, fixed from a clean tree, suite re-run clean after the fix (177 passed) |
+| G15.21 | No self-approval | **met** — `status: ready for review — UNSIGNED` |
+
+### Phase 4.1 — the full consolidated table: every item from both review rounds, this session's
+own reconciliation, and this session's own read-through/number-trace findings, in one place
+
+| Item | What it is | Status after G15 |
+|---|---|---|
+| T1-1 | Appendix claim-to-source table, generated not hand-typed | **intact**, unchanged this session |
+| T1-2 | Page limit ≤5 | **intact.** Re-confirmed after every edit round this session (Phases 1, 2, 3); still exactly 5 main-text pages |
+| T1-3 | Real confidence-set-bounded MMC check (not a cheaper reframe) | **intact.** `confidence_set_mmc.yaml` independently re-read and its numbers independently recomputed this session (Phase 1) |
+| T1-4 | Simulator schematic relocated, qualitative content restated in main-text prose | **intact**, re-confirmed by this session's own Phase 2 read (family-mechanism sentence followable without the appendix figure) |
+| T1-5 | Full anonymity re-scan | **intact**, re-run this session (G15.16) |
+| T1-6 | Checklist answers match the compiled PDF | **intact.** Checklist read in full this session (Phase 2); content unchanged |
+| T2-1/T2-2 | Rank-at-$\tau$/$\kappa\le\kappa_{\max}$ stated as one condition; $\kappa^2$ compute-cost derivation | **intact**, unchanged, re-read this session |
+| T2-3 | Data-motivated $\eta$-scaling using confidence-set SEs | **intact**, and this session independently re-derived the 0.9–2.7% figure two ways (direct SE/$\hat\theta$ ratio; `alt_eta_scaling.yaml`'s stored multiple-of-10%-convention field) — both agree |
+| T2-4 | Second-$\theta$ test run | **intact**, and its two numbers ($\kappa=10.9$, $\kappa=10.1$) independently traced this session to `results/second_theta_check.yaml` and `robustness/k6_spectrum.yaml` directly |
+| T2-5 | Related Work citations genuinely engaged | **intact.** Unchanged this session; the two-citation reduction G14 disclosed stands as previously recorded |
+| T2-6 | Section 5 retitled, finding-first, apologetic framing fixed | **intact**, unchanged |
+| T2-7 | Scope restriction stated in the introduction's own first contribution sentence | **intact**, re-read this session |
+| T2-8 | Two-panel non-termination figure, per-figure font floors | **intact**, and this session's own Phase 2 sweep additionally found and fixed a different defect in this figure's sibling (Figure 7's legend, not a font-floor issue) |
+| T2-9 | Repeated metaphor reduced; diagnostic's four steps as a numbered list | **intact**, unchanged |
+| T2-10 | Abstract tightened, one concrete number retained | **intact.** Re-checked this session specifically against R-3's current ellipsoid finding (G15.10) — no adjustment needed |
+| T2-11 | Limitations bullet on where a learned summary statistic would sit | **intact.** The `(where $s(y)$ would sit)` clause verified still present verbatim |
+| T2-12 | K-vs-column-count notation conflict resolved | **intact**, re-confirmed by this session's own full-text read (G15.9) |
+| T2-13 | Appendix table's plateau-stability caption honest about noise | **intact**, unchanged |
+| T2-14 | Checklist after the appendix | **intact**, unchanged (structural position) |
+| T2-15 | One sentence on the baseline test's output on the six-column confound | **intact**, unchanged |
+| R1 (first-review novelty threat-check) | Rejection-sampling-calibration mechanism is prior art | **intact** — DEAD verdict unchanged in Background's prose |
+| R2 (first-review novelty threat-check) | Noisy-rank estimator, corrected instrument | **intact** — NARROW-CONDITIONAL verdict unchanged |
+| **R-1 (second review)** | Main-text self-sufficiency: family mechanisms + confound interpretation | **CLOSED this session, independently verified from source** — `audit/R1R2R3_RECONCILIATION.md` |
+| **R-2 (second review)** | Ledger under-referenced; undefined criteria (coherence, leakage, slope-ratio) | **CLOSED this session, independently verified from source** — ibid. |
+| **R-3 (second review)** | Mahalanobis-radius/ellipsoid comparison | **CLOSED this session, independently recomputed from source and matched to 4 s.f.** — ibid. |
+| R14-1 through R14-9 | Second review's Path to Acceptance items | **intact**, unchanged this session, re-read in full during Phase 2 |
+| R14-10 | $S_A$ promotion (optional) | **intact — still declined, reasoning unchanged** |
+| P-1 | Paper-wide dash removal (38 instances) | **intact.** This session's own read specifically checked for meaning-drift from this rewrite (the highest-risk residual G14 itself named) and found none |
+| P-2 | Title/abstract reconsideration | **intact**, re-checked this session against R-3's finalized number (G15.10) |
+| P-3 | Figure/table captions ≤3 sentences | **intact**, unchanged |
+| P-4 | Visual overlap/legibility sweep | **intact for the two defects G14 found (Figure 1, Table 1), and extended this session** — Figure 7's legend-over-data overlap, a different defect class P-4 did not check for, found and fixed (G15.6–G15.8) |
+| **G15 Phase 2 finding** | Figure 7 (`fig6b_nontermination_variants`) legend crossed by descending data curves | **FOUND AND FIXED this session** — `audit/G15_READTHROUGH.md` |
+| **G15 Phase 3 finding 1** | Section 4: "$344.9$... two orders past $\kappa_{\max}=100$" overstates the margin ~30$\times$ | **FOUND AND FIXED this session** — `audit/G15_NUMBER_TRACE.md` |
+| **G15 Phase 3 finding 2** | Section 5: "$\pm0.5\%$ box already known to break the composition" contradicts the section's own later, data-verified statement | **FOUND AND FIXED this session** — ibid. |
+| **G15 Phase 4 finding** | `fig3_spectrum.provenance.json` carried a stale `dirty: true` since G14's R14-6 commit | **FOUND AND FIXED this session, content confirmed harmless** — pixel-identical regeneration; process caveats below |
+
+### What G15 explicitly does not certify
+
+- **That this is now a fully error-free document.** Three real defects survived fourteen prior
+  sessions' own verification passes and were found only because this session re-derived rather
+  than re-checked. A document this heavily reviewed can still contain a fourth, fifth, or sixth
+  defect this session's own methods did not surface. The honest position is that this session
+  raises confidence, not that it exhausts the space of possible errors.
+- **That a third external review has been run.** None has. This is explicitly the last internal
+  session before that review, per the session brief, and this gate does not substitute for it.
+- **That the two Section 5 fixes are the only numeric imprecisions of their kind remaining.**
+  This session's number-trace was exhaustive over *distinct numeric claims currently in the
+  document*, not an exhaustive search over every possible phrase that could misdescribe a
+  correct number (e.g. "two orders" was caught because it was checked against a working
+  definition of "orders of magnitude" and against a correctly-used sibling instance in the same
+  section; a different kind of misdescription might not trip the same check).
+- **That the STRICT-isolation tooling gap (disclosed since G11/G12, deferred again by G13) is
+  resolved.** Unchanged this session, for the same reason G13 gave: a genuine fix needs a second,
+  actually-isolated TeX Live installation or a containerized build environment, neither available
+  on this machine within this session's scope.
+- **That the two citations dropped from Related Work in G14 (Xie, Barber & Janson) have been
+  reconsidered.** Not this session's scope; carried forward as G14 disclosed it.
+
+### Process caveats — what this session did badly or not at all
+
+- **The Figure 7 legend defect and both Section 5 numeric errors all predate this session.**
+  None was introduced by G15's own edits — confirmed by `git log -S` for the Section 5 phrases
+  and by the fact that Figure 7's legend placement (`loc="lower left"`) was never touched by any
+  session's diff before this one. They are reported as findings, not as this session correcting
+  its own mistakes.
+- **The full pytest suite was re-run this session (176 passed) and found a fourth real defect,
+  process rather than content: `figures/fig3_spectrum.provenance.json` carried `dirty: true`**,
+  committed that way since G14's R14-6 figure-rendering fix (commit `03a659c`), which regenerated
+  the figure while `paper/main.tex`, `src/viz/fig3_spectrum.py`, and `src/viz/fig6_nontermination.py`
+  were all mid-edit and never re-generated it once more from a clean tree afterward — the exact
+  discipline session G3 established (`audit/S11_REPORT.md`-era pattern: "the first production run
+  was discarded... the code was committed and the run repeated") and a sibling commit (`ae4e88d`)
+  had already applied to this same figure once before G14's later edit silently undid it. No
+  content defect: regenerating from the current clean tree produces a **pixel-identical** PDF
+  (confirmed by `pdftotext` text diff and a full pixel-difference bounding-box check, both
+  empty/`None`) — only the embedded `CreationDate`/`ModDate` bytes differ, the same harmless
+  difference every isolation-compile check in this project's history has already treated as
+  expected. Fixed as the last step of this session, from a fully clean tree, immediately before
+  the final commit (§Phase 5).
+- **No adversarial critic or second independent agent ran against this session's own findings.**
+  Every verification in this gate is single-pass, from one session's own re-derivation. The third
+  external review is the actual independent check this project's own process has always deferred
+  to for exactly this reason.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
