@@ -2,13 +2,18 @@
   "figure": "fig6_nontermination",
   "generated_by": {
     "script": "src/viz/fig6_nontermination.py",
-    "commit": "772e2c28e7e8604e32ff044c8cc3a2268777b0f9",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-26T14:27:50+05:30",
-    "finished": "2026-08-26T14:27:57+05:30"
+    "commit": "7fc4e206a7cb6c2fb274023e83c08909cfdf24a9",
+    "dirty": true,
+    "dirty_paths": [
+      "GATES.md",
+      "figures/fig6_nontermination.pdf",
+      "figures/fig6_nontermination.preview.png",
+      "paper/main.tex"
+    ],
+    "started": "2026-08-26T22:52:28+05:30",
+    "finished": "2026-08-26T22:52:32+05:30"
   },
-  "caption": "Left: acceptance probability $p_{\\min}(w)$, primary case (AAA, studentised), over the pre-registered 42-point design (32 corners $+$ 10 axis endpoints of the box of half-width $w$ about $\\theta_0$) and the $K=3$ cells; 95\\% Wilson bars, open triangle at $w=0.05$ an upper bound joined to nothing. Shaded band: cost gate $M \\times N / p \\leq 10^8$, a band since $M \\in \\{10^3, 10^4\\}$, $N \\in \\{99, 999\\}$ are declared as ranges. Plain and BBB variants: Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}). Right: the mechanism -- measured shift-to-noise ratio vs. $w$; horizontal line at ratio $=1$, vertical dashed line where it is first crossed, coinciding with where the left panel's gate stops passing.",
+  "caption": "Left: acceptance probability $p_{\\min}(w)$, primary case (AAA, studentised), over the pre-registered 42-point design (32 corners $+$ 10 axis endpoints of the box of half-width $w$ about $\\theta_0$) and the $K=3$ cells; 95\\% Wilson bars, open triangle at $w=0.05$ an upper bound joined to nothing. Shaded band: cost gate $M \\times N / p \\leq 10^8$, a band since $M \\in \\{10^3, 10^4\\}$, $N \\in \\{99, 999\\}$ are declared as ranges; the gate passes where the measured line sits inside or above the band and fails where it falls below it. Plain and BBB variants: Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}). Right: the mechanism -- measured shift-to-noise ratio vs. $w$; horizontal line at ratio $=1$, vertical dashed line where it is first crossed, coinciding with where the left panel's gate stops passing.",
   "sources": [
     {
       "path": "results/boundary_sweep.yaml",
@@ -150,8 +155,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig6_nontermination.pdf": "f1d5888cc0bff3ef0c827d5055bf1cde1dbd57d945e543762471a2fea7f19c95",
-    "figures/fig6_nontermination.preview.png": "25baf987f734b9a2f692b0125ab4cc3c14db3c19b49657938b1635b7f4cfa88f"
+    "figures/fig6_nontermination.pdf": "b90cc5574cbee1d832ffc7ee8040f47cbcd7c2441213921ff7d036b5ff43b186",
+    "figures/fig6_nontermination.preview.png": "586245e24252b6b2637df4ceabd817a41012bb46c47655f4deb10689baeb0c38"
   },
   "notes": [
     "Split into two panels in session G11 (T2-8): the prior single-panel version's plain-vs-studentised comparison and secondary top axis are separated out, the former to fig6b_nontermination_variants (appendix), the latter to this figure's own right panel with its own primary x-axis rather than a rescaled secondary one.",

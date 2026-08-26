@@ -2165,3 +2165,161 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G16 — Does the paper close the third external review's two real findings and nine smaller
+ones, and is a safe, working anonymized package ready for upload?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-26, session G16. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **W16-2, the session's highest-priority item, was implemented and genuinely run, not
+> hedged.** `src/baselines/montel_marginal.py` implements Anau Montel, Alvey & Weniger
+> (2025)'s Section II.3 trials-corrected minimum-per-summary-statistic global-null test exactly
+> as constructed — the one stated simplification is an exact per-summary test statistic in
+> place of their neural local tests, justified in the module's own docstring by this project's
+> summaries being directly Monte-Carlo-computable rather than requiring amortised density-ratio
+> estimation, which is the only reason their construction needs a neural network at all. Run
+> against the real simulator (`src/simulators/sir3.py`), not a toy example, at the two declared
+> corners and at two finite-magnitude realizations of the six-column confound's own named
+> mechanisms (`audit/FINAL_CLAIMS.md` C3's "drifting removal hazard" vs. "constant hazard
+> change combined with a drifting reporting rate"), plus a null-data control and a strong-
+> distortion control (`results/montel_marginal_test.yaml`, 7,506 simulator draws).
+>
+> **The measured result reverses what Section 2 previously asserted without measuring it.**
+> The global test correctly rejects at both declared corners and at both confound realizations
+> ($p\approx0.004$, resolution-limited by a 3,000-draw reference batch), and correctly does
+> *not* reject the null-data control ($p=0.61$) — the S5 vacuous-flag test, applied to the
+> test's own calibration machinery, passing explicitly. Its arg-min flags **disjoint** summary
+> coordinates for the two confound mechanisms at this magnitude (`binned_incidence_01` vs.
+> `binned_incidence_02`, near-min sets with zero Jaccard overlap), not the same ones on both
+> sides as the paper previously claimed. Section 2 is rewritten to report this honestly,
+> including the caveat the finding itself demands: one realization per mechanism is a
+> measurement, not a distribution, and a marginal test's finite-magnitude power is a different
+> question from the Jacobian's local ($\eta=0$) near-null identifiability the rest of the paper
+> establishes — the measured result does not overturn that, and does not claim to.
+>
+> **A second, independent anonymization defect was found and fixed, beyond anything the session
+> brief anticipated.** Every `results/*.yaml` file's `provenance` block records this machine's
+> hostname (`Palaashs-MacBook-Air.local`, containing the operator's name) under **two different
+> field names** (`host`, `measured_on`), and a private-repo commit hash under **two different
+> field names** (`commit`, `p_sel_run_commit`) — found by grepping the operator's own name
+> across every file in `results/` rather than trusting a hand-enumerated key list, the same
+> discipline this project has needed before. `scripts/build_anonymous_package.sh` redacts both,
+> by value pattern (any 40-hex-character line, any line containing the operator's name)
+> rather than by key name, so a field this session did not find is still caught if it exists.
+> Independently re-scanned after building: zero hits for the operator's name, GitHub username,
+> email, any AI-authorship token, or any 40-hex-character string, across all 91 packaged files.
+>
+> **The package was extracted fresh and actually run, not shipped on trust.** 176 of 183 tests
+> passed on the first extraction; the 7 failures were real and are now documented, not hidden:
+> 6 in `test_viz.py` (figure-drawing scripts read page geometry from the NeurIPS venue's `.sty`
+> file, which is part of the paper submission and correctly not bundled in a code package) and
+> 1 in `test_provenance.py` (asserts `git rev-parse HEAD` resolves, trivially false in a package
+> that deliberately carries no git history). Neither affects any simulator, diagnostic, or
+> baseline code. The package's own README documents the exact `pytest` invocation that excludes
+> both, and states plainly why, rather than presenting an untested green checkmark.
+
+### What G16 was judged against
+
+| # | Item | Status | Location |
+|---|---|---|---|
+| W16-1 | Checklist item 16 (LLM disclosure) confirmed unchanged | **confirmed unchanged** — literal `\answerTODO{}` placeholder, clearly marked, operator's to complete | `paper/checklist.tex` |
+| W16-2 | Anau Montel et al. comparison implemented and run | **met** — see headline | `src/baselines/montel_marginal.py`, `results/montel_marginal_test.yaml`, `paper/main.tex` §2 |
+| W16-3 | Coherence/colnorm thresholds stated where their verdicts are used | **met** — both genuinely computed and clean on all eight assignments; stated explicitly rather than left as unexplained ledger entries | `paper/main.tex` §4 |
+| W16-4 | Orphaned random-attributor-floor sentence removed from main-text prose | **met** — sentence and its three ledger rows removed; `results/floor_check.yaml` untouched as historical record | `paper/main.tex` §4, `src/diagnostics/report_claims.py` |
+| W16-5 | Second-theta check added to the provenance ledger | **met** — new `L1` ledger section, `results/second_theta_check.yaml` | `src/diagnostics/report_claims.py`, `paper/appendix_claims_table.tex` |
+| W16-6 | "Two orders of magnitude" precision fix | **met** — "approximately two orders of magnitude" | `paper/main.tex` §5 |
+| W16-7 | Figure 3(a) PASSES/FAILS labels removed, framing moved to caption | **met** — labels removed from the plotting script; caption states the same framing in words; recompiled and visually confirmed less cluttered | `src/viz/fig6_nontermination.py`, `paper/main.tex` |
+| W16-8 | Figure 7's unquantified "generally sooner" claim | **met** — Wilson intervals added for all four combinations (data already supported it); caption rewritten to the actual crossing widths, which contradict "generally sooner" for one of the three (AAA, plain never reaches a measured zero in-sweep) | `src/viz/fig6b_nontermination_variants.py`, `paper/main.tex` |
+| W16-9 | `d` (summary-statistic count) defined in Section 3 | **met** | `paper/main.tex` §3 |
+| W16-10 | Fithian/Sun/Taylor and Lee/Sun/Sun/Taylor cited | **met** — both already in `audit/BIBLIOGRAPHY.bib` from an earlier session, verified against arXiv's full-text record before reuse rather than trusted blind; one sentence added distinguishing this project's construction | `paper/main.tex` §2 |
+| W16-11 | Aphorism stated once with force, trimmed elsewhere | **met** — kept in the abstract; trimmed in Section 1, both Section 2 instances, and checklist item 1; recovered space used for W16-2/W16-10 | `paper/main.tex`, `paper/checklist.tex` |
+| S1 | Authorship (every commit) | **met** — four-check pre-push checklist run and clean before every push this session | `git log` |
+| S3 | Anonymization, paper AND package | **met, and extended** — see headline's second finding | `paper/main.pdf`, `build/anonymous_package.zip` |
+| S4 | Every number traces to `results/` or `audit/FINAL_CLAIMS.md` | **met** — including the new Montel and second-theta numbers | `paper/appendix_claims_table.tex` |
+| S5 | Vacuous-flag test applied to the Montel test itself | **met** — `null_control` case, `p=0.61`, does not reject | `results/montel_marginal_test.yaml` `vacuous_flag_check` |
+| Page limit | Main text ≤ 5 pages | **met** — Limitations ends and References begins, both on page 5/6 boundary correctly, after tightening float/paragraph whitespace (same lever G12–G14 used) and trimming non-load-bearing connective prose; no content cut | two-tier isolation compile, `paper/main.pdf` |
+| Phase 3 package | Built, redacted, independently re-scanned, extracted and run fresh | **met** | `build/anonymous_package.zip` (gitignored), `scripts/build_anonymous_package.sh` |
+
+### The anonymized package, explicitly
+
+**In:** `src/` (all `.py`, including the new `src/baselines/`), `tests/` (a deliberate addition
+beyond the session brief's literal allowlist — code, not process, and the only way Phase 3.5's
+"confirm it actually runs" requirement means anything), `results/*.yaml` recursively (with
+`host`/`measured_on`/`commit`/`p_sel_run_commit` redacted by value pattern), a fresh
+standalone `README.md` (setup, layout, paper-to-file mapping table, honestly-documented test
+exclusions), `LICENSE` (canonical MIT text fetched from spdx.org, copyright line anonymized to
+"The Authors" — the repository's own `LICENSE` file could **not** be reused verbatim as the
+session brief's Phase 3.1 literally suggested, because it has the operator's real name filled
+into the copyright line; caught before packaging, not after), `requirements.txt` (pinned to
+this session's actually-installed versions).
+
+**Confirmed excluded, checked explicitly:** `.git/` and all git metadata (verified: zero `.git*`
+paths in the built zip); `audit/`, `docs/`, `GATES.md`, `DEVIATIONS.md`, `OUTSTANDING.md`,
+`PROVENANCE.md`, `paper/` (none staged — the build script's allowlist never references any of
+them); the operator's name, GitHub username, and email (zero hits, independent re-scan after
+build); the standing AI-authorship token pattern (zero hits, same re-scan).
+
+**Not yet done, and not this session's to do:** uploading `build/anonymous_package.zip`
+anywhere (P-2), and pasting the resulting URL over the two placeholders this session left —
+`paper/checklist.tex` item 5's justification, and the same bracketed text nowhere else in the
+paper (the placeholder was deliberately not invented as a guess).
+
+### What G16 explicitly does not certify
+
+- **That a fourth external review has been run on this version.** It has not. Every
+  verification in this gate is this session's own re-derivation, single-pass, the same
+  limitation G15 and every gate before it names about itself.
+- **That W16-2's simplification is invisible to a critical reader.** The exact per-summary
+  statistic is a principled substitution for Anau Montel et al.'s neural local tests, not an
+  approximation of their numeric answer — but it is still a difference from their published
+  construction, stated as such rather than glossed, and a reviewer may still object to it.
+- **That the confound-resolution finding generalizes.** One realization per mechanism, at one
+  distortion magnitude, using this project's own simulator. The paper's own prose says so;
+  repeating it here because it is the kind of caveat that is easy to lose in summary.
+- **That every conceivable anonymity-identifying field has been found.** Two rounds of
+  discovery this session (`host`/`measured_on`, then `commit`/`p_sel_run_commit`) both came from
+  grepping the operator's actual name rather than from a complete audit of every field every
+  script writes. The redaction is value-based specifically because a key-based list already
+  proved incomplete once; that is evidence the method is more robust, not evidence it is
+  exhaustive.
+- **That the anonymized package's figures can be regenerated end to end.** `src/viz/` requires
+  the NeurIPS venue's `.sty` file, which is part of the paper submission and is not bundled;
+  documented, not hidden, in the package's own README and above.
+
+### Process caveats
+
+- **This session's commits are coarser-grained than the brief's suggested Tier-2 groupings**
+  (`W16-3/4`, `W16-5/6`, `W16-7/8`, `W16-9/10`, `W16-11` as five separate commits). Phase 1
+  (W16-2) and every Tier-2 item were developed in one continuous pass and landed in two commits
+  (code, then a clean-tree data regeneration — the same split G3 established for exactly this
+  reason) rather than five. Nothing is lost from the diff being readable; the deviation is
+  granularity, not completeness, and is recorded here rather than left silent.
+- **The Montel comparison's compute was reduced from the first design** (`N_ref`/`N_calib`
+  5,000/5,000/2,000 to 3,000/3,000/1,500) partway through, because this machine's load average
+  swung as high as 159 during the session (confirmed via `uptime` and `sample`, not assumed) and
+  the first attempt was still running after 20 minutes. The reduction changes the *resolution*
+  of the reported $p$-values (the floor moves from $1/5001$ to $1/3001$), not their validity —
+  every reported $p$-value is still an honest, if resolution-limited, Monte Carlo bound, and is
+  reported as such (`global_p_value_is_upper_bound` in the results file).
+- **A real, if minor, reproducibility bug was caught before it shipped**: the Montel module's
+  first draft seeded each case's observed-data draw with Python's built-in `hash()` of the case
+  name, which is randomised per-process by default and would have made the reported numbers
+  silently non-reproducible run to run at a fixed `--seed`. Found by re-reading the module
+  before the production run, fixed to a deterministic per-case offset, and verified: the final
+  clean run's numbers reproduce the discarded dirty run's numbers exactly.
+- **No adversarial critic or second independent agent ran against this session's own findings.**
+  Every verification in this gate is single-pass, from one session's own re-derivation, same as
+  every gate before it. The next external review is the actual independent check this project's
+  own process has always deferred to for exactly this reason.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

@@ -2,13 +2,21 @@
   "figure": "fig6b_nontermination_variants",
   "generated_by": {
     "script": "src/viz/fig6b_nontermination_variants.py",
-    "commit": "492651faebaf48c4f03ee2a5d397f64ddc78667a",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-26T14:28:07+05:30",
-    "finished": "2026-08-26T14:28:13+05:30"
+    "commit": "7fc4e206a7cb6c2fb274023e83c08909cfdf24a9",
+    "dirty": true,
+    "dirty_paths": [
+      "GATES.md",
+      "figures/fig6_nontermination.pdf",
+      "figures/fig6_nontermination.preview.png",
+      "figures/fig6_nontermination.provenance.json",
+      "figures/fig6b_nontermination_variants.pdf",
+      "figures/fig6b_nontermination_variants.preview.png",
+      "paper/main.tex"
+    ],
+    "started": "2026-08-26T22:52:33+05:30",
+    "finished": "2026-08-26T22:52:36+05:30"
   },
-  "caption": "Acceptance probability $p_{\\min}(w)$ across all four (family assignment, studentisation variant) combinations the composition was measured under, on the same 42-point design and axes as Figure~\\ref{fig:nontermination}'s left panel. The primary case (AAA, studentised) is reproduced here for comparison; the other three collapse the same way, generally sooner. Open triangles are 95\\% Wilson upper bounds at zero measured acceptances, not values, and are joined to nothing.",
+  "caption": "Acceptance probability $p_{\\min}(w)$, with 95\\% Wilson bars, across all four (family assignment, studentisation variant) combinations the composition was measured under, on the same 42-point design and axes as Figure~\\ref{fig:nontermination}'s left panel. The primary case (AAA, studentised) is reproduced here for comparison. BBB, studentised and BBB, plain first reach zero measured acceptances earlier ($w=0.03$ and $w=0.02$) than the primary case ($w=0.05$); AAA, plain never reaches a measured zero anywhere in this sweep. Open triangles are 95\\% Wilson upper bounds at zero measured acceptances, not values, and are joined to nothing.",
   "sources": [
     {
       "path": "results/boundary_sweep.yaml",
@@ -179,8 +187,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig6b_nontermination_variants.pdf": "6f47f1ac127f5b128ecf3a88dfdcc0e8168a5f31e196f2b24f6e664a55596181",
-    "figures/fig6b_nontermination_variants.preview.png": "e69e68e57c4244bf404192bff226b9661ba62739cad879859b44a96285b56e53"
+    "figures/fig6b_nontermination_variants.pdf": "1d127c194d49eadf73a89e9b3416f319b14ff37abfb33881fec3b8e7c8034a01",
+    "figures/fig6b_nontermination_variants.preview.png": "727afc7fc9bc4e8f9d8cc2faf98b82e4a26d447ee86859e77a323400a8dc0c9d"
   },
   "notes": [
     "Companion to fig6_nontermination (T2-8): carries the plain-vs-studentised and AAA-vs-BBB comparison the main-text panel dropped in favour of the primary case alone plus a dedicated mechanism panel.",
