@@ -2019,18 +2019,20 @@ Prepared 2026-08-26, session G15. Signature block below is for the operator.
 > `audit/G15_NUMBER_TRACE.md`.
 >
 > **A fourth defect, process rather than content, turned up when this session actually re-ran the
-> full test suite rather than assuming G14's own report of a clean pass still held (S6):**
-> `figures/fig3_spectrum.provenance.json` has carried `dirty: true` since G14's own R14-6 fix,
-> committed that way and never re-generated from a clean tree afterward. Confirmed
-> content-harmless (a pixel-identical regeneration) and fixed as the last step of this session —
-> see "Process caveats" below.
+> full test suite rather than assuming G14's own report of a clean pass still held (S6):** two
+> figures' provenance sidecars (`fig3_spectrum`, `fig6_nontermination`) had carried `dirty: true`
+> since separate G14 sessions, committed that way and never re-generated from a clean tree
+> afterward; a third (`fig6b_nontermination_variants`) was this session's own oversight from Phase
+> 2, never closed out the same way. Confirmed content-harmless in all three cases (pixel-identical
+> regenerations) and fixed as the last step of this session — see "Process caveats" below.
 >
 > **Four genuine, previously-uncaught defects found and fixed this session, on top of confirming
 > R-1/R-2/R-3 closed.** None was catastrophic — a legend placement, an order-of-magnitude
-> adjective, a mislabeled box width, and a stale provenance flag — but the first three are exactly
-> the class of small, load-bearing imprecision an external reviewer reads a paper specifically to
-> find, and all four survived fourteen prior sessions' own verification passes. Recorded plainly
-> per S8: this is not a session that found nothing, and it should not be summarized as one.
+> adjective, a mislabeled box width, and three stale provenance flags — but the first three are
+> exactly the class of small, load-bearing imprecision an external reviewer reads a paper
+> specifically to find, and all four survived fourteen prior sessions' own verification passes.
+> Recorded plainly per S8: this is not a session that found nothing, and it should not be
+> summarized as one.
 
 ### What G15 was judged against
 
@@ -2055,7 +2057,7 @@ Prepared 2026-08-26, session G15. Signature block below is for the operator.
 | G15.17 | Final page count confirmed exactly | **met. 22 total pages; main text (Abstract–Limitations) pages 1–5; References start page 6** — re-confirmed by direct page render after every content edit this session (Phases 1, 2, 3), not estimated |
 | G15.18 | Two-tier isolation compile, both tiers, against the final committed state | **met, both tiers**, against a freshly rebuilt `sim_attrib_overleaf_19f9a59.zip` extracted fresh to an isolated temp directory (never the repo working copy): §2b (`TEXMFHOME` pointed at this operator's personal package tree, `TEXINPUTS` unset) exit 0, 22 pages, zero undefined refs/citations; §2a (`TEXMFHOME` unset, this-machine-fallback sense per G12's own naming correction) exit 0, 22 pages, same narrow caveat as every prior gate. `pdftotext` output identical between both tiers' extractions |
 | G15.19 | `scripts/build_overleaf_package.sh` re-run against the final commit | **met** — `build/sim_attrib_overleaf_19f9a59.zip`, 17 files |
-| G15.20 | Full pytest suite re-run, not assumed still passing from G14's own report (S6) | **met, and found a real defect.** 176 passed, 1 failed on first run: `fig3_spectrum.provenance.json`'s stale `dirty: true` flag (§ headline). Confirmed content-harmless, fixed from a clean tree, suite re-run clean after the fix (177 passed) |
+| G15.20 | Full pytest suite re-run, not assumed still passing from G14's own report (S6) | **met, and found a real defect.** 176 passed, 1 failed on first run: `fig3_spectrum.provenance.json`'s stale `dirty: true` flag (§ headline). Fixing it and re-checking surfaced two more of the same class (`fig6_nontermination`, `fig6b_nontermination_variants`). All three confirmed content-harmless, all three fixed from a clean tree, suite re-run clean after the fixes (177 passed) |
 | G15.21 | No self-approval | **met** — `status: ready for review — UNSIGNED` |
 
 ### Phase 4.1 — the full consolidated table: every item from both review rounds, this session's
@@ -2097,7 +2099,7 @@ own reconciliation, and this session's own read-through/number-trace findings, i
 | **G15 Phase 2 finding** | Figure 7 (`fig6b_nontermination_variants`) legend crossed by descending data curves | **FOUND AND FIXED this session** — `audit/G15_READTHROUGH.md` |
 | **G15 Phase 3 finding 1** | Section 4: "$344.9$... two orders past $\kappa_{\max}=100$" overstates the margin ~30$\times$ | **FOUND AND FIXED this session** — `audit/G15_NUMBER_TRACE.md` |
 | **G15 Phase 3 finding 2** | Section 5: "$\pm0.5\%$ box already known to break the composition" contradicts the section's own later, data-verified statement | **FOUND AND FIXED this session** — ibid. |
-| **G15 Phase 4 finding** | `fig3_spectrum.provenance.json` carried a stale `dirty: true` since G14's R14-6 commit | **FOUND AND FIXED this session, content confirmed harmless** — pixel-identical regeneration; process caveats below |
+| **G15 Phase 4 finding** | Three provenance sidecars (`fig3_spectrum`, `fig6_nontermination` from G14; `fig6b_nontermination_variants` from this session's own Phase 2) carried stale `dirty: true` flags | **FOUND AND FIXED this session, content confirmed harmless in all three** — pixel-identical regenerations; process caveats below |
 
 ### What G15 explicitly does not certify
 
@@ -2128,20 +2130,29 @@ own reconciliation, and this session's own read-through/number-trace findings, i
   and by the fact that Figure 7's legend placement (`loc="lower left"`) was never touched by any
   session's diff before this one. They are reported as findings, not as this session correcting
   its own mistakes.
-- **The full pytest suite was re-run this session (176 passed) and found a fourth real defect,
-  process rather than content: `figures/fig3_spectrum.provenance.json` carried `dirty: true`**,
-  committed that way since G14's R14-6 figure-rendering fix (commit `03a659c`), which regenerated
-  the figure while `paper/main.tex`, `src/viz/fig3_spectrum.py`, and `src/viz/fig6_nontermination.py`
-  were all mid-edit and never re-generated it once more from a clean tree afterward — the exact
-  discipline session G3 established (`audit/S11_REPORT.md`-era pattern: "the first production run
-  was discarded... the code was committed and the run repeated") and a sibling commit (`ae4e88d`)
-  had already applied to this same figure once before G14's later edit silently undid it. No
-  content defect: regenerating from the current clean tree produces a **pixel-identical** PDF
-  (confirmed by `pdftotext` text diff and a full pixel-difference bounding-box check, both
-  empty/`None`) — only the embedded `CreationDate`/`ModDate` bytes differ, the same harmless
-  difference every isolation-compile check in this project's history has already treated as
-  expected. Fixed as the last step of this session, from a fully clean tree, immediately before
-  the final commit (§Phase 5).
+- **The full pytest suite was re-run this session (176 passed, 1 failed on first run) and found
+  a fourth real defect, process rather than content: three figures' provenance sidecars carried
+  stale `dirty: true` flags.** `figures/fig3_spectrum.provenance.json` had been `dirty: true`
+  since G14's R14-6 figure-rendering fix (commit `03a659c`), which regenerated the figure while
+  `paper/main.tex`, `src/viz/fig3_spectrum.py`, and `src/viz/fig6_nontermination.py` were all
+  mid-edit; `figures/fig6_nontermination.provenance.json` carried the same class of stale flag
+  from G14's mid-session connectivity-interrupted dash fix (`S14_REPORT.md` §5); neither was
+  re-generated from a clean tree afterward — the exact discipline session G3 established
+  (`audit/S11_REPORT.md`-era pattern: "the first production run was discarded... the code was
+  committed and the run repeated") and a sibling commit (`ae4e88d`) had already applied to
+  `fig3_spectrum` once before a later G14 edit silently undid it.
+  `figures/fig6b_nontermination_variants.provenance.json` was a third instance, and this
+  session's own: Phase 2's legend fix (commit `24f6fa5`) was committed correctly but never
+  followed by the second clean-tree regeneration that records the flag as `dirty: false`. No
+  content defect in any of the three: each clean-tree regeneration produces a **pixel-identical**
+  PDF to what was already committed (confirmed by `pdftotext` text diff and a full
+  pixel-difference bounding-box check, both empty/`None`, for `fig3_spectrum` and
+  `fig6_nontermination`; `fig6b_nontermination_variants` was already content-correct from Phase 2,
+  only its provenance snapshot was stale) — only embedded `CreationDate`/`ModDate` bytes differ
+  where they differ at all, the same harmless difference every isolation-compile check in this
+  project's history has already treated as expected. All three fixed as the last step of this
+  session, from a fully clean tree each time, immediately before the final commit (§Phase 5); full
+  pytest suite re-run clean afterward (177 passed).
 - **No adversarial critic or second independent agent ran against this session's own findings.**
   Every verification in this gate is single-pass, from one session's own re-derivation. The third
   external review is the actual independent check this project's own process has always deferred

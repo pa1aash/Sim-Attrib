@@ -40,15 +40,19 @@ session did both, per its brief, and that is what surfaced these four:
    session's Phase 1) that $\pm0.5\%$ is the **last fully-passing** box and $\pm0.75\%$ is what
    **first fails**. A real, four-sentence-apart, same-section contradiction — exactly the class of
    defect a full read-through catches and a targeted grep does not. Fixed to name $\pm0.75\%$.
-4. **A stale provenance flag.** `figures/fig3_spectrum.provenance.json` has carried `dirty: true`
-   since G14's own R14-6 commit, which regenerated the figure mid-edit and never re-generated it
-   from a clean tree afterward — silently undoing a discipline session G3 established and a
-   sibling commit had already applied to this same figure once before. Found only because this
-   session actually re-ran the full pytest suite (176/177 passed on first run) rather than
-   assuming G14's report of a clean suite still held. Confirmed content-harmless — a
-   pixel-identical regeneration, verified by both `pdftotext` diff and a full pixel-difference
-   bounding-box check, both empty — and fixed as the last step of this session, from a genuinely
-   clean tree.
+4. **Three stale provenance flags.** `figures/fig3_spectrum.provenance.json` and
+   `figures/fig6_nontermination.provenance.json` each carried `dirty: true` since separate G14
+   sessions (the R14-6 fix and the mid-session connectivity-interrupted dash fix respectively),
+   each regenerated mid-edit and never re-generated from a clean tree afterward — silently undoing
+   a discipline session G3 established and a sibling commit had already applied to `fig3_spectrum`
+   once before. A third, `figures/fig6b_nontermination_variants.provenance.json`, was this
+   session's own oversight: Phase 2's legend fix was committed correctly but never followed by the
+   second clean-tree regeneration that records the flag clean. Found only because this session
+   actually re-ran the full pytest suite (176/177 passed on first run) rather than assuming G14's
+   report of a clean suite still held. Confirmed content-harmless in all three — pixel-identical
+   regenerations, verified by both `pdftotext` diff and a full pixel-difference bounding-box
+   check, both empty — and fixed as the last step of this session, from a genuinely clean tree
+   each time. Full suite re-run clean afterward (177 passed).
 
 **None of the four is catastrophic**, and the paper's substantive findings, numbers, and argument
 are unchanged by all four fixes combined. But three are exactly the class of small, load-bearing
