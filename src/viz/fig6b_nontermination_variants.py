@@ -88,7 +88,7 @@ def build() -> None:
     ax.set_xlabel("relative nuisance half-width $w$", fontsize=style.SIZE_LABEL)
     ax.set_ylabel("$p_{\\min}(w)$  (worst cell, worst design point)", fontsize=style.SIZE_LABEL)
     ax.tick_params(labelsize=style.SIZE_LABEL)
-    ax.legend(loc="lower left", fontsize=style.SIZE_LABEL, borderpad=0.3, handlelength=1.8)
+    ax.legend(loc="upper right", fontsize=style.SIZE_LABEL, borderpad=0.3, handlelength=1.8)
     fig.subplots_adjust(left=0.16, right=0.98, bottom=0.16, top=0.98)
 
     out = style.save(fig, REPO / STEM, script=SCRIPT)
