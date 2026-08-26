@@ -33,12 +33,14 @@ SERIES = (
 )
 
 CAPTION = (
-    "Acceptance probability $p_{\\min}(w)$ across all four (family assignment, "
-    "studentisation variant) combinations the composition was measured under, on the same "
-    "42-point design and axes as Figure~\\ref{fig:nontermination}'s left panel. The primary "
-    "case (AAA, studentised) is reproduced here for comparison; the other three collapse the "
-    "same way, generally sooner. Open triangles are 95\\% Wilson upper bounds at zero "
-    "measured acceptances, not values, and are joined to nothing."
+    "Acceptance probability $p_{\\min}(w)$, with 95\\% Wilson bars, across all four (family "
+    "assignment, studentisation variant) combinations the composition was measured under, on "
+    "the same 42-point design and axes as Figure~\\ref{fig:nontermination}'s left panel. The "
+    "primary case (AAA, studentised) is reproduced here for comparison. BBB, studentised and "
+    "BBB, plain first reach zero measured acceptances earlier ($w=0.03$ and $w=0.02$) than the "
+    "primary case ($w=0.05$); AAA, plain never reaches a measured zero anywhere in this sweep. "
+    "Open triangles are 95\\% Wilson upper bounds at zero measured acceptances, not values, "
+    "and are joined to nothing."
 )
 
 
@@ -69,15 +71,21 @@ def build() -> None:
                                           for r in rs]))
         hi_ci = [doc["anchor_theta0"][key]["reported_min"]["ci95"][1]] + [
             e["by_key"][key]["reported_min"]["ci95"][1] for e in doc["per_width"]]
+        lo_ci = [doc["anchor_theta0"][key]["reported_min"]["ci95"][0]] + [
+            e["by_key"][key]["reported_min"]["ci95"][0] for e in doc["per_width"]]
         xs = np.array([0.0] + list(widths))
         vals = np.array([p0] + list(ps))
         live = vals > 0
         c = style.FAMILY[colour_key]
+        alpha = 1.0 if lw > 1 else 0.75
 
         ax.plot(xs[live], vals[live], color=c, linewidth=lw,
                 dashes=style.DASHES[dash_i][1] or (), marker="o", markersize=3.2,
-                markeredgewidth=0, label=label, zorder=4 if lw > 1 else 3,
-                alpha=1.0 if lw > 1 else 0.75)
+                markeredgewidth=0, label=label, zorder=4 if lw > 1 else 3, alpha=alpha)
+        ax.errorbar(xs[live], vals[live],
+                    yerr=[vals[live] - np.array(lo_ci)[live], np.array(hi_ci)[live] - vals[live]],
+                    fmt="none", ecolor=c, elinewidth=0.6, capsize=1.3,
+                    zorder=4 if lw > 1 else 3, alpha=alpha)
         for x, hi in zip(xs[~live], np.array(hi_ci)[~live]):
             ax.plot([x], [hi], marker="v", markersize=4.2, markerfacecolor=style.PANEL,
                     markeredgecolor=c, markeredgewidth=0.9, zorder=5)

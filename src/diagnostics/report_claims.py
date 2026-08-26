@@ -32,13 +32,14 @@ TEX_OUT = REPO / "paper" / "appendix_claims_table.tex"
 JAC_B = "results/jacobian_rank.S_B.yaml"
 JAC_C = "results/jacobian_rank.S_C.yaml"
 NOCRN = "results/jacobian_rank.S_A.no_crn_control.yaml"
-FLOOR = "results/floor_check.yaml"
 K6 = "results/robustness/k6_spectrum.yaml"
 ALTSCALE = "results/robustness/alt_eta_scaling.yaml"
 PSEL = "results/p_sel.yaml"
 GATE = "results/cost_gate.yaml"
 BOUND = "results/boundary_sweep.yaml"
 CONFSET = "results/confidence_set_mmc.yaml"
+THETA2 = "results/second_theta_check.yaml"
+MONTEL = "results/montel_marginal_test.yaml"
 
 CODES = ("BBB", "BBA", "BAB", "BAA", "ABB", "ABA", "AAB", "AAA")
 
@@ -103,9 +104,6 @@ ROWS: tuple[tuple[str, str, str, str, Callable[[Any], Any] | None], ...] = (
     ("C1", "POSITIVE CONTROL S_C (d = 2 < K): rank at τ", JAC_C, "results.numerical_rank.rank_certain", None),
     ("C1", "POSITIVE CONTROL S_C: condition number", JAC_C, "results.condition_number", None),
     ("C1", "POSITIVE CONTROL S_C: verdict", JAC_C, "results.inseparable_reason", None),
-    ("C1", "random-attributor floor 1/K, analytic", FLOOR, "floor_check.floor_analytic", None),
-    ("C1", "random-attributor floor, as run", FLOOR, "floor_check.accuracy_simulated", None),
-    ("C1", "floor check passes", FLOOR, "floor_check.passes", None),
     # --- C2: the eight-assignment separability result ------------------------------------
     ("C2", "S_B, number of family assignments tested", K6, "summary_sets.S_B.mixed_triples", len),
     ("C2", "S_B, number separable", K6, "summary_sets.S_B.mixed_triples",
@@ -263,6 +261,42 @@ ROWS: tuple[tuple[str, str, str, str, Callable[[Any], Any] | None], ...] = (
     ("C5", "simulator draws taken for this check", CONFSET, "settings.n_simulator_runs", None),
     ("C5", "design points (32 corners + 10 axis endpoints of the data-implied box)", CONFSET,
      "settings.n_design_points", None),
+    # --- L1: second-theta robustness check (Limitations) ----------------------------------
+    ("L1", "second θ, condition number κ", THETA2, "verdict_at_theta2.condition_number", None),
+    ("L1", "second θ, rank at τ", THETA2,
+     "verdict_at_theta2.numerical_rank.rank_certain", None),
+    ("L1", "second θ, separable", THETA2, "separable_at_theta2", None),
+    ("L1", "θ₀ under the same harness, condition number κ", THETA2,
+     "verdict_at_theta0_same_harness.condition_number", None),
+    ("L1", "θ₀ under the same harness, separable", THETA2,
+     "separable_at_theta0_same_harness", None),
+    ("L1", "reproduces the headline verdict", THETA2, "reproduces_headline_verdict", None),
+    # --- B1: the Anau Montel et al. global-null baseline (Section 2) ----------------------
+    ("B1", "reference batch size N_ref", MONTEL, "settings.n_ref", None),
+    ("B1", "calibration batch size N_calib", MONTEL, "settings.n_calib", None),
+    ("B1", "BBB (declared base corner): global p-value", MONTEL,
+     "cases.BBB.global_p_value", None),
+    ("B1", "BBB: verdict", MONTEL, "cases.BBB.verdict", None),
+    ("B1", "AAA (declared adversarial corner): global p-value", MONTEL,
+     "cases.AAA.global_p_value", None),
+    ("B1", "AAA: verdict", MONTEL, "cases.AAA.verdict", None),
+    ("B1", "confound, progression only: global p-value", MONTEL,
+     "cases.confound_progression_only.global_p_value", None),
+    ("B1", "confound, progression only: arg-min coordinate", MONTEL,
+     "cases.confound_progression_only.argmin_coordinate_label", None),
+    ("B1", "confound, progression + observation: global p-value", MONTEL,
+     "cases.confound_progression_and_observation.global_p_value", None),
+    ("B1", "confound, progression + observation: arg-min coordinate", MONTEL,
+     "cases.confound_progression_and_observation.argmin_coordinate_label", None),
+    ("B1", "confound: the two mechanisms' arg-min coordinates are identical", MONTEL,
+     "confound_resolution.argmins_identical", None),
+    ("B1", "confound: near-min coordinate sets' Jaccard overlap", MONTEL,
+     "confound_resolution.near_min_set_jaccard_overlap", None),
+    ("B1", "null-data control: global p-value", MONTEL,
+     "cases.null_control.global_p_value", None),
+    ("B1", "null-data control: verdict", MONTEL, "cases.null_control.verdict", None),
+    ("B1", "vacuous-flag check (S5) passes", MONTEL, "vacuous_flag_check.passes", None),
+    ("B1", "simulator draws taken for this check", MONTEL, "settings.n_simulator_runs", None),
 )
 
 TITLES = {
@@ -271,6 +305,8 @@ TITLES = {
     "C3": "C3: the `K = 6` cross-mechanism confound (boundary)",
     "C4": "C4: the MMC non-termination result (cautionary)",
     "C5": "C5: the confidence-set-bounded MMC check",
+    "L1": "L1: second-theta robustness check (Limitations)",
+    "B1": "B1: the Anau Montel et al. global-null baseline (Section 2)",
 }
 
 
@@ -285,7 +321,7 @@ def render() -> str:
          "dotted path in the named file, so a reader can check any row without running "
          "anything.",
          ""]
-    for c in ("C1", "C2", "C3", "C4", "C5"):
+    for c in ("C1", "C2", "C3", "C4", "C5", "L1", "B1"):
         L += ["", f"#### {TITLES[c]}", "",
               "| quantity | value | source | path |", "|---|---|---|---|"]
         for contrib, label, src, path, fn in ROWS:
@@ -375,7 +411,7 @@ def render_latex() -> str:
     # plausibly be given (results/*.yaml) are named, in the table body itself.
     L = [r"% Generated programmatically from the underlying measurement files; not hand-typed.",
          ""]
-    for c in ("C1", "C2", "C3", "C4", "C5"):
+    for c in ("C1", "C2", "C3", "C4", "C5", "L1", "B1"):
         title = tex_escape(TITLES[c].replace("`", ""))
         L += [r"\subsubsection*{" + title + "}",
               r"\begin{longtable}{p{0.35\linewidth} p{0.14\linewidth} p{0.41\linewidth}}",

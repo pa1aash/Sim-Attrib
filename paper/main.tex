@@ -29,17 +29,19 @@
 % Page-limit closure (T1-2/T2-6 carryover, G12): float separation tightened, not font size or
 % figure width; the reverted G11 fix shrank effective on-page font size below the venue floor
 % by shrinking \includegraphics width; this changes only inter-float whitespace.
-\setlength{\textfloatsep}{2pt plus 2pt minus 2pt}
-\setlength{\floatsep}{2pt plus 2pt minus 1pt}
-\setlength{\intextsep}{2pt plus 2pt minus 1pt}
-\setlength{\abovecaptionskip}{2pt}
-\setlength{\belowcaptionskip}{1pt}
+\setlength{\textfloatsep}{1pt plus 2pt minus 1pt}
+\setlength{\floatsep}{1pt plus 2pt minus 1pt}
+\setlength{\intextsep}{1pt plus 2pt minus 1pt}
+\setlength{\abovecaptionskip}{1.5pt}
+\setlength{\belowcaptionskip}{0.5pt}
 % Same closure (G13): the template's own \parskip (5.5pt, applied between every paragraph)
 % tightened by 1.5pt (again pure inter-paragraph whitespace, no font size or content change).
 % G14: tightened a further 1.5pt (to 2pt) to offset this session's added findings-list,
 % ellipsoid-computation, and mechanism-naming prose (R14-1/R14-2), same lever, no font size or
 % content change.
-\setlength{\parskip}{1pt plus 1pt minus 1pt}
+% G16: tightened a further 0.5pt (to 0.5pt) to offset the measured Montel-comparison result and
+% the Fithian/Lee citation sentence added to Section 2 (W16-2/W16-10), same lever.
+\setlength{\parskip}{0.5pt plus 1pt minus 1pt}
 
 % Title: diagnostics-and-limits framing, matching the paper's own argument. No
 % em-dash, no colon.
@@ -85,7 +87,7 @@ reporting a number the data may not support.
 
 This paper checks that precondition on a canonical case, a three-component compartmental
 epidemic simulator with transmission, progression, and observation as the components, and
-reports four findings, none a claim about a new method: separability holds under every
+reports four findings: separability holds under every
 one-parameter-per-component assignment tried; it fails once a component carries two, on a real
 confound; a calibrated attribution test is affordable at a known parameter; and it fails to
 terminate once nuisance parameters are known only to data-implied precision, predicted before
@@ -106,11 +108,14 @@ for posteriors concentrating under misspecification. Each is a global or per-sum
 that something is wrong, not which component caused it, the question this paper asks instead.
 \citet{montel2025testsmodelmisspecificationsimulationbased}'s family of tests, our baseline,
 corrects for multiplicity via a trials-corrected $p$-value on the \emph{minimum} of per-summary
-statistics: the global null that something is misspecified, not the identity of the
-arg\,min. On our six-column confound (Section~\ref{sec:experiments}) their global test would be
-expected to correctly reject, given its construction; not run here. Its arg\,min is exactly our
-equivalence-class ambiguity, which their local tests would flag on both sides rather than
-resolve.
+statistics: the global null that something is misspecified, not the identity of the arg\,min. We
+run their global test on our simulator (exact per-summary statistics replace their neural ones,
+the only simplification; Appendix~\ref{sec:claims-ledger}): it rejects at both declared corners
+and at two realizations of the six-column confound's named mechanisms ($p\approx0.004$; a
+null-data control does not reject, $p=0.61$). Its arg\,min flags disjoint coordinates for the two
+mechanisms at this magnitude, contradicting our earlier unmeasured claim --- one realization
+each, not a distribution, and a separate question from the Jacobian's \emph{local} near-null
+ambiguity at $\eta=0$ (Section~\ref{sec:experiments}).
 \item \textbf{The identifiability precondition.} \citet{Kahl_2019} answer it exactly in a
 closely related setting: per-component input reconstruction in a dynamic system is identifiable
 iff a structural sensitivity map has full column rank, resting on \citet{Sain_1969}'s
@@ -120,11 +125,10 @@ problem for computer-model calibration; \citet{Miao_2011} give the differential-
 on epidemic-ODE models directly (two parameters entering only through a fixed combination are
 non-identifiable regardless of design, exactly our six-column confound's failure mode), and
 \citet{Raue_2009}'s profile likelihood is the numerical diagnostic for the same failure under
-noisy data. We treat all six as an established precondition, not a result of this paper.
-\item \textbf{Diagnostic tooling.} Screening a sensitivity matrix's rank and condition number
-to decide whether parameters are jointly recoverable is not new; \citet{Cintr_n_Arias_2009}
-apply exactly this screen to a compartmental epidemic model, the class we use in
-Section~\ref{sec:experiments}. Our Jacobian is simulation-estimated rather than symbolic, so we
+noisy data.
+\item \textbf{Diagnostic tooling.} \citet{Cintr_n_Arias_2009} screen a sensitivity matrix's rank
+and condition number to decide whether parameters are jointly recoverable, on a compartmental
+epidemic model, the class we use in Section~\ref{sec:experiments}. Our Jacobian is simulation-estimated rather than symbolic, so we
 also need to know how far a finite-difference estimate can be trusted under simulation noise;
 \citet{Mor__2011} and \citet{Mor__2012} give the relevant results, of which our step-size sweep
 (Section~\ref{sec:method}) is a coarser, pre-registered substitute. Whether the spectrum has a
@@ -140,7 +144,12 @@ nuisance parameters, by maximizing a simulated $p$-value over the nuisance set, 
 analytic description, by rejection-sampling the simulator's own null until a replicate lands in
 the observed cell, is available for arbitrary conditioning events following
 \citet{freidling2026selectiverandomizationinferenceadaptive}. Composing the two lets a
-simulator supply everything both need without further modelling assumptions.
+simulator supply everything both need without further modelling assumptions. This differs from
+the foundational post-selection inference line motivating conditioning on a selection event at
+all --- \citet{fithian2017optimalinferencemodelselection}, \citet{Lee_2016} --- in exactly the
+respect Section~\ref{sec:negative-result} turns on: those constructions derive the conditional
+law analytically for a specific procedure, where ours has no analytic characterisation and is
+calibrated by simulation instead.
 \end{itemize}
 
 \section{Method}
@@ -160,6 +169,7 @@ family $\delta_k(\cdot\,;\eta_k)$ bit-identical to the base simulator at $\eta_k
 bit-for-bit before anything else runs.
 \item \textbf{Simulate.} Estimate the summary Jacobian $J=\partial s/\partial\eta$ at $\eta=0$ by
 central differences under common random numbers, swept over six decades of step size $h$;
+$s\in\mathbb{R}^d$ is the summary vector, so $J$ is $d\times K$;
 without common random numbers the difference is dominated by noise of order $\sigma/h$ and no
 stable range exists (confirmed by a negative control).
 \item \textbf{Normalise and take the SVD.} Summaries are divided by their prior-predictive
@@ -209,15 +219,15 @@ reporting fraction; only the reporting fraction moves. We evaluate three summary
 domain modeller would choose (peak height, peak time, final size, growth rate); $S_B$, roughly
 ten time-binned incidence counts an SBI practitioner would choose; and $S_C$, an impoverished
 positive control with two summaries, which \emph{must} fail by construction ($d=2<K=3$) and
-does: rank 2, $\kappa=\infty$. A random-attributor floor of $1/K$ (analytic $0.3333$,
-measured $0.3299$) is the baseline any component-attribution accuracy is read against.
+does: rank 2, $\kappa=\infty$.
 
 \paragraph{Where attribution is identifiable: $S_B$ under eight family assignments.}
 Combining the two declared families component-wise gives eight three-column distortion models
 (Figure~\ref{fig:assignments}), only two of which (all-base and all-adversarial) were
 originally declared; the other six recombine the same columns.
 Under our scope assumption, $S_B$ separates all three components under \emph{all eight}:
-condition number $6.628$ to $65.64$, every singular value resolved.
+condition number $6.628$ to $65.64$, every singular value resolved, coherence below the
+pre-registered $0.98$ flag and column norms above the pre-registered $0.1$ floor throughout.
 $S_A$ is a control, not a result: it splits exactly on the transmission family, failing at
 $\kappa=100.9$, $0.9\%$ past the ceiling, proof the instrument is not vacuously ``separable.''
 The margin is not uniform: $S_B$'s verdict survives $\tau$ moving by
@@ -291,7 +301,7 @@ five nuisance coordinates. The composition controls the selective type-I error c
 rather than exactly (both the supremum over the nuisance space and the discrete Monte Carlo
 p-value are sources of conservativeness), and its only theorem requires the selection rule to
 be a fixed, deterministic function of the data with every admissible nuisance value keeping
-the observed selection event reachable. We measure the composition against our own simulator.
+the observed selection event reachable.
 
 \paragraph{Affordable at a known parameter, unbounded over a data-implied nuisance set.}
 At the true parameter $\theta_0$ the composition is comfortably affordable: the worst selection cell
@@ -307,7 +317,7 @@ to break the composition (below). Re-measuring the gate inside this box, the
 acceptance probability collapses to $10^{-5}$ at the primary case and to zero acceptances in
 $100{,}000$ draws at the other three declared combinations: the gate \textbf{fails at every
 corner under all four}, the
-cheapest needing $9.9\times10^9$ draws, two orders of magnitude over budget. The collapse below
+cheapest needing $9.9\times10^9$ draws, approximately two orders of magnitude over budget. The collapse below
 was measured under a round, assumed $\pm5\%$ box; here it survives, by a wide margin, under the
 data-implied one.
 
@@ -326,8 +336,7 @@ smallest round box at which the gate first fails ($\pm0.75\%$) sits at Mahalanob
 $3.56$ under the Fisher information at $\hat\theta$, against a joint $95\%$ ellipsoid radius
 $\sqrt{\chi^2_{5,0.95}}\approx3.33$; the last fully-passing box ($\pm0.5\%$) sits at $2.71$. The
 failure boundary and a real $95\%$ confidence region coincide almost exactly, sharper than
-failing inside a Bonferroni box that only bounds the ellipsoid from outside. The ratio itself
-is a portable one-line check for other simulators.
+failing inside a Bonferroni box that only bounds the ellipsoid from outside.
 
 \begin{figure}[h!]
   \centering
@@ -336,7 +345,8 @@ is a portable one-line check for other simulators.
   the pre-registered 42-point design (32 corners $+$ 10 axis endpoints of half-width $w$ about
   $\theta_0$) and the $K=3$ cells; 95\% Wilson bars, open triangle at $w=0.05$ an upper bound
   joined to nothing. Shaded band: cost gate $M\!\times\!N/p\leq10^8$ ($M\in\{10^3,10^4\}$,
-  $N\in\{99,999\}$); plain/BBB variants in Figure~\ref{fig:nontermination-variants}
+  $N\in\{99,999\}$); the gate passes where the measured line sits inside or above the band and
+  fails where it falls below it. Plain/BBB variants in Figure~\ref{fig:nontermination-variants}
   (Appendix~\ref{sec:appendix}). Right: the mechanism, shift-to-noise ratio vs.\ $w$; line at
   ratio $=1$, dashed where first crossed, where the gate stops passing.}
   \label{fig:nontermination}
@@ -353,15 +363,13 @@ inseparable on a real confound. We have not tested two distortions of the \emph{
 \item \textbf{The diagnostic is a local linearization.} The rank-and-condition-number
 screen (Section~\ref{sec:method}) does not carry an estimated simulation-noise level into the
 rank tolerance, derived instead from a compute budget. $J$ is a linearization at $\eta=0$ and one
-parameter point: separability at $10\%$ is not directly implied by local linear separability. One
-additional $\theta$, drawn $\pm20\%$ relative per coordinate before the check ran, stays separable
-($\kappa=10.9$, full rank), matching $\theta_0$'s own verdict under the same harness
-($\kappa=10.1$), one point, not a distribution over $\theta$.
+parameter point: separability at $10\%$ is not directly implied by local linear separability. A
+second $\theta$, drawn $\pm20\%$ relative per coordinate, stays separable ($\kappa=10.9$, full
+rank, matching $\theta_0$'s $\kappa=10.1$) --- one point, not a distribution.
 \item \textbf{One simulator, one scope, no learned component.} Every result is on one simulator
-under two chosen family sets, every combination those two permit rather than a general sample,
-and transport to other simulator classes or a learned summary statistic (where $s(y)$ would
-sit) is untested. Two figures carry hand-placed annotations outside the
-automated check, verified restatements, not independent claims.
+under two family sets, every combination they permit rather than a general sample; transport to
+other simulator classes or a learned summary statistic is untested. Two figures carry
+hand-placed annotations outside the automated check.
 \end{itemize}
 
 \bibliographystyle{plainnat}
@@ -460,11 +468,13 @@ Figure~\ref{fig:nontermination}'s main-text panel omits in favour of the primary
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.62\linewidth]{../figures/fig6b_nontermination_variants.pdf}
-  \caption{Acceptance probability $p_{\min}(w)$ across all four (family assignment,
-  studentisation variant) combinations the composition was measured under, on the same
-  42-point design and axes as Figure~\ref{fig:nontermination}'s left panel. The primary case
-  (AAA, studentised) is reproduced here for comparison; the other three collapse the same
-  way, generally sooner. Open triangles are 95\% Wilson upper bounds at zero measured
+  \caption{Acceptance probability $p_{\min}(w)$, with 95\% Wilson bars, across all four
+  (family assignment, studentisation variant) combinations the composition was measured
+  under, on the same 42-point design and axes as Figure~\ref{fig:nontermination}'s left
+  panel. The primary case (AAA, studentised) is reproduced here for comparison. BBB,
+  studentised and BBB, plain first reach zero measured acceptances earlier ($w=0.03$ and
+  $w=0.02$) than the primary case ($w=0.05$); AAA, plain never reaches a measured zero
+  anywhere in this sweep. Open triangles are 95\% Wilson upper bounds at zero measured
   acceptances, not values, and are joined to nothing.}
   \label{fig:nontermination-variants}
 \end{figure}

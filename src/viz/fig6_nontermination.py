@@ -61,7 +61,8 @@ CAPTION = (
     "half-width $w$ about $\\theta_0$) and the $K=3$ cells; 95\\% Wilson bars, open triangle "
     "at $w=0.05$ an upper bound joined to nothing. Shaded band: cost gate "
     "$M \\times N / p \\leq 10^8$, a band since $M \\in \\{10^3, 10^4\\}$, "
-    "$N \\in \\{99, 999\\}$ are declared as ranges. Plain and BBB variants: "
+    "$N \\in \\{99, 999\\}$ are declared as ranges; the gate passes where the measured line "
+    "sits inside or above the band and fails where it falls below it. Plain and BBB variants: "
     "Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}). Right: the "
     "mechanism -- measured shift-to-noise ratio vs. $w$; horizontal line at ratio $=1$, "
     "vertical dashed line where it is first crossed, coinciding with where the left panel's "
@@ -144,10 +145,6 @@ def build() -> None:
                 xy=(0.05, bound), xytext=(0.0345, bound * 4.2),
                 fontsize=style.SIZE_LABEL, color=style.INK, ha="left", va="center",
                 arrowprops=dict(arrowstyle="-", lw=0.5, color=style.INK, shrinkA=1, shrinkB=4))
-    axL.text(0.051, gate_hi * 1.7, "PASSES", ha="right", va="bottom",
-             fontsize=style.SIZE_LABEL, color=style.RULE)
-    axL.text(0.051, gate_lo / 2.0, "FAILS", ha="right", va="top",
-             fontsize=style.SIZE_LABEL, color=style.RULE)
     axL.text(0.0018, np.sqrt(gate_lo * gate_hi), "gate:\n$MN/p\\!\\leq\\!10^8$",
              ha="left", va="center", fontsize=style.SIZE_LABEL, color=style.RULE, linespacing=1.2)
 
