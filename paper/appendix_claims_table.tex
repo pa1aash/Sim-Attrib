@@ -21,9 +21,6 @@ NEGATIVE CONTROL, no CRN: h values inside the plateau & 1 & \texttt{\footnotesiz
 POSITIVE CONTROL S\_C (d = 2 < K): rank at $\tau$ & 2 & \texttt{\footnotesize jacobian\_\allowbreak{}rank.\allowbreak{}S\_\allowbreak{}C.\allowbreak{}yaml}, \texttt{\footnotesize results.\allowbreak{}numerical\_\allowbreak{}rank.\allowbreak{}rank\_\allowbreak{}certain} \\
 POSITIVE CONTROL S\_C: condition number & $\infty$ & \texttt{\footnotesize jacobian\_\allowbreak{}rank.\allowbreak{}S\_\allowbreak{}C.\allowbreak{}yaml}, \texttt{\footnotesize results.\allowbreak{}condition\_\allowbreak{}number} \\
 POSITIVE CONTROL S\_C: verdict & rank deficient at tau & \texttt{\footnotesize jacobian\_\allowbreak{}rank.\allowbreak{}S\_\allowbreak{}C.\allowbreak{}yaml}, \texttt{\footnotesize results.\allowbreak{}inseparable\_\allowbreak{}reason} \\
-random-attributor floor 1/K, analytic & 0.3333 & \texttt{\footnotesize floor\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize floor\_\allowbreak{}check.\allowbreak{}floor\_\allowbreak{}analytic} \\
-random-attributor floor, as run & 0.3299 & \texttt{\footnotesize floor\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize floor\_\allowbreak{}check.\allowbreak{}accuracy\_\allowbreak{}simulated} \\
-floor check passes & True & \texttt{\footnotesize floor\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize floor\_\allowbreak{}check.\allowbreak{}passes} \\
 \bottomrule
 \end{longtable}
 
@@ -151,22 +148,63 @@ design points (32 corners + 10 axis endpoints of the data-implied box) & 42 & \t
 \bottomrule
 \end{longtable}
 
+\subsubsection*{L1: second-theta robustness check (Limitations)}
+\begin{longtable}{p{0.35\linewidth} p{0.14\linewidth} p{0.41\linewidth}}
+\toprule
+quantity & value & source (file, path) \\
+\midrule
+\endhead
+second $\theta$, condition number $\kappa$ & 10.92 & \texttt{\footnotesize second\_\allowbreak{}theta\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize verdict\_\allowbreak{}at\_\allowbreak{}theta2.\allowbreak{}condition\_\allowbreak{}number} \\
+second $\theta$, rank at $\tau$ & 3 & \texttt{\footnotesize second\_\allowbreak{}theta\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize verdict\_\allowbreak{}at\_\allowbreak{}theta2.\allowbreak{}numerical\_\allowbreak{}rank.\allowbreak{}rank\_\allowbreak{}certain} \\
+second $\theta$, separable & True & \texttt{\footnotesize second\_\allowbreak{}theta\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize separable\_\allowbreak{}at\_\allowbreak{}theta2} \\
+$\theta_0$ under the same harness, condition number $\kappa$ & 10.07 & \texttt{\footnotesize second\_\allowbreak{}theta\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize verdict\_\allowbreak{}at\_\allowbreak{}theta0\_\allowbreak{}same\_\allowbreak{}harness.\allowbreak{}condition\_\allowbreak{}number} \\
+$\theta_0$ under the same harness, separable & True & \texttt{\footnotesize second\_\allowbreak{}theta\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize separable\_\allowbreak{}at\_\allowbreak{}theta0\_\allowbreak{}same\_\allowbreak{}harness} \\
+reproduces the headline verdict & True & \texttt{\footnotesize second\_\allowbreak{}theta\_\allowbreak{}check.\allowbreak{}yaml}, \texttt{\footnotesize reproduces\_\allowbreak{}headline\_\allowbreak{}verdict} \\
+\bottomrule
+\end{longtable}
+
+\subsubsection*{B1: the Anau Montel et al. global-null baseline (Section 2)}
+\begin{longtable}{p{0.35\linewidth} p{0.14\linewidth} p{0.41\linewidth}}
+\toprule
+quantity & value & source (file, path) \\
+\midrule
+\endhead
+reference batch size N\_ref & 3,000 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize settings.\allowbreak{}n\_\allowbreak{}ref} \\
+calibration batch size N\_calib & 1,500 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize settings.\allowbreak{}n\_\allowbreak{}calib} \\
+BBB (declared base corner): global p-value & 0.003997 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}BBB.\allowbreak{}global\_\allowbreak{}p\_\allowbreak{}value} \\
+BBB: verdict & REJECT H0 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}BBB.\allowbreak{}verdict} \\
+AAA (declared adversarial corner): global p-value & 0.003997 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}AAA.\allowbreak{}global\_\allowbreak{}p\_\allowbreak{}value} \\
+AAA: verdict & REJECT H0 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}AAA.\allowbreak{}verdict} \\
+confound, progression only: global p-value & 0.003997 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}confound\_\allowbreak{}progression\_\allowbreak{}only.\allowbreak{}global\_\allowbreak{}p\_\allowbreak{}value} \\
+confound, progression only: arg-min coordinate & binned\_incidence\_01 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}confound\_\allowbreak{}progression\_\allowbreak{}only.\allowbreak{}argmin\_\allowbreak{}coordinate\_\allowbreak{}label} \\
+confound, progression + observation: global p-value & 0.003997 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}confound\_\allowbreak{}progression\_\allowbreak{}and\_\allowbreak{}observation.\allowbreak{}global\_\allowbreak{}p\_\allowbreak{}value} \\
+confound, progression + observation: arg-min coordinate & binned\_incidence\_02 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}confound\_\allowbreak{}progression\_\allowbreak{}and\_\allowbreak{}observation.\allowbreak{}argmin\_\allowbreak{}coordinate\_\allowbreak{}label} \\
+confound: the two mechanisms' arg-min coordinates are identical & False & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize confound\_\allowbreak{}resolution.\allowbreak{}argmins\_\allowbreak{}identical} \\
+confound: near-min coordinate sets' Jaccard overlap & 0 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize confound\_\allowbreak{}resolution.\allowbreak{}near\_\allowbreak{}min\_\allowbreak{}set\_\allowbreak{}jaccard\_\allowbreak{}overlap} \\
+null-data control: global p-value & 0.6096 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}null\_\allowbreak{}control.\allowbreak{}global\_\allowbreak{}p\_\allowbreak{}value} \\
+null-data control: verdict & DO NOT REJECT H0 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize cases.\allowbreak{}null\_\allowbreak{}control.\allowbreak{}verdict} \\
+vacuous-flag check (S5) passes & True & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize vacuous\_\allowbreak{}flag\_\allowbreak{}check.\allowbreak{}passes} \\
+simulator draws taken for this check & 7,506 & \texttt{\footnotesize montel\_\allowbreak{}marginal\_\allowbreak{}test.\allowbreak{}yaml}, \texttt{\footnotesize settings.\allowbreak{}n\_\allowbreak{}simulator\_\allowbreak{}runs} \\
+\bottomrule
+\end{longtable}
+
 \paragraph{Provenance of the source files.}
 \begin{longtable}{p{0.45\linewidth} p{0.25\linewidth} p{0.20\linewidth}}
 \toprule
-file & commit & seed \\
+file & release & seed \\
 \midrule
 \endhead
-\texttt{\footnotesize boundary\_sweep.yaml} & \texttt{\footnotesize 792b7dc} & 20260821 \\
-\texttt{\footnotesize confidence\_set\_mmc.yaml} & \texttt{\footnotesize a91131a} & 20260824 \\
-\texttt{\footnotesize cost\_gate.yaml} & \texttt{\footnotesize 5ba0623} & 20260820 \\
-\texttt{\footnotesize floor\_check.yaml} & \texttt{\footnotesize 570692c} & 20260820 \\
-\texttt{\footnotesize jacobian\_rank.S\_A.no\_crn\_control.yaml} & \texttt{\footnotesize 570692c} & 20260820 \\
-\texttt{\footnotesize jacobian\_rank.S\_B.yaml} & \texttt{\footnotesize 570692c} & 20260820 \\
-\texttt{\footnotesize jacobian\_rank.S\_C.yaml} & \texttt{\footnotesize 570692c} & 20260820 \\
-\texttt{\footnotesize p\_sel.yaml} & \texttt{\footnotesize 5ba0623} & 20260820 \\
-\texttt{\footnotesize robustness/alt\_eta\_scaling.yaml} & \texttt{\footnotesize 26b66a3} & 0 \\
-\texttt{\footnotesize robustness/k6\_spectrum.yaml} & \texttt{\footnotesize 2efb4ae} & 20260820 \\
+\texttt{\footnotesize boundary\_sweep.yaml} & v1 & 20260821 \\
+\texttt{\footnotesize confidence\_set\_mmc.yaml} & v1 & 20260824 \\
+\texttt{\footnotesize cost\_gate.yaml} & v1 & 20260820 \\
+\texttt{\footnotesize jacobian\_rank.S\_A.no\_crn\_control.yaml} & v1 & 20260820 \\
+\texttt{\footnotesize jacobian\_rank.S\_B.yaml} & v1 & 20260820 \\
+\texttt{\footnotesize jacobian\_rank.S\_C.yaml} & v1 & 20260820 \\
+\texttt{\footnotesize montel\_marginal\_test.yaml} & v1 & 20260826 \\
+\texttt{\footnotesize p\_sel.yaml} & v1 & 20260820 \\
+\texttt{\footnotesize robustness/alt\_eta\_scaling.yaml} & v1 & 0 \\
+\texttt{\footnotesize robustness/k6\_spectrum.yaml} & v1 & 20260820 \\
+\texttt{\footnotesize second\_theta\_check.yaml} & v1 & 60000000000 \\
 \bottomrule
 \end{longtable}
 

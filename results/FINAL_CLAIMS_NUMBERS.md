@@ -25,9 +25,6 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | POSITIVE CONTROL S_C (d = 2 < K): rank at τ | `2` | `results/jacobian_rank.S_C.yaml` | `results.numerical_rank.rank_certain` |
 | POSITIVE CONTROL S_C: condition number | `∞` | `results/jacobian_rank.S_C.yaml` | `results.condition_number` |
 | POSITIVE CONTROL S_C: verdict | `rank deficient at tau` | `results/jacobian_rank.S_C.yaml` | `results.inseparable_reason` |
-| random-attributor floor 1/K, analytic | `0.3333` | `results/floor_check.yaml` | `floor_check.floor_analytic` |
-| random-attributor floor, as run | `0.3299` | `results/floor_check.yaml` | `floor_check.accuracy_simulated` |
-| floor check passes | `True` | `results/floor_check.yaml` | `floor_check.passes` |
 
 #### C2: the eight-assignment separability result for `S_B` (positive)
 
@@ -137,6 +134,38 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | simulator draws taken for this check | `722,000` | `results/confidence_set_mmc.yaml` | `settings.n_simulator_runs` |
 | design points (32 corners + 10 axis endpoints of the data-implied box) | `42` | `results/confidence_set_mmc.yaml` | `settings.n_design_points` |
 
+#### L1: second-theta robustness check (Limitations)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| second θ, condition number κ | `10.92` | `results/second_theta_check.yaml` | `verdict_at_theta2.condition_number` |
+| second θ, rank at τ | `3` | `results/second_theta_check.yaml` | `verdict_at_theta2.numerical_rank.rank_certain` |
+| second θ, separable | `True` | `results/second_theta_check.yaml` | `separable_at_theta2` |
+| θ₀ under the same harness, condition number κ | `10.07` | `results/second_theta_check.yaml` | `verdict_at_theta0_same_harness.condition_number` |
+| θ₀ under the same harness, separable | `True` | `results/second_theta_check.yaml` | `separable_at_theta0_same_harness` |
+| reproduces the headline verdict | `True` | `results/second_theta_check.yaml` | `reproduces_headline_verdict` |
+
+#### B1: the Anau Montel et al. global-null baseline (Section 2)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| reference batch size N_ref | `3,000` | `results/montel_marginal_test.yaml` | `settings.n_ref` |
+| calibration batch size N_calib | `1,500` | `results/montel_marginal_test.yaml` | `settings.n_calib` |
+| BBB (declared base corner): global p-value | `0.003997` | `results/montel_marginal_test.yaml` | `cases.BBB.global_p_value` |
+| BBB: verdict | `REJECT H0` | `results/montel_marginal_test.yaml` | `cases.BBB.verdict` |
+| AAA (declared adversarial corner): global p-value | `0.003997` | `results/montel_marginal_test.yaml` | `cases.AAA.global_p_value` |
+| AAA: verdict | `REJECT H0` | `results/montel_marginal_test.yaml` | `cases.AAA.verdict` |
+| confound, progression only: global p-value | `0.003997` | `results/montel_marginal_test.yaml` | `cases.confound_progression_only.global_p_value` |
+| confound, progression only: arg-min coordinate | `binned_incidence_01` | `results/montel_marginal_test.yaml` | `cases.confound_progression_only.argmin_coordinate_label` |
+| confound, progression + observation: global p-value | `0.003997` | `results/montel_marginal_test.yaml` | `cases.confound_progression_and_observation.global_p_value` |
+| confound, progression + observation: arg-min coordinate | `binned_incidence_02` | `results/montel_marginal_test.yaml` | `cases.confound_progression_and_observation.argmin_coordinate_label` |
+| confound: the two mechanisms' arg-min coordinates are identical | `False` | `results/montel_marginal_test.yaml` | `confound_resolution.argmins_identical` |
+| confound: near-min coordinate sets' Jaccard overlap | `0` | `results/montel_marginal_test.yaml` | `confound_resolution.near_min_set_jaccard_overlap` |
+| null-data control: global p-value | `0.6096` | `results/montel_marginal_test.yaml` | `cases.null_control.global_p_value` |
+| null-data control: verdict | `DO NOT REJECT H0` | `results/montel_marginal_test.yaml` | `cases.null_control.verdict` |
+| vacuous-flag check (S5) passes | `True` | `results/montel_marginal_test.yaml` | `vacuous_flag_check.passes` |
+| simulator draws taken for this check | `7,506` | `results/montel_marginal_test.yaml` | `settings.n_simulator_runs` |
+
 **Provenance of the source files.**
 
 | file | script | commit | dirty | seed |
@@ -144,11 +173,12 @@ One row per number the paper's four claims rest on. The **path** column is the e
 | `results/boundary_sweep.yaml` | `src/diagnostics/boundary_sweep.py` | `792b7dc` | `False` | `20260821` |
 | `results/confidence_set_mmc.yaml` | `src/diagnostics/confidence_set_check.py` | `a91131a` | `False` | `20260824` |
 | `results/cost_gate.yaml` | `src/diagnostics/cost_gate.py` | `5ba0623` | `False` | `20260820` |
-| `results/floor_check.yaml` | `src/diagnostics/floor_check.py` | `570692c` | `False` | `20260820` |
 | `results/jacobian_rank.S_A.no_crn_control.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
 | `results/jacobian_rank.S_B.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
 | `results/jacobian_rank.S_C.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
+| `results/montel_marginal_test.yaml` | `src/baselines/montel_marginal.py` | `c464835` | `False` | `20260826` |
 | `results/p_sel.yaml` | `src/diagnostics/p_sel.py` | `5ba0623` | `False` | `20260820` |
 | `results/robustness/alt_eta_scaling.yaml` | `src/diagnostics/alt_eta_scaling.py` | `26b66a3` | `True` | `0` |
 | `results/robustness/k6_spectrum.yaml` | `src/diagnostics/k6_spectrum.py` | `2efb4ae` | `False` | `20260820` |
+| `results/second_theta_check.yaml` | `src/diagnostics/second_theta_check.py` | `3b90b0c` | `False` | `60000000000` |
 

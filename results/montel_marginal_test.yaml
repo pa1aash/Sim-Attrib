@@ -1,0 +1,455 @@
+provenance:
+  script: src/baselines/montel_marginal.py
+  commit: c4648354e5dac20073c782be2596ba7efaf7a81e
+  dirty: false
+  dirty_paths: []
+  untracked_paths:
+  - Formatting_Instructions_For_NeurIPS_2026/checklist.tex
+  - Formatting_Instructions_For_NeurIPS_2026/neurips_2026.sty
+  - Formatting_Instructions_For_NeurIPS_2026/neurips_2026.tex
+  - results/montel_marginal_test.yaml
+  - scripts/anonymous_package/LICENSE
+  - scripts/anonymous_package/README.md
+  - scripts/anonymous_package/requirements.txt
+  - scripts/build_anonymous_package.sh
+  command: python -m src.baselines.montel_marginal --seed 20260826
+  seed: 20260826
+  started: '2026-08-26T22:33:29+05:30'
+  finished: '2026-08-26T22:39:06+05:30'
+  host: Palaashs-MacBook-Air.local
+  python: 3.13.12
+  deps: numpy==2.4.4, scipy==1.17.1, pyyaml==6.0.3
+what_this_is: 'W16-2: Anau Montel, Alvey & Weniger (2025)''s trials-corrected minimum-per-summary-statistic
+  global-null test (their Section II.3), run against this project''s own simulator and summary set S_B.
+  Replaces the paper''s prior ''not run here'' sentence with a measured result. See the module docstring
+  in src/baselines/montel_marginal.py for the exact construction and the one stated simplification (exact
+  per-summary test statistics in place of their neural local tests; the trials-corrected aggregation itself
+  is implemented exactly).'
+summary_set: S_B
+coordinate_labels:
+- binned_incidence_00
+- binned_incidence_01
+- binned_incidence_02
+- binned_incidence_03
+- binned_incidence_04
+- binned_incidence_05
+- binned_incidence_06
+- binned_incidence_07
+- binned_incidence_08
+- binned_incidence_09
+d: 10
+settings:
+  seed: 20260826
+  n_norm: 3000
+  n_ref: 3000
+  n_calib: 1500
+  alpha: 0.05
+  eta_scale: 0.1
+  n_simulator_runs: 7506
+mu:
+- 45.37286778040615
+- 579.7821442978445
+- 5621.209671211555
+- 17210.58613446839
+- 9228.679670299847
+- 2226.2133186572646
+- 566.4639177722612
+- 157.90155578530798
+- 45.415082337714686
+- 13.246713326836632
+sigma:
+- 2.495073836047815
+- 30.534445455390372
+- 276.37636715677047
+- 752.9681913679653
+- 429.7517337547981
+- 103.38734694548315
+- 26.61243455026475
+- 7.216925453091294
+- 2.134019841371664
+- 0.6234079637094583
+cases:
+  BBB:
+    eta:
+    - 0.1
+    - 0.1
+    - 0.1
+    families: base
+    seed_obs: 23260826
+    summary_values:
+    - 56.761054005751674
+    - 675.6865610031082
+    - 6371.140892129867
+    - 17349.31952602236
+    - 9426.696176039783
+    - 2682.379668776693
+    - 810.943879507822
+    - 218.25714731388908
+    - 71.0980536398445
+    - 19.48818923846446
+    local_test_statistics:
+    - 20.832544416733192
+    - 9.865001200614719
+    - 7.362767064559262
+    - 0.03394757422813342
+    - 0.2123085626949955
+    - 19.467568410035383
+    - 84.39511807513466
+    - 69.94079793892368
+    - 144.84170449224115
+    - 100.23742597241241
+    local_p_values:
+    - 0.0003332222592469177
+    - 0.000999666777740753
+    - 0.008330556481172943
+    - 0.8523825391536155
+    - 0.6484505164945018
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    min_local_p_value: 0.0003332222592469177
+    argmin_coordinate_index: 0
+    argmin_coordinate_label: binned_incidence_00
+    near_min_coordinate_labels:
+    - binned_incidence_00
+    - binned_incidence_05
+    - binned_incidence_06
+    - binned_incidence_07
+    - binned_incidence_08
+    - binned_incidence_09
+    n_coordinates_within_resolution_of_the_minimum: 6
+    global_p_value: 0.003997335109926716
+    global_p_value_is_upper_bound: false
+    global_p_value_upper_bound_if_zero_count: null
+    n_calib_minima_at_least_as_extreme: 5
+    n_calib: 1500
+    verdict: REJECT H0
+    alpha: 0.05
+    what_this_is: The declared base corner (docs/THRESHOLDS.md / results/robustness/k6_spectrum.yaml 'BBB'),
+      genuinely misspecified in all three components at one native distortion unit.
+  AAA:
+    eta:
+    - 0.1
+    - 0.1
+    - 0.1
+    families: adversarial
+    seed_obs: 23261826
+    summary_values:
+    - 65.3924098058807
+    - 1403.3645217324952
+    - 14242.842581979032
+    - 16063.306338403507
+    - 3173.640596622093
+    - 682.3392699511468
+    - 167.4950195442945
+    - 48.62980152107453
+    - 13.015565780044893
+    - 3.467282499029729
+    local_test_statistics:
+    - 64.37859169874785
+    - 727.5017064935514
+    - 973.1443095534585
+    - 2.321589500463791
+    - 198.51742129930318
+    - 222.99183042639874
+    - 224.75474542902617
+    - 229.25108096067643
+    - 230.50489579605426
+    - 246.08348388802537
+    local_p_values:
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.12095968010663112
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    min_local_p_value: 0.0003332222592469177
+    argmin_coordinate_index: 0
+    argmin_coordinate_label: binned_incidence_00
+    near_min_coordinate_labels:
+    - binned_incidence_00
+    - binned_incidence_01
+    - binned_incidence_02
+    - binned_incidence_04
+    - binned_incidence_05
+    - binned_incidence_06
+    - binned_incidence_07
+    - binned_incidence_08
+    - binned_incidence_09
+    n_coordinates_within_resolution_of_the_minimum: 9
+    global_p_value: 0.003997335109926716
+    global_p_value_is_upper_bound: false
+    global_p_value_upper_bound_if_zero_count: null
+    n_calib_minima_at_least_as_extreme: 5
+    n_calib: 1500
+    verdict: REJECT H0
+    alpha: 0.05
+    what_this_is: The declared adversarial corner, same magnitude, all three components.
+  confound_progression_only:
+    eta:
+    - 0.0
+    - 0.1
+    - 0.0
+    families: base
+    seed_obs: 23262826
+    summary_values:
+    - 47.654824802449184
+    - 689.1129888015183
+    - 5853.915904111931
+    - 18022.588715599726
+    - 8066.820201588702
+    - 1887.7253631872477
+    - 499.314718470201
+    - 149.49637950412384
+    - 38.06842699669051
+    - 9.906619053991212
+    local_test_statistics:
+    - 0.8364656618907452
+    - 12.820510873451777
+    - 0.7089477420980724
+    - 1.1629513823899442
+    - 7.309235055572646
+    - 10.718935497035565
+    - 6.3666718215045925
+    - 1.3564044752833366
+    - 11.851748469643235
+    - 28.706005110288167
+    local_p_values:
+    - 0.3582139286904365
+    - 0.0003332222592469177
+    - 0.40953015661446185
+    - 0.27324225258247253
+    - 0.008997000999666778
+    - 0.0026657780739753416
+    - 0.011996001332889037
+    - 0.24525158280573142
+    - 0.0013328890369876708
+    - 0.0003332222592469177
+    min_local_p_value: 0.0003332222592469177
+    argmin_coordinate_index: 1
+    argmin_coordinate_label: binned_incidence_01
+    near_min_coordinate_labels:
+    - binned_incidence_01
+    - binned_incidence_09
+    n_coordinates_within_resolution_of_the_minimum: 2
+    global_p_value: 0.003997335109926716
+    global_p_value_is_upper_bound: false
+    global_p_value_upper_bound_if_zero_count: null
+    n_calib_minima_at_least_as_extreme: 5
+    n_calib: 1500
+    verdict: REJECT H0
+    alpha: 0.05
+    what_this_is: '''A drifting removal hazard'' (audit/FINAL_CLAIMS.md C3): only the progression component
+      is distorted, under the base family.'
+  confound_progression_and_observation:
+    eta:
+    - 0.0
+    - 0.1
+    - 0.1
+    families: adversarial
+    seed_obs: 23263826
+    summary_values:
+    - 48.78525094869856
+    - 630.0456079988962
+    - 7258.561373268125
+    - 18925.31019710113
+    - 8017.434217865407
+    - 1677.9312740171954
+    - 392.9096703968511
+    - 125.12357818381284
+    - 37.27402456651888
+    - 11.228729889056776
+    local_test_statistics:
+    - 1.8704615195427994
+    - 2.7097220896291723
+    - 35.09798171199371
+    - 5.186032384639217
+    - 7.943813585076032
+    - 28.12375238373488
+    - 42.53057756273882
+    - 20.62813047330701
+    - 14.55341009051605
+    - 10.47829215695294
+    local_p_values:
+    - 0.16794401866044653
+    - 0.08397200933022327
+    - 0.0003332222592469177
+    - 0.022659113628790403
+    - 0.006997667444185272
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0006664445184938354
+    - 0.001999333555481506
+    min_local_p_value: 0.0003332222592469177
+    argmin_coordinate_index: 2
+    argmin_coordinate_label: binned_incidence_02
+    near_min_coordinate_labels:
+    - binned_incidence_02
+    - binned_incidence_05
+    - binned_incidence_06
+    - binned_incidence_07
+    - binned_incidence_08
+    n_coordinates_within_resolution_of_the_minimum: 5
+    global_p_value: 0.003997335109926716
+    global_p_value_is_upper_bound: false
+    global_p_value_upper_bound_if_zero_count: null
+    n_calib_minima_at_least_as_extreme: 5
+    n_calib: 1500
+    verdict: REJECT H0
+    alpha: 0.05
+    what_this_is: '''A constant hazard change combined with a drifting reporting rate'' (audit/FINAL_CLAIMS.md
+      C3): progression AND observation distorted together, under the adversarial family -- the mechanism
+      combination the paper''s own prose says is nearly indistinguishable from confound_progression_only
+      above.'
+  null_control:
+    eta:
+    - 0.0
+    - 0.0
+    - 0.0
+    families: base
+    seed_obs: 23264826
+    summary_values:
+    - 45.101106318708
+    - 555.5460258725197
+    - 5604.72396662706
+    - 16008.757840079874
+    - 8510.735672073411
+    - 2125.909539153592
+    - 546.0726186776112
+    - 156.70123654239202
+    - 44.61621695305017
+    - 13.275093678686671
+    local_test_statistics:
+    - 0.01186339348495134
+    - 0.6300079905277451
+    - 0.003558059600662546
+    - 2.5476020423546992
+    - 2.7909102051604364
+    - 0.9412387833082628
+    - 0.5871114861352599
+    - 0.027662351690132692
+    - 0.14013618831863733
+    - 0.002072482437955419
+    local_p_values:
+    - 0.8980339886704432
+    - 0.4068643785404865
+    - 0.9500166611129623
+    - 0.10529823392202599
+    - 0.09096967677440854
+    - 0.3375541486171276
+    - 0.44585138287237586
+    - 0.8687104298567144
+    - 0.6997667444185272
+    - 0.9626791069643452
+    min_local_p_value: 0.09096967677440854
+    argmin_coordinate_index: 4
+    argmin_coordinate_label: binned_incidence_04
+    near_min_coordinate_labels:
+    - binned_incidence_04
+    n_coordinates_within_resolution_of_the_minimum: 1
+    global_p_value: 0.6095936042638241
+    global_p_value_is_upper_bound: false
+    global_p_value_upper_bound_if_zero_count: null
+    n_calib_minima_at_least_as_extreme: 914
+    n_calib: 1500
+    verdict: DO NOT REJECT H0
+    alpha: 0.05
+    what_this_is: 'S5 vacuous-flag check: H0 is TRUE here (eta = 0 exactly). The global test must be able
+      to NOT reject under this case, or its verdict carries no information -- a test that rejects regardless
+      of input is as suspect as a flag that is always true.'
+  strong_misspecification_control:
+    eta:
+    - 0.30000000000000004
+    - 0.30000000000000004
+    - 0.30000000000000004
+    families: adversarial
+    seed_obs: 23265826
+    summary_values:
+    - 170.45479918694124
+    - 10584.116911279978
+    - 23556.808048855073
+    - 2730.3050631629626
+    - 320.8441794670615
+    - 72.2073753804101
+    - 20.86548311945113
+    - 6.450102995600899
+    - 2.0443412191859935
+    - 0.6570169376799925
+    local_test_statistics:
+    - 2513.1728133742963
+    - 107348.59319539249
+    - 4211.433360309187
+    - 369.8287958999468
+    - 429.64434598311834
+    - 434.06924173700355
+    - 420.3170608491132
+    - 440.3950700593056
+    - 413.0444403011626
+    - 407.8362473232706
+    local_p_values:
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    - 0.0003332222592469177
+    min_local_p_value: 0.0003332222592469177
+    argmin_coordinate_index: 0
+    argmin_coordinate_label: binned_incidence_00
+    near_min_coordinate_labels:
+    - binned_incidence_00
+    - binned_incidence_01
+    - binned_incidence_02
+    - binned_incidence_03
+    - binned_incidence_04
+    - binned_incidence_05
+    - binned_incidence_06
+    - binned_incidence_07
+    - binned_incidence_08
+    - binned_incidence_09
+    n_coordinates_within_resolution_of_the_minimum: 10
+    global_p_value: 0.003997335109926716
+    global_p_value_is_upper_bound: false
+    global_p_value_upper_bound_if_zero_count: null
+    n_calib_minima_at_least_as_extreme: 5
+    n_calib: 1500
+    verdict: REJECT H0
+    alpha: 0.05
+    what_this_is: 'Positive-power check: a much larger, unambiguous distortion (3x the declared corners).
+      The global test should reject here with a smaller p-value than at the declared corners, confirming
+      the test''s power scales with the actual size of the misspecification rather than being a fixed
+      artefact of the machinery.'
+vacuous_flag_check:
+  claim: the global test can produce DO NOT REJECT under some input, not only REJECT
+  null_control_verdict: DO NOT REJECT H0
+  null_control_global_p: 0.6095936042638241
+  passes: true
+confound_resolution:
+  question: does the arg-min analysis distinguish 'drifting removal hazard alone' from 'constant hazard
+    change + drifting reporting rate', the two mechanisms results/robustness/k6_spectrum.yaml's near-null
+    directions v5/v6 confound?
+  confound_progression_only_argmin: binned_incidence_01
+  confound_progression_and_observation_argmin: binned_incidence_02
+  argmins_identical: false
+  confound_progression_only_near_min_set:
+  - binned_incidence_01
+  - binned_incidence_09
+  confound_progression_and_observation_near_min_set:
+  - binned_incidence_02
+  - binned_incidence_05
+  - binned_incidence_06
+  - binned_incidence_07
+  - binned_incidence_08
+  near_min_set_jaccard_overlap: 0.0
+  resolves_the_ambiguity: true
