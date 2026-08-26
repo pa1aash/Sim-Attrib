@@ -2,13 +2,11 @@
   "figure": "fig6_nontermination",
   "generated_by": {
     "script": "src/viz/fig6_nontermination.py",
-    "commit": "886cb75c5f60bb5660402ae3a7a8c64863ae7477",
-    "dirty": true,
-    "dirty_paths": [
-      "figures/fig6_nontermination.pdf"
-    ],
-    "started": "2026-08-26T14:27:34+05:30",
-    "finished": "2026-08-26T14:27:41+05:30"
+    "commit": "772e2c28e7e8604e32ff044c8cc3a2268777b0f9",
+    "dirty": false,
+    "dirty_paths": [],
+    "started": "2026-08-26T14:27:50+05:30",
+    "finished": "2026-08-26T14:27:57+05:30"
   },
   "caption": "Left: acceptance probability $p_{\\min}(w)$, primary case (AAA, studentised), over the pre-registered 42-point design (32 corners $+$ 10 axis endpoints of the box of half-width $w$ about $\\theta_0$) and the $K=3$ cells; 95\\% Wilson bars, open triangle at $w=0.05$ an upper bound joined to nothing. Shaded band: cost gate $M \\times N / p \\leq 10^8$, a band since $M \\in \\{10^3, 10^4\\}$, $N \\in \\{99, 999\\}$ are declared as ranges. Plain and BBB variants: Figure~\\ref{fig:nontermination-variants} (Appendix~\\ref{sec:appendix}). Right: the mechanism -- measured shift-to-noise ratio vs. $w$; horizontal line at ratio $=1$, vertical dashed line where it is first crossed, coinciding with where the left panel's gate stops passing.",
   "sources": [
