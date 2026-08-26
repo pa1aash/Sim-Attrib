@@ -432,13 +432,19 @@ def render_latex() -> str:
                      f"\\texttt{{\\footnotesize {tex_breakable(src_short)}}}, "
                      f"\\texttt{{\\footnotesize {tex_breakable(path)}}} \\\\")
         L += [r"\bottomrule", r"\end{longtable}", ""]
+    # NOTE: this table ships in the public paper and in the anonymized package
+    # (GATES.md G16 Phase 3.4). A private-repository commit hash serves no
+    # reproducibility purpose in either -- the package is a single frozen snapshot
+    # with no history to disambiguate between versions of the same file -- and is a
+    # residual anonymity risk if the private repository is ever found. The release
+    # tag below is internal to the anonymized package, not a commit reference.
     L += [r"\paragraph{Provenance of the source files.}",
          r"\begin{longtable}{p{0.45\linewidth} p{0.25\linewidth} p{0.20\linewidth}}",
-         r"\toprule", r"file & commit & seed \\", r"\midrule", r"\endhead"]
+         r"\toprule", r"file & release & seed \\", r"\midrule", r"\endhead"]
     for src in sorted(docs):
         p = docs[src].get("provenance", {})
         L.append(f"\\texttt{{\\footnotesize {tex_escape(src.replace('results/', ''))}}} & "
-                 f"\\texttt{{\\footnotesize {tex_escape(str(p.get('commit'))[:7])}}} & "
+                 f"v1 & "
                  f"{tex_escape(str(p.get('seed')))} \\\\")
     L += [r"\bottomrule", r"\end{longtable}", ""]
     return "\n".join(L) + "\n"
