@@ -2323,3 +2323,200 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+---
+
+## G17 — Does the paper's prose read as a scientific paper rather than as this project's own
+audit trail, with no claim, number, or figure changed?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-27, session G17. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **This session changed how the paper sounds and nothing about what it says.** Every numeric
+> literal, every citation, every caveat, and every figure's data is unchanged. The claim is not
+> asserted: it is measured. A token-level diff of every numeric literal in `paper/main.tex`
+> between `HEAD` (2ad4e68) and this session's final state returns exactly two differing tokens,
+> both accounted for — `topsep=1pt,itemsep=0pt,parsep=0pt` list-spacing parameters deleted along
+> with Section 2's `itemize` environment (formatting directives, not data), and one redundant
+> second statement of `1/τ` whose content is preserved in words ("these are one condition, not
+> two", T2-1's own protected phrasing). A multiset diff of every numeric token in the *rendered*
+> main text, with the venue template's left-margin line numbers stripped, agrees. Citation keys
+> are identical before and after: 20 occurrences, 19 distinct, same multiplicity — Section 2 was
+> converted from bullets to prose without losing or adding a single reference.
+>
+> **The dash sweep G14 reported as complete was not complete, and now is.** `paper/main.tex`
+> carried three surviving prose-aside em-dashes (`---`) at the time this session started, in
+> Section 2's Montel paragraph, Section 2's post-selection-inference sentence, and the
+> Limitations second-θ clause. All three are gone, each rewritten individually rather than by
+> blind substitution. Confirmed by re-grep: `grep -n -- '---' paper/main.tex` returns **zero
+> lines**; a Unicode sweep for U+2013/U+2014 across every `.tex` returns zero; and the rendered
+> main text (pages 1–5) contains exactly one en-dash character, the numeric range `0.9–2.7%`,
+> which the brief puts out of scope. The two remaining `---` in `checklist.tex` are both inside
+> bracketed operator placeholders (item 5's anonymized-code link, item 16's LLM disclosure) and
+> are label-to-instruction separators, not prose asides; item 16 is explicitly not this
+> session's to touch.
+>
+> **Two real defects were found that this session was not looking for.** First, **G16 silently
+> dropped T2-11's protected clause.** The literal `(where $s(y)$ would sit)` in the Limitations
+> "no learned component" bullet — a first-external-review Tier-2 fix that G14's and G15's own
+> re-verification tables both recorded as "verified still present verbatim" — is present at
+> `19f9a59` (G15's final state) and absent at `efc81c9` (G16). G16's gate did not report it. It
+> is restored. Second, **`audit/BIBLIOGRAPHY.bib` line 1 carried the repository name** in a
+> `%%%%` header comment, and that file is on `scripts/build_overleaf_package.sh`'s allowlist, so
+> it ships to reviewers. G8.4 claims the source was "grepped for the operator's name, GitHub
+> handle, and repository name — zero hits"; that claim was wrong, most likely because the grep
+> was scoped to `paper/`. Fixed to a neutral wording; the comment never reaches the compiled
+> PDF, so no rendered output changed.
+>
+> **The page limit was closed by prose tightening alone.** Phase 2's properly-stated findings
+> list and Phase 3's prose conversion pushed the main text three lines onto page 6. Every one of
+> those lines was recovered by removing redundant audit-register prose — never by touching
+> `\parskip`, float separations, caption skips, or any font or figure dimension, all of which
+> this session leaves exactly as G16 set them. Main text is again pages 1–5 with References
+> beginning on page 6.
+
+### What G17 was judged against
+
+| # | Item | Status | Location |
+|---|---|---|---|
+| 1.1 | "Prior art" / "the contribution is the finding" reduced to one instance | **met, already met on arrival — no edit made.** A fresh sweep of all four `.tex` files found exactly **one** occurrence in `main.tex`, already in the abstract, already stated once with force. G16's W16-11 had done this. Per S9 this is reported as found, not manufactured into an edit | `paper/main.tex` abstract |
+| 1.1b | `checklist.tex` "cited as prior art" (item 12) | **judged unrelated, deliberately not touched.** Item 12 answers the *licensing* question — the Section 2 tools are cited rather than vendored as software dependencies. Different sense of the phrase, correct in context, load-bearing for the answer | `paper/checklist.tex` item 12 |
+| 1.2 | Complete fresh dash-as-aside sweep | **met, 3 instances found and individually rewritten.** Zero-result re-grep reported in headline. Each rewritten to the punctuation that fit that instance: sentence break, comma-delimited apposition, sentence break | `paper/main.tex` §2 ×2, §6 |
+| 1.2b | Dashes baked into figure images | **found, deliberately NOT changed, disclosed rather than silently passed.** `figures/fig2_simulator.pdf` (appendix schematic) carries two em-dashes inside hand-placed panel headings ("DETERMINISTIC CORE — fixed-step RK4…", "THE THREE DISTORTION FAMILIES — one one-parameter family…"). These are heading-to-descriptor separators in a diagram, not prose asides interrupting a sentence, and they sit outside the brief's named scope (main.tex, checklist.tex, figure *captions* — all three confirmed zero). Regenerating the figure would require a clean-tree run and a new provenance sidecar, which G15/G16 each spent a commit on; not worth that for a typographic nicety in an appendix diagram. **Named here so no one reads "zero dashes" as broader than it is** | `src/viz/fig2_simulator.py:136,181` |
+| 1.3 | "Not X, not Y, not Z" chain restructured | **met.** Section 4's six-column ruling-out sentence split into three short sentences, one ruled-out explanation each. Every number preserved: `1.023` against admissible `2`; `τ` from `0.005` to `1.0`; `d=10≥6`. This is the only such chain in the document — a sweep found no second instance of three-or-more stacked `not` clauses | `paper/main.tex` §4 |
+| 1.4 | Three "moved here … for space" appendix openings removed | **met, all three.** A.1 now opens by saying what Table 1 is; A.2 by saying what Figure 4 shows; A.3 by saying what its three figures show. No editorial-process commentary survives; `grep 'for space'` returns zero | `paper/main.tex` A.1, A.2, A.3 |
+| 1.5 | K-vs-columns disclaimer deleted; Figure 2 legend not "K=6" | **met, already met on arrival — no edit made.** The disclaimer is absent (G14's R14-1 removed it after R14-6 fixed the root cause, per T2-12). `fig3_spectrum.pdf`'s rendered legend reads "six-column union (κ = 629, INSEPARABLE)", verified by `pdftotext` on the figure itself, not by reading the plotting script. Nothing to fix; reported as found per S9 | `figures/fig3_spectrum.pdf`, `src/viz/fig3_spectrum.py:47–49` |
+| 1.6 | "Hand-placed annotations outside the automated check" | **met by removal, with reason.** The sentence disclosed that two figures' text labels were typed rather than computed. Both labels — Figure 2's "union: rank 4 of 6" and Figure 1's κ_max marker — restate quantities the same figures' captions and the body text already state. A reader learns nothing scientific from it, and "the automated check" names this project's internal `src/viz/provenance.py` verifier, not a limitation of the work. Removed, and `checklist.tex` item 2's mirroring clause updated in the same pass so the checklist still matches the compiled PDF (T1-6). **G9 had already listed this exact sentence as a legitimate cut it declined to make unilaterally under page pressure; this session makes it for voice reasons and records that provenance** | `paper/main.tex` §6, `paper/checklist.tex` item 2 |
+| 1.6b | The removed sentence was also stale | **noted.** `src/viz/fig4_assignments.py`'s provenance note still describes annotations ("all eight separable", "hatched: INSEPARABLE") that no longer exist in the rendered figure. The paper's claim about "two figures" was therefore already drifting from the code. Not fixed — it is a comment in a non-packaged source file, outside this session's scope — but recorded so it is not rediscovered as new | `src/viz/fig4_assignments.py:149` |
+| 2.1 | Introduction states its own findings, directly | **met.** The single semicolon-chained sentence ending in a pointer to Table 1 is replaced by four sentences in the paper's own voice — "We find that…", "Separability then fails…", "We find that…", "And we predict…" — naming all four contributions. The Table 1 pointer survives only as a trailing parenthetical, no longer as the place the findings live. T2-7's scope restriction stays inside the first finding sentence, verified | `paper/main.tex` §1 |
+| 3.1 | Section 2 converted from bullets to prose | **met.** Four `\item`s become four paragraphs on the same four themes (detection-vs-attribution; the identifiability precondition; diagnostic tooling; exact inference under a composite null), written as argument rather than as citations disposed of one clause each, per the Cranmer/Talts register the brief names. **Every citation preserved with identical multiplicity (20 occurrences, 19 distinct), verified by key-multiset diff, not by eye.** G16's Montel result and both new selective-inference citations (Fithian/Sun/Taylor; Lee/Sun/Sun/Taylor) are integrated into the running argument — the Montel measurement is the closing movement of paragraph 1, and Fithian/Lee are the contrast paragraph 4 turns on | `paper/main.tex` §2 |
+| 4.1–4.2 | Residual audit-trail voice, full re-read | **met, 9 further instances found and fixed** — enumerated below. Not zero; this session does not claim the register is fully purged, only that it re-read the whole document and fixed what it found | `paper/main.tex` |
+| 5.1 | Full number re-trace | **met, zero scientific numbers changed** — method and result in headline | `paper/main.tex` |
+| 5.2 | Independent anonymization re-scan | **met, and it caught a real leak** — see headline. Post-fix: zero hits across every packaged source and the compiled PDF's text; PDF `Author` metadata empty | `audit/BIBLIOGRAPHY.bib`, `paper/main.pdf` |
+| 5.3 | Page limit ≤ 5 | **met.** Main text pages 1–5; References begins page 6. Confirmed by parsing the PDF's own form-feeds, in both the repo working copy and the isolated package extraction. Closed by prose tightening only, no whitespace lever touched | `paper/main.pdf` |
+| 5.4 | All prior review findings still intact | **met, 35/35 intact, 0 missing** — full table below. One (T2-11) was *not* intact on arrival and was restored | table below |
+| 5.5 | Two-tier isolation compile | **met, both tiers.** Against a freshly built zip extracted into a fresh temp directory, never the repo working copy, `TEXINPUTS` genuinely unset in both: exit 0, 23 pages, zero undefined references or citations, identical 602,452-byte `main.pdf` in both tiers, and `pdftotext` output byte-identical to the repo working copy. §2a (`TEXMFHOME` unset) passes only in the narrower this-machine-fallback sense G12/G13 named and this gate does not re-claim | `build/sim_attrib_overleaf_*.zip` |
+| 5.6 | Overleaf package rebuilt | **met**, allowlist unchanged, 17 files | `scripts/build_overleaf_package.sh` |
+| S1 | Authorship | **met** — four-check pre-push checklist run and clean before push | `git log` |
+| S3 | No claim changed | **met** — headline's measured diff |
+| S4 | Every number still traces | **met** — no number added, removed, or altered, so every existing trace holds unchanged |
+| S6 | Page limit | **met** — 5.3 |
+| S8 | No self-approval | **met** — `ready for review — UNSIGNED` |
+
+### Phase 4 — the nine residual audit-voice instances found by the full re-read
+
+Each of these was written to satisfy an internal verification habit rather than to tell a reader
+something. None of them changed a claim.
+
+| # | Where | What it was | What it is now |
+|---|---|---|---|
+| V-1 | §3, scope paragraph | Heading "Scope assumption, **stated first**", and a closing clause explaining *why* the paper states it before the machinery | Heading "The scope assumption"; the clause is gone. The reader does not need the paper's own table of contents justified to them |
+| V-2 | §3, step 4 | "since $\kappa\le1/\tau$ restates rank deficiency at $\tau$ rather than adding a second requirement" — a restatement of the equation immediately preceding it | "these are one condition, not two" — T2-1's own protected phrasing, kept, at a third of the length |
+| V-3 | §3, step 4 | "passing the resolution test answers the first question, not the second" — a self-referential pointer back to the sentence's own two halves | "Resolution is a property of the *estimator*, not of the *matrix*: passing the resolution test says nothing about whether…" — states the thing directly |
+| V-4 | §3, step 4 | "a third outcome distinct from separable/not" — the paper explaining its own taxonomy to itself | removed; the consequence ("the reported rank can be an interval") already carries it |
+| V-5 | §3, equivalence class | "**No arrow leaves the verdict:** the diagnostic decides whether attribution is well posed, and nothing further" | the metaphor dropped; the plain second half kept |
+| V-6 | §4, summary sets | The base set described loosely ("a prevalence nonlinearity, a timing distortion, an amplitude error") and then again precisely two sentences later in the R14-1 "Concretely:" list | the loose parenthetical removed; R14-1's protected precise naming untouched |
+| V-7 | §4, $S_A$ control | "…$0.9\%$ past the ceiling, **proof the instrument is not vacuously ``separable.''**" — the same point Figure 1's caption already makes in its own words | the body states the measurement; the caption keeps the interpretation. Said once, not twice |
+| V-8 | §4, alt-η scaling | Two parentheticals back to back, one nested inside the sentence's own argument | restructured into two sentences; every number, both citations of scope, and R14-4's named coordinates preserved |
+| V-9 | §5 ×3 | "The boundary **is predicted, before it is measured,** from…" (abstract and §5) and "The neighborhood at which it takes over **is not an assumption we chose**" — passive constructions and a defence against an anticipated objection | "We predict the boundary before measuring it, from…" and "That neighborhood is narrower than…". Active, committed, shorter |
+
+Also folded in: §5's "are only known to the precision real data give them, **not an assumed one**"
+followed immediately by "**We answer this directly rather than assume a box**" — the same point
+made twice in consecutive sentences — is now made once, as "Rather than assume a box, we fit…".
+
+### Phase 5.4 — the full consolidated re-verification table
+
+| Item | What it is | Status after G17 |
+|---|---|---|
+| T1-1 | Appendix claim-to-source table, generated not hand-typed | **intact**, untouched this session |
+| T1-2 | Page limit ≤5 | **intact.** Reopened by this session's own Phase 2/3 additions and re-closed by Phase 4's prose tightening, with no whitespace or font lever touched |
+| T1-3 | Real confidence-set-bounded MMC check | **intact**, untouched |
+| T1-4 | Simulator schematic in appendix, qualitative content restated in main-text prose | **intact and re-checked.** A.2's opening was rewritten (1.4); the R14-1 "Concretely:" mechanism sentence it depends on is verified present verbatim in §4 |
+| T1-5 | Full anonymity re-scan | **intact, re-run, and extended** — this session's scan covered `audit/BIBLIOGRAPHY.bib`, which the G8.4 scan evidently did not, and found the repository-name leak in it |
+| T1-6 | Checklist answers match the compiled PDF | **intact, actively maintained.** Item 2's justification was updated in the same edit that removed the hand-placed-annotation sentence from §6, so the two did not drift apart |
+| T2-1/T2-2 | Rank-at-τ / κ≤κmax as one condition; κ² cost derivation | **intact.** T2-1's substance re-stated more compactly (V-2); "one condition, not two" verified present |
+| T2-3 | Data-motivated η-scaling using confidence-set SEs | **intact.** `0.9–2.7%` and the named coordinates β, γ, ρ both verified present after V-8's restructure |
+| T2-4 | Second-θ check | **intact**, `κ=10.9` verified present |
+| T2-5 | Related Work citations genuinely engaged | **intact, and this is the item most at risk this session.** Section 2 was structurally rewritten. Verified by citation-key multiset diff: 20 occurrences, 19 distinct, identical before and after, and each citation's stated relevance to the argument carried across by hand, paragraph by paragraph |
+| T2-6 | Section 5 retitled, finding-first | **intact**, title verified verbatim |
+| T2-7 | Scope restriction in the introduction's own contribution sentence | **intact, and more prominent.** Phase 2's rewritten findings list carries "given at most one distortion parameter per component" inside the first finding sentence |
+| T2-8 | Two-panel non-termination figure, per-figure font floors | **intact**, no figure regenerated this session |
+| T2-9 | Repeated metaphor reduced; four steps as a numbered list | **intact and extended** — V-5 removed one further metaphor ("No arrow leaves the verdict") the earlier pass left |
+| T2-10 | Abstract tightened, concrete number retained | **intact.** `κ=628.9`, rank 4/6 verified present; the abstract's one edit this session was passive→active (V-9), no number touched |
+| T2-11 | Limitations bullet on where a learned summary statistic would sit | **WAS NOT INTACT — regressed in G16, RESTORED this session.** `(where $s(y)$ would sit)` present at `19f9a59`, absent at `efc81c9`. G14's and G15's tables both recorded it verified; G16's did not check it. See headline |
+| T2-12 | K-vs-column-count notation conflict resolved | **intact**, independently re-confirmed both ways: the disclaimer is absent from `main.tex`, and the rendered legend of `fig3_spectrum.pdf` reads "six-column union", checked on the figure file itself |
+| T2-13 | Appendix table's plateau-stability caption honest about noise | **intact**, untouched |
+| T2-14 | Checklist after the appendix | **intact**, structural position untouched |
+| T2-15 | Sentence on the baseline test's output on the six-column confound | **intact**, and now carries G16's *measured* result rather than the hedge — unchanged in substance by this session, only de-dashed and re-flowed |
+| R1 / R2 (first-review novelty threat-checks) | Rejection-sampling calibration is prior art; noisy-rank estimator | **intact.** Section 2's prose conversion preserved both dispositions; the Dufour and Freidling attributions are stated as plainly in prose as they were in bullets |
+| R-1 (second review) | Main-text self-sufficiency: family mechanisms + confound interpretation | **intact**, both anchor sentences verified present verbatim |
+| R-2 (second review) | Ledger under-referencing; undefined criteria | **intact, and specifically protected.** Two sentences this session's voice pass would otherwise have tightened — §4's ledger-reference opener and §3's "so no hidden truth can leak into its answer" — were left substantively alone once `audit/R1R2R3_RECONCILIATION.md` showed they *are* the R-2 fix. Only the second's punctuation changed; the leakage concept it exists to convey is verified still stated in plain prose |
+| R-3 (second review) | Mahalanobis-radius / ellipsoid comparison | **intact**, `3.56`, `χ²₅,₀.₉₅` and the coincidence sentence all verified present |
+| R14-1 … R14-9 | Second review's Path to Acceptance | **intact.** R14-1's mechanism naming and R14-2's ellipsoid numbers individually re-checked (the two this session's edits came nearest to) |
+| W16-1 … W16-11 (third review) | G16's eleven items | **intact.** W16-1's `\answerTODO{}` placeholder untouched; W16-2's Montel numbers, W16-3's thresholds, W16-6's "approximately", W16-8's Wilson bars, W16-9's `d`, W16-10's two citations, W16-11's single aphorism all verified present. W16-4's removal verified still removed |
+| G15 Phase-3 finding 1 | "344.9 … two orders past κmax" overstatement | **intact as corrected** — `3.4×` verified present |
+| G15 Phase-3 finding 2 | "±0.5% box already known to break" contradiction | **intact as corrected** — `±0.75%` verified present |
+| G14 P-1 | Paper-wide dash removal | **WAS INCOMPLETE — completed this session.** Three prose-aside em-dashes survived G14's pass and G15's re-check. See headline |
+| G8.4 | "PDF and source grepped for repository name — zero hits" | **WAS INACCURATE — corrected this session.** See headline |
+
+### What G17 explicitly does not certify
+
+- **That the paper's register is now fully free of its audit trail.** This session found and fixed
+  nine residual instances *after* fixing the six the brief named, which is direct evidence that a
+  single reader's pass does not exhaust them. A tenth, eleventh and twelfth plausibly remain. What
+  this gate certifies is that a full start-to-finish read was done for voice specifically, and that
+  everything it found was fixed — not that the register is exhausted.
+- **That the figure-internal em-dashes are the right call to leave.** §1.2b states the reasoning;
+  a reader who disagrees is disagreeing with a judgment, not discovering something hidden. It is
+  a one-line change to `src/viz/fig2_simulator.py` plus a figure regeneration and a fresh
+  provenance sidecar, if the operator wants it.
+- **That a fourth external review has run on this version.** It has not, and this session is
+  precisely the kind that most needs one: a voice pass touches nearly every paragraph, and the
+  person who rewrote the prose is the worst-placed reader to judge whether it now reads well.
+  **A fourth external review focused specifically on readability and tone is recommended** —
+  more strongly than G16's recommendation, because the three prior reviews were content-focused
+  and none of them was asked about register.
+- **That "no claim changed" was verified by re-deriving the claims.** It was verified by diffing
+  numeric literals, citation keys, and thirty-five protected clauses against `HEAD`. That is a
+  strong check against accidental loss and a weak check against a rewrite that preserves every
+  number while subtly shifting what a sentence asserts. Two rewrites came closest to that line and
+  are named for scrutiny: §4's three-sentence ruling-out (1.3) and §1's findings list (2.1).
+- **That G16's T2-11 regression is the only one of its kind.** It was found by checking, not by
+  trusting G15's table — and G15's table was wrong. This session re-checked all thirty-five
+  protected clauses the same way and found one failure, but the discovery method was a
+  whitespace-insensitive search that an earlier session's line-scoped grep had already missed once.
+
+### Process caveats — what this session did badly or not at all
+
+- **The dash finding is a repeat of a known failure mode, not a new one.** G14 reported 38
+  instances removed; three survived, in `main.tex`, greppable in one command. G15 re-verified P-1
+  as "intact" without re-running the grep. The lesson this session records is narrow and
+  mechanical: **a completion claim about a greppable property must be closed with the grep, and
+  the grep's zero-result output must go in the gate.** This gate does that (headline, §1.2).
+- **Phase 2 and Phase 3 made the paper longer before Phase 4 made it shorter.** For roughly the
+  middle of this session the main text was over the page limit by three lines. That was a
+  foreseeable consequence of stating four findings properly instead of pointing at a table, and it
+  was closed by cutting redundancy rather than by cutting content or by reaching for the
+  whitespace lever — but the session brief's expectation that voice tightening would leave "slack,
+  not pressure" did not hold, and it is worth saying so rather than reporting a comfortable margin.
+- **Two of the six named symptoms required no edit at all** (1.1 and 1.5), because G16 had already
+  fixed them and the session brief was written against a pre-G16 picture. Reported as found, per
+  S9, rather than dressed up with a cosmetic change to make the phase look worked.
+- **No adversarial critic or second independent agent ran against this session's own prose
+  judgments.** Voice is more subjective than arithmetic, and every "this reads better now" in this
+  gate is one session's opinion, single-pass. P-1 and P-2 exist for exactly that reason.
+- **This session touched `audit/BIBLIOGRAPHY.bib`**, which the file's own header declares stays
+  "exactly as fetched". The edit is to that header comment itself, not to any bibliographic
+  record; no entry, field, or value was altered. Recorded here rather than left for someone to
+  notice in the diff.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
