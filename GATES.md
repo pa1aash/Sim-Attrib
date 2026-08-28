@@ -2695,3 +2695,342 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G19 — Is the anonymized reproducibility package URL inserted correctly, and does the paper
+hold up to one final exhaustive verification before submission?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-28, session G19 — the nineteenth internal session and, barring operator-found
+issues, the final one before the operator's own submission. Signature block below is for the
+operator.
+
+> ### The headline, stated before the detail
+>
+> **The one substantive action this session took: `paper/checklist.tex` item 5's placeholder —
+> `[ANONYMIZED CODE LINK --- OPERATOR TO INSERT AFTER UPLOADING build/anonymous_package.zip TO AN
+> ANONYMOUS HOST]` — was replaced with the real, operator-provided URL,
+> `https://osf.io/hqgzk/overview?view_only=b16c7e6a0ea34047a411e806e5d5a6ce`, copied verbatim, no
+> character altered.** Item 5's Answer was already `\answerYes{}` (not `\answerNo{}` pending the
+> link, as this session's own brief speculated it might be) — the justification sentence needed
+> only the URL substituted in, not an answer flip. A repo-wide search confirmed this is the
+> **only** location in the entire paper referencing code availability; no other placeholder,
+> footnote, or in-body mention needed the URL.
+>
+> **Nothing else in the paper was touched.** `paper/main.tex` was not opened for editing this
+> session. `git diff` against G18's `cadd7e6` shows exactly one changed line, in
+> `paper/checklist.tex`, and nothing else.
+>
+> **The OSF link itself was spot-checked live, not assumed safe.** Web access was available this
+> session. The OSF public API (`api.osf.io/v2/nodes/hqgzk/`), queried with the `view_only` token,
+> returned `"meta":{"anonymous":true}` — direct, server-side confirmation this is genuinely the
+> anonymized view-only mode, not the plain project URL (which would not carry that flag and, given
+> the underlying project's `"public":false`, would not resolve for a non-contributor at all). The
+> files endpoint shows exactly one file, `anonymous_package.zip` (630,754 bytes) — visible, as
+> required. The contributors endpoint returns an empty `id` field with no name — genuinely
+> anonymized, not merely titled generically. The project title itself,
+> "Simulator misspecification supplementary materials," carries no identifying information. All
+> three checked independently via the live API, not inferred from the URL's shape.
+>
+> **A second, fresh-eyes reviewer pass (a separate agent instance with no prior context on this
+> paper) read the full 23-page compiled PDF cold, specifically hunting for double-blind anonymity
+> breaches — names, institutions, self-citation phrasing, leaked URLs, file paths, hostnames,
+> acknowledgments, and PDF metadata.** It found none. One minor, non-content observation: the
+> PDF's embedded `/CreationDate` metadata carries a `+05'30'` UTC offset (India Standard Time),
+> which isn't visible in the rendered paper and isn't a text-content breach, but is a soft
+> metadata signal a very sharp reviewer or an automated OpenReview scan could in principle use to
+> narrow the authors' likely time zone. Flagged for the operator's awareness (P-6 below); not
+> treated as a finding requiring a session fix, since it sits well below the severity of an actual
+> anonymity violation and every prior session's own re-scans (including this one's) have never
+> flagged embedded compile timestamps as part of the anonymity surface.
+>
+> **The iCloud sync glitch G18 first hit is confirmed, again, to be a local display issue, not a
+> repository content problem.** `audit/S17_REPORT.md` still reads as a dataless placeholder
+> (`file` reports "Operation timed out") in the local working tree; `git show HEAD:audit/S17_REPORT.md`
+> reads its full 149-line committed content without error. Every other file in `audit/` was swept
+> for the same symptom this session; none showed it. This is the same file, same symptom, same
+> workaround G18 already used — not a new or spreading problem.
+>
+> **Full re-verification, independent of G18's own, found zero drift anywhere.** Number trace:
+> 125 numbers, byte-identical regeneration. Anonymization re-scan: clean across every
+> submission-facing file and the compiled PDF, by both this session's own grep and the independent
+> fresh-eyes agent read. Two-tier isolation compile: both tiers pass, 23 pages, zero undefined
+> references, `pdftotext` output textually identical across both tiers and the repo working copy
+> (the two tiers' PDF files differ at the byte level only in pdfTeX's timestamp-derived
+> `/CreationDate`/`/ID` fields — confirmed by a direct byte-diff, not assumed). Page count:
+> main text pages 1–5, unchanged. Overleaf package: rebuilt clean, 17 files, 13 allowlisted paths,
+> `build/sim_attrib_overleaf_9ab323b.zip`.
+
+### Phase 0 — sync check
+
+| Check | Result |
+|---|---|
+| `git status` / `git log` | Clean tree at session start except one pre-existing, unrelated untracked item (`Formatting_Instructions_For_NeurIPS_2026/`, a stray unmodified copy of the pristine venue template, dated well before this project's sessions began — untracked, so it will never be pushed; contains no identifying strings, checked). HEAD at `cadd7e6`, matching G18's push |
+| `audit/S17_REPORT.md` iCloud symptom | Still present locally (`file` reports "Operation timed out"); `git show HEAD:audit/S17_REPORT.md` reads its full 149-line committed content cleanly. **Confirmed a local display glitch, not a repository content problem** — same conclusion G18 reached, re-verified independently this session |
+| All other `audit/*.md` files | Swept for the same dataless symptom (38 files checked). None affected. The symptom has not spread since G18 |
+
+### Phase 1 — URL insertion
+
+| Item | Result |
+|---|---|
+| Placeholder replaced | `paper/checklist.tex` line 70, item 5 ("Open access to data and code") |
+| URL exact-match check | Programmatic string comparison between the operator-provided URL and the inserted `\url{...}` contents: **exact match**, including the `/overview` path segment and the full `view_only` token |
+| Answer field | Already `\answerYes{}` before this session; unchanged (G16's placeholder never required an answer flip, contrary to this session's own brief's speculative framing) |
+| Other code-availability locations | Repo-wide grep (`paper/*.tex`, `main.tex` footnotes, other checklist items) for any second reference to code availability, a second placeholder, or a stray bracket: **none found**. Item 5 is the only location |
+| Recompile | `latexmk -pdf`, exit 0, 23 pages, zero undefined references. `pdftotext` confirms the URL renders correctly on the checklist page and no placeholder bracket text survives anywhere in the compiled text |
+| Commit | `9ab323b`, its own unit, pushed after S1/S3 verification below |
+
+### Phase 2 — comprehensive verification
+
+| # | Check | Result |
+|---|---|---|
+| 2.1 | Full number-trace re-run | **Zero drift.** `src/diagnostics/report_claims.py` regenerated `results/FINAL_CLAIMS_NUMBERS.md` and `paper/appendix_claims_table.tex` from the underlying `results/*.yaml` files; `git status`/`git diff` after regeneration show no changes — 125 numbers, byte-identical. `paper/main.tex` was never opened this session, so no claim, number, or citation could have moved regardless |
+| 2.2 | Full independent anonymization re-scan of the compiled PDF, cold reviewer read | **Clean.** A separate agent instance, with no prior context on this paper, read all 23 pages via `pdftotext -layout`, decompressed the PDF (`qpdf --qdf`) to inspect every embedded `/URI` link and object stream, and checked `/Info`/XMP metadata and a `strings` sweep for paths/hostnames/emails. Zero breaches found. Title block reads the correct anonymized-template placeholder ("Anonymous Author(s) / Affiliation / Address / email"); every first-person-plural sentence checked resolves to this paper's own earlier sections or to a third-party citation, never a self-citation; all 18 bibliography entries are third-party; every embedded link is a DOI/arXiv/NeurIPS-policy/OSF link, no personal URLs; `/Author` empty, `/Creator` and `/Producer` generic. One informational, non-content observation: `/CreationDate` carries a `+05'30'` timezone offset — see headline |
+| 2.3 | Page count | **Met.** Main text pages 1–5, References begins page 6, confirmed by `pdftotext` form-feed parsing of the freshly compiled PDF — identical to G18's boundary, as expected since `main.tex` was untouched |
+| 2.4 | Two-tier isolation compile | **Met, both tiers.** Freshly rebuilt `build/sim_attrib_overleaf_9ab323b.zip` extracted to two separate fresh temp directories, never the repo working copy. §2b (`TEXMFHOME` pointed at this operator's package tree, `TEXINPUTS` unset): exit 0, 23 pages, zero undefined references/citations, 603,948-byte `main.pdf`. §2a (`TEXMFHOME` also unset, this-machine-fallback sense per G12's own naming correction, carried forward unresolved as documented there): exit 0, 23 pages, zero undefined references/citations, 603,948-byte `main.pdf`. The two tiers' PDFs are not byte-identical (MD5 differs) but a direct byte-level diff shows the *only* difference is pdfTeX's `/CreationDate`, `/ModDate`, and derived `/ID` fields (the two compiles ran ten seconds apart) — `pdftotext -layout` output is textually identical across both tiers and the repo working copy, confirmed by diff, not assumed |
+| 2.5 | Overleaf package rebuild | **Met.** `scripts/build_overleaf_package.sh` re-run against the final committed state (`9ab323b`): 17 files, 13 allowlisted paths, `build/sim_attrib_overleaf_9ab323b.zip` — the package that will actually be uploaded to OpenReview |
+| 2.6 | Consolidated cross-session findings table | **Produced — see below.** Built by a separate agent instance that read `GATES.md` in full (all ~2,700 pre-G19 lines) plus every `audit/S11_REPORT.md`–`S18_REPORT.md` (S17 via `git show`, per the Phase 0 workaround) |
+| 2.7 | Checklist placeholder sweep | **Met.** Full bracket/TODO sweep of `paper/checklist.tex`: exactly one placeholder remains, item 16's `\answerTODO{}` and `[AI-USE DISCLOSURE --- OPERATOR TO COMPLETE...]` — untouched, per standing instruction since G9. No other bracket, TODO, FIXME, or XXX marker anywhere in the file |
+| 2.8 | Repo-wide anonymity/AI-reference grep | **Split result, both halves clean on their own terms — see below** |
+
+**On 2.8, stated precisely rather than glossed over:** two different greps answer two different
+questions, and conflating them would misreport the state of the repo.
+
+- **AI/model-attribution grep** (the standing set of proscribed vendor/product/co-authorship
+  terms this project's authorship gate names, case insensitive) across every tracked file in the
+  entire repository: **zero hits.** This is the check S1 actually requires.
+- **Personal-identity grep** (`palaash\|gang\|sim-attrib\|pa1aash`) across every tracked file in
+  the entire repository: **many hits** — `LICENSE`'s copyright line, `README.md`'s own project
+  name, `OUTSTANDING.md` and `docs/DECISIONS.md`'s GitHub-username references, every
+  `results/*.yaml`'s `host:` field (`Palaashs-MacBook-Air.local`), and the build scripts' own
+  repo-root guard strings. **This is expected and is not a regression** — this is the private
+  development repository, not the anonymized submission artifact; it legitimately carries the
+  operator's real identity throughout (git authorship, `LICENSE`, hostnames), exactly as every
+  prior session's own repo state did. The actual double-blind surface — `paper/main.tex`,
+  `paper/checklist.tex`, `paper/appendix_tables.tex`, `paper/appendix_claims_table.tex`,
+  `audit/BIBLIOGRAPHY.bib`, and the compiled PDF's extracted text and `/Author` metadata — was
+  separately re-checked (2.2 above and the submission-scope grep below) and is clean. The private
+  repo's own de-identification is a distinct, still-pending operator action (P-5, repository
+  visibility to private), not a paper-anonymization defect.
+
+**Submission-scope anonymity grep** (the established G16–G18 pattern, re-run this session):
+`grep -inE "palaash|gang|sim-attrib|pa1aash"` across `paper/main.tex`, `paper/checklist.tex`,
+`paper/appendix_tables.tex`, `paper/appendix_claims_table.tex`, `audit/BIBLIOGRAPHY.bib`, and the
+compiled PDF's extracted text: **zero hits in all six**, `/Author` metadata empty — matching every
+prior session's result, re-confirmed rather than assumed.
+
+### Phase 2.6 — the full consolidated cross-session findings register (G11–G19)
+
+Scope: every finding from External Review #1 (Weak Reject), External Review #2 ("Path to
+Acceptance"), External Review #3, the internal tone/readability pass (G17+G18), plus every defect
+any session's own re-verification found on top of those reviews. Status reflects the state as
+verified by G19 (2026-08-28).
+
+#### Table A — External Review #1 (Weak Reject, confidence 4/5): Tier-1 (must-fix)
+
+| Item ID | What it was | Final status (as of G19) | Session fixed/checked in |
+|---|---|---|---|
+| T1-1 | Appendix TODO replaced with a generated claim-to-source table | Intact — regenerated from source, byte-identical to committed file (G18 Phase 3) | Fixed G11; re-verified G12–G18 |
+| T1-2 | Main text ≤5 pages (Sim2Science limit) | Closed at exactly 5 pages since G13; reopened and reclosed by prose tightening alone in G14, G16, G17; unchanged at 5 pages through G18/G19 | Not met G11–G12 (6 pages); closed G13; held G14–G19 |
+| T1-3 | Real Dufour confidence-set-bounded MMC check (not a cheaper reframe) | Intact — its own output is now the direct source for R14-2's ellipsoid claim (strengthened, not just preserved) | Built and run G11 (`confidence_set_check.py`, `DUFOUR_CONFIDENCE_SET_CHECK.md`); untouched since |
+| T1-4 | Simulator schematic figure relocated/reduced, qualitative content restated in main-text prose | Intact — figure later moved to appendix entirely (G13), qualitative restatement strengthened by R14-1's mechanism sentence (G14) | Fixed G11; relocated G13; strengthened G14; re-verified through G18 |
+| T1-5 | Full anonymity re-scan (not just the two review-named instances) | Intact, repeatedly re-run and extended — G14 found the bibliography-header leak G8.4 had missed; G16 found double-field host/commit leaks in every `results/*.yaml`; G19 re-scan clean across 6 submission-scope locations | Fixed G11 (5 extra leaks found beyond the 2 named); re-run every session through G19 |
+| T1-6 | Checklist answers match the compiled PDF | Intact, actively maintained (item 2's justification kept in sync with §6 edits in G17; item 5 completed in G19) | Fixed G11; re-verified G12–G19 |
+
+#### Table B — External Review #1: Tier-2 (should-fix)
+
+| Item ID | What it was | Final status (as of G19) | Session fixed/checked in |
+|---|---|---|---|
+| T2-1 / T2-2 | Rank-at-τ and κ≤κmax stated as one condition, not two; κ² compute-cost derivation given | Intact, restated more compactly in G17's voice pass | Fixed G11; re-verified through G18 |
+| T2-3 | Second, data-motivated η-scaling using confidence-set standard errors | Intact — independently re-derived two ways in G15; both agree | Fixed G11; strengthened G14 (R14-4); re-verified through G18 |
+| T2-4 | Second-θ separability test run | Intact — real test run, `κ=10.9` at θ₂ matching `κ=10.1` at θ₀ | Lost to context compaction G11; run for real G12; re-verified through G18 |
+| T2-5 | Eight Related Work citations genuinely engaged, not name-dropped | Intact but reduced — two citations dropped in G14 for page-budget recovery (disclosed); the other six untouched; survived G17's bullets-to-prose rewrite (20 occurrences, 19 distinct, unchanged) | Fixed G11; reduced by 2 citations G14 (disclosed); rewritten G17; re-verified through G18 |
+| T2-6 | Section 5 retitled finding-first, apologetic framing fixed | Intact | Substantially done G11; closed G12; re-verified through G18 |
+| T2-7 | Scope restriction stated in the introduction's own first contribution sentence | Intact, re-confirmed immediately adjacent to G18's F2 edit without being touched by it | Fixed G11; re-verified through G18/G19 |
+| T2-8 | Two-panel non-termination figure split, per-figure font floors enforced | Intact | Fixed G11; re-verified through G18 |
+| T2-9 | Repeated metaphor language reduced; diagnostic's four steps as a numbered list | Intact and extended — G17 removed one further metaphor this pass had left | Fixed G11; extended G17; re-verified G18 |
+| T2-10 | Abstract tightened, one concrete number retained (κ=628.9, rank 4/6) | Intact; re-confirmed adjacent to G18's F1 edit, no number touched | Fixed G11; re-verified through G19 |
+| T2-11 | Limitations bullet on where a learned summary statistic would sit | **Regressed once, restored.** Silently dropped by G16; found missing and restored in G17 | Fixed G11; regressed G16 (undetected in G16's own gate); restored G17; intact through G19 |
+| T2-12 | K-vs-column-count notation conflict resolved | Intact, resolved at the root cause | Fixed G11; root-cause fixed G14; re-verified through G18 |
+| T2-13 | Appendix table's plateau-stability caption made honest about noise | Intact | Fixed G11; re-verified through G18 |
+| T2-14 | Checklist moved after the appendix (NeurIPS convention) | Intact | Fixed G11; re-verified through G18 |
+| T2-15 | One sentence on what the literature's baseline test would output on the six-column confound | Intact — later carries G16's measured Montel result rather than a hedge | Fixed G11 (hedged); reworded to carry measured result G16; de-dashed G17 |
+
+#### Table C — Prior-art / novelty threat-checks
+
+| Item ID | What it was | Final status (as of G19) | Session fixed/checked in |
+|---|---|---|---|
+| R1 | Rejection-sampling-calibration mechanism is prior art | DEAD verdict, unchanged through every rewrite | Established pre-G11; re-confirmed every gate G11–G18 |
+| R2 | Noisy-rank estimator, corrected instrument | NARROW-CONDITIONAL verdict, unchanged through every rewrite | Established pre-G11; re-confirmed every gate G11–G18 |
+
+#### Table D — External Review #2 ("Path to Acceptance, Round 2")
+
+| Item ID | What it was | Final status (as of G19) | Session fixed/checked in |
+|---|---|---|---|
+| R14-1 (Tier 1) | Findings list restored to the Introduction; all six family mechanisms named and verified against `sir3.py`; disclaimers cut | Intact; rewritten into full-sentence voice by G17, re-confirmed adjacent to G18's F2/F3 edits | Fixed G14; rewritten G17; re-verified G18/G19 |
+| R14-2 | Mahalanobis-ellipsoid comparison added to Section 5 | Intact. Rigorously recomputed (2.71/3.56, corrected from the review's own rough estimate); re-derived from scratch in G15 | Fixed and corrected G14; independently re-derived G15; re-verified through G18 |
+| R14-3 | "Exactly zero" acceptances replaced with the exact measured draw count | Intact | Fixed G14; re-verified through G18 |
+| R14-4 | SE-scaling figure explained by naming which 3 of 5 nuisance coordinates it uses | Intact; independently re-derived two ways in G15; restructured G17 without losing the named coordinates | Fixed G14; re-derived G15; restructured G17; re-verified G18 |
+| R14-5 | Coherence phrase resolved; gradual/abrupt threshold rule stated where first used | Intact | Fixed G14; re-verified through G18 |
+| R14-6 | Two figure-rendering bugs, two bibliography defects, appendix table column overflow, θ₀'s pre-figure definition | Intact, all five sub-items independently verified | Fixed G14; re-verified through G18 |
+| R14-7 | Appendix A.5's claim-to-source ledger referenced from the start of Section 4 | Intact — later became the sentence F4 (G18) reordered, without removing the reference | Fixed G14; reordered (not removed) G18; intact G19 |
+| R14-8 | Montel et al.'s test either run or the assertion explicitly hedged | **Superseded — hedge upgraded to a real, run comparison** by G16's W16-2 | Hedged G14; superseded by real implementation G16 |
+| R14-9 | Positive sentence on where a learned summary statistic / NPE would enter | Intact | Fixed G14; re-verified through G18 |
+| R14-10 (optional) | Promotion of $S_A$ to a fifth finding | **Declined**, reasoning stated; decision unchanged through G19 | Declined G14; decision stands through G19 |
+| R-1 (second review's cross-check) | Main-text self-sufficiency | Intact — closed and independently re-verified in G15 | Recovered/closed G15; re-verified G17/G18 |
+| R-2 (second review's cross-check) | Ledger under-referenced; three undefined criteria | Intact — closed and independently re-verified in G15 | Closed G15; protected G17; re-verified G18 |
+| R-3 (second review's cross-check) | Mahalanobis-radius / ellipsoid comparison, independently recomputed | Intact — matched paper's stated 2.71/3.56 to 4 significant figures | Closed G15; re-verified G17/G18 |
+
+#### Table E — External Review #3 (two "real" findings + nine smaller ones)
+
+| Item ID | What it was | Final status (as of G19) | Session fixed/checked in |
+|---|---|---|---|
+| W16-1 | Checklist item 16 (LLM-use disclosure) confirmed unchanged | **Still an open placeholder**, explicitly the operator's; not touched by G17, G18, or G19 | Confirmed-as-open G16; remains open through G19 |
+| W16-2 | Anau Montel et al. (2025) global-null comparison implemented and genuinely run | Intact. Measured result reversed the paper's prior unmeasured claim — global test correctly rejects at both corners/confounds, correctly fails to reject the null-data control | Implemented and run G16; re-verified through G18 |
+| W16-3 | Coherence/colnorm thresholds stated explicitly where their verdicts are used | Intact — genuinely computed, clean on all 8 assignments | Fixed G16; re-verified through G18 |
+| W16-4 | Orphaned random-attributor-floor sentence removed from main-text prose | Intact | Fixed G16; re-verified through G18 |
+| W16-5 | Second-θ check added to the provenance ledger | Intact | Fixed G16; re-verified through G18 |
+| W16-6 | Precision fix ("two orders of magnitude" → exact multiplier) | Superseded by G15's more precise fix ("3.4×") | Softened G16; exact multiplier G15 |
+| W16-7 | Figure 3(a) inline PASSES/FAILS labels removed, framing moved to caption | Intact | Fixed G16; re-verified through G18 |
+| W16-8 | Figure 7's unquantified "generally sooner" claim | Intact — Wilson intervals added, caption honestly disclosed the one combination that contradicts the claim | Fixed G16; re-verified through G18 |
+| W16-9 | $d$ (summary-statistic count) defined in Section 3 | Intact | Fixed G16; re-verified through G18 |
+| W16-10 | Fithian/Sun/Taylor and Lee/Sun/Sun/Taylor cited, with a distinguishing sentence | Intact — became the contrast Section 2's paragraph 4 turns on in G17's rewrite | Fixed G16; integrated G17; re-verified G18 |
+| W16-11 | "Every tool is prior art" aphorism stated once with force, trimmed elsewhere | Intact | Fixed G16; confirmed already-correct G17; re-verified G18 |
+
+#### Table F — Internal tone/readability pass (G17 voice rewrite + G18 cold read)
+
+| Item ID | What it was | Final status (as of G19) | Session fixed/checked in |
+|---|---|---|---|
+| G17 §1.1 | "Prior art" aphorism reduced to one instance | Already met on arrival (G16's W16-11); reported found, no edit made | Confirmed G17 |
+| G17 §1.1b | `checklist.tex` item 12 "cited as prior art" phrase | Judged unrelated, deliberately not touched | Reviewed and left alone G17 |
+| G17 §1.2 | Complete fresh dash-as-aside sweep | G14's claimed-complete sweep was not actually complete — 3 surviving em-dashes found and rewritten | Found + fixed G17 |
+| G17 §1.2b | Dashes baked into a figure image | Found, deliberately not changed (outside scope), disclosed | Found + disclosed, left alone G17 |
+| G17 §1.3 | "Not X, not Y, not Z" stacked-clause chain | Intact — restructured into three short sentences | Fixed G17 |
+| G17 §1.4 | Three "moved here for space" appendix openings | Intact — all three removed | Fixed G17 |
+| G17 §1.5 | K-vs-columns disclaimer / Figure 2 legend | Already met on arrival (G14's R14-1/R14-6) | Confirmed G17 |
+| G17 §1.6 | "Hand-placed annotations" sentence | Intact — removed, `checklist.tex` item 2 updated in the same pass | Fixed G17 |
+| G17 §1.6b | Stale code comment describing removed annotations | Noted, not fixed — non-packaged source comment, out of scope | Disclosed, not fixed, G17 |
+| G17 §2.1 | Introduction states findings directly, four-sentence voice pattern | **Partially superseded by G18.** G18's F2 reworded one of the four sentences for a different, more consequential reason (verbatim echo of the abstract). 3 of 4 markers remain verbatim | Fixed G17; partially superseded (disclosed) G18 |
+| G17 §3.1 | Section 2 converted from bullets to prose | Intact — citation-key multiset diff confirms unchanged | Fixed G17; untouched G18/G19 |
+| G17 V-1…V-9 | Nine residual audit-trail-voice instances | Intact, all nine fixed | Found + fixed G17 |
+| G17 — T2-11 regression | See Table B | Restored | Found + fixed G17 |
+| G17 — G8.4 bibliography leak | Repository name in a header comment, shipped via the Overleaf allowlist | Fixed — neutral wording | Found + fixed G17 |
+| G18 (F1) | Abstract sentence 4 dangling appositive | Fixed — comma to colon | Fixed G18 |
+| G18 (F2) | Introduction sentence 3 restated the abstract's C4 finding near-verbatim | Fixed — reworded, verbatim echo removed | Fixed G18 |
+| G18 (F3) | Introduction's closing sentence trailed into a comma-spliced fragment | Fixed — split into two sentences | Fixed G18 |
+| G18 (F4) | Section 4 opened with a provenance disclaimer before its substance | Fixed — reordered | Fixed G18 |
+| G18 (F5) | Appendix claims-ledger intro sentence fragment (missing verb) | Fixed — "is" inserted | Fixed G18 |
+| G18 — 1.2/1.3/1.7 checks | Confidence-vs-evidence, mechanical listing, Cranmer/Talts register | Clean, nothing found | Confirmed clean G18 |
+| G18 — 1.4 check | Two header-only section transitions | Checked, judged acceptable, deliberately not fixed | Reviewed and left alone G18 |
+
+#### Table G — Findings from each session's own re-verification (not raised by any external review)
+
+| Item ID | What it was | Final status (as of G19) | Session found/fixed in |
+|---|---|---|---|
+| G11-a | Prior "isolation" test was invalid (leaked local `TEXINPUTS`) | Fixed — kpathsea relative-path resolution; both tiers pass | Found + fixed G11 |
+| G11-b | `appendix_claims_table.tex` missing from the Overleaf allowlist | Fixed | Found + fixed G11 |
+| G11-c | Citation mismatch to the wrong figure | Fixed | Found + fixed G11 |
+| G11-d | 5 additional anonymity leaks beyond the 2 the review named | Fixed | Found + fixed G11 |
+| G11-e | An internal review-tracking label baked into the generated appendix table | Fixed at source, regenerated | Found + fixed G11 |
+| G12-a | STRICT-isolation tier's "PASS" was illusory (`TEXMFHOME` fallback, not genuine isolation) | **Disclosed, deferred, never fixed** — needs a second isolated TeX Live install, unavailable on this machine; re-confirmed still-deferred through G18/G19; does not affect the tier the project gates on (§2b) | Found G12; unresolved every gate through G19 |
+| G12-b | `FINAL_CLAIMS.md` missing a section `DUFOUR_CONFIDENCE_SET_CHECK.md` said it would add | Fixed | Found + fixed G12 |
+| G12-c | Stale page-count table in `OVERLEAF_PACKAGE_REPORT.md` | Fixed | Found + fixed G12 |
+| G13-a | Figure renumbering fallout from moving Table 1/simulator figure to appendix | Fixed before commit | Found + fixed G13 |
+| G13-b | Bibtex `month=June` warning (Raue et al. 2009) | **Disclosed, not fixed** — standing "`.bib` stays exactly as fetched" policy; still standing as of G19 | Found G13; remains unfixed through G19 |
+| G13-c | Early wording trim briefly dropped T2-11's clause | Caught and restored same session | Found + fixed within G13 |
+| G14-a | Figure 1 value labels below legibility floor | Fixed — widened panel | Found + fixed G14 |
+| G14-b | Table 1 hyphenating mid-word in narrow columns | Fixed | Found + fixed G14 |
+| G14-c | Session interrupted mid-sweep, resumed correctly via git/file state | Process note, not a defect | G14 |
+| G14-d | A literal `--` baked into a matplotlib annotation (`.py`, invisible to `.tex`-scoped grep) | Fixed, figure regenerated | Found + fixed G14 |
+| G15-a | Figure 7 legend placed where data curves cross it | Fixed — legend relocated | Found + fixed G15 |
+| G15-b | "Two orders past κmax" overstated the margin ~30× | Fixed — "3.4× past" | Found + fixed G15 |
+| G15-c | Section 5 contradicted its own later statement about which box first fails | Fixed | Found + fixed G15 |
+| G15-d | Three figures' provenance sidecars carried stale `dirty: true` flags | Fixed — regenerated clean, confirmed pixel-identical | Found + fixed G15 |
+| G16-a | Every `results/*.yaml` leaked hostname + commit hash under two field names each | Fixed — value-pattern redaction in `build_anonymous_package.sh` | Found + fixed G16 |
+| G16-b | Montel module's first draft used Python's randomized `hash()` for seeding | Caught before the production run, fixed to a deterministic offset | Found + fixed within G16 |
+
+#### Table H — Structural / cross-cutting items
+
+| Item | What it was | Final status (as of G19) | Session(s) |
+|---|---|---|---|
+| Page limit | Main text ≤5 pages | Held since G13 through G19 (reopened/reclosed by content-neutral tightening 3 times) | Not met G9/G11/G12; closed G13; held G14–G19 |
+| G10 backfill | No original `GATES.md` entry existed for G10 | Backfilled retroactively; isolation criterion marked not-met-as-originally-run/fixed-in-G11 | Gap found + entry written G12 |
+| Two-tier isolation compile discipline | Whether the packaged zip is genuinely self-contained | §2b (the gating tier) passes genuinely every session G11–G19; §2a passes only in the narrower this-machine-fallback sense, unresolved since G12 | Established G11; caveat named G12; carried through G19 |
+| Anonymized reproducibility package (`build/anonymous_package.zip`) | Public code package: `src/`, `tests/`, redacted `results/*.yaml`, standalone README, re-fetched canonical MIT `LICENSE` | Built, redacted, independently re-scanned (zero hits across 91 files), extracted fresh and run (164/171 tests pass, 7 documented non-blocking exclusions). **Uploaded to OSF by the operator between G18 and G19; live link spot-checked this session (headline above)** | Built G16; uploaded by operator, link verified G19 |
+| Checklist item 5 (anonymized-code-link placeholder) | `[ANONYMIZED CODE LINK --- OPERATOR TO INSERT...]` | **Closed by G19** — real URL inserted | Closed G19 |
+| Checklist item 16 (LLM-use disclosure placeholder) | `\answerTODO{}` | Still open — explicitly the operator's, untouched through G19 | Confirmed open every session since G16 |
+
+#### Table I — G19 (this session)
+
+| Item | What it was | Final status | Session |
+|---|---|---|---|
+| G19-1 | Replace `paper/checklist.tex` item 5's placeholder with the real anonymized-package link | Done | G19 |
+| G19-2 | Full number trace re-run | Zero drift — 125 numbers, byte-identical regeneration | G19 |
+| G19-3 | Anonymization re-scan (submission scope + repo-wide AI-reference scope) | Both clean, distinctly reported (see Phase 2.8 above) | G19 |
+| G19-4 | Two-tier isolation compile | Both tiers pass, 23 pages, zero undefined references | G19 |
+| G19-5 | Page count | Main text pages 1–5 unchanged | G19 |
+| G19-6 | Overleaf package rebuild | 17 files, 13 allowlisted paths | G19 |
+| G19-7 | OSF link live spot-check | Anonymous mode confirmed via API, file visible, no contributor name, title clean | G19 |
+| G19-8 | Independent fresh-eyes PDF anonymity review | Clean; one informational metadata note (`/CreationDate` timezone) | G19 |
+| G19-9 | Scope discipline | No prose, no claim, no number, and no file outside `paper/checklist.tex`'s one line was touched this session | G19 |
+
+### What G19 explicitly does not certify
+
+- **That this session's own checks are a substitute for the operator's own read.** Every point in
+  the standing P-list below (signing G19, personally re-verifying the OSF link, writing the AI-use
+  disclosure, the reciprocal-review/Paris/visibility/submission actions) remains the operator's,
+  not resolved by this session having run.
+- **That the `/CreationDate` timezone metadata is neutralized.** It is disclosed, not fixed —
+  fixing it would mean recompiling with a pinned `SOURCE_DATE_EPOCH` or on a UTC-configured
+  machine, a build-environment change this session judged out of its own narrow mandate (insert
+  one URL, verify the whole document) rather than something to make unilaterally on a
+  submission-readiness pass.
+- **That the private development repository is itself anonymous.** It is not, and was never meant
+  to be — `LICENSE`, `README.md`, `results/*.yaml` hostnames, and git authorship all correctly
+  carry the operator's real identity. P-5 (switching repository visibility to private) is the
+  operator's own pending action for exactly this reason.
+- **That every one of nineteen sessions' voice, substance, and evidence judgments has been
+  independently re-litigated.** This session verified that nothing drifted since G18's own
+  certification of that state; it did not re-run G11–G18's own review/critique work from scratch.
+
+### Process caveats
+
+- **The OSF spot-check and the fresh-eyes PDF read were both genuinely independent this
+  session** — the OSF API check used live server responses, not the URL's shape; the PDF read was
+  performed by a separate agent instance with no conversation history on this paper, closer in
+  kind to the external, genuinely fresh review G17/G18 both called for than any of this project's
+  prior internal re-reads have been. Neither is a substitute for a human reviewer.
+- **The consolidated table (Phase 2.6) is a compilation, not a re-litigation.** It records what
+  each prior session already established: status "intact" means no evidence of drift was found
+  this session, not that the underlying claim was independently re-derived from scratch this
+  session (the numeric ones were, via the byte-identical regeneration in 2.1; the prose/voice ones
+  were checked only for accidental disturbance, since `main.tex` was never opened).
+
+### Points requiring operator input — collected, not resolved
+
+- **P-1.** Sign G19 after reading the final PDF, including the newly-completed checklist item 5.
+- **P-2.** Personally re-verify the OSF link one more time (private/incognito window) — this
+  session's own check used the live public API and confirmed anonymity, files, and title, but a
+  human eyeballing the actual rendered page is still the operator's own final check per the
+  standing S4 instruction.
+- **P-3.** Write the AI-use disclosure at checklist item 16 — untouched this session, as every
+  session since G9.
+- **P-4.** Confirm the reciprocal reviewer nomination (Q-3) and Paris attendance — unchanged,
+  not this session's to resolve.
+- **P-5.** Switch repository visibility to private.
+- **P-6.** Optional: if the operator wants the PDF's embedded `/CreationDate` timezone offset
+  neutralized before the final camera-ready build, recompile with `SOURCE_DATE_EPOCH` pinned (or
+  on a UTC-configured machine/CI). Not required — this is below the severity of an anonymity
+  violation — but flagged since the fresh-eyes review specifically surfaced it.
+- **P-7.** Submit via OpenReview — 29 August 2026 AoE.
+
+Everything else — the document itself, its numbers, its anonymity, its compilation, its packaging
+— is, as of this session's own verification, complete.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
