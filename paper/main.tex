@@ -68,7 +68,7 @@ component; the same measurement locates exactly where this breaks once a compone
 parameters at once ($\kappa=628.9$, rank 4 of 6), on a real, interpretable confound. A
 selective-inference construction for a calibrated attribution test is affordable at a known
 parameter but fails to terminate once the nuisance parameters are known only to the precision a
-maximum-likelihood fit gives them, a box wider, on every coordinate, than one already shown to
+maximum-likelihood fit gives them: a box wider, on every coordinate, than one already shown to
 break it. We predict the boundary before measuring it, from the ratio of nuisance shift to
 observation noise, and the prediction holds.
 Every tool used is prior art; the contribution is the finding.
@@ -90,12 +90,12 @@ epidemic simulator whose components are transmission, progression, and observati
 that one summary set separates all three components under every one of the eight component-wise
 distortion assignments our two declared families permit, given at most one distortion parameter
 per component. Separability then fails the moment a component carries two, on a real confound between
-progression and observation rather than a numerical artifact. We find that a calibrated attribution test built on the
-identifiable case is affordable at a known parameter but fails to terminate once the nuisance
-parameters are known only to the precision a maximum-likelihood fit gives them.
-And we predict that boundary before measuring it, from the ratio of nuisance shift to
-observation noise; the prediction holds (Table~\ref{tab:summary}, Appendix~\ref{sec:appendix},
-pairs each finding with its evidence figure).
+progression and observation rather than a numerical artifact. A calibrated attribution test built on the
+identifiable case stays affordable only at a known parameter: once the nuisance parameters are
+known only to the precision a maximum-likelihood fit gives them, it fails to terminate.
+We predict that boundary before measuring it, from the ratio of nuisance shift to
+observation noise, and the prediction holds. Table~\ref{tab:summary}
+(Appendix~\ref{sec:appendix}) pairs each finding with its evidence figure.
 
 \section{Background and related work}
 \label{sec:background}
@@ -212,10 +212,10 @@ is well posed, and nothing further.
 \label{sec:experiments}
 
 \paragraph{Simulator and summary sets.}
-Every number below traces to a results file and an exact dotted path, listed in full in
-Appendix~\ref{sec:claims-ledger}. We apply the diagnostic to a $K=3$ compartmental epidemic simulator: transmission,
+We apply the diagnostic to a $K=3$ compartmental epidemic simulator: transmission,
 progression, observation (full structure and formulas: Figure~\ref{fig:simulator},
-Appendix~\ref{sec:appendix}). Each component carries one one-parameter distortion family
+Appendix~\ref{sec:appendix}). Every number below traces to a results file and an exact dotted
+path, listed in full in Appendix~\ref{sec:claims-ledger}. Each component carries one one-parameter distortion family
 $\delta_k(\cdot\,;\eta_k)$, $\eta_k$ in units of a fixed $10\%$ relative deformation: the
 \emph{base} set is three qualitatively different deformations, while the \emph{adversarial} set
 is designed so all three columns perturb the same feature, the epidemic curve's growth rate.
@@ -498,7 +498,7 @@ favour of the primary case alone.
 \label{sec:claims-ledger}
 
 Every number the main text's four contributions and the confidence-set check of
-Section~\ref{sec:negative-result} rest on, generated programmatically from the underlying
+Section~\ref{sec:negative-result} rest on is generated programmatically from the underlying
 measurement files rather than typed by hand, each with the exact file and path it was read
 from.
 
