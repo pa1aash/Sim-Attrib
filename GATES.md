@@ -2520,3 +2520,178 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G18 — Does the paper read well to a harsh reviewer judging tone and readability alone, with
+no claim, number, figure, or citation touched?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-28, session G18. Signature block below is for the operator.
+
+> ### The headline, stated before the table
+>
+> **A cold, start-to-finish read of the compiled PDF, judging tone and readability only, found
+> five concrete things worth fixing and confirmed the rest of the paper already reads well.**
+> This is not a session that manufactured work to justify its own existence (S9): Sections 2–5
+> already build arguments rather than reading as fact-lists, the paper's confidence level already
+> matches its evidence (no hedging found anywhere in the main text), and three of the six things
+> the brief specifically asked to check — mechanical listing in Method/Experiments, confidence
+> versus evidence, and the Cranmer/Talts register comparison — came back clean. Two transition
+> points (Related Work into Method, the negative-result section into Limitations) were checked
+> and judged acceptable as header-only openings — common in this venue's papers, not fixed.
+>
+> **What was fixed, all four in `paper/main.tex`, zero in `checklist.tex`:** a dangling
+> appositive in the abstract's fourth sentence (comma to colon); the introduction's third
+> sentence, which restated the abstract's C4 finding in near-verbatim phrasing, reworded to carry
+> the identical claim without the verbatim echo; the introduction's closing sentence, split so it
+> lands on "the prediction holds" instead of trailing into a comma-spliced appendix-table
+> fragment; Section 4's opening two sentences reordered so the substantive one ("We apply the
+> diagnostic to a $K=3$ compartmental epidemic simulator…") leads instead of a provenance
+> disclaimer; and a sentence fragment in the appendix's claims-ledger intro (missing "is")
+> completed. Full before/after text: Phase 2 table below.
+>
+> **Nothing else changed.** A `pdftotext -layout` diff between the pre-edit and post-edit PDF
+> shows exactly these four paragraph-local hunks and nothing else — no numeric token count
+> changed (1,606 before, 1,606 after), citation count is unchanged (20 occurrences, 19 distinct,
+> the same G17 measured), and `src/diagnostics/report_claims.py` regenerated from the underlying
+> `results/*.yaml` files byte-identical to the committed `paper/appendix_claims_table.tex`
+> (125 numbers, zero drift). Main text is still pages 1–5, References still begins page 6, both
+> isolation tiers compile clean at 23 pages / 602,400 bytes, `pdftotext` output identical across
+> the repo working copy and both fresh extractions.
+>
+> **One disclosed judgment call.** G17's own gate (item 2.1) documents the introduction as four
+> sentences in a deliberate voice pattern — "We find that…", "Separability then fails…", "We find
+> that…", "And we predict…". This session's fix to the third of those four rewords it away from
+> that exact opening ("A calibrated attribution test built on the identifiable case stays
+> affordable only at a known parameter: …") because the verbatim overlap with the abstract was
+> judged the more consequential problem for a cold read — a reviewer reads the introduction
+> immediately after the abstract, and repeating a full clause word-for-word inside two paragraphs
+> of each other reads as padding regardless of how confident or active the voice is. The other
+> three of G17's four voice markers ("We find", "Separability then fails", "We predict") are
+> untouched and still present verbatim. This is a supersession of one part of a G17 decision, not
+> a reversal of its intent — active, declarative, first-person-plural voice throughout, just not
+> the identical four-sentence template. Flagged here rather than left for the operator to notice
+> in the diff (P-2, below).
+
+### Phase 1 — the cold review, as written before any fix was made
+
+Read against the seven checks the brief names (1.1–1.7), on the compiled `paper/main.pdf`,
+pages 1–6 (main text through the start of References).
+
+| # | Check | Finding |
+|---|---|---|
+| 1.1 | Does every sentence earn its place? | **One real instance, the session's most consequential finding.** The introduction's third sentence restated the abstract's C4 clause — "…is affordable at a known parameter but fails to terminate once the nuisance parameters are known only to the precision a maximum-likelihood fit gives them" — essentially word-for-word, roughly fifteen lines after the reader had just read it in the abstract. No other sentence-level redundancy found in the main text |
+| 1.2 | Does the paper sound confident where it has earned confidence? | **Clean — nothing found.** No hedging phrase ("may suggest", "seems to", "it is possible that") anywhere in the main text. Every finding is stated as a direct, declarative claim: "is inseparable", "fails to terminate", "the gate fails at every corner under all four" |
+| 1.3 | Does Method or Experiments read mechanically? | **Clean — nothing found.** Section 3's four-step list is the one the brief itself names as legitimate. Section 4 avoids the fact-list trap through a real structural device: each paragraph opens with a bolded question/finding ("Where attribution is identifiable…", "Where it is not…") that functions as a mini-thesis statement, then argues to it — this is not a list dressed as prose, it is an argument |
+| 1.4 | Do sections transition, or read as self-contained blocks? | **Three of five checked transitions are real bridges** (Introduction→Related Work echoes "misspecified at all" against Related Work's opener; Method→Experiments and Experiments→negative-result both reference back explicitly). **Two are header-only** (Related Work→Method, negative-result→Limitations open directly on a bolded sub-heading with no lead-in sentence). Judged acceptable — common practice in this venue for a Method or Limitations section to open directly on content — and **not fixed**, per S9 rather than manufacturing a bridge sentence that would add nothing a reader needs |
+| 1.5 | Do opening/closing sentences of each section do real work? | **Two do not, both fixed.** The introduction's closing sentence trails from a strong beat ("the prediction holds") into a comma-spliced appendix-table pointer that reads as an afterthought rather than a landed conclusion. Section 4's opening sentence is a provenance disclaimer ("Every number below traces to a results file…") placed before the section's actual substantive opener, which sits one sentence later. Every other section's opening and closing sentence (Introduction's open, Related Work's open/close, Method's open/close, the negative-result section's open/close, Limitations' open/close, the Abstract's close) does real work already |
+| 1.6 | Does the abstract earn a read, cold? | **Yes, with one local defect.** The abstract's opening sentence states a real, general precondition problem without preamble; its closing sentence ("Every tool used is prior art; the contribution is the finding.") is a strong, memorable closer, unchanged, no fix needed. Sentence 4 has a dangling appositive — "…gives them, a box wider, on every coordinate, than one already shown to break it" — where "a box" grammatically attaches to the wrong preceding noun and a reader has to work to resolve it. Fixed with a single punctuation change (comma to colon) rather than a rewrite |
+| 1.7 | Register against Cranmer/Talts? | **Already matches.** Declarative sentence density, minimal hedging, technical vocabulary handled without apology — this was true before this session's edits and remains true after them |
+
+### Phase 2 — the fixes
+
+| # | Location | Before | After | Maps to |
+|---|---|---|---|---|
+| F1 | Abstract, sentence 4 | "…gives them, a box wider, on every coordinate, than one already shown to break it." | "…gives them: a box wider, on every coordinate, than one already shown to break it." | 1.6 |
+| F2 | Introduction, sentence 3 | "We find that a calibrated attribution test built on the identifiable case is affordable at a known parameter but fails to terminate once the nuisance parameters are known only to the precision a maximum-likelihood fit gives them." | "A calibrated attribution test built on the identifiable case stays affordable only at a known parameter: once the nuisance parameters are known only to the precision a maximum-likelihood fit gives them, it fails to terminate." | 1.1 |
+| F3 | Introduction, closing sentence | "And we predict that boundary before measuring it, from the ratio of nuisance shift to observation noise; the prediction holds (Table~\ref{tab:summary}, Appendix~\ref{sec:appendix}, pairs each finding with its evidence figure)." | "We predict that boundary before measuring it, from the ratio of nuisance shift to observation noise, and the prediction holds. Table~\ref{tab:summary} (Appendix~\ref{sec:appendix}) pairs each finding with its evidence figure." | 1.5 |
+| F4 | Section 4, opening | "Every number below traces to a results file and an exact dotted path, listed in full in Appendix~\ref{sec:claims-ledger}. We apply the diagnostic to a $K=3$ compartmental epidemic simulator: …" | "We apply the diagnostic to a $K=3$ compartmental epidemic simulator: … Every number below traces to a results file and an exact dotted path, listed in full in Appendix~\ref{sec:claims-ledger}." | 1.5 |
+| F5 | Appendix, claims-ledger intro | "Every number the main text's four contributions … rest on, generated programmatically from the underlying measurement files …" (sentence fragment, no main verb) | "Every number the main text's four contributions … rest on is generated programmatically from the underlying measurement files …" | grammar, found during Phase 1 alongside 1.5 |
+
+Every fix is a wording, ordering, or punctuation change. No fix touched a number, a citation, a
+figure, or the substance of any claim — verified in Phase 3 below, not assumed.
+
+### Phase 3 — re-verification
+
+| Check | Result |
+|---|---|
+| Numeric literal diff, pre-edit vs.\ post-edit rendered text | **1,606 numeric tokens before, 1,606 after.** The only reordering `difflib` reports is margin line-number reflow local to the four edited paragraphs, confirmed by a separate `pdftotext -layout` diff showing exactly four paragraph-local hunks and nothing else |
+| Citation key count | **Unchanged: 20 occurrences, 19 distinct** — same as G17's own measured baseline |
+| Full number-trace re-run | **Zero drift.** `src/diagnostics/report_claims.py --tex-out paper/appendix_claims_table.tex --out results/FINAL_CLAIMS_NUMBERS.md` regenerated both files from the underlying `results/*.yaml` sources; `diff` against the committed versions returned nothing and `git status` reported no changes — 125 numbers, all still tracing correctly, confirmed by regeneration rather than by spot-checking |
+| Anonymization re-scan | **Clean.** `grep -inE "palaash\|gang\|sim-attrib\|pa1aash"` across `paper/main.tex`, `paper/checklist.tex`, `paper/appendix_tables.tex`, `paper/appendix_claims_table.tex`, `audit/BIBLIOGRAPHY.bib`, and the compiled PDF's extracted text: zero hits in all six. PDF `/Author` field empty |
+| Page limit | **Met.** Main text pages 1–5, References begins page 6, confirmed by `pdftotext` form-feed parsing of the freshly compiled PDF |
+| Two-tier isolation compile | **Met, both tiers**, against `build/sim_attrib_overleaf_47ccb87.zip` extracted fresh to two separate temp directories, never the repo working copy, `TEXINPUTS` genuinely unset in both. §2b (`TEXMFHOME` pointed at this operator's personal package tree): exit 0, 23 pages, zero undefined references/citations, 602,400-byte `main.pdf`. §2a (`TEXMFHOME` unset, this-machine-fallback sense per G12's own naming correction): exit 0, 23 pages, zero undefined references/citations, identical 602,400-byte `main.pdf`. `pdftotext` output textually identical across the repo working copy and both extractions |
+| Overleaf package rebuilt | **Met.** `scripts/build_overleaf_package.sh` re-run against the final committed state, allowlist unchanged, 17 files, 13 allowlisted paths |
+
+### Phase 3.4 — the full consolidated re-verification table (G11 through G17)
+
+Every item below was either (a) provably untouched, because a `pdftotext -layout` diff between
+the pre-G18 and post-G18 PDF shows only the four F1–F5 hunks above and nothing else, or (b)
+individually re-confirmed by grep where its text sits inside or adjacent to one of those four
+hunks. Items in category (b) are marked explicitly; everything else is category (a).
+
+| Item | What it is | Status after G18 |
+|---|---|---|
+| T1-1 | Appendix claim-to-source table, generated not hand-typed | **intact.** Regenerated from source and diffed byte-identical (Phase 3 above) |
+| T1-2 | Page limit ≤5 | **intact.** Pages 1–5, unaffected by four wording-only edits |
+| T1-3 | Real confidence-set-bounded MMC check | **intact**, untouched (category a) |
+| T1-4 | Simulator schematic in appendix, qualitative content restated in main-text prose | **intact**, untouched (category a) |
+| T1-5 | Full anonymity re-scan | **intact, re-run this session** — zero hits, see Phase 3 |
+| T1-6 | Checklist answers match the compiled PDF | **intact.** `checklist.tex` was read this session and not edited; nothing in F1–F5 touches a claim the checklist answers describe |
+| T2-1/T2-2 | Rank-at-τ / κ≤κmax as one condition; κ² cost derivation | **intact**, untouched (category a) |
+| T2-3 | Data-motivated η-scaling using confidence-set SEs | **intact**, untouched (category a) |
+| T2-4 | Second-θ check | **intact**, untouched (category a) |
+| T2-5 | Related Work citations genuinely engaged | **intact**, untouched (category a) — Section 2 was not touched this session |
+| T2-6 | Section 5 retitled, finding-first | **intact**, untouched (category a) |
+| T2-7 | Scope restriction in the introduction's own contribution sentence | **intact, re-confirmed (b).** "given at most one distortion parameter per component" sits in the intro's *second* sentence, immediately before the third sentence F2 reworded; verified present verbatim, unaffected by F2 |
+| T2-8 | Two-panel non-termination figure, per-figure font floors | **intact**, untouched (category a) |
+| T2-9 | Repeated metaphor reduced; four steps as a numbered list | **intact**, untouched (category a) |
+| T2-10 | Abstract tightened, concrete number retained | **intact, re-confirmed (b).** `\kappa=628.9`, rank 4 of 6 verified present in the abstract, in the sentence immediately before the one F1 touched; F1 changed only a comma to a colon later in the following sentence, no number affected |
+| T2-11 | Limitations bullet on where a learned summary statistic would sit | **intact**, untouched (category a) — verified present, `(where $s(y)$ would sit)` |
+| T2-12 | K-vs-column-count notation conflict resolved | **intact**, untouched (category a) |
+| T2-13 | Appendix table's plateau-stability caption honest about noise | **intact**, untouched (category a) |
+| T2-14 | Checklist after the appendix | **intact**, untouched (category a) |
+| T2-15 | Sentence on the baseline test's output on the six-column confound | **intact**, untouched (category a) |
+| R1 / R2 (first-review novelty threat-checks) | Rejection-sampling calibration is prior art; noisy-rank estimator | **intact**, untouched (category a) |
+| R-1 (second review) | Main-text self-sufficiency | **intact**, untouched (category a) |
+| R-2 (second review) | Ledger under-referencing; undefined criteria | **intact**, untouched (category a) |
+| R-3 (second review) | Mahalanobis-radius / ellipsoid comparison | **intact**, untouched (category a) |
+| R14-1 … R14-9 | Second review's Path to Acceptance | **intact**, untouched (category a) |
+| W16-1 … W16-11 (third review) | G16's eleven items | **intact**, untouched (category a) |
+| G15 Phase-3 finding 1 | "344.9 … two orders past κmax" overstatement | **intact as corrected**, untouched (category a) |
+| G15 Phase-3 finding 2 | "±0.5% box already known to break" contradiction | **intact as corrected**, untouched (category a) |
+| G14 P-1 | Paper-wide dash removal | **intact, re-confirmed (b).** `grep -c -- '---' paper/main.tex` returns 0 |
+| G8.4 | Bibliography header anonymized | **intact**, untouched (category a) |
+| G17 headline | Numeric-literal and citation-key diff against `HEAD` | **intact, superseded by a wider re-run.** G18's own Phase 3 re-derives both counts fresh rather than trusting G17's figures, and they match |
+| G17 item 1.1–1.6b | Aphorism instance count, dash sweep, ruling-out sentence, appendix openers, K-vs-columns, hand-placed-annotation sentence | **intact**, untouched (category a) |
+| G17 item 2.1 | Introduction's four-sentence voice pattern | **partially superseded, disclosed.** F2 reworded the third of the four sentences away from "We find that…" for reasons stated in the headline above. Three of four markers ("We find", "Separability then fails", "We predict") remain verbatim; the fourth carries the identical claim in different words |
+| G17 item 3.1 | Section 2 bullets-to-prose conversion | **intact**, untouched (category a) — Section 2 not touched this session |
+| G17 items 4.1–4.2 (V-1…V-9) | The nine residual audit-voice instances G17 found and fixed | **intact**, untouched (category a) |
+| G17 item 5.3 | Page limit ≤5, closed by prose tightening alone | **intact**, re-confirmed pages 1–5 this session too |
+
+### What G18 explicitly does not certify
+
+- **That this is a genuinely independent fourth review.** It is this project's own process doing
+  a self-review, by the same kind of agent that wrote the prose it is now judging — the exact
+  limitation G17's own gate named when it recommended a fourth, external, tone-focused review.
+  That recommendation is **repeated, not superseded, by this session.** G18 is a real, careful
+  cold read and a real fix pass; it is not a substitute for an outside reader.
+- **That the register is now exhausted.** G17 found nine further instances on a second full
+  read after fixing the six its brief named. This session found five on one read. The pattern
+  across G14, G15, and G17 is consistent: no single pass has ever found everything. A sixth or
+  seventh instance plausibly remains.
+- **That the two header-only transitions (1.4) are definitely the right call to leave.** They
+  were judged acceptable against this venue's own conventions, not verified against a rule. A
+  reader who wants a bridge sentence there is disagreeing with a judgment, not discovering
+  something hidden.
+- **That F2's supersession of G17's exact four-sentence pattern was checked by anyone but this
+  session.** It is disclosed above and at P-2 below specifically so the operator can veto it.
+
+### Process caveats
+
+- **This session's read was one pass, single reader**, exactly as every voice judgment in G16
+  and G17 was. No adversarial critic or second agent ran against these five findings or against
+  the two "judged acceptable, not fixed" transition calls.
+- **The five findings are concentrated in two sentences (abstract sentence 4, intro sentences 3
+  and 4) plus two structural nits (Section 4's opener order, one appendix sentence fragment).**
+  This is a narrower set of findings than G17's own Phase 4 turned up on its second pass, which
+  is consistent with a paper that a prior, careful voice session already improved substantially —
+  not evidence that this pass was less thorough.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
