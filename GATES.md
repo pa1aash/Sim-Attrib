@@ -3034,3 +3034,206 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G20 — Operator line-edit, structural pass: appendix bloat, ordering, a missing conclusion.
+Does the paper's structure hold up after a large relocation, and does the page budget still close?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-29, session G20 — the twentieth internal session, first of a planned four
+(G20-G23) covering a detailed operator line-edit. This session's mandate is explicitly
+**structural only** (where content lives, not how individual sentences read); prose-style tuning
+is reserved for G21/G22 on the structure this session produces.
+
+> ### The headline, stated before the detail
+>
+> **Every phase of the operator's brief ran, and one genuine, disclosed shortfall remains: main
+> text is 6 pages, not 5.** Root cause and resolution are below; the operator was asked mid-session
+> how to handle it and chose to defer the fix to G21's planned prose-tightening pass rather than
+> have this structural session touch pre-existing Limitations prose.
+>
+> **Phase 1 (A.1, Table 1 placement).** Table 1 (the four-finding summary) stays in the appendix;
+> option (b) — shrink the Section 1 pointer to a compact single sentence — was chosen over moving
+> the table into Section 1, because by the time this decision was reached (after Phases 2-4, 6-7)
+> main text had no spare room, let alone room to absorb a table. The intro's pointer sentence
+> ("Table~\ref{tab:summary} (Appendix~\ref{sec:appendix}) pairs each of the paper's four findings
+> with its evidence figure.") is now folded into the rewritten second paragraph (Phase 6) rather
+> than standing alone.
+>
+> **Phase 2 (A.4, Table 2/Table 3).** Table 2 (`tab:sb-eight`, $S_B$'s eight-assignment table)
+> stays untouched — the main text's 1.523/9.881 citations still resolve to it. Table 3
+> (`tab:sa-eight`, the $S_A$ control table) was **dropped entirely**, not folded: its rows are a
+> near-duplicate of Figure 1's right panel, and the one column Figure 1 doesn't carry — the named
+> equivalence class per failing assignment — is now one clause in Section 4's $S_A$ sentence
+> (`\{progression\}`, `\{transmission, progression\}`, `\{progression, observation\}` across the
+> four failures). The dropped table's full numbers are preserved in `CLAIMS.md` (Phase 3.4) so
+> nothing is lost, only removed from the paper itself.
+>
+> **Phase 3 (A.5, the surgical cut) is the largest change in this session.** Three promotions, one
+> cut:
+> - **3.1, controls.** The $S_C$ positive control (rank 2, $\kappa=\infty$) was already stated
+>   with its numbers in main-text prose before this session — nothing to promote there. The no-CRN
+>   negative control was referenced only as "(confirmed by a negative control)" with no numbers;
+>   Section 3 now states them directly: no plateau found, one of six step sizes inside any
+>   candidate window, verified against `results/jacobian_rank.S_A.no_crn_control.yaml`
+>   (`results.plateau.found: false`, `results.plateau.n_h_in_plateau: 1`).
+> - **3.2, the threshold table.** A new Table 3 (Appendix A.2) consolidates all eight
+>   pre-registered thresholds ($\tau$, $\kappa_{\max}$, resolve factor, plateau tolerance,
+>   equivalence-class loading, coherence flag, column-norm floor, six step sizes), every value
+>   verified against `results/jacobian_rank.S_B.yaml`'s `thresholds_pre_registered` block. Placed
+>   in A.2 rather than Section 3 (the operator's own stated alternative) after the first
+>   placement, in Section 3, pushed main text to 6 pages on its own.
+> - **3.3, the confidence box.** A new table near Figure 3 (Section 5) gives the five individual
+>   relative half-widths and the MLE point estimate ($\beta$ 0.3551/2.35%, $\gamma$
+>   0.1475/6.98%, $\rho$ 0.4050/6.06%, $I_0$ 10.37/13.99%, $\sigma_{\text{obs}}$
+>   0.1568/16.63%), verified against `results/confidence_set_mmc.yaml`'s `mle_fit.theta_hat` and
+>   `confidence_set_box` blocks. Laid out transposed (parameters as columns, two rows) rather than
+>   five rows, purely for page-budget reasons — same five values and MLE point, more compact form.
+> - **3.4/3.5, the cut.** Everything else that was in A.5 (the former C2, C3, C4, C5, L1, B1
+>   dotted-path tables, roughly seven pages of paths) is replaced with one paragraph, and the
+>   subsection is renamed **"Claim-to-source table."** The full ledger — nothing dropped, C1
+>   through C5, L1, B1, and the source-file provenance table — now lives as `CLAIMS.md` in the
+>   anonymized reproducibility package (`scripts/anonymous_package/CLAIMS.md`, 92 rows). The
+>   package build script (`scripts/build_anonymous_package.sh`) now copies it in; verified present
+>   in the rebuilt `build/anonymous_package.zip`. The now-unused `paper/appendix_claims_table.tex`
+>   was removed (`git rm`) — and, caught only by actually running the rebuild rather than assuming
+>   it would work, **`scripts/build_overleaf_package.sh`'s hardcoded allowlist still named that
+>   deleted file**; fixed before the Overleaf package was rebuilt (this is exactly the class of
+>   drift Phase 8.6 asked to check for, just on the sibling script, not the one the phase named).
+>
+> **Phase 4 (Section 2's embedded result) moved.** The Anau Montel et al. baseline comparison — a
+> full experimental result (rejection at both corners and two confound realizations, a null
+> control, an arg-min analysis) — was sitting inside "Background and related work" as if it were a
+> citation aside. Section 2 now carries one forward-pointing sentence; the full result, unchanged
+> in substance, is a new paragraph at the end of Section 4 ("Comparison to a global
+> misspecification test"), presented as what it is: an experimental finding, not a related-work
+> note.
+>
+> **Phase 5 (Section 5 reorder) is done.** The boundary sweep ("The mechanism, and the shape of
+> the boundary") now comes before the data-implied confidence box ("Affordable at a known
+> parameter..."), matching the operator's requested order: establish where the round-box gate
+> fails first, then show the data-implied box is wider still. The forward reference
+> ("...already known to break the composition (below)") and the backward-repair sentence ("The
+> collapse below was measured under a round, assumed ±5% box; here it survives...") are both
+> removed, per the operator's own prediction that reordering would make them unnecessary; one
+> remaining directional word ("above" → "below") in the moved paragraph was corrected so it still
+> points the right way after the swap. Every number and every figure/table cross-reference in the
+> section was re-checked after the swap; all resolve.
+>
+> **Phase 6 (triple redundancy) is done.** The introduction's second paragraph no longer restates
+> the abstract's four findings a second time; it now explains why this simulator (three
+> biologically distinct mechanisms genuinely worth telling apart, distortions realistic enough
+> that two can move the same feature) and what a practitioner gets from running the screen
+> (a certificate or a named equivalence class, not a guess). Section 5's opening paragraph was
+> checked and is not doing full-restatement duty either — it only frames the MMC/selective-
+> inference finding (findings 3-4), not all four, so it needed no further cut on this count.
+>
+> **Phase 7 (Conclusion) is done.** A new two-sentence Conclusion section states the practical
+> recommendation the paper never previously stated as an instruction (run the screen before
+> attributing misspecification; report the equivalence class, not a guess, once $\kappa$ exceeds
+> the ceiling) and lands the contribution in one closing beat, in plain declarative sentences, no
+> "not X, rather Y" construction introduced.
+>
+> **The page-budget shortfall, in full.** Baseline (post-G19) main text was exactly 5 pages, no
+> slack. This session's mandatory additions (Phase 3.3's table, Phase 7's Conclusion, Phase 2's
+> equivalence-class clause, Phase 3.1's control numbers) added more than Phase 3.2's move-to-
+> appendix and Phase 4's relocation gave back, net. Every whitespace lever already at its
+> established floor (`\parskip`, `\floatsep`, `\textfloatsep`, `\abovecaptionskip` all previously
+> tightened across G12-G16) was confirmed still at floor, not further reducible without repeating
+> the font-size violation G11 was reverted for. A page-break-specific `\enlargethispage` was
+> calibrated by direct visual rendering (not assumed from `pdftotext` alone): tested from
+> `2\baselineskip` (clean) up through `4\baselineskip` and `30pt` (both produced visible text
+> overlap with the page footer, confirmed by rendering the page to PNG and reading it) — the paper
+> now ships at `\enlargethispage{2\baselineskip}` before `\section{Limitations}`, the largest
+> value confirmed clean. Every sentence and table this session added was compressed as far as it
+> would go without dropping a requirement (Conclusion cut to its floor of two sentences; the
+> confidence-box table transposed and set in `\footnotesize`; the Montel paragraph, threshold
+> pointer, negative-control clause, and intro rewrite all tightened again after the first pass).
+> The remaining gap — roughly bullet 2's back half and bullet 3 of Limitations, plus the
+> Conclusion, still land on page 6 — cannot close without touching pre-existing Limitations prose,
+> which is explicitly G21's mandate, not this session's. **Asked directly, the operator chose to
+> defer the fix to G21's full-document prose-tightening pass rather than have this session bend
+> its own "structure only" boundary.** Flagged here, not hidden: **main text is 6 pages, not 5,
+> at the end of G20**, and closing that is the first thing G21 needs to verify before doing
+> anything else.
+>
+> **Re-verification, independent of the promotion/cut work itself.** Number trace: every promoted
+> value (negative control, threshold table's eight entries, confidence box's five half-widths and
+> MLE point, the four equivalence-class labels) re-checked directly against the rendered PDF text
+> against the `results/*.yaml` source, not against memory of A.5's old prose. Anonymization
+> re-scan: clean, PDF text and metadata, and every file this session touched (the one hit in
+> `scripts/build_anonymous_package.sh` is the script's own obfuscated pattern definition, matching
+> itself by the design the script's own comment explains, not a leak). Two-tier isolation compile:
+> both tiers pass against a freshly rebuilt `build/sim_attrib_overleaf_380b694.zip` extracted to an
+> isolated temp directory — exit 0, 17 pages, zero undefined references/citations both tiers,
+> `pdftotext` output byte-for-byte identical across the repo working copy and both isolated
+> extractions (583,882-byte `main.pdf`, matching in all three). Anonymous package rebuilt with
+> `CLAIMS.md` confirmed present in the zip (92-row ledger, 21,111 bytes). Overleaf package
+> allowlist fixed (see Phase 3.4 above) and rebuilt clean.
+
+### What G20 explicitly does not certify
+
+- **That main text is within the 5-page limit.** It is not, as of this session's own count (6
+  pages). This is disclosed, not resolved — the operator's own choice this session was to let
+  G21 close it via prose tightening across the whole document rather than have this session touch
+  Limitations' wording. G21 must re-verify page count as its own first check, before any other
+  prose work, and must not assume this gate's other PASSes extend to a claim this gate does not
+  make.
+- **That every prior session's voice/substance judgment was re-litigated.** This session moved
+  content and added exactly the new prose Phases 2, 3.1, 4 (pointer sentence), 6, and 7 required;
+  it did not review or adjust any sentence outside those specific insertions, per its own
+  "structure only" mandate.
+- **That the reordering in Phase 5 or the relocation in Phase 4 reads smoothly at the sentence
+  level.** Both were checked for correctness (numbers still trace, cross-references still
+  resolve, no claim changed) and for structural fit (right section, right order), not for prose
+  quality — that is explicitly G21/G22's pass on the settled structure this session produced.
+
+### Process caveats
+
+- **The threshold table's placement changed mid-session, and that reversal is disclosed rather
+  than smoothed over.** It went into Section 3 first (per the operator's own stated first
+  preference), was found to be the single largest contributor to the 6-page overage once measured
+  against the compiled PDF rather than assumed, and was moved to Appendix A.2 (the operator's own
+  stated alternative) once that measurement was in. Both are literally what Phase 3.2's own
+  instructions offered as options; this session used the page-count measurement, not a coin flip,
+  to choose between them.
+- **The `\enlargethispage` value was chosen by rendering the page to an image and reading it
+  directly**, not by trusting `pdftotext`'s line-count output alone — `pdftotext` cannot show
+  visual text overlap, and two of the tested values (`4\baselineskip`, `30pt`) looked clean in
+  `pdftotext` extraction while visibly colliding with the page-footer number when rendered. This
+  matters for any future session tuning page breaks in this document: measure by rendering, not
+  by text extraction alone.
+- **CLAIMS.md is a new artifact this session created, not a straight copy-paste.** It was built
+  directly from the current `paper/appendix_claims_table.tex` (read in full, every row) rather
+  than from `audit/FINAL_CLAIMS.md`'s own appendix section, which predates C5/L1/B1 (added in
+  G11/G16) and would have silently dropped them had it been used as the source instead.
+
+### Points requiring operator input
+
+- **P-1 (carried from G19, unresolved).** Sign G19 and now also G20 after reading the recompiled
+  PDF end to end — this session moved a large amount of content across five phases.
+- **P-2 (carried from G19, unresolved).** Personally re-verify the OSF anonymized-package link.
+- **P-3 through P-7 (carried from G19, unresolved)** — AI-use disclosure, reciprocal-review/Paris
+  confirmation, repository visibility, `/CreationDate` timezone (optional), OpenReview submission.
+  None of these were this session's to touch and none were touched.
+- **P-8 (new this session, already answered mid-session).** Whether to close the 6th-page overage
+  now (touching pre-existing Limitations prose) or defer to G21. **Answered: defer to G21.**
+  Recorded here so the decision and its reasoning survive past this session, not just this
+  session's own memory.
+- **P-9 (new).** Table 1's placement (kept in the appendix, pointer sentence in Section 1) and
+  Table 3's disposition (dropped, not folded, with its equivalence-class column moved into one
+  Section 4 clause) were both left to this session's judgment per the operator's own brief.
+  Confirm both read well; if Table 1 is preferred in Section 1 instead, that decision needs to be
+  revisited once G21 has closed the page-budget gap and there may or may not be room.
+
+Everything else in this session's brief — the five main phases, the number-trace and
+anonymization re-verification, the isolation compiles, and both package rebuilds — is, as of this
+session's own verification, complete.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

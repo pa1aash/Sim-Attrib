@@ -1,0 +1,196 @@
+# Claim-to-source table
+
+Every number this paper's claims rest on, generated programmatically from the measurement files
+in this package rather than typed by hand. One row per number; the **path** column is the exact
+dotted path in the named file, so a reader can check any row without running anything. This
+table used to be printed in full in the paper's own appendix; it now ships here instead, and the
+paper's Appendix A.5 ("Claim-to-source table") points to this file.
+
+## C1 — the rank and coherence diagnostic (method)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| rank tolerance tau, pre-registered | 0.01 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.tau_rank_tolerance` |
+| condition-number ceiling kappa_max, pre-registered | 100 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.kappa_max` |
+| resolution factor (h-plateau), pre-registered | 2 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.resolve_factor` |
+| plateau relative tolerance | 0.05 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.plateau_rel_tol.value` |
+| equivalence-class loading threshold v_k,min | 0.3 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.vk_min_equivalence_class` |
+| coherence flag threshold | 0.98 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.coherence_flag` |
+| invisible-component column-norm threshold | 0.1 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.colnorm_invisible` |
+| step sizes swept (decades) | 6 | `results/jacobian_rank.S_B.yaml` | `thresholds_pre_registered.h_values` |
+| S_B: plateau found across the whole sweep | 6 | `results/jacobian_rank.S_B.yaml` | `results.plateau.n_h_in_plateau` |
+| S_B: largest singular-value variation factor across the plateau | 1.000114 | `results/jacobian_rank.S_B.yaml` | `results.singular_value_variation_factor` |
+| NEGATIVE CONTROL, no CRN: plateau found? | False | `results/jacobian_rank.S_A.no_crn_control.yaml` | `results.plateau.found` |
+| NEGATIVE CONTROL, no CRN: h values inside the plateau | 1 | `results/jacobian_rank.S_A.no_crn_control.yaml` | `results.plateau.n_h_in_plateau` |
+| POSITIVE CONTROL S_C (d = 2 < K): rank at tau | 2 | `results/jacobian_rank.S_C.yaml` | `results.numerical_rank.rank_certain` |
+| POSITIVE CONTROL S_C: condition number | infinity | `results/jacobian_rank.S_C.yaml` | `results.condition_number` |
+| POSITIVE CONTROL S_C: verdict | rank deficient at tau | `results/jacobian_rank.S_C.yaml` | `results.inseparable_reason` |
+
+## C2 — the eight-assignment separability result for S_B (positive)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| S_B, number of family assignments tested | 8 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B, number separable | 8 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B, smallest kappa over the eight (BAB) | 6.628 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B, largest kappa over the eight (ABA) | 65.64 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B, kappa under the declared base set BBB | 10.12 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.base.condition_number` |
+| S_B, kappa under the declared adversarial set AAA | 64.62 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.adversarial.condition_number` |
+| S_B, worst singular-value variation factor over the eight | 1.003883 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B, leakage check passes on all eight | True | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B, smallest tau* margin over the eight (x registered tau) | 1.523 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.mixed_triples` |
+| S_B base, tau* margin (x registered tau) | 9.881 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.base.tau_sensitivity.exact_flip_point.as_multiple_of_registered_tau` |
+| CONTRAST S_A, number separable of eight | 4 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_A.mixed_triples` |
+| CONTRAST S_A, kappa at its knife-edge failure ABB | 100.9 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_A.mixed_triples.ABB.condition_number` |
+| S_A eight-assignment table (kappa and equivalence class per assignment) | see below | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_A.mixed_triples`, `summary_sets.S_A.mixed_triples.*.equivalence_class` |
+| replicates per Jacobian column R | 128 | `results/robustness/k6_spectrum.yaml` | `settings.R` |
+| replicates for the normalisation R_norm | 2,000 | `results/robustness/k6_spectrum.yaml` | `settings.R_norm` |
+| AAA under MLE-SE-based scaling: kappa | 31.88 | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.AAA.mle_se_based.kappa` |
+| AAA under MLE-SE-based scaling: separable | True | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.AAA.mle_se_based.separable` |
+| BBB under MLE-SE-based scaling: kappa | 8.027 | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.kappa` |
+| BBB under MLE-SE-based scaling: separable | True | `results/robustness/alt_eta_scaling.yaml` | `eight_assignment_triples.BBB.mle_se_based.separable` |
+
+The full $S_A$ eight-assignment table (the paper's former Table 3, dropped from the paper itself
+since Figure 1's right panel already shows it): BBB kappa=5.378 separable; BBA kappa=5.902
+separable; BAB kappa=5.186 separable; BAA kappa=9.531 separable; ABB kappa=100.9 INSEPARABLE
+{progression}; ABA kappa=123.3 INSEPARABLE {progression}; AAB kappa=875.2 INSEPARABLE
+{transmission, progression}; AAA kappa=136.7 INSEPARABLE {progression, observation}. Source:
+`results/robustness/k6_spectrum.yaml`, `summary_sets.S_A.mixed_triples`.
+
+## C3 — the K = 6 cross-mechanism confound (boundary)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| S_B six-column kappa | 628.9 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.condition_number` |
+| S_B six-column rank at tau | 4 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.numerical_rank.rank_certain` |
+| S_B six-column columns | 6 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.n_columns` |
+| S_B six-column spectrum spread (decades) | 2.799 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.spectrum.spread_decades_over_positive_singular_values` |
+| S_B six-column gap prominence (largest / median adjacent ratio) | 1.402 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.spectrum.gap_prominence_largest_over_median_adjacent_ratio` |
+| S_B six-column: where tau*sigma1 sits | inside the spectrum, between sigma_4 and sigma_5 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.spectrum.where_tau_sigma1_sits` |
+| S_B six-column structurally zero singular values | 0 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.spectrum.n_structurally_zero` |
+| S_B six-column worst variation factor (estimator resolved?) | 1.02254 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.singular_value_variation_factor` |
+| S_B six-column INSEPARABLE stable over tau from | 0.005 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.tau_sensitivity.coupled_stability.stable_over_tau_range[0]` |
+| S_B six-column INSEPARABLE stable over tau to | 1 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.tau_sensitivity.coupled_stability.stable_over_tau_range[1]` |
+| S_B six-column flips to separable only at tau | 0.001 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.tau_sensitivity.coupled_stability.flips_at_next_tau_below` |
+| near-null direction 1: sigma | 0.625 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_directions[0].singular_value` |
+| near-null direction 1: sigma/sigma1 | 0.009173 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_directions[0].sigma_ratio_to_sigma1` |
+| near-null direction 1: kind | cross-mechanism | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_classification[0].kind` |
+| near-null direction 1: transmission energy | 0.04297 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_classification[0].mechanism_energy.transmission` |
+| near-null direction 2: sigma | 0.1083 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_directions[1].singular_value` |
+| near-null direction 2: sigma/sigma1 | 0.00159 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_directions[1].sigma_ratio_to_sigma1` |
+| near-null direction 2: kind | cross-mechanism | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_classification[1].kind` |
+| near-null direction 2: transmission energy | 0.04463 | `results/robustness/k6_spectrum.yaml` | `summary_sets.S_B.six_columns.near_null_classification[1].mechanism_energy.transmission` |
+| six-column under MLE-SE-based scaling: kappa | 344.9 | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.kappa` |
+| six-column under MLE-SE-based scaling: rank at tau | 5 | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.rank_at_tau` |
+| six-column under MLE-SE-based scaling: separable | False | `results/robustness/alt_eta_scaling.yaml` | `six_column.mle_se_based.separable` |
+
+## C4 — the MMC non-termination result (cautionary)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| null draws taken to measure p_sel | 3,782,038 | `results/p_sel.yaml` | `settings.n_simulator_runs` |
+| p_sel at theta0, worst cell, AAA studentised | 0.2346 | `results/p_sel.yaml` | `stage_A_theta0.AAA\|studentised.p_sel` |
+| p_sel at theta0, 95% CI lower | 0.232 | `results/p_sel.yaml` | `stage_A_theta0.AAA\|studentised.ci95_lower` |
+| p_sel at theta0, 95% CI upper | 0.2372 | `results/p_sel.yaml` | `stage_A_theta0.AAA\|studentised.ci95_upper` |
+| cost at theta0, cheapest declared (M, N) | 4.220e+05 | `results/cost_gate.yaml` | `cost_floor_theta_known.AAA\|studentised.corners[0].expected_draws` |
+| cost at theta0, dearest declared (M, N) | 4.259e+07 | `results/cost_gate.yaml` | `cost_floor_theta_known.AAA\|studentised.corners[3].expected_draws` |
+| pre-registered gate, simulator draws | 1.000e+08 | `results/cost_gate.yaml` | `gate.threshold_draws` |
+| HEADLINE p_sel over the nuisance box | 0 | `results/cost_gate.yaml` | `headline.p_sel` |
+| HEADLINE 95% upper bound on p_sel | 3.841e-05 | `results/cost_gate.yaml` | `headline.p_sel_ci95[1]` |
+| HEADLINE verdict | FAIL | `results/cost_gate.yaml` | `headline.verdict` |
+| the confidence interval decides the gate | True | `results/cost_gate.yaml` | `headline.ci_decides_the_gate` |
+| cost floor at the CI upper bound, cheapest corner | 2.577e+09 | `results/cost_gate.yaml` | `headline.expected_draws_ci95_lower_range[0]` |
+| cost floor at the CI upper bound, dearest corner | 2.601e+11 | `results/cost_gate.yaml` | `headline.expected_draws_ci95_lower_range[1]` |
+| boundary sweep: null draws | 7,602,000 | `results/boundary_sweep.yaml` | `settings.n_simulator_runs` |
+| boundary sweep: shape of the collapse (primary) | GRADUAL | `results/boundary_sweep.yaml` | `shape_of_the_collapse.AAA\|studentised.shape` |
+| boundary sweep: slope ratio against a threshold of 3 | 2.265 | `results/boundary_sweep.yaml` | `shape_of_the_collapse.AAA\|studentised.slope_ratio` |
+| boundary sweep: decades of p per unit half-width | -141.2 | `results/boundary_sweep.yaml` | `shape_of_the_collapse.AAA\|studentised.loglinear_fit.slope_b_decades_per_unit_half_width` |
+| boundary sweep: R2 of that fit (descriptive) | 0.9424 | `results/boundary_sweep.yaml` | `shape_of_the_collapse.AAA\|studentised.loglinear_fit.r_squared` |
+| median mean-shift norm / sqrt(d) at w = 0.005 | 0.7707 | `results/boundary_sweep.yaml` | `per_width[3].nuisance_shift_norm_of_mean_z.median_over_noise` |
+| median mean-shift norm / sqrt(d) at w = 0.0075 | 1.146 | `results/boundary_sweep.yaml` | `per_width[4].nuisance_shift_norm_of_mean_z.median_over_noise` |
+| single-draw noise magnitude sqrt(d) | 3.162 | `results/boundary_sweep.yaml` | `per_width[0].nuisance_shift_norm_of_mean_z.single_draw_noise_magnitude_sqrt_d` |
+| design points with a dead cell at w = 0.05 (of 42) | 21 | `results/boundary_sweep.yaml` | `per_width[9].by_key.AAA\|studentised.n_design_points_with_a_dead_cell` |
+| theta0 reproduction: maximum two-proportion abs(z) | 1.958 | `results/boundary_sweep.yaml` | `checks.theta0_max_abs_z` |
+| theta0 reproduction: threshold | 3 | `results/boundary_sweep.yaml` | `checks.theta0_z_threshold` |
+| smallest round box at which the gate first fails | +/-0.75% | `results/boundary_sweep.yaml` | `per_width[*]` (the first half-width w with a dead cell at every declared corner) |
+| last round box at which the gate fully passes | +/-0.5% | `results/boundary_sweep.yaml` | `per_width[*]` (the largest half-width w with no dead cell at any declared corner) |
+| Mahalanobis radius of the +/-0.75% box under the Fisher information at theta-hat | 3.56 | `results/confidence_set_mmc.yaml` | derived from `mle_fit` Fisher information; joint 95% ellipsoid radius sqrt(chi^2_5,0.95) approx 3.33 |
+| Mahalanobis radius of the +/-0.5% box | 2.71 | `results/confidence_set_mmc.yaml` | derived from `mle_fit` Fisher information |
+
+## C5 — the confidence-set-bounded MMC check
+
+| quantity | value | source | path |
+|---|---|---|---|
+| confidence level alpha1 | 0.05 | `results/confidence_set_mmc.yaml` | `alpha1` |
+| Bonferroni z (alpha1/2K per coordinate) | 2.576 | `results/confidence_set_mmc.yaml` | `z_bonferroni` |
+| theta-hat (MLE), beta | 0.3551 | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.beta` |
+| theta-hat (MLE), gamma | 0.1475 | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.gamma` |
+| theta-hat (MLE), rho | 0.405 | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.rho` |
+| theta-hat (MLE), I0 | 10.37 | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.I0` |
+| theta-hat (MLE), obs_sigma | 0.1568 | `results/confidence_set_mmc.yaml` | `mle_fit.theta_hat.obs_sigma` |
+| MLE gradient converged (scaled max abs(g) below tolerance) | True | `results/confidence_set_mmc.yaml` | `checks.mle_gradient_near_zero` |
+| observed information matrix positive definite | True | `results/confidence_set_mmc.yaml` | `checks.hessian_is_positive_definite` |
+| data-implied relative half-width, beta | 0.02348 | `results/confidence_set_mmc.yaml` | `confidence_set_box.beta.relative_half_width` |
+| data-implied relative half-width, gamma | 0.06984 | `results/confidence_set_mmc.yaml` | `confidence_set_box.gamma.relative_half_width` |
+| data-implied relative half-width, rho | 0.06058 | `results/confidence_set_mmc.yaml` | `confidence_set_box.rho.relative_half_width` |
+| data-implied relative half-width, I0 | 0.1399 | `results/confidence_set_mmc.yaml` | `confidence_set_box.I0.relative_half_width` |
+| data-implied relative half-width, obs_sigma | 0.1663 | `results/confidence_set_mmc.yaml` | `confidence_set_box.obs_sigma.relative_half_width` |
+| affordable at theta-hat: worst cell p_sel (AAA studentised) | 0.1161 | `results/confidence_set_mmc.yaml` | `anchor_theta_hat.AAA\|studentised.reported_min.p_sel` |
+| affordable at theta-hat: gate verdict | PASS | `results/confidence_set_mmc.yaml` | `anchor_theta_hat.AAA\|studentised.gate.verdict` |
+| inside the confidence-set box: worst cell p_sel (AAA studentised) | 1.000e-05 | `results/confidence_set_mmc.yaml` | `by_key.AAA\|studentised.reported_min.p_sel` |
+| inside the confidence-set box: gate verdict (AAA studentised) | FAIL | `results/confidence_set_mmc.yaml` | `by_key.AAA\|studentised.gate.verdict` |
+| inside the confidence-set box: gate verdict (AAA plain) | FAIL | `results/confidence_set_mmc.yaml` | `by_key.AAA\|plain.gate.verdict` |
+| inside the confidence-set box: gate verdict (BBB studentised) | FAIL | `results/confidence_set_mmc.yaml` | `by_key.BBB\|studentised.gate.verdict` |
+| inside the confidence-set box: fraction of design points with a dead cell (AAA studentised) | 0.1905 | `results/confidence_set_mmc.yaml` | `by_key.AAA\|studentised.fraction_of_design_points_with_a_dead_cell` |
+| session verdict (both variants of the primary assignment) | FAIL | `results/confidence_set_mmc.yaml` | `session_verdict.verdict` |
+| simulator draws taken for this check | 722,000 | `results/confidence_set_mmc.yaml` | `settings.n_simulator_runs` |
+| design points (32 corners + 10 axis endpoints of the data-implied box) | 42 | `results/confidence_set_mmc.yaml` | `settings.n_design_points` |
+
+## L1 — second-theta robustness check (Limitations)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| second theta, condition number kappa | 10.92 | `results/second_theta_check.yaml` | `verdict_at_theta2.condition_number` |
+| second theta, rank at tau | 3 | `results/second_theta_check.yaml` | `verdict_at_theta2.numerical_rank.rank_certain` |
+| second theta, separable | True | `results/second_theta_check.yaml` | `separable_at_theta2` |
+| theta0 under the same harness, condition number kappa | 10.07 | `results/second_theta_check.yaml` | `verdict_at_theta0_same_harness.condition_number` |
+| theta0 under the same harness, separable | True | `results/second_theta_check.yaml` | `separable_at_theta0_same_harness` |
+| reproduces the headline verdict | True | `results/second_theta_check.yaml` | `reproduces_headline_verdict` |
+
+## B1 — the Anau Montel et al. global-null baseline (Section 4)
+
+| quantity | value | source | path |
+|---|---|---|---|
+| reference batch size N_ref | 3,000 | `results/montel_marginal_test.yaml` | `settings.n_ref` |
+| calibration batch size N_calib | 1,500 | `results/montel_marginal_test.yaml` | `settings.n_calib` |
+| BBB (declared base corner): global p-value | 0.003997 | `results/montel_marginal_test.yaml` | `cases.BBB.global_p_value` |
+| BBB: verdict | REJECT H0 | `results/montel_marginal_test.yaml` | `cases.BBB.verdict` |
+| AAA (declared adversarial corner): global p-value | 0.003997 | `results/montel_marginal_test.yaml` | `cases.AAA.global_p_value` |
+| AAA: verdict | REJECT H0 | `results/montel_marginal_test.yaml` | `cases.AAA.verdict` |
+| confound, progression only: global p-value | 0.003997 | `results/montel_marginal_test.yaml` | `cases.confound_progression_only.global_p_value` |
+| confound, progression only: arg-min coordinate | binned_incidence_01 | `results/montel_marginal_test.yaml` | `cases.confound_progression_only.argmin_coordinate_label` |
+| confound, progression + observation: global p-value | 0.003997 | `results/montel_marginal_test.yaml` | `cases.confound_progression_and_observation.global_p_value` |
+| confound, progression + observation: arg-min coordinate | binned_incidence_02 | `results/montel_marginal_test.yaml` | `cases.confound_progression_and_observation.argmin_coordinate_label` |
+| confound: the two mechanisms' arg-min coordinates are identical | False | `results/montel_marginal_test.yaml` | `confound_resolution.argmins_identical` |
+| confound: near-min coordinate sets' Jaccard overlap | 0 | `results/montel_marginal_test.yaml` | `confound_resolution.near_min_set_jaccard_overlap` |
+| null-data control: global p-value | 0.6096 | `results/montel_marginal_test.yaml` | `cases.null_control.global_p_value` |
+| null-data control: verdict | DO NOT REJECT H0 | `results/montel_marginal_test.yaml` | `cases.null_control.verdict` |
+| vacuous-flag check (S5) passes | True | `results/montel_marginal_test.yaml` | `vacuous_flag_check.passes` |
+| simulator draws taken for this check | 7,506 | `results/montel_marginal_test.yaml` | `settings.n_simulator_runs` |
+
+## Provenance of the source files
+
+| file | script | commit | dirty | seed |
+|---|---|---|---|---|
+| `results/boundary_sweep.yaml` | `src/diagnostics/boundary_sweep.py` | `792b7dc` | `False` | `20260821` |
+| `results/confidence_set_mmc.yaml` | (v1) | -- | -- | `20260824` |
+| `results/cost_gate.yaml` | `src/diagnostics/cost_gate.py` | `5ba0623` | `False` | `20260820` |
+| `results/floor_check.yaml` | `src/diagnostics/floor_check.py` | `570692c` | `False` | `20260820` |
+| `results/jacobian_rank.S_A.no_crn_control.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
+| `results/jacobian_rank.S_B.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
+| `results/jacobian_rank.S_C.yaml` | `src/diagnostics/run_diagnostic.py` | `570692c` | `False` | `20260820` |
+| `results/montel_marginal_test.yaml` | (v1) | -- | -- | `20260826` |
+| `results/p_sel.yaml` | `src/diagnostics/p_sel.py` | `5ba0623` | `False` | `20260820` |
+| `results/robustness/alt_eta_scaling.yaml` | (v1) | -- | -- | `0` |
+| `results/robustness/k6_spectrum.yaml` | `src/diagnostics/k6_spectrum.py` | `2efb4ae` | `False` | `20260820` |
+| `results/second_theta_check.yaml` | (v1) | -- | -- | `60000000000` |

@@ -85,17 +85,14 @@ available summary statistics can actually tell the components apart. That precon
 quietly, and a procedure that reports a confident attribution without checking it first is
 reporting a number the data may not support.
 
-This paper checks that precondition on a canonical case: a three-component compartmental
-epidemic simulator whose components are transmission, progression, and observation. We find
-that one summary set separates all three components under every one of the eight component-wise
-distortion assignments our two declared families permit, given at most one distortion parameter
-per component. Separability then fails the moment a component carries two, on a real confound between
-progression and observation rather than a numerical artifact. A calibrated attribution test built on the
-identifiable case stays affordable only at a known parameter: once the nuisance parameters are
-known only to the precision a maximum-likelihood fit gives them, it fails to terminate.
-We predict that boundary before measuring it, from the ratio of nuisance shift to
-observation noise, and the prediction holds. Table~\ref{tab:summary}
-(Appendix~\ref{sec:appendix}) pairs each finding with its evidence figure.
+We check this on a three-component compartmental epidemic simulator, close to the smallest
+system where the failure is not a corner case: three biologically distinct mechanisms,
+transmission, progression, and observation, under distortions realistic enough that two can move
+the same observed feature at once. A practitioner who runs the screen first gets either a
+numerical certificate that the summaries in hand separate every candidate cause, or a named
+equivalence class that cannot currently be told apart and should be reported jointly rather than
+pinned on one component. Table~\ref{tab:summary} (Appendix~\ref{sec:appendix}) pairs each of the
+paper's four findings with its evidence figure.
 
 \section{Background and related work}
 \label{sec:background}
@@ -112,14 +109,8 @@ paper asks instead. Our baseline is
 \citet{montel2025testsmodelmisspecificationsimulationbased}'s family of tests, which corrects
 for multiplicity via a trials-corrected $p$-value on the \emph{minimum} of per-summary
 statistics; what it delivers is the global null that something is misspecified, not the
-identity of the arg\,min. We run their global test on our simulator, with exact per-summary
-statistics replacing their neural ones as the only simplification
-(Appendix~\ref{sec:claims-ledger}). It rejects at both declared corners and at two realizations
-of the six-column confound's named mechanisms ($p\approx0.004$), and a null-data control does
-not reject ($p=0.61$). Its arg\,min flags disjoint coordinates for the two mechanisms at this
-magnitude, contradicting our earlier unmeasured claim. That is one realization of each
-mechanism rather than a distribution over them, and it is a separate question from the
-Jacobian's \emph{local} near-null ambiguity at $\eta=0$ (Section~\ref{sec:experiments}).
+identity of the arg\,min. We run their test directly on our simulator as an experimental
+comparison, reported with the rest of our results in Section~\ref{sec:experiments}.
 
 The precondition itself has an exact answer in a closely related setting. \citet{Kahl_2019}
 show that per-component input reconstruction in a dynamic system is identifiable iff a
@@ -179,7 +170,8 @@ bit-for-bit before anything else runs.
 central differences under common random numbers, swept over six decades of step size $h$;
 $s\in\mathbb{R}^d$ is the summary vector, so $J$ is $d\times K$;
 without common random numbers the difference is dominated by noise of order $\sigma/h$ and no
-stable range exists (confirmed by a negative control).
+stable range exists (a negative control confirms this: no plateau without CRN, only one of six
+step sizes inside any candidate window).
 \item \textbf{Normalise and take the SVD.} Summaries are divided by their prior-predictive
 standard deviation and each $\eta_k$ by a fixed relative perturbation scale (both, and every
 tolerance below, fixed before any singular value existed). The diagnostic's only input is the
@@ -206,7 +198,8 @@ When the rank condition fails, we report the \emph{equivalence class} named by e
 right singular vector $v$ ($\sigma \le \tau\sigma_1$) rather than a single culprit: component
 $k$ joins if $|v_k|\ge 0.3$, comfortably below both the two-component ($\approx 0.707$) and
 three-component ($\approx 0.577$) confound values. The diagnostic decides whether attribution
-is well posed, and nothing further.
+is well posed, and nothing further (every pre-registered threshold above, in one table:
+Table~\ref{tab:thresholds}, Appendix~\ref{sec:appendix}).
 
 \section{Experiments}
 \label{sec:experiments}
@@ -237,7 +230,8 @@ Under our scope assumption, $S_B$ separates all three components under \emph{all
 condition number $6.628$ to $65.64$, every singular value resolved, coherence below the
 pre-registered $0.98$ flag and column norms above the pre-registered $0.1$ floor throughout.
 $S_A$ is a control, not a result: it splits exactly on the transmission family, failing at
-$\kappa=100.9$, $0.9\%$ past the ceiling. The margin is not uniform: $S_B$'s verdict survives
+$\kappa=100.9$, $0.9\%$ past the ceiling, naming $\{$progression$\}$, $\{$transmission,
+progression$\}$, or $\{$progression, observation$\}$ across its four failures. The margin is not uniform: $S_B$'s verdict survives
 $\tau$ moving by $9.881\times$ under the base assignment but only $1.523\times$ under the
 tightest one (Table~\ref{tab:sb-eight}, Appendix~\ref{sec:appendix}), so doubling $\tau$ flips
 it. Nor is it an artifact of the flat $10\%$ ETA\_SCALE unit. Rescaling instead by each
@@ -292,6 +286,15 @@ about the simulator.
   \label{fig:spectrum}
 \end{figure}
 
+\paragraph{Comparison to a global misspecification test.} We also run
+\citet{montel2025testsmodelmisspecificationsimulationbased}'s family of tests directly on our
+simulator, with exact per-summary statistics replacing their neural ones as the only
+simplification (Appendix~\ref{sec:claims-ledger}): it rejects at both declared corners and at
+two realizations of the six-column confound's named mechanisms ($p\approx0.004$), a null-data
+control does not reject ($p=0.61$), and its arg\,min flags disjoint coordinates for the two
+mechanisms, contradicting our earlier unmeasured claim. That is one realization of each
+mechanism rather than a distribution over them, and a separate question from the Jacobian's
+\emph{local} near-null ambiguity at $\eta=0$ measured above.
 
 \section{Where exact conditional attribution becomes unaffordable, and why}
 \label{sec:negative-result}
@@ -309,34 +312,17 @@ p-value are sources of conservativeness), and its only theorem requires the sele
 be a fixed, deterministic function of the data with every admissible nuisance value keeping
 the observed selection event reachable.
 
-\paragraph{Affordable at a known parameter, unbounded over a data-implied nuisance set.}
-At the true parameter $\theta_0$ the composition is comfortably affordable: the worst selection cell
-holds $23\%$ of null draws, and one test costs $4.2\times10^5$ to $4.3\times10^7$ simulator
-draws against a pre-registered gate of $10^8$, a clear pass. The question is whether that
-affordability survives once the nuisance parameters (transmission and recovery rates, reporting
-fraction, initial infections, observation noise scale) are known only to the precision real
-data give them. Rather than assume a box, we fit the simulator to one realized dataset by
-maximum likelihood and build a Bonferroni-corrected $95\%$ confidence box from the Fisher
-information: relative half-widths from $2.3\%$ to $16.6\%$, every one wider than the
-$\pm0.75\%$ box already known to break the composition (below). Re-measuring the gate inside this box, the
-acceptance probability collapses to $10^{-5}$ at the primary case and to zero acceptances in
-$100{,}000$ draws at the other three declared combinations: the gate \textbf{fails at every
-corner under all four}, the
-cheapest needing $9.9\times10^9$ draws, approximately two orders of magnitude over budget. The collapse below
-was measured under a round, assumed $\pm5\%$ box; here it survives, by a wide margin, under the
-data-implied one.
-
 \paragraph{The mechanism, and the shape of the boundary.}
 The selection rule's fixed-function requirement means it cannot track $\theta$: nuisance
 parameters shift the normalized summary vector while a single draw's noise magnitude stays
 fixed, and once that shift exceeds the noise, a $\theta$-free rule selects one component
 deterministically and the cell the data selected becomes unreachable. A sweep over ten relative
 half-widths from $0.1\%$ to $5\%$
-(Figure~\ref{fig:nontermination}) locates the shape of this collapse under the earlier,
-round-number box: gradual rather than abrupt (log-slope ratio against a pre-registered
+(Figure~\ref{fig:nontermination}) locates the shape of this collapse under a round-number box:
+gradual rather than abrupt (log-slope ratio against a pre-registered
 threshold of 3; measured $2.265\times$), about one decade of acceptance probability lost per
 $0.7\%$ of relative nuisance error, log-linear at $R^2=0.94$, passing at every declared
-corner only inside a $\pm0.5\%$ box, tighter than the data-implied box above supports. The
+corner only inside a $\pm0.5\%$ box, tighter than the data-implied box below supports. The
 smallest round box at which the gate first fails ($\pm0.75\%$) sits at Mahalanobis radius
 $3.56$ under the Fisher information at $\hat\theta$, against a joint $95\%$ ellipsoid radius
 $\sqrt{\chi^2_{5,0.95}}\approx3.33$; the last fully-passing box ($\pm0.5\%$) sits at $2.71$. The
@@ -358,6 +344,41 @@ is a portable one-line check for other simulators.
   \label{fig:nontermination}
 \end{figure}
 
+\paragraph{Affordable at a known parameter, unbounded over a data-implied nuisance set.}
+At the true parameter $\theta_0$ the composition is comfortably affordable: the worst selection cell
+holds $23\%$ of null draws, and one test costs $4.2\times10^5$ to $4.3\times10^7$ simulator
+draws against a pre-registered gate of $10^8$, a clear pass. The question is whether that
+affordability survives once the nuisance parameters (transmission and recovery rates, reporting
+fraction, initial infections, observation noise scale) are known only to the precision real
+data give them. Rather than assume a box, we fit the simulator to one realized dataset by
+maximum likelihood and build a Bonferroni-corrected $95\%$ confidence box from the Fisher
+information: relative half-widths from $2.3\%$ to $16.6\%$ (Table~\ref{tab:confidence-box}),
+every one wider than the $\pm0.75\%$ box already known to break the composition.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+ & $\beta$ & $\gamma$ & $\rho$ & $I_0$ & $\sigma_{\text{obs}}$ \\
+\midrule
+MLE $\hat\theta$ & 0.3551 & 0.1475 & 0.4050 & 10.37 & 0.1568 \\
+95\% rel.\ half-width & 2.35\% & 6.98\% & 6.06\% & 13.99\% & 16.63\% \\
+\bottomrule
+\end{tabular}
+\caption{Data-implied $95\%$ confidence box (Bonferroni-corrected, Fisher information at the
+maximum-likelihood fit), by coordinate.}
+\label{tab:confidence-box}
+\end{table}
+
+Re-measuring the gate inside this box, the
+acceptance probability collapses to $10^{-5}$ at the primary case and to zero acceptances in
+$100{,}000$ draws at the other three declared combinations: the gate \textbf{fails at every
+corner under all four}, the
+cheapest needing $9.9\times10^9$ draws, approximately two orders of magnitude over budget.
+
+\enlargethispage{2\baselineskip}
 \section{Limitations}
 \label{sec:limitations}
 
@@ -376,6 +397,16 @@ rank, matching $\theta_0$'s $\kappa=10.1$). That is one point, not a distributio
 under two family sets, every combination they permit rather than a general sample; transport to
 other simulator classes or a learned summary statistic (where $s(y)$ would sit) is untested.
 \end{itemize}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Run the rank-and-condition-number screen before attributing misspecification to a single
+component, and report the diagnostic's named equivalence class rather than a guess whenever the
+condition number exceeds the ceiling. This paper's contribution is the finding that this
+precondition holds under some plausible measurement choices and fails under others on a real
+confound, together with why a natural calibration of the resulting test shares the same
+uncertainty bound: checking the precondition first is the practice this paper recommends.
 
 \bibliographystyle{plainnat}
 \bibliography{../audit/BIBLIOGRAPHY}
@@ -436,6 +467,31 @@ families do qualitatively is described in Section~\ref{sec:experiments}'s own pr
   \label{fig:simulator}
 \end{figure}
 
+\paragraph{Every pre-registered threshold, in one place.} Table~\ref{tab:thresholds} collects
+every tolerance Section~\ref{sec:method} uses; each was fixed in \texttt{docs/THRESHOLDS.md}
+before any singular value in this project existed.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+threshold & value & role \\
+\midrule
+rank tolerance $\tau$ & $10^{-2}$ & numerical-rank cutoff \\
+condition-number ceiling $\kappa_{\max}$ & $100$ & equals $1/\tau$, the same check restated \\
+resolution factor & $2$ & max allowed singular-value variation across the $h$-plateau \\
+plateau relative tolerance & $0.05$ & defines plateau membership across the $h$-sweep \\
+equivalence-class loading $|v_k|_{\min}$ & $0.3$ & names a component in a near-null direction \\
+coherence flag & $0.98$ & pairwise-column-coherence warning \\
+column-norm floor & $0.1$ & invisible-component warning \\
+step sizes swept & $6$ ($10^{-1}$ to $10^{-6}$) & the $h$-sweep for the Jacobian estimate \\
+\bottomrule
+\end{tabular}
+\caption{Every threshold this paper's diagnostic uses, pre-registered before measurement.}
+\label{tab:thresholds}
+\end{table}
+
 \FloatBarrier
 
 \subsection{The threshold-sensitivity sweep, the six-column confound, and the MMC variant
@@ -494,15 +550,14 @@ favour of the primary case alone.
 
 \FloatBarrier
 
-\subsection{Every number this paper's claims rest on, and its source}
+\subsection{Claim-to-source table}
 \label{sec:claims-ledger}
 
-Every number the main text's four contributions and the confidence-set check of
-Section~\ref{sec:negative-result} rest on is generated programmatically from the underlying
-measurement files rather than typed by hand, each with the exact file and path it was read
-from.
-
-\input{appendix_claims_table.tex}
+Every number in this paper is generated programmatically from the underlying measurement files
+rather than typed by hand. The full claim-to-path table — the exact file and dotted path each
+number was read from, for every contribution this paper makes, including the controls and
+thresholds stated above and the comparison of Section~\ref{sec:experiments} — ships as
+\texttt{CLAIMS.md} in the anonymized reproducibility package (checklist item 5).
 
 \clearpage
 \section*{Reproducibility checklist}

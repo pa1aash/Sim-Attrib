@@ -70,10 +70,13 @@ mkdir -p "$STAGE_DIR/results"
         "$REPO_ROOT/results/$f" > "$STAGE_DIR/results/$f"
     done
 
-# --- the anonymous-reader-facing README, LICENSE, requirements.txt ---
+# --- the anonymous-reader-facing README, LICENSE, requirements.txt, and the full
+#     claim-to-path ledger (G20: cut from the paper's own Appendix A.5 down to a
+#     pointer at this file, to keep the paper's own page budget) ---
 cp "$TEMPLATE_DIR/README.md" "$STAGE_DIR/README.md"
 cp "$TEMPLATE_DIR/LICENSE" "$STAGE_DIR/LICENSE"
 cp "$TEMPLATE_DIR/requirements.txt" "$STAGE_DIR/requirements.txt"
+cp "$TEMPLATE_DIR/CLAIMS.md" "$STAGE_DIR/CLAIMS.md"
 
 echo "Staged file count: $(find "$STAGE_DIR" -type f | wc -l | tr -d ' ')"
 echo ""

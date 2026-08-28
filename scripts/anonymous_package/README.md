@@ -77,12 +77,13 @@ field with the same seed; the diagnostic modules are deterministic given a seed.
 | Section 4, "eight family assignments" | `S_B`/`S_A` under all 8 component-wise distortion assignments | `results/robustness/k6_spectrum.yaml` | `fig4_assignments.py` (Fig. 1), `fig5_threshold.py` (appendix) |
 | Section 4, the six-column confound | `S_B` under two distortion parameters per component | `results/robustness/k6_spectrum.yaml` (`six_columns` block) | `fig3_spectrum.py` (Fig. 2), `fig7_confound.py` (appendix) |
 | Section 5, negative-result / MMC | selective-inference cost at a known parameter and over a nuisance box | `results/p_sel.yaml`, `results/cost_gate.yaml`, `results/boundary_sweep.yaml`, `results/confidence_set_mmc.yaml` | `fig6_nontermination.py` (Fig. 3), `fig6b_nontermination_variants.py` (appendix) |
-| Section 2, the Anau Montel et al. baseline comparison | the trials-corrected global-null test, run on this project's own simulator | `results/montel_marginal_test.yaml` | -- |
+| Section 4, the Anau Montel et al. baseline comparison | the trials-corrected global-null test, run on this project's own simulator | `results/montel_marginal_test.yaml` | -- |
 | Section 6 (Limitations), second-theta check | separability verdict at a second, independently-drawn parameter point | `results/second_theta_check.yaml` | -- |
 | Appendix, simulator structure | compartment diagram | -- | `fig2_simulator.py` (appendix) |
 
-The paper's own appendix ("Every number this paper's claims rest on") gives the exact
-dotted path inside each result file for every number its prose cites.
+`CLAIMS.md`, at the top level of this package, gives the exact dotted path inside each
+result file for every number the paper's prose cites; the paper's own Appendix A.5
+("Claim-to-source table") points here rather than repeating it.
 
 ## Tests
 
