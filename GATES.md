@@ -3450,3 +3450,252 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G22 — Caption compression, header/terminology unification, numeric precision, spelling. Does the document read as one voice using one vocabulary for each concept?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-29, session G22 — third of the four-session operator line-edit (G20-G23). This
+session's mandate: caption compression to description-only content, header/section-title
+naming, process-leakage/internal-jargon removal, terminology and notation unification,
+numeric-precision consistency, and spelling-convention standardization. Every fix location was
+found by reading the current `paper/main.tex` directly and matching quoted text, not by the
+brief's own (correctly stale) line numbers.
+
+### Phase 1 — captions
+
+All nine items addressed. Figure 1 (`fig:assignments`) and Figure 2 (`fig:spectrum`) captions —
+both on main-text pages — lost their trailing interpretive sentences ("$S_A$ is a control: it
+rules out an instrument..." and "...so the rank deficiency is a property of the matrix, not of
+the estimator"), each already covered by main-text prose. Figure 3 (`fig:nontermination`,
+Section 5) lost its design specification (32 corners + 10 endpoints) and its gate definition
+($M\times N/p\le10^8$, $M\in\{10^3,10^4\}$, $N\in\{99,999\}$) to Section 5's own prose — this
+also fixed the "gate" bare-noun-before-definition problem (Phase 4.9) as a side effect, and
+forced the "The mechanism, and the shape of the boundary" paragraph (already flagged in Phase 2)
+to split cleanly at the definition's natural insertion point. Figure 4 (`fig:simulator`,
+Appendix A.2) had its two argument clauses (no-removed-compartment / continuous-noise
+justification) moved into A.2's own prose, and its "a stated design limitation" clause moved
+into Limitations (Section 6) per the brief's explicit routing — this is the one caption fix that
+added net main-text length, since A.2 is appendix space but Limitations is not. Figure 5
+(`fig:threshold`) lost its final sentence (the 1.55×/9.88× margin restatement, already given
+with more precision in Section 4 as 1.523×/9.881×). Figure 6 (`fig:confound`) lost its final
+clause (verbatim-duplicate of Section 4's "a drifting removal hazard is nearly
+indistinguishable..."). Figure 7 (`fig:nontermination-variants`) compressed from five sentences
+to three via semicolon-joining, keeping every actual number — it already used real Wilson-based
+values, not the unquantified "collapses the same way" language the brief worried about, so no
+softening was needed. Table 2 (the eight-assignment table, `appendix_tables.tex`)'s plateau-
+stability result ("varies by at most 0.2% across six step sizes") moved into Section 4's own
+condition-number sentence; the table caption keeps a one-clause pointer instead. Table 3's flagged
+fact ("every assignment carrying the adversarial transmission family is inseparable") was
+searched for directly and confirmed absent from the current draft — already resolved by an
+earlier session, not by this one.
+
+### Phase 2 — headers and bold paragraph leads
+
+Every rename in the brief applied exactly: Section 5's title, both Section 4 subsection leads,
+Section 5's "Affordable at a known parameter..." lead, Appendix A.1, and the long A.3 heading (to
+"Supplementary figures," per the brief's own offered alternative — the three figures under it
+don't split cleanly into two independently-titled topics without forcing an artificial boundary,
+so one heading was judged the better fit). The comma-spliced "The mechanism, and the shape of the
+boundary" heading was split into two single-topic paragraphs, `\paragraph{The mechanism.}` and
+`\paragraph{The shape of the boundary.}`, at the point where the gate definition moved from the
+caption (Phase 1) — this made the split fall out naturally rather than requiring an arbitrary cut
+point. The redundant ", in full" suffix, present on exactly two headings as the brief predicted,
+is gone from both. Appendix A.5 confirmed still titled "Claim-to-source table," matching G20's
+Phase 3.5 spec — no drift. Read as a list, the new headings (Method's three leads, Experiments'
+three leads, Section 5's three leads, and the five appendix subsections) now state what each part
+measures rather than posing it as a riddle.
+
+### Phase 3 — process leakage and internal jargon
+
+3.1: A.5 checked directly for surviving `C1`/`C2`/... tracking labels — none found; G20's Phase
+3.4 rewrite already removed them. 3.2: `ETA\_SCALE` replaced with "the flat 10% perturbation
+unit." 3.3: "contradicting our earlier unmeasured claim" deleted from the Montel-comparison
+paragraph. 3.4: "originally declared" → "declared" (the process-time word dropped, the
+paper-time fact kept). 3.5: "$\kappa=100$ exhausts this study's budget" replaced with the actual
+number this project's own `docs/THRESHOLDS.md` gives for that point — order $10^4$ replicates,
+the edge of the declared budget — rather than a vague pointer to Section 5's gate, which is a
+different budget (draws for the selective-inference test, not replicates for the Jacobian
+estimate) and would have been a wrong cross-reference had I used it. 3.6: both instances
+("asserted bit-for-bit before anything else runs" and "both, and every tolerance below, fixed
+before any singular value existed") replaced with one sentence, "All thresholds in this paper
+were fixed before any measurement," placed once in the Method section's SVD step. A third,
+unflagged instance of the same "before any singular value existed" pattern survives in Appendix
+A.2 (pointing at `docs/THRESHOLDS.md` as a concrete artifact, not a vague internal-process
+claim) — left alone as functionally different and out of the brief's explicit scope. 3.7: every
+bare "registered" in `paper/main.tex` and `appendix_tables.tex` is now "pre-registered" (8
+prose/caption instances fixed); "declared" confirmed used exclusively for family
+sets/assignments/corners/combinations throughout. **This phase's scope turned out to include the
+figures themselves, not just the LaTeX prose**: `pdftotext` on the recompiled PDF showed
+"registered κmax = 100" baked directly into Figure 1's rendered annotation — three figures
+(`fig3_spectrum.py`, `fig4_assignments.py`, `fig5_threshold.py`) plot a bare "registered" label
+via `matplotlib`. Fixed at the source (the one plotted string literal in each script, not the
+internal `prov.plotted(...)` provenance-log labels, which are bookkeeping strings never rendered
+on the page) and regenerated using the project's own pinned versions
+(`numpy==2.4.4 scipy==1.17.1 matplotlib==3.10.8 PyYAML==6.0.3`, from
+`scripts/anonymous_package/requirements.txt`, installed into a throwaway venv outside the repo).
+Each script's own built-in provenance/data-matching assertions passed on regeneration; only the
+three affected `.pdf`/`.preview.png`/`.provenance.json` files changed, confirmed via `git status`.
+
+### Phase 4 — terminology and notation unification
+
+4.1: "distortion assignments" (abstract) unified to "family assignments," matching every other
+occurrence; "assignment triples" and the other named variants were already absent. 4.2:
+"identifiable/non-identifiable" confirmed already reserved for the structural-identifiability
+literature (Kahl et al., Miao et al.) everywhere it appears; the one place the paper used
+"identifiable" for its own verdict was the Section 4 heading already being renamed under Phase 2
+("Where attribution is identifiable" → "Separability under eight family assignments"), and the
+Appendix A.1 table row ("attribution identifiable" → "attribution separable") — no separate
+defining sentence was added, since the existing usage was already consistent everywhere else
+once these two were fixed, and a new sentence would have cost main-text budget for no new
+information. 4.3: the Introduction's "three biologically distinct mechanisms, transmission,
+progression, and observation" — the one place the paper called the three components
+"mechanisms" — changed to "components," which is what Method (Section 3) already calls them
+("each simulator component is misspecified by at most one mechanism at a time... a single
+one-parameter distortion family") and is close to an explicit component→mechanism definition on
+its own. "Mechanism" elsewhere consistently means either the specific realized distortion
+pathway (Section 4's "named mechanisms," Figure 6's "cross-mechanism") or the generic English
+sense ("the mechanism" as a paragraph heading in Section 5, about why the selection rule fails —
+contextually unambiguous, no components involved in that section at all). 4.4: "acceptance
+probability" and "$p_{\min}(w)$" confirmed the only two terms the current document actually
+uses (no bare "p\_sel" string exists in `main.tex`); Appendix A.1's "worst cell $p$" rows
+renamed to "acceptance probability" to match. 4.5: **no live overload found** — no instance of
+literal "K=6" survives anywhere in `paper/main.tex` or `appendix_tables.tex` (confirmed by grep
+before touching anything); `K` means 3 components everywhere it appears in the compiled paper.
+The one place `K=6` is still typed is a docstring/caption string inside `src/viz/fig3_spectrum.py`
+and `src/viz/style.py` that is never rendered on the page or read by a paper reviewer — left
+alone as out of this session's scope (paper-facing text), noted here rather than silently
+skipped. No new column-count symbol was introduced, because there was nothing left to disambiguate.
+4.6: $\tau^*=\sigma_K/\sigma_1$ now defined in Section 3's own threshold declaration, not only in
+Figure 5's caption. 4.7: "coherence" and "column-norm floor" confirmed already carrying
+plain-language definitions in Table 3 (promoted there by G20 Phase 3.2); "leakage check" searched
+for directly and confirmed absent from the current document — nothing to fix. 4.8: "the
+MMC-selection composition" named at its first bare-noun use (Section 5's "Cost at $\theta_0$..."
+paragraph); later bare "the composition" references left as-is, now reading as back-references to
+the named object rather than an unnamed one. 4.9: the cost gate's $M\times N/p\le10^8$ definition
+moved to precede its first bare "the gate" usage (see Phase 1's Figure 3 note above). 4.10:
+"roughly ten time-binned incidence counts" → "ten," matching $d=10$ exactly.
+
+### Phase 5 — numeric precision and internal consistency
+
+5.1: $\kappa=629$ (Figure 2's caption, Appendix A.1's table) unified to $\kappa=628.9$, matching
+the abstract and Section 4's own value everywhere the number appears, including the regenerated
+figure legends where relevant. $\kappa$: "6.6–65.6" (Appendix A.1) unified to "6.628–65.64,"
+matching `appendix_tables.tex`'s own table and Section 4's prose. 5.2: reviewed every flagged
+value against its source. `0.9424` and `1.958` were searched for directly and confirmed already
+absent — resolved by an earlier session. `344.9` (the rescaled six-column $\kappa$) is already at
+4 significant figures, which is this paper's own established, internally consistent convention
+for every $\kappa$ value in the document (628.9, 65.64, 6.628, 64.62, ...) — left unchanged, since
+rounding it alone would have made it the *inconsistent* one. `1.023` (plateau variation factor)
+rounded to `1.02` and `2.265` (log-slope-ratio) rounded to `2.26`: both are single measurements
+from the diagnostic's own resolution machinery rather than aggregate statistics with a stated CI,
+and the fourth significant figure is not defensible against the ~9% relative precision implied by
+this project's own $n\approx128$-replicate Jacobian estimate (`docs/THRESHOLDS.md`'s own
+$n\gtrsim\kappa^2$ error-scaling argument) — 3 significant figures is what the replicate count
+actually supports. 5.3: **the genuine correctness fix.** The four "$p\approx0.004$" Montel-test
+values are all exactly `0.003997335109926716` in `results/montel_marginal_test.yaml`
+(`global_p_value`, all four cases, `n_calib: 1500`, `n_calib_minima_at_least_as_extreme: 5`,
+i.e. $6/1501$) — confirmed against the source file, not assumed. The paper now states this
+directly: the shared value is "the resolution floor of the 1500-draw calibration batch," not
+four independently agreeing measurements, which is what reporting four separate "$\approx0.004$"
+values without comment would have implied.
+
+### Phase 6 — spelling consistency
+
+American spelling chosen, matching the operator's own suggested default and the field's recent
+SBI/ML literature. Eight instances fixed across `paper/main.tex`
+(`characterisation`→`characterization`, `Normalise`/`Normalised`→`Normalize`/`Normalized`,
+`modelling`→`modeling` ×2, `modeller`→`modeler`, `studentised`→`studentized` ×3,
+`studentisation`→`studentization`); a full document-wide grep for the standard British/American
+divergent-pair families (-ise/-ize, -our/-or, -re/-er, defence/licence/practise/grey/whilst/
+programme/catalogue/analyse/etc.) confirms these were the only instances in `paper/main.tex` and
+`appendix_tables.tex`. `paper/checklist.tex`'s one "registered users" occurrence is the NeurIPS
+template's own boilerplate text about closed-source model access, unrelated to this paper's
+threshold vocabulary — left untouched.
+
+### Page budget
+
+**This session's net main-text additions (the gate definition, the design specification, the
+$\tau^*$ definition, the Montel resolution-floor explanation, the Limitations addition, and the
+$p_{\min}(w)$/$K=3$ mapping) pushed the Conclusion two lines past the bottom of page 5 before any
+compensating action.** Every one of these additions is required by a specific numbered
+instruction in the brief (1.3/1.4/1.8, 3.5, 4.6, 4.9, 5.3) and none could be dropped; the two
+main-text caption cuts (Phase 1.1/1.2) and the Phase 3.6 consolidation were not, by themselves,
+enough to offset them. Closed by two means together: (1) tightening the added sentences
+themselves wherever a word could go without losing the required content (roughly a dozen small
+cuts, documented in the diff), and (2) increasing the existing `\enlargethispage` before
+Limitations from `2\baselineskip` to `6\baselineskip` — the same lever G12-G16 already established
+as this document's sanctioned page-closure mechanism, not a new one. `8\baselineskip` was tried
+first and rejected: rendered at 150 dpi, it visibly pushed the Conclusion's last line into the
+bottom margin (`/tmp/page5check-05.png` — the artifact was inspected, not assumed absent). At
+`6\baselineskip` the full Conclusion sits cleanly above the page number with normal margin
+(`/tmp/page5check4-05.png`). Main text is exactly 5 pages, references begin page 6, the appendix
+begins page 7 — the same structure G21 verified, unchanged in shape though not in the specific
+lever value that produces it.
+
+### Re-verification
+
+- **Number trace:** every numeric token in `paper/main.tex` diffed pre- vs. post-session via regex
+  extraction (decimals, percentages, `\command=value` tokens), sorted and compared. Ten
+  differences found, every one an intentional Phase 5 fix (traced above) or a Phase 1 caption
+  deletion whose value survives unchanged elsewhere in the document (1.55×/9.88× cut from Figure
+  5's caption, both still present as 1.523×/9.881× in Section 4's own prose) — no unexplained
+  value change.
+- **Anonymization re-scan:** `pdftotext` on the recompiled PDF and `pdfinfo`'s metadata fields both
+  clean; no author name, no `/Author` field set.
+- **Page count:** main text exactly 5 pages, references begin page 6, appendix begins page 7 —
+  confirmed via `pdftotext -f/-l` page-boundary extraction and a rendered-page visual check (not
+  assumed from line counts), detailed above.
+- **Two-tier isolation compile:** `build/sim_attrib_overleaf_39c902e.zip` (rebuilt from the working
+  tree, includes every edit this session made, paper and figures both) extracted to two
+  independent temp directories and compiled end to end (pdflatex/bibtex/pdflatex/pdflatex each) —
+  both exit 0, both 17 total pages, zero undefined references or citations. `pdftotext` output is
+  byte-identical (MD5 `a2ef4b7866dd1f1a02afe0d2dfc0b654`) across the repo working copy and both
+  isolated extractions.
+- **Package rebuilds:** both `scripts/build_overleaf_package.sh` and
+  `scripts/build_anonymous_package.sh` re-run against the final edited tree (figures included);
+  the anonymized package's built-in anonymity scan (operator name, AI-authorship tokens, `.git`
+  metadata) reports clean on all three checks; `CLAIMS.md` present, unchanged (this session
+  touched no claim data, only prose, captions, and three figure label strings around it).
+
+### What G22 explicitly does not certify
+
+- **That the three regenerated figures are pixel-identical to their G16-era originals apart from
+  the label fix.** They were rebuilt from the current `results/` data through the project's own
+  scripts with the project's own pinned dependency versions, and each script's internal
+  data-matching assertions passed — but this session did not diff the two PDFs pixel-by-pixel,
+  only confirm the rendering pipeline's own built-in checks passed and that `git status` shows
+  only the three intended figures changed.
+- **That `src/viz/fig3_spectrum.py`'s internal `CAPTION` docstring (which still reads
+  "$\kappa=629$" and "$K=6$") was brought into line with this session's numeric/terminology
+  fixes.** That string is written to a provenance sidecar for the reproducibility record, never
+  to `paper/main.tex` or the rendered figure — out of this session's paper-facing scope, flagged
+  here rather than silently left.
+- **That every sentence in the document was re-read end to end for phase-6-class spelling drift
+  beyond the documented grep families.** The grep was broad (covers every pattern the brief named
+  plus several it didn't: defence/licence/practise/grey/whilst/programme/catalogue/analyse/
+  recognise/emphasise/utilise/organise/specialise/categorise/generalise) but is still a grep, not
+  a full manual re-read.
+
+### Points requiring operator input
+
+- **P-1.** Sign G22 (and the still-open G20/G21) after reading the recompiled PDF — confirm in
+  particular that the new column-count situation (Phase 4.5: no symbol introduced, because no
+  live overload survived) and the chosen spelling convention (Phase 6: American) both read as
+  intended.
+- **P-2 through P-9 (carried from G19/G20/G21, unresolved).** OSF anonymized-package link
+  verification, AI-use disclosure, reciprocal-review/Paris confirmation, repository visibility,
+  `/CreationDate` timezone, OpenReview submission, and Table 1's placement — none were this
+  session's to touch and none were touched.
+
+Everything else in this session's brief — Phases 1 through 8 and the re-verification pass — is,
+as of this session's own checking, complete. G23 (final comprehensive re-verification) runs next,
+per the operator's own session plan.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```

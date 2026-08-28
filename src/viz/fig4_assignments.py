@@ -115,7 +115,7 @@ def build() -> None:
         ax.set_xlabel(r"condition number $\kappa$  (dimensionless)")
         ax.set_title(title, fontsize=style.SIZE_TITLE, pad=3)
         style.threshold_line(ax, kmax, "", axis="x", zorder=3)
-        ax.annotate(r"registered $\kappa_{\max}=100$", xy=(kmax, 1.0),
+        ax.annotate(r"pre-registered $\kappa_{\max}=100$", xy=(kmax, 1.0),
                     xycoords=("data", "axes fraction"), xytext=(3, -1),
                     textcoords="offset points", ha="left", va="top",
                     fontsize=style.SIZE_LABEL, color=style.RULE)

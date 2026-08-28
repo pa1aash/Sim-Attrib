@@ -2,11 +2,23 @@
   "figure": "fig4_assignments",
   "generated_by": {
     "script": "src/viz/fig4_assignments.py",
-    "commit": "ae4e88de73676a9cfc0961fc3a622180ae821366",
-    "dirty": false,
-    "dirty_paths": [],
-    "started": "2026-08-25T01:00:22+05:30",
-    "finished": "2026-08-25T01:00:49+05:30"
+    "commit": "39c902e545cd6cacb2f10cba86e3ad80d1220052",
+    "dirty": true,
+    "dirty_paths": [
+      "audit/S17_REPORT.md",
+      "figures/fig3_spectrum.pdf",
+      "figures/fig3_spectrum.preview.png",
+      "figures/fig3_spectrum.provenance.json",
+      "figures/fig4_assignments.pdf",
+      "figures/fig4_assignments.preview.png",
+      "paper/appendix_tables.tex",
+      "paper/main.tex",
+      "src/viz/fig3_spectrum.py",
+      "src/viz/fig4_assignments.py",
+      "src/viz/fig5_threshold.py"
+    ],
+    "started": "2026-08-29T04:50:02+05:30",
+    "finished": "2026-08-29T04:50:17+05:30"
   },
   "caption": "Condition number $\\kappa$ of the summary Jacobian under all eight component-wise assignments of a distortion family to a component that the two declared family sets permit, for the ten-dimensional summary set $S_B$ (left) and the four-dimensional $S_A$ (right). Each three-letter code gives the family chosen for transmission, progression and observation in that order; B is the base family, A the adversarial one. Bars are coloured by the transmission choice. The dashed line is the pre-registered ceiling $\\kappa_{\\max} = 100$ from docs/THRESHOLDS.md, equivalent at the registered pair to the rank tolerance $\\tau = 10^{-2}$. $S_B$ separates under all eight assignments, $\\kappa$ from 6.6 to 65.6, every singular value resolved -- six of the eight had never been tested before. $S_A$ splits exactly on the transmission family: all four assignments carrying the adversarial transmission family are inseparable and all four carrying the base one are separable, with ABB failing by 0.9\\%. $S_A$ is shown as a control, not as a result: it establishes that the eight $S_B$ passes are a measurement rather than a property of an instrument that always says separable. Under DECISIONS.md D-14 these eight points establish separability of a three-dimensional distortion space eight times over, and nothing wider: they are every combination of two family sets this project chose, not a sample of distortion families in general.",
   "sources": [
@@ -107,8 +119,8 @@
     "preview_png_is_not_a_submission_asset": true
   },
   "output_hashes": {
-    "figures/fig4_assignments.pdf": "a96347fd726a0c875f8728320176c28df955600f787b7768af9daa5a81e5291a",
-    "figures/fig4_assignments.preview.png": "e6efe0fe2e1821a50d123453361b8668db4f2aad206988b65712aa979b4cf66a"
+    "figures/fig4_assignments.pdf": "5d689d7e009ee37e68b3233c929bed056ca2a66ffa0b48e1d58b7764165ca48c",
+    "figures/fig4_assignments.preview.png": "1de6e74299eba95fb9094c67aba241d21d9fbb74bc999c0f3177c91bea2a721a"
   },
   "notes": [
     "Bars are ordered by kappa within each panel, so the vertical position of a code differs between panels. The codes are on the axis for exactly that reason: the ordering is the point, and a shared ordering would hide S_A's split on the transmission family.",

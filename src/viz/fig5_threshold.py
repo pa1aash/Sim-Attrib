@@ -139,14 +139,14 @@ def build() -> None:
                     markerfacecolor=style.PANEL if not sep else style.INK,
                     markeredgecolor=style.INK, markeredgewidth=0.7, zorder=5)
         mult = star / tau_reg
-        ax.annotate(rf"$\tau^*={star:.4g}$  (${mult:.3g}\times$ registered)",
+        ax.annotate(rf"$\tau^*={star:.4g}$  (${mult:.3g}\times$ pre-registered)",
                     xy=(star, y + 0.34), xytext=(0, 0), textcoords="offset points",
                     ha="center", va="bottom", fontsize=style.SIZE_SMALL, color=style.INK)
         ax.text(lo * 1.25, y + 0.30, label, ha="left", va="bottom",
                 fontsize=style.SIZE_TICK, color=c)
 
     style.threshold_line(ax, tau_reg, "", axis="x", zorder=3)
-    ax.annotate("registered $\\tau=10^{-2}$  (shaded: halve / double)",
+    ax.annotate("pre-registered $\\tau=10^{-2}$  (shaded: halve / double)",
                 xy=(tau_reg, 1.0), xycoords=("data", "axes fraction"),
                 xytext=(0, 2), textcoords="offset points", ha="center", va="bottom",
                 fontsize=style.SIZE_SMALL, color=style.RULE)

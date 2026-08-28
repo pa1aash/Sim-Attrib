@@ -63,7 +63,7 @@ Attributing a simulator's misspecification to one component presupposes that the
 summaries can tell the components apart. That precondition can fail quietly. We check it on
 a three-component epidemic simulator under an adversarial threat model, using
 rank-and-condition-number diagnostics. One summary set separates all three components under
-every one of eight distortion assignments tried, given at most one distortion parameter per
+every one of eight family assignments tried, given at most one distortion parameter per
 component; the same measurement locates exactly where this breaks once a component carries two
 parameters at once ($\kappa=628.9$, rank 4 of 6), on an interpretable confound. A
 selective-inference construction for a calibrated attribution test is affordable at a known
@@ -86,7 +86,7 @@ quietly, and a procedure that reports a confident attribution without checking i
 reporting a number the data may not support.
 
 We check this on a three-component compartmental epidemic simulator, close to the smallest
-system where the failure is not a corner case: three biologically distinct mechanisms,
+system where the failure is not a corner case: three biologically distinct components,
 transmission, progression, and observation, under distortions realistic enough that two can move
 the same observed feature at once. A practitioner who runs the screen first gets either a
 numerical certificate that the summaries in hand separate every candidate cause, or a named
@@ -140,12 +140,12 @@ $p$-value over the nuisance set, is \citet{Dufour_2006}'s maximized Monte Carlo 
 Calibrating a selection event with no analytic description, by rejection-sampling the
 simulator's own null until a replicate lands in the observed cell, is available for arbitrary
 conditioning events following \citet{freidling2026selectiverandomizationinferenceadaptive}.
-Composing the two lets a simulator supply everything both need without further modelling
+Composing the two lets a simulator supply everything both need without further modeling
 assumptions. The foundational post-selection inference line that motivates conditioning on a
 selection event at all, \citet{fithian2017optimalinferencemodelselection} and
 \citet{Lee_2016}, differs from ours in the respect
 Section~\ref{sec:negative-result} turns on: those constructions derive the conditional law
-analytically for a specific procedure, where ours has no analytic characterisation and is
+analytically for a specific procedure, where ours has no analytic characterization and is
 calibrated by simulation instead.
 
 \section{Method}
@@ -160,30 +160,31 @@ two at once.
 In four steps:
 \begin{enumerate}[topsep=1pt,itemsep=1pt,parsep=0pt,leftmargin=*]
 \item \textbf{Declare.} The simulator as $K$ components, each carrying a one-parameter distortion
-family $\delta_k(\cdot\,;\eta_k)$ bit-identical to the base simulator at $\eta_k=0$, asserted
-bit-for-bit before anything else runs.
+family $\delta_k(\cdot\,;\eta_k)$ bit-identical to the base simulator at $\eta_k=0$.
 \item \textbf{Simulate.} Estimate the summary Jacobian $J=\partial s/\partial\eta$ at $\eta=0$ by
 central differences under common random numbers, swept over six decades of step size $h$;
 $s\in\mathbb{R}^d$ is the summary vector, so $J$ is $d\times K$;
 without common random numbers the difference is dominated by noise of order $\sigma/h$ and no
 stable range exists (a negative control confirms this: no plateau without CRN, only one of six
 step sizes inside any candidate window).
-\item \textbf{Normalise and take the SVD.} Summaries are divided by their prior-predictive
-standard deviation and each $\eta_k$ by a fixed relative perturbation scale (both, and every
-tolerance below, fixed before any singular value existed). The diagnostic's only input is the
+\item \textbf{Normalize and take the SVD.} Summaries are divided by their prior-predictive
+standard deviation and each $\eta_k$ by a fixed relative perturbation scale. All thresholds in
+this paper were fixed before any measurement. The diagnostic's only input is the
 summary vector: it never receives a component identity or a ground-truth label, so no hidden
 truth can leak into its answer.
 \item \textbf{Decide.} Components are \emph{separable} if $J$'s condition number satisfies
 $\kappa \le \kappa_{\max}=1/\tau$, equivalently if $J$ has full column rank at tolerance
 $\tau$. Condition number and rank at tolerance are the same condition; we report both because
 each reads more naturally in different places below. We use
-$\tau=10^{-2}$, $\kappa_{\max}=100$, from a compute budget: resolving components to precision
+$\tau=10^{-2}$, $\kappa_{\max}=100$ (exact flip point $\tau^*=\sigma_K/\sigma_1$), from a
+compute budget: resolving components to precision
 $\kappa$ costs order $\kappa^2$ replicates (a singular value as small as $\sigma_1/\kappa$
 needs the per-entry standard error below it, and that error falls as
-$(\text{replicates})^{-1/2}$); $\kappa=100$ exhausts this study's budget. A singular value
-varying by more than a factor of two across the plateau is \emph{unresolved} and counted toward
-the rank in neither direction, so the reported rank can be an interval rather than a single
-number. Resolution is a property of the
+$(\text{replicates})^{-1/2}$); at $\kappa=100$ this needs order $10^4$ replicates, the edge
+of this study's declared budget. A
+singular value varying by more than a factor of two across the plateau is \emph{unresolved} and
+counted toward the rank in neither direction, so the reported rank can be an interval rather than
+a single number. Resolution is a property of the
 \emph{estimator}, not of the \emph{matrix}: passing the resolution test says nothing about
 whether the underlying spectrum has a clean gap or decays smoothly across many decades
 (Section~\ref{sec:background}).
@@ -212,17 +213,18 @@ base/adversarial pair is a prevalence-saturating nonlinearity and a constant mul
 transmission rate; progression's is a time-drifting removal hazard and a constant multiplier on
 the recovery rate; observation's is a constant reporting-fraction error and a time-drifting
 reporting fraction; only the reporting fraction moves. We evaluate three summary sets: $S_A$, epidemic-curve features a
-domain modeller would choose (peak height, peak time, final size, growth rate); $S_B$, roughly
-ten time-binned incidence counts an SBI practitioner would choose; and $S_C$, an impoverished
+domain modeler would choose (peak height, peak time, final size, growth rate); $S_B$, ten
+time-binned incidence counts an SBI practitioner would choose; and $S_C$, an impoverished
 positive control with two summaries, which \emph{must} fail by construction ($d=2<K=3$) and
 does: rank 2, $\kappa=\infty$.
 
-\paragraph{Where attribution is identifiable: $S_B$ under eight family assignments.}
+\paragraph{Separability under eight family assignments.}
 Combining the two declared families component-wise gives eight three-column distortion models
-(Figure~\ref{fig:assignments}); only two, all-base and all-adversarial, were originally
+(Figure~\ref{fig:assignments}); only two, all-base and all-adversarial, were
 declared, and the other six recombine the same columns.
 Under our scope assumption, $S_B$ separates all three components under \emph{all eight}
-assignments. Condition number ranges from $6.628$ to $65.64$, every singular value is
+assignments. Condition number ranges from $6.628$ to $65.64$ (stable to $0.2\%$ across six
+decades of step size), every singular value is
 resolved, coherence stays below the pre-registered $0.98$ flag, and column norms stay above
 the $0.1$ floor throughout.
 $S_A$ is a control: it splits exactly on the transmission family, failing at
@@ -230,7 +232,7 @@ $\kappa=100.9$, $0.9\%$ past the ceiling, naming $\{$progression$\}$, $\{$transm
 progression$\}$, or $\{$progression, observation$\}$ across its four failures. The margin is not uniform: $S_B$'s verdict survives
 $\tau$ moving by $9.881\times$ under the base assignment but only $1.523\times$ under the
 tightest one (Table~\ref{tab:sb-eight}, Appendix~\ref{sec:appendix}), so doubling $\tau$ flips
-it. Nor is it an artifact of the flat $10\%$ ETA\_SCALE unit. The eta columns map onto three
+it. Nor is it an artifact of the flat $10\%$ perturbation unit. The eta columns map onto three
 coordinates, $\beta$, $\gamma$, and $\rho$; $I_0$ and the noise scale are not columns here.
 Rescaling instead by each parameter's confidence-set standard error
 (Section~\ref{sec:negative-result}) gives $0.9$--$2.7\%$ relative perturbations rather than a
@@ -242,16 +244,15 @@ common $10\%$, and leaves both separable ($\kappa=31.9$, $8.0$; rank $3$ of $3$)
   \caption{Condition number $\kappa$ under all eight component-wise family assignments
   (three-letter code: transmission/progression/observation, B~base, A~adversarial), for $S_B$
   (left) and $S_A$ (right), on a shared $\kappa$ axis, against the pre-registered ceiling
-  $\kappa_{\max}=100$ (dashed). $S_A$ is a control: it rules out an instrument
-  that always reports separable.}
+  $\kappa_{\max}=100$ (dashed).}
   \label{fig:assignments}
 \end{figure}
 
-\paragraph{Where it is not: two distortion parameters per component.}
+\paragraph{Two distortion parameters per component.}
 Placing all six declared distortion directions side by side (two per component) gives a
 single six-column object. For $S_B$ it is \textbf{inseparable} at $\kappa=628.9$, rank $4$ of
 $6$ (Figure~\ref{fig:spectrum}), on a confound between progression and observation. Every
-singular value is resolved (worst variation $1.023$ across the plateau against an admissible
+singular value is resolved (worst variation $1.02$ across the plateau against an admissible
 $2$), no tolerance from $\tau$ of $0.005$ to $1.0$ restores both separability and affordability, and
 the deficiency is not structural, since $d=10\ge6$. Both near-null directions are
 cross-mechanism, naming progression together with observation, with transmission carrying
@@ -272,13 +273,12 @@ about this simulator.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.62\linewidth]{../figures/fig3_spectrum.pdf}
-  \caption{Normalised singular-value spectrum of $S_B$'s summary Jacobian under the base and
+  \caption{Normalized singular-value spectrum of $S_B$'s summary Jacobian under the base and
   adversarial three-column families and their six-column union, against the pre-registered
   tolerance $\tau=10^{-2}$ (dashed). Both three-column spectra clear $\tau$ by an order of
   magnitude; the six-column union's $\tau$ falls inside the spectrum, between $\sigma_4$
   (above $\tau$) and $\sigma_5$ (below it, the first near-null direction): rank 4 of 6,
-  $\kappa=629$. Every value shown is \emph{resolved} (main text), so the rank deficiency is a
-  property of the matrix, not of the estimator.}
+  $\kappa=628.9$.}
   \label{fig:spectrum}
 \end{figure}
 
@@ -286,13 +286,15 @@ about this simulator.
 \citet{montel2025testsmodelmisspecificationsimulationbased}'s family of tests directly on our
 simulator. The only simplification is exact per-summary statistics in place of their neural
 ones (Appendix~\ref{sec:claims-ledger}): it rejects at both declared corners and at
-two realizations of the six-column confound's named mechanisms ($p\approx0.004$), a null-data
-control does not reject ($p=0.61$), and its arg\,min flags disjoint coordinates for the two
-mechanisms, contradicting our earlier unmeasured claim. This is one realization of each
+two realizations of the six-column confound's named mechanisms, all four at the same
+$p=0.003997$: the $1500$-draw calibration batch's resolution floor, not four
+independently agreeing measurements. A
+null-data control does not reject ($p=0.61$), and its arg\,min flags disjoint coordinates for
+the two mechanisms. This is one realization of each
 mechanism; we did not sample the mechanism distribution. It is a separate question from the
 Jacobian's \emph{local} near-null ambiguity at $\eta=0$ measured above.
 
-\section{Where exact conditional attribution becomes unaffordable, and why}
+\section{Cost of exact conditional attribution under nuisance uncertainty}
 \label{sec:negative-result}
 
 Composing Dufour's maximized Monte Carlo with rejection-sampling calibration
@@ -302,16 +304,22 @@ p-value are sources of conservativeness), and the validity argument requires the
 be a fixed, deterministic function of the data with every admissible nuisance value keeping
 the observed selection event reachable.
 
-\paragraph{The mechanism, and the shape of the boundary.}
+\paragraph{The mechanism.}
 The selection rule's fixed-function requirement means it cannot track $\theta$: nuisance
 parameters shift the normalized summary vector while a single draw's noise magnitude stays
 fixed, and once that shift exceeds the noise, a $\theta$-free rule selects one component
-deterministically and the cell the data selected becomes unreachable. A sweep over ten relative
-half-widths from $0.1\%$ to $5\%$
-(Figure~\ref{fig:nontermination}) locates the shape of this collapse under a round-number box.
-The collapse is gradual rather than abrupt, by the pre-registered log-slope-ratio criterion
-against a threshold of 3 (measured $2.265\times$). It loses about one decade of acceptance
-probability per $0.7\%$ of relative nuisance error, log-linear at $R^2=0.94$. The gate passes
+deterministically and the cell the data selected becomes unreachable. A sweep over the
+pre-registered 42-point design (32 corners, 10 axis endpoints, half-width $w$ from $0.1\%$ to
+$5\%$; Figure~\ref{fig:nontermination}) locates this collapse's shape under a round-number box.
+The collapse is gradual rather than abrupt, by the
+pre-registered log-slope-ratio criterion against a threshold of 3 (measured $2.26\times$), losing
+about one decade of acceptance probability per $0.7\%$ of relative nuisance error, log-linear at
+$R^2=0.94$.
+
+\paragraph{The shape of the boundary.}
+The cost gate requires expected draws $M\!\times\!N/p_{\min}(w)\leq10^8$ ($M\in\{10^3,10^4\}$,
+$N\in\{99,999\}$; Figure~\ref{fig:nontermination}, shaded band).
+The gate passes
 at every declared corner only inside a $\pm0.5\%$ box, tighter than the data-implied box below
 supports. The
 smallest round box at which the gate first fails ($\pm0.75\%$) sits at Mahalanobis radius
@@ -324,20 +332,21 @@ itself is a portable one-line check for other simulators.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.92\linewidth]{../figures/fig6_nontermination.pdf}
-  \caption{Left: acceptance probability $p_{\min}(w)$, primary case (AAA, studentised), over
-  the pre-registered 42-point design (32 corners $+$ 10 axis endpoints of half-width $w$ about
-  $\theta_0$) and the $K=3$ cells; 95\% Wilson bars, open triangle at $w=0.05$ an upper bound
-  joined to nothing. Shaded band: cost gate $M\!\times\!N/p\leq10^8$ ($M\in\{10^3,10^4\}$,
-  $N\in\{99,999\}$); the gate passes where the measured line sits inside or above the band and
-  fails where it falls below it. Plain/BBB variants in Figure~\ref{fig:nontermination-variants}
-  (Appendix~\ref{sec:appendix}). Right: the mechanism, shift-to-noise ratio vs.\ $w$; line at
-  ratio $=1$, dashed where first crossed, where the gate stops passing.}
+  \caption{Left: acceptance probability $p_{\min}(w)$, primary case (AAA, studentized), over
+  the pre-registered design and the $K=3$ cells; 95\% Wilson bars, open triangle at $w=0.05$ an
+  upper bound joined to nothing. Shaded band: the cost gate defined in
+  Section~\ref{sec:negative-result}, which passes where the measured line sits inside or above
+  the band and fails where it falls below it; plain/BBB variants in
+  Figure~\ref{fig:nontermination-variants} (Appendix~\ref{sec:appendix}). Right: the mechanism,
+  shift-to-noise ratio vs.\ $w$; line at ratio $=1$, dashed where first crossed, where the gate
+  stops passing.}
   \label{fig:nontermination}
 \end{figure}
 
-\paragraph{Affordable at a known parameter, unbounded over a data-implied nuisance set.}
-At the true parameter $\theta_0$ the composition is affordable: the worst selection cell
-holds $23\%$ of null draws, and one test costs $4.2\times10^5$ to $4.3\times10^7$ simulator
+\paragraph{Cost at $\theta_0$ and over the data-implied box.}
+At the true parameter $\theta_0$ the MMC-selection composition is affordable: the acceptance
+probability $p_{\min}(w)$ is $23\%$, and one
+test costs $4.2\times10^5$ to $4.3\times10^7$ simulator
 draws against a pre-registered gate of $10^8$. The question is whether that
 affordability survives once the nuisance parameters (transmission and recovery rates, reporting
 fraction, initial infections, observation noise scale) are known only to the precision real
@@ -369,7 +378,7 @@ $100{,}000$ draws at the other three declared combinations: the gate \textbf{fai
 corner under all four}, the
 cheapest needing $9.9\times10^9$ draws, approximately two orders of magnitude over budget.
 
-\enlargethispage{2\baselineskip}
+\enlargethispage{6\baselineskip}
 \section{Limitations}
 \label{sec:limitations}
 
@@ -387,6 +396,8 @@ separability. A second $\theta$, drawn $\pm20\%$ relative per coordinate, stays 
 \item \textbf{One simulator, one scope, no learned component.} Every result is on one simulator
 under two family sets, every combination the two family sets permit; transport to
 other simulator classes or a learned summary statistic (where $s(y)$ would sit) is untested.
+The observation family's delay kernel and noise scale are held at base values, a stated design
+limitation.
 \end{itemize}
 
 \section{Conclusion}
@@ -406,7 +417,7 @@ uncertainty bound: checking the precondition first is the practice this paper re
 \section{Appendix}
 \label{sec:appendix}
 
-\subsection{Compact overview of the paper's four findings}
+\subsection{Summary of findings}
 
 Table~\ref{tab:summary} collects the paper's four findings, each with the headline statistic
 that carries it and the figure that evidences it.
@@ -423,13 +434,13 @@ full.
 \toprule
 finding & object & key number & holds / fails where & fig. \\
 \midrule
-attribution identifiable & $S_B$, 3 columns & $\kappa$: 6.6--65.6 &
+attribution separable & $S_B$, 3 columns & $\kappa$: 6.628--65.64 &
   all 8 one-parameter-per-component assignments tried & 1 \\
-\dots\ stops being so & $S_B$, 6 columns & $\kappa=629$, rank 4/6 &
+\dots\ stops being so & $S_B$, 6 columns & $\kappa=628.9$, rank 4/6 &
   once a component carries 2 distortion parameters & 2 \\
-selective-inference test affordable & known $\theta$ & worst cell $p=0.23$ &
+selective-inference test affordable & known $\theta$ & acceptance probability $0.23$ &
   only at a known parameter & 3a \\
-\dots\ fails to terminate & data-implied nuisance box & worst cell $p=10^{-5}$ &
+\dots\ fails to terminate & data-implied nuisance box & acceptance probability $10^{-5}$ &
   once $\theta$ is known only to data-implied precision, predicted before measured & 3 \\
 \bottomrule
 \end{tabular}
@@ -442,19 +453,18 @@ points to the evidence figure.}
 
 Figure~\ref{fig:simulator} gives the compartment flow of the three-component simulator and the
 exact formula for each distortion family, for reproducibility. What the base and adversarial
-families do qualitatively is described in Section~\ref{sec:experiments}'s own prose.
+families do qualitatively is described in Section~\ref{sec:experiments}'s own prose. There is
+no explicit removed compartment because nothing downstream observes one, and the observation
+noise must be continuous and multiplicative rather than count-valued, or the
+common-random-numbers finite difference the diagnostic depends on does not exist.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{../figures/fig2_simulator.pdf}
   \caption{Structure of the three-component compartmental simulator, and where each distortion
-  family acts. There is no explicit removed compartment because nothing downstream observes
-  one; the observation noise must be continuous and multiplicative rather than count-valued,
-  or the common-random-numbers finite difference the diagnostic depends on does not exist.
-  Each component carries one one-parameter distortion family $\delta_k(\cdot\,;\eta_k)$,
-  bit-identical to the base simulator at $\eta_k=0$ (family descriptions:
-  Section~\ref{sec:experiments}); under the observation family only the reporting fraction
-  moves, with the delay kernel and noise scale held at base values, a stated design limitation.}
+  family acts. Each component carries one one-parameter distortion family
+  $\delta_k(\cdot\,;\eta_k)$, bit-identical to the base simulator at $\eta_k=0$ (family
+  descriptions: Section~\ref{sec:experiments}).}
   \label{fig:simulator}
 \end{figure}
 
@@ -485,18 +495,15 @@ step sizes swept & $6$ ($10^{-1}$ to $10^{-6}$) & the $h$-sweep for the Jacobian
 
 \FloatBarrier
 
-\subsection{The threshold-sensitivity sweep, the six-column confound, and the MMC variant
-comparison, in full}
+\subsection{Supplementary figures}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{../figures/fig5_threshold.pdf}
   \caption{Separability verdict for $S_B$ as a function of rank tolerance $\tau$
   ($\kappa_{\max}=1/\tau$). Vertical ticks mark each lane's exact flip point
-  $\tau^*=\sigma_K/\sigma_1$; the dashed line is the registered $\tau=10^{-2}$ and the shaded
-  band is a halve-and-double robustness check. The adversarial margin (1.55$\times$) is far
-  tighter than the base margin (9.88$\times$), so doubling $\tau$ flips it; the six-column
-  union stays inseparable across four decades of $\tau$.}
+  $\tau^*=\sigma_K/\sigma_1$; the dashed line is the pre-registered $\tau=10^{-2}$ and the
+  shaded band is a halve-and-double robustness check.}
   \label{fig:threshold}
 \end{figure}
 
@@ -507,8 +514,7 @@ comparison, in full}
   singular vectors $v_5,v_6$ by distortion column, dashed line at the equivalence-class
   threshold $|v_k|=0.3$; (c) mechanism energy per direction. Both directions are cross-mechanism,
   naming progression together with observation, with transmission carrying under 5\% of the
-  energy in either: a drifting removal hazard is nearly indistinguishable from a constant
-  hazard change combined with a drifting reporting rate.}
+  energy in either.}
   \label{fig:confound}
 \end{figure}
 
@@ -516,19 +522,19 @@ comparison, in full}
   \centering
   \includegraphics[width=0.62\linewidth]{../figures/fig6b_nontermination_variants.pdf}
   \caption{Acceptance probability $p_{\min}(w)$, with 95\% Wilson bars, across all four
-  (family assignment, studentisation variant) combinations the composition was measured
-  under, on the same 42-point design and axes as Figure~\ref{fig:nontermination}'s left
-  panel. The primary case (AAA, studentised) is reproduced here for comparison. BBB,
-  studentised and BBB, plain first reach zero measured acceptances earlier ($w=0.03$ and
-  $w=0.02$) than the primary case ($w=0.05$); AAA, plain never reaches a measured zero
-  anywhere in this sweep. Open triangles are 95\% Wilson upper bounds at zero measured
-  acceptances, not values, and are joined to nothing.}
+  (family assignment, studentization variant) combinations the composition was measured under,
+  on the same 42-point design and axes as Figure~\ref{fig:nontermination}'s left panel; the
+  primary case (AAA, studentized) is reproduced here for comparison. BBB, studentized and BBB,
+  plain first reach zero measured acceptances earlier ($w=0.03$ and $w=0.02$) than the primary
+  case ($w=0.05$); AAA, plain never reaches a measured zero anywhere in this sweep. Open
+  triangles are 95\% Wilson upper bounds at zero measured acceptances, not values, and are
+  joined to nothing.}
   \label{fig:nontermination-variants}
 \end{figure}
 
 \FloatBarrier
 
-\subsection{The eight family assignments, in full}
+\subsection{The eight family assignments}
 
 \input{appendix_tables.tex}
 

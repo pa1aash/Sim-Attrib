@@ -98,7 +98,7 @@ def build() -> None:
         assert verdict  # recorded, and reported in the label above
 
     ax.axhspan(5e-4, tau, color=style.FAINT, alpha=0.22, linewidth=0, zorder=0)
-    style.threshold_line(ax, tau, r"registered $\tau = 10^{-2}$")
+    style.threshold_line(ax, tau, r"pre-registered $\tau = 10^{-2}$")
     ax.set_yscale("log")
     ax.set_xlabel("singular-value index $i$")
     ax.set_ylabel(r"$\sigma_i / \sigma_1$   (dimensionless)")
