@@ -3237,3 +3237,216 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G21 — Dense voice-only line-edit across the entire document. Does the page-budget shortfall G20 disclosed close as a side effect, and does every claim still trace?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-29, session G21 — second of the four-session operator line-edit (G20-G23). This
+session's mandate was explicitly **voice only**: eliminate the "not X, rather Y" rhetorical-
+negation pattern, announcement sentences, softening adverbs, trailing appositive qualifications,
+run-on sentences, and aphoristic paragraph endings, across the whole document. No claim, number,
+or structural placement was to change. Every fix location was found by the operator's quoted
+text, not by the stale line numbers in the brief (correctly stale — G20's structural pass had
+already moved and cut several of the exact sentences the brief quoted).
+
+> ### The headline, stated before the detail
+>
+> **Every phase ran to completion, and G20's disclosed page-budget shortfall is closed as a
+> direct side effect of this session's cuts — main text now compiles to exactly 5 pages, not 6.**
+> References begin page 6, the appendix begins page 7. This was not a separate page-budget task;
+> it fell out of Phase 2's announcement-sentence cuts (the Section 1 Table 1 pointer, the "every
+> number traces" sentence, the Appendix A.3 preamble paragraph) and Phase 2.5's reduction of
+> Section 5's opening paragraph (three restated-elsewhere sentences cut, the conservativeness/
+> reachability sentence kept and folded around the composition-naming clause it needs for a
+> referent). No `\enlargethispage` value was touched; G20's `2\baselineskip` still stands and
+> turned out not to be load-bearing once the redundant prose was gone.
+>
+> **Phase 1 (rhetorical negation), 16 instances fixed, 3 kept deliberately.** Fixed: the Cranmer/
+> Frazier "not which component... the question this paper asks instead" restatement; the Montel
+> baseline's "not the identity of the arg min"; the Miao differential-algebra "of each mechanism
+> rather than a distribution"; the scope-assumption "load-bearing rather than a formality" (cut
+> entirely, absorbed into Phase 2's matching announcement-sentence cut); the condition-number/
+> rank "one condition, not two" restatement; the equivalence-class "rather than a single culprit";
+> both instances of "$S_A$ is a control, not a result" (body and Figure 1 caption); **the worst
+> instance** — the three consecutive "The estimator is not the cause... Neither is the
+> threshold... Nor is the deficiency structural" rule-outs — inverted to state the cause first (a
+> confound between progression and observation) and then rule out the three alternatives in one
+> sentence, every one of the three numeric justifications kept (worst variation 1.023 against
+> admissible 2; no tolerance from 0.005 to 1.0 restores separability; $d=10\ge6$); the "not a
+> bound on $\kappa$, is the assumption's real content" aphorism; the "fact about having three
+> columns, not about the simulator" aphorism; "Rather than assume a box, we fit..."; both
+> Limitations bullets ("scope assumption is not a formality" and "That is one point, not a
+> distribution"); the third Limitations bullet's "rather than a general sample." **Kept, per the
+> brief's own instruction:** "Resolution is a property of the estimator, not of the matrix"
+> (Section 3, genuine distinction — see the G22 flag below for its mirrored twin in Figure 2's
+> caption); "conservatively rather than exactly" (Section 5, legitimate technical contrast);
+> "gradual rather than abrupt" (verdict label, restructured under Phase 5.1 but the phrase itself
+> survives).
+>
+> **Phase 2 (announcement sentences), 7 of 7 addressed.** The Section 1 Table 1 pointer, the
+> Section 2 Gutenkunst "Section 4 measures rather than assumes" clause, the Section 2 "Section 4
+> shows what happens once it is dropped" clause, and the Section 4 "every number below traces...
+> Appendix A.5" sentence are all **cut outright** — each was pure duplication of a caption, an
+> appendix paragraph, or the sentence that immediately follows it doing the actual work. Section
+> 2's Dufour/Freidling announcement is **rewritten with substance** ("The construction Section 5
+> evaluates composes two standard pieces."). Section 5's opening paragraph is **cut to its
+> non-redundant core**: three sentences restating claims the bold-led paragraphs below state
+> anyway (affordable-at-known-$\theta$, the prediction, the neighborhood-narrower-than-uncertainty
+> claim) are gone; the conservativeness/reachability sentence — which does not reappear anywhere
+> else in the paper — survives, merged with the composition-naming clause it needs to keep "the
+> composition" from losing its referent. Checked against G20's Phase 5 reorder before cutting, per
+> the brief's own instruction: the section is in the order G20 left it, and nothing here reopens
+> that. The Appendix A.3 preamble paragraph (three figure-naming sentences) is deleted outright;
+> the three figures' own captions already state what each shows.
+>
+> **Phase 3 (softening adverbs/intensifiers), all located instances fixed.** "real" cut from all
+> three surviving hedge-against-artifact occurrences (abstract, Limitations, Conclusion — the
+> brief's stated 4th occurrence was not found as a separate instance; see the Phase 8 note below).
+> "essentially always" → full-sentence rewrite. "usually," "actually," "exactly" (two
+> occurrences), "partly," "comfortably" (two occurrences), "almost exactly," and "directly" all
+> cut per the brief. "A clear pass" cut outright. "It survives, by a wide margin" was searched for
+> and not found in the current draft — moot, already gone before this session (see Phase 8 note).
+> "Coherence below the pre-registered 0.98 flag" and "nearly indistinguishable" kept, as
+> instructed.
+>
+> **Phase 4 (trailing appositives), 6 of 9 fixed directly, 3 moot/deferred.** Fixed: the abstract's
+> "a precondition that can fail quietly" promoted to its own sentence; the Montel "only
+> simplification" clause integrated into a full sentence; the Moré/Wild "of which... is a coarser
+> substitute" integrated; "and nothing further" cut (the preceding clause stands alone cleanly);
+> the eta-columns exclusion parenthetical `($\beta,\gamma,\rho$; $I_0$...)` unnested into its own
+> sentence (folded into the Phase 5.2 run-on split below); the Limitations "derived instead from a
+> compute budget" dangling modifier fixed by naming what is actually derived from the budget
+> ($\kappa_{\max}$, not the tolerance in the abstract). **Moot, confirmed by direct search:** "the
+> data-implied box above supports" (G20's reorder already corrected this to "below" — verified,
+> not touched again) and "on every one of the five nuisance coordinates" (the sentence carrying it
+> was already cut under Phase 2.5). **Deferred to G22, per the brief's own routing:** the Figure 4
+> (`fig:simulator`) caption's "a stated design limitation" trailing clause — caption work, out of
+> this session's scope.
+>
+> **Phase 5 (run-ons), 3 of 3 split.** The five-clause boundary-collapse sentence is now four
+> sentences (shape verdict + statistic; rate; fit quality; passing region vs. the data-implied
+> box). The confidence-set-scaling sentence is split and the eta-column exclusion unnested into
+> its own sentence; the "Section 5" forward reference from Section 4 was checked and is a genuine,
+> intentional forward pointer to where the standard errors are computed (Section 5 necessarily
+> follows Section 4; G20's Phase 3.3 already promoted that computation to sit early in Section 5,
+> immediately after the boundary-sweep paragraph) — nothing further to correct here beyond what
+> G20 already did. The four-check sentence (condition number, resolution, coherence, column norms)
+> is split into two sentences and the duplicated "pre-registered" removed (kept once, on the
+> coherence flag).
+>
+> **Phase 6 (aphoristic endings), all six addressed; exactly one survives, as instructed.** "The
+> assumption's real content" and "not about the simulator" are resolved by the Phase 1 rewrites
+> above (no longer aphoristic closes). "And nothing further" and "That is one point, not a
+> distribution" are resolved by Phases 1/4 above. **The internal contradiction the brief flagged
+> is fixed as a substance issue, not just tone:** "The ratio itself is a portable one-line check
+> for other simulators" now reads "We conjecture the ratio itself is a portable one-line check for
+> other simulators" — softened to an explicit conjecture rather than an established fact, so it no
+> longer contradicts the Limitations bullet stating transport to other simulator classes is
+> untested. The abstract's "the contribution is the finding" is the one aphoristic close left in
+> the paper, per the operator's explicit instruction.
+>
+> **Phase 7 (two flagged inconsistencies), both resolved.** 7.1: "its only theorem requires" →
+> "the validity argument requires," folded into the Section 5 opening-paragraph rewrite (Phase
+> 2.5) so it no longer contradicts checklist item 3's "no theoretical result, informal argument."
+> 7.2: the ungrammatical "coincide almost exactly, sharper than failing inside a Bonferroni box"
+> comparative is rewritten as two parallel clauses ("...coincide: the boundary is a sharper cut
+> than a Bonferroni box, which only bounds the ellipsoid from outside"). 7.3: searched directly
+> ("collapse below," "round, assumed," "here it survives") and **confirmed moot** — G20's Section
+> 5 reorder had already removed this sentence along with the "(below)" forward reference it was
+> tied to, exactly as the brief predicted it might.
+>
+> **Phase 8 (full re-read).** A second full pass located no further "not X, rather Y" instances,
+> announcement sentences, dangling appositives, or aphoristic closes beyond what Phases 1-7
+> already fixed or explicitly kept. Two items in the brief were searched for directly and not
+> found in the current draft: 1.1's literal quoted text ("on a real confound between progression
+> and observation rather than a numerical artifact") and "it survives, by a wide margin." Both
+> read as the operator's pre-G20 notes on passages G20's structural pass had already reshaped by
+> the time this session started; 1.1's substance is fully covered by this session's Phase 1.11
+> rewrite of the same passage (the confound is now stated as the cause, first, before the
+> rule-outs). Neither is a case of this session skipping a fix — both are confirmed absent, not
+> assumed absent.
+
+**Numbers changed: zero.** Every edit in this session restructures or cuts prose; none touches a
+numeric literal, a citation key, a cross-reference target, or a claim's content. Verified by a
+token-level diff of every `[0-9]+\.[0-9]+`, `[0-9]+%`, and `\$...=[0-9.]+` match between the
+pre-session and post-session `main.tex` (see Re-verification below) — the only difference found
+was a cosmetic LaTeX-markup change (`$\tau$ from $0.005$` restructured mid-edit to `$\tau=0.005$`
+then corrected back to `$\tau$ of $0.005$` for consistency with the document's existing style),
+not a value change.
+
+**Two items flagged for G22, not fixed here, per the brief's own routing to that session:**
+1. Figure 2's caption ("so the rank deficiency is a property of the matrix, not of the
+   estimator") mirrors, in the opposite direction, Section 3's kept "Resolution is a property of
+   the estimator, not of the matrix." Both are individually correct and make different points
+   (one about the six-column spectrum's rank deficiency, one about what the resolution test can
+   and cannot certify), but the brief is right that two mirrored, opposite-direction aphorisms
+   three pages apart read as an accident, not a device. G22 owns captions.
+2. Figure 4 (`fig:simulator`)'s caption trailing clause, "a stated design limitation" — needs
+   integrating into the caption's own sentence structure, same reason.
+
+### Re-verification
+
+- **Number trace:** every numeric token in `paper/main.tex` diffed pre- vs. post-session
+  (`git show HEAD:paper/main.tex` vs. the working copy) via a regex extraction of decimal,
+  percentage, and `\command=value` tokens, sorted and compared. One line-level diff, resolved to
+  a pure LaTeX-markup difference (see above) with no value change. Manually cross-checked against
+  the full unified diff line-by-line as well: every numeral present in a removed line is present,
+  unchanged, in the corresponding added line.
+- **Anonymization re-scan:** `pdftotext` on the recompiled PDF and a grep of its metadata for
+  operator name variants, all clean; `pdfinfo` shows no author field set. `scripts/
+  build_anonymous_package.sh`'s own built-in scan reports clean.
+- **Page count:** main text is **exactly 5 pages** (Introduction through Conclusion). References
+  begin page 6, the appendix begins page 7. Confirmed via `pdftotext -f/-l` page-boundary
+  extraction, not assumed from line counts.
+- **Two-tier isolation compile:** `build/sim_attrib_overleaf_5d18d7c.zip` (rebuilt from the
+  working tree, includes this session's edits) extracted to two independent temp directories and
+  compiled end to end (pdflatex/bibtex/pdflatex/pdflatex each) — both exit 0, both 17 total pages,
+  zero undefined references or citations in a clean final pass on each. `pdftotext` output is
+  byte-identical (MD5 `b6ff61c4eb187b83d2a3e74789c56fa6`) across the repo working copy and both
+  isolated extractions; `main.pdf` is 582,225 bytes in all three.
+- **Package rebuilds:** both `scripts/build_overleaf_package.sh` and `scripts/
+  build_anonymous_package.sh` re-run against the final edited tree; the anonymized package's
+  `CLAIMS.md` confirmed present (21,111 bytes, unchanged from G20 — this session touched no claim
+  data). Both scripts' own anonymization checks report clean.
+- **One environment note, not a paper defect:** `audit/S17_REPORT.md` is a pre-existing,
+  already-modified file (dirty before this session started, per the initial `git status`) that
+  macOS iCloud has evicted to a dataless placeholder; whole-repository `git status`/`git diff`
+  intermittently time out on it (`mmap failed`). Scoped operations (`git diff -- paper/main.tex`,
+  `git add paper/main.tex`) are unaffected and were used throughout this session's own
+  verification. Not this session's file to fix; noted so a future session isn't surprised by it.
+
+### What G21 explicitly does not certify
+
+- **That Phase 6/G22's caption work is done.** The two mirrored-aphorism and dangling-appositive
+  items above are flagged, not fixed — captions are explicitly out of this session's scope.
+- **That every sentence in the document was rewritten.** This was a targeted pass against the
+  operator's specific brief plus one full re-read hunting for the same five pattern classes; it
+  was not a from-scratch prose rewrite, and sentences outside those five classes were not
+  second-guessed.
+- **That the 5-page main text has slack.** It does not — this session's cuts closed the gap
+  exactly, with the same zero-slack margin G20 inherited from G19. Any future session adding
+  content must re-verify page count as its own first check, same standing rule G20 stated for
+  G21.
+
+### Points requiring operator input
+
+- **P-1.** Sign G20 and G21 together after reading the recompiled PDF end to end — G21's edits
+  touch nearly every paragraph in the main text (voice only; no claim, number, or structural
+  placement changed, per this session's own verification above).
+- **P-2 through P-9 (carried from G19/G20, unresolved).** OSF anonymized-package link
+  verification, AI-use disclosure, reciprocal-review/Paris confirmation, repository visibility,
+  `/CreationDate` timezone, OpenReview submission, and Table 1's placement — none were this
+  session's to touch and none were touched.
+
+Everything else in this session's brief — Phases 1 through 9, the full re-read, and the
+re-verification pass — is, as of this session's own checking, complete. G22 (captions,
+terminology, numbers, spelling) runs next, per the operator's own session plan.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
