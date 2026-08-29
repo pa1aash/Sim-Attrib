@@ -47,7 +47,7 @@
     \item {\bf Experimental result reproducibility}
     \item[] Question: Does the paper fully disclose all the information needed to reproduce the main experimental results of the paper to the extent that it affects the main claims and/or conclusions of the paper (regardless of whether the code and data are provided or not)?
     \item[] Answer: \answerYes{}
-    \item[] Justification: Every numeric claim in the main text traces to a dotted path in a results file (Appendix, Section ``Every number this paper's claims rest on''); the simulator, distortion families, thresholds, and design are specified in Sections 3--4 and the appendix in enough detail to reconstruct the experiment.
+    \item[] Justification: Every numeric claim in the main text traces to a dotted path in a results file; the full claim-to-source table is not reproduced in the paper itself but ships as \texttt{CLAIMS.md} inside the anonymized reproducibility package referenced in item 5 below (``Open access to data and code''). The simulator, distortion families, thresholds, and design are specified in Sections 3--4 and the appendix in enough detail to reconstruct the experiment.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not include experiments.
@@ -112,7 +112,7 @@
 \item {\bf Experiments compute resources}
     \item[] Question: For each experiment, does the paper provide sufficient information on the computer resources (type of compute workers, memory, time of execution) needed to reproduce the experiments?
     \item[] Answer: \answerNo{}
-    \item[] Justification: Compute-amount proxies are reported throughout the main text (the $10^8$-draw cost gate, per-test costs from $4.2\times10^5$ to $9.9\times10^9$ simulator draws depending on the case, and the $100{,}000$-draw zero-acceptance bound); the full per-experiment draw counts (e.g.\ 7.6 million null draws for the boundary sweep, 9{,}216 simulator runs for the eight-assignment sweep, 722{,}000 for the confidence-set check) are in the generated claim table, Appendix~\ref{sec:appendix}. Wall-clock time and hardware specifications are not stated.
+    \item[] Justification: Compute-amount proxies are reported throughout the main text (the $10^8$-draw cost gate, per-test costs from $4.2\times10^5$ to $9.9\times10^9$ simulator draws depending on the case, and the $100{,}000$-draw zero-acceptance bound); the full per-experiment draw counts (e.g.\ 7.6 million null draws for the boundary sweep, 9{,}216 simulator runs for the eight-assignment sweep, 722{,}000 for the confidence-set check) are not reproduced in the paper itself but ship in \texttt{CLAIMS.md} inside the anonymized reproducibility package referenced in item 5 above (``Open access to data and code''). Wall-clock time and hardware specifications are not stated.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not include experiments.
