@@ -3699,3 +3699,174 @@ signed:      ____________________
 date:        ____________________
 conditions:  ____________________
 ```
+
+## G23 — Three operator-found stale cross-references, a document-wide cross-reference audit, and the final comprehensive verification. Is this paper ready to submit?
+
+**status: ready for review — UNSIGNED**
+
+Prepared 2026-08-29, session G23 — the twenty-third internal session, fourth and explicitly the
+final of the four-session operator line-edit (G20-G23). This session's mandate: fix three
+specific stale cross-references the operator found reading the G22 PDF directly (each pointing at
+appendix content that G20's restructuring moved away from where the pointer still names), run the
+document-wide internal-cross-reference audit no prior session's verification scope covered, do the
+final comprehensive re-verification, and produce the top-level readiness answer.
+
+### Phase 0 — sync
+
+`git status` at session start showed `audit/S17_REPORT.md` as **deleted**, not the "known,
+harmless local artifact" G21/G22 both characterized it as. It is genuinely a tracked file
+(committed at G17) that was missing from the working tree — not an untracked artifact as prior
+sessions assumed. Restored via `git checkout -- audit/S17_REPORT.md` before any other work, since
+it is load-bearing for this session's own Phase 3.8/4.2 consolidated history. Everything else
+matched expectation: HEAD at `c853bd2` (G22), tree otherwise clean apart from
+`Formatting_Instructions_For_NeurIPS_2026/` (unrelated venue-template reference files, untracked
+since before this session), a stray empty `audit/S17_REPORT.md.tmp.*` file, and an empty stray
+`paper/main 2.pdf` — none of the three touched by this session.
+
+### Phase 1 — FIX-1/2/3
+
+All three applied exactly as specified, commit `ea932b2`:
+
+- **FIX-1.** Section 4's Montel-comparison sentence dropped `(Appendix~\ref{sec:claims-ledger})`
+  — Appendix A.5 no longer discusses the per-summary-statistics simplification the sentence
+  names; verified the sentence reads completely standing alone after deletion.
+- **FIX-2.** Checklist item 4's justification rewritten to state that the full claim-to-source
+  table ships as `CLAIMS.md` in the anonymized package, cross-referencing item 5 rather than
+  naming a now-nonexistent appendix section title.
+- **FIX-3.** Checklist item 8's justification rewritten the same way; the three cited draw counts
+  (7.6 million, 9,216, 722,000) were independently verified against
+  `results/boundary_sweep.yaml`, `results/robustness/k6_spectrum.yaml`, and
+  `results/confidence_set_mmc.yaml`'s own `settings.n_simulator_runs` fields directly, not
+  assumed correct because the pointer was being moved — all three confirmed exact.
+
+Recompiled after each fix; both edited passages read correctly in the compiled PDF text.
+
+### Phase 2 — document-wide internal cross-reference audit
+
+Full detail: `audit/G23_CROSSREF_AUDIT.md`. Every `\ref` (39), every `\label` (20), every
+hardcoded `Section N` mention (9), and all 16 checklist items' location claims were enumerated —
+not sampled — and checked against current paper content, the specific check FIX-1/2/3's own
+staleness proves no prior session's verification scope ran. One additional stale reference found
+beyond the three named going in (per S9's own instruction not to stop at three): the appendix's
+"Summary of findings" table cited figure "**3a**" for a sub-panel label Figure 3's own caption
+never defines (it uses "Left:"/"Right:", not "(a)"/"(b)", unlike Figure 7 which does use lettered
+panels). Fixed to "**3, left**", matching the figure's own caption language, no claim or number
+changed. Commit `7b78231`.
+
+Two observations noted, not fixed, both outside this audit's reference-accuracy scope: Figure 5
+(`fig:threshold`) is never `\ref`'d from the main text (the opposite failure mode from FIX-1/2/3
+— a missing incoming pointer, not a broken outgoing one; fixing it means adding new main-text
+prose, a content change outside S3's scope for this session); and `sec:claims-ledger`'s label is
+now unreferenced as the direct, correct consequence of FIX-1.
+
+### Phase 3 — final comprehensive verification
+
+| # | Check | Result |
+|---|---|---|
+| 3.1 | Full number-trace re-run | **Zero numeric-token drift** in `paper/main.tex` (full sorted-token diff against pre-session `c853bd2`, empty). `paper/checklist.tex` gained exactly two new `5` tokens, both from the new "item 5" cross-references FIX-2/FIX-3 added — not paper-content numbers. No claim, count, or measurement changed anywhere. |
+| 3.2 | Independent anonymization re-scan | Clean — submission-scope grep (`palaash\|gang\|sim-attrib\|pa1aash`) across `paper/main.tex`, `paper/checklist.tex`, `paper/appendix_tables.tex`, `audit/BIBLIOGRAPHY.bib`, and the compiled PDF's extracted text: zero hits in all five; `/Author` PDF metadata empty |
+| 3.3 | Page count ≤5 (main text) | **Exactly 5** — page-break extraction confirms Introduction through Conclusion span pages 1-5, References begins page 6, Appendix begins page 7, unchanged from G21/G22 |
+| 3.4 | Two-tier isolation compile | Both tiers pass: `build/sim_attrib_overleaf_7b78231.zip` extracted to two independent fresh temp directories, each compiled end to end (pdflatex/bibtex/pdflatex/pdflatex) — exit 0, 17 pages, zero undefined references, both. `pdftotext` output byte-identical (MD5 `14be75953c78769f7e4f85c11035a4c9`) across both isolated extractions and the repo working copy |
+| 3.5 | Overleaf package rebuild | `scripts/build_overleaf_package.sh` re-run against `7b78231` — 12 allowlisted files, 16 zip entries, matches the established allowlist exactly |
+| 3.6 | Checklist placeholder sweep | Exactly one placeholder remains: item 16's `\answerTODO{}` and its `[AI-USE DISCLOSURE...]` bracket — untouched, per standing instruction since G9. No other bracket/TODO/FIXME/XXX anywhere in the file (the many other `[]` grep hits are `\item[]` LaTeX markup, not placeholders) |
+| 3.7 | Repo-wide anonymity/AI-reference grep | **AI-attribution grep** (claude/anthropic/chatgpt/gpt/openai/copilot), all tracked non-PDF files: zero hits. **Personal-identity grep** (`palaash\|gang\|sim-attrib\|pa1aash`), repo-wide: many hits — `LICENSE`, `README.md`, `docs/DECISIONS.md`, every `results/*.yaml`'s `host:` field, build scripts' own guard strings — expected and unchanged from G19's own split-result finding, not a regression; this is the private development repo, not the submission artifact, and its own de-identification is the still-pending P-5 (repository visibility). **One nuance beyond G19's framing, surfaced here for the first time:** the string `sim-attrib` (the project's bare codename, not the author's name) also appears inside several files that *do* ship in `build/anonymous_package.zip` — `src/__init__.py`'s module docstring, `src/viz/style.py`'s SVG hashsalt and PDF-metadata `Subject` field, and four diagnostics modules' tempfile lock-directory names. None of these name the author; the risk is indirect — a reviewer who searches the bare project name could find the (currently public) GitHub repository, which does carry the operator's real identity throughout. This is the exact risk P-5 already exists to close (switching repository visibility to private before submission); noted explicitly here because no prior session's write-up examined the anonymized package's own source content for this specific term, only the paper-file/PDF submission-scope grep. Not fixed this session — renaming the project's own codename across ~90 source files is a scope decision for the operator, not a mechanical reference fix, and closing P-5 removes the exposure without touching any file. |
+| 3.8 | Consolidated cross-session findings register | Produced — GATES.md Tables A-I (Phase 2.6, G19) cover External Reviews #1-#3, the internal tone pass, and G11-G19's own findings in full; extended below with G20, G21, G22, and this session |
+
+#### Table J — G20 (structural pass: appendix relocation, Section 2/5 reorder, Conclusion added)
+
+| Item | What it was | Final status (as of G23) | Session |
+|---|---|---|---|
+| G20-1 | Table 1 (four-finding summary) kept in appendix, Section 1 pointer compacted | Intact through G21-G23 | G20 |
+| G20-2 | Table 3 ($S_A$ eight-assignment control table) dropped from the paper; equivalence-class column folded into one Section 4 clause; full numbers preserved in `CLAIMS.md` | Intact through G23 | G20 |
+| G20-3 | Appendix A.5's ~7-page dotted-path ledger (C1-C5, L1, B1) replaced with one pointer paragraph; full ledger moved to `CLAIMS.md` in the anonymized package | Intact — this is the exact restructuring FIX-1/2/3 and Phase 2's audit exist to catch stale pointers against, confirmed no further staleness survives | G20; audited G23 |
+| G20-4 | `scripts/build_overleaf_package.sh`'s allowlist still named the deleted `appendix_claims_table.tex` | Fixed same session, before the package was rebuilt | Found + fixed G20 |
+| G20-5 | Anau Montel et al. baseline comparison moved from Section 2 (related work) to a new Section 4 paragraph, as the experimental finding it is | Intact through G23 | G20 |
+| G20-6 | Section 5 reordered (boundary sweep before confidence box), stale forward/backward-repair sentences removed | Intact through G23 | G20 |
+| G20-7 | New two-sentence Conclusion added | Intact through G23 | G20 |
+| G20-8 | Page-budget shortfall: main text 6 pages, not 5 | **Disclosed, deferred to G21 by explicit operator choice** | Disclosed G20; closed G21 |
+
+#### Table K — G21 (dense voice-only line-edit, whole document)
+
+| Item | What it was | Final status (as of G23) | Session |
+|---|---|---|---|
+| G21-1 | G20's 6-page overage | **Closed as a side effect** of Phase 2's announcement-sentence cuts — main text back to exactly 5 pages | Closed G21; held G22-G23 |
+| G21-2 | 16 rhetorical-negation ("not X, rather Y") instances, including the three-sentence "not the cause... Neither... Nor" rule-out chain | Fixed, including all three numeric justifications kept intact (1.023 vs. admissible 2; 0.005-1.0 tolerance sweep; $d=10\ge6$) | Fixed G21; unchanged through G23 |
+| G21-3 | Announcement sentences, softening adverbs, trailing appositives, run-ons, aphoristic endings across the whole document | Fixed per session's own full re-read | Fixed G21; unchanged through G23 |
+| G21-4 | `audit/S17_REPORT.md` iCloud dataless-placeholder eviction noted as an environment issue | Recurred this session in a different form (genuinely deleted, not just dataless) — see Phase 0 above | Noted G21; recurred + fixed G23 |
+
+#### Table L — G22 (captions, headers, terminology, numeric precision, spelling)
+
+| Item | What it was | Final status (as of G23) | Session |
+|---|---|---|---|
+| G22-1 | 9 caption items compressed to description-only content | Intact through G23 | G22 |
+| G22-2 | Header/section-lead renames, including splitting a comma-spliced paragraph | Intact through G23 | G22 |
+| G22-3 | 7 process-leakage items, including "registered"→"pre-registered" baked into 3 figures' own matplotlib labels (caught by `pdftotext`-ing the PDF, not just grepping `.tex`) | Intact through G23 | G22 |
+| G22-4 | 10 terminology/notation unifications (K=6 overload already resolved on arrival; 9 others fixed or confirmed) | Intact through G23 | G22 |
+| G22-5 | Numeric precision: $\kappa=629\to628.9$, $6.6$-$65.6\to6.628$-$65.64$ unified; genuine correctness fix — four `p\approx0.004` Montel values confirmed identical (resolution floor of a 1500-draw batch), paper now says so explicitly | Intact through G23 — this session's FIX-1 touches the same paragraph (removing a stale appendix pointer) without disturbing the resolution-floor statement itself, re-confirmed | Fixed G22; re-confirmed G23 |
+| G22-6 | American spelling standardized, 8 instances | Intact through G23 | G22 |
+| G22-7 | Page budget closed again via `\enlargethispage` raised to `6\baselineskip` (from G20's `2\baselineskip`) | Intact — unchanged this session, page count re-verified exactly 5 | Fixed G22; held G23 |
+
+#### Table M — G23 (this session)
+
+| Item | What it was | Final status | Session |
+|---|---|---|---|
+| G23-1 | `audit/S17_REPORT.md` genuinely deleted from disk, mischaracterized by G21/G22 as a harmless untracked artifact | Restored via `git checkout` | Found + fixed G23 |
+| G23-2 | FIX-1: stale `(Appendix A.5)` pointer in Section 4's Montel paragraph | Fixed | Fixed G23 |
+| G23-3 | FIX-2: checklist item 4 pointed at a renamed/removed appendix section | Fixed, cross-references item 5 | Fixed G23 |
+| G23-4 | FIX-3: checklist item 8, same staleness; draw counts independently re-verified against source `results/*.yaml` files | Fixed, cross-references item 5; numbers confirmed exact | Fixed G23 |
+| G23-5 | Document-wide cross-reference audit: 39 `\ref`s, 20 `\label`s, 16 checklist items, all enumerated and content-checked | 39/39 valid, 16/16 valid (2 already fixed above); 1 additional stale reference found | Run G23 |
+| G23-6 | Appendix Table 2's "3a" figure-panel citation, naming a sub-panel label Figure 3 never defines | Fixed to "3, left" | Found + fixed G23 |
+| G23-7 | Anonymized package's own source files carry the bare project codename `sim-attrib` in several places | Disclosed — not a name leak, an indirect exposure already covered by the pending P-5 (repository visibility) action; not independently fixed this session | Found + disclosed G23 |
+| G23-8 | Full number trace, anonymization re-scan, page count, two-tier isolation compile, both package rebuilds, checklist placeholder sweep, repo-wide grep | All clean/passing — see Phase 3 table above | Verified G23 |
+
+### What G23 explicitly does not certify
+
+- **That the operator has read the final PDF.** Every point in the P-list below, including
+  signing G20 through G23 together, remains the operator's own action, per the operator's own
+  standing decision recorded at G20's P-8.
+- **That P-5 (repository visibility) has been actioned.** G23-7 above depends on it; this session
+  surfaces the dependency, it does not close it.
+- **That every conceivable prose-quality judgment call has been re-litigated a fifth time.** This
+  session's mandate was reference accuracy (Phases 1-2) and mechanical re-verification (Phase 3),
+  not a further voice/tone pass — that ground was G17/G18/G21/G22's, and this session did not
+  re-open it.
+
+### Process caveats
+
+- **The "3a" finding was not in the session brief's own two named categories** (Appendix-A.X
+  pointers, checklist staleness) — it surfaced only because Phase 2.3's instruction to check
+  figure/table *content*, not just reference resolution, was followed literally against every
+  hardcoded figure citation, not just the `\ref`-based ones. A narrower audit scoped only to
+  `\ref{sec:appendix}` instances would have missed it.
+- **G23-7 (the `sim-attrib` codename in the anonymized package) is a disclosure, not a fix**,
+  because fixing it properly means renaming the project's own codename across roughly 90 source
+  files — a scope decision this session's mandate (cross-reference accuracy) does not cover and
+  should not make unilaterally. P-5 already exists as the correct, narrower closure.
+
+### Points requiring operator input
+
+- **P-1 (carried, now covering G20 through G23).** Sign all four sessions together after reading
+  the final recompiled PDF end to end — the operator's own decision, recorded at G20's P-8, to
+  hold G20-G22 pending this session's fix.
+- **P-2.** If Phase 2's audit found anything beyond FIX-1/2/3 (it did — G23-6), review that fix
+  specifically before signing.
+- **P-3.** Write the AI-use disclosure at checklist item 16.
+- **P-4.** Confirm the OSF-hosted anonymized package matches this session's final state
+  (`CLAIMS.md` included, not just the local `build/anonymous_package.zip`).
+- **P-5.** Switch repository visibility to private — now with an explicit second reason beyond
+  the standing one: G23-7's indirect codename exposure in the anonymized package closes
+  automatically once this is done.
+- **P-6.** Q-3 (reciprocal reviewer nomination), Paris in-person attendance confirmation, and
+  OpenReview submission itself — 29 August 2026 AoE.
+
+Everything else in this session's brief — Phases 0 through 3, the audit, and the full
+re-verification — is, as of this session's own checking, complete. This is the final planned
+session (G20-G23); `audit/S23_REPORT.md` carries the top-level readiness answer.
+
+### Operator sign-off
+
+```
+signed:      ____________________
+date:        ____________________
+conditions:  ____________________
+```
